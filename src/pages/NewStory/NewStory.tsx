@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 import imageDani from "../../dani.webp";
 import imageLola from "../../lola.jpeg";
 
 import PlusIcon from "../../icons/plus";
 import CloseIcon from "../../icons/close";
+import SendIcon from "../../icons/send";
+
 import clsx from "clsx";
 
 const characters = [
@@ -37,6 +40,11 @@ const characters = [
 
 const NewStoryPage: React.FC = () => {
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const createStory = () => {
+    navigate("/story/098DF098SDFQ08F-dani-dentist-and-claire");
+  };
 
   return (
     <div className="flex flex-col h-full justify-center items-center">
@@ -44,7 +52,7 @@ const NewStoryPage: React.FC = () => {
         <div
           className={clsx(
             { hidden: !showAIInput },
-            "absolute top-0 w-[calc(100%-260px)] h-full bg-white border flex flex-col justify-center items-center"
+            "absolute top-[50px] w-[calc(100%-260px)] h-[calc(100%-50px)] bg-white flex flex-col justify-center items-center"
           )}
         >
           <div className="flex justify-end w-[60%]">
@@ -82,7 +90,16 @@ const NewStoryPage: React.FC = () => {
             <PlusIcon />
           </div>
         </div>
-        <div className="font-semibold text-lg mt-[40px] mb-[20px]">Scene</div>
+        <div className="font-semibold text-lg mt-[40px] mb-[20px]">Context</div>
+        <div className="flex flex-row items-center">
+          <textarea className="rounded-lg border border-lightBorder resize-none h-[100px] w-[400px] outline-none p-[10px]"></textarea>
+          <div
+            className="ml-[20px] w-[32px] h-[32px] text-white bg-black rounded-full flex justify-center items-center cursor-pointer"
+            onClick={createStory}
+          >
+            <SendIcon />
+          </div>
+        </div>
       </div>
     </div>
   );
