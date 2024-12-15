@@ -36,6 +36,8 @@ const LeftPanel: React.FC = () => {
     },
   ];
 
+  const games = [];
+
   return (
     <div
       className={clsx(
@@ -105,7 +107,16 @@ const LeftPanel: React.FC = () => {
           )}
         </div>
         <div className="h-auto w-full flex flex-col">
-          <div className="font-bold h-[40px] content-center">Games</div>
+          <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
+            <div className="font-bold h-[40px] content-center">Games</div>
+            {games.length > 0 ? (
+              <NavLink to="/game/new">
+                <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary">
+                  <PlusIcon />
+                </div>
+              </NavLink>
+            ) : null}
+          </div>
           <NavLink to="/game/new">
             <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
               <div className="h-[20px] w-[20px] text-textSecondary">
@@ -116,7 +127,16 @@ const LeftPanel: React.FC = () => {
           </NavLink>
         </div>
         <div className="h-auto w-full flex flex-col">
-          <div className="font-bold h-[40px] content-center">Stories</div>
+          <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
+            <div className="font-bold h-[40px] content-center">Stories</div>
+            {stories.length > 0 ? (
+              <NavLink to="/story/new">
+                <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary">
+                  <PlusIcon />
+                </div>
+              </NavLink>
+            ) : null}
+          </div>
           {stories.length === 0 ? (
             <NavLink to="/story/new">
               <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
