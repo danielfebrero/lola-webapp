@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router";
+
 import Chat from "../../components/Chat";
+import { useAppDispatch } from "../../store/hooks";
+import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 
 const lastGameId = "098DF098SDFQ08F-dani-tome-1";
 
@@ -60,12 +63,19 @@ const GamePage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (location.pathname === "/game") {
       lastGameId ? navigate("/game/" + lastGameId) : navigate("/game/new");
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(
+      setCurrentlyViewing({ objectType: "game", objectId: params.gameId })
+    );
+  }, [params.gameId]);
 
   return (
     <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">

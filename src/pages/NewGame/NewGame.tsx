@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import clsx from "clsx";
 
@@ -8,6 +8,9 @@ import imageLola from "../../lola.jpeg";
 import SendIcon from "../../icons/send";
 import PlusIcon from "../../icons/plus";
 import CloseIcon from "../../icons/close";
+
+import { useAppDispatch } from "../../store/hooks";
+import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 
 const characters = [
   {
@@ -71,10 +74,15 @@ const NewGamePage: React.FC = () => {
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const [selectedGame, setSelectedGame] = useState<string>("");
+  const dispatch = useAppDispatch();
 
   const createGame = () => {
     navigate("/game/098DF098SDFQ08F-dani-tome-1");
   };
+
+  useEffect(() => {
+    dispatch(setCurrentlyViewing({ objectType: "game", objectId: null }));
+  }, []);
 
   return (
     <div className="flex flex-col h-full justify-center items-center">

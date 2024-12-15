@@ -4,12 +4,20 @@ import { createSlice } from "@reduxjs/toolkit";
 interface AppState {
   isLeftPanelOpen: boolean;
   isSettingsOpen: boolean;
+  currentlyViewing: {
+    objectType: string;
+    objectId: string | null;
+  };
 }
 
 // Define the initial state using that type
 const initialState: AppState = {
   isLeftPanelOpen: true,
   isSettingsOpen: false,
+  currentlyViewing: {
+    objectType: "",
+    objectId: "",
+  },
 };
 
 export const appSlice = createSlice({
@@ -23,9 +31,13 @@ export const appSlice = createSlice({
     toggleSettings: (state) => {
       state.isSettingsOpen = !state.isSettingsOpen;
     },
+    setCurrentlyViewing: (state, action) => {
+      state.currentlyViewing = action.payload;
+    },
   },
 });
 
-export const { toggleLeftPanel, toggleSettings } = appSlice.actions;
+export const { toggleLeftPanel, toggleSettings, setCurrentlyViewing } =
+  appSlice.actions;
 
 export default appSlice.reducer;

@@ -10,6 +10,7 @@ import PanelIcon from "../../icons/panel";
 import NewChatIcon from "../../icons/newChat";
 import { toggleLeftPanel } from "../../store/features/app/appSlice";
 import useNewChatLocation from "../../hooks/useNewChatLocation";
+import ShareIcon from "../../icons/share";
 
 const Header: React.FC = () => {
   const [modeDropdownOpen, setModeDropdownOpen] = useState(false);
@@ -19,6 +20,9 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isLeftPanelOpen = useAppSelector((state) => state.app.isLeftPanelOpen);
+  const currentlyViewing = useAppSelector(
+    (state) => state.app.currentlyViewing
+  );
   const newChatLocation = useNewChatLocation();
 
   const toggleModeDropdown = () => {
@@ -44,7 +48,7 @@ const Header: React.FC = () => {
       ? setHeaderLabel("Story")
       : location.pathname.indexOf("/story") === 0
       ? setHeaderLabel("Story")
-      : navigate("/character/main");
+      : setHeaderLabel("Story");
     setModeDropdownOpen(false);
   }, [location]);
 
@@ -81,7 +85,20 @@ const Header: React.FC = () => {
           <ModeDropdown hide={() => setModeDropdownOpen(false)} />
         </div>
       </div>
-      <div>
+      <div className="flex flex-row">
+        {currentlyViewing.objectId &&
+        currentlyViewing.objectType === "story" ? (
+          <div>
+            <button className="pl-[10px] pr-[10px] p-[5px] border border-borderColor rounded-full mr-[10px] hover:bg-lightGray">
+              <div className="flex flex-row items-center">
+                <div className="h-[20px] w-[20px] mr-[10px]">
+                  <ShareIcon />
+                </div>
+                <span>Share</span>
+              </div>
+            </button>
+          </div>
+        ) : null}
         <div
           className="bg-sky-700 rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer"
           onClick={toggleProfileDropdown}

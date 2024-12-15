@@ -7,6 +7,8 @@ import SendChatInput from "../../components/SendChatInput";
 import JSONView from "./JSONView";
 import ReportView from "./ReportView";
 import ImageView from "./ImageView";
+import { useAppDispatch } from "../../store/hooks";
+import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 
 interface CharacterPageProps {
   characterId?: string;
@@ -18,6 +20,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const [characterId, setCharacterId] = useState<string | undefined>(
     params.characterId
   );
+  const dispatch = useAppDispatch();
 
   const [selectedRightViewType, setSelectedRightViewType] = useState<
     "report" | "json" | "image"
@@ -39,6 +42,12 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     const mainId = "mainId";
     if (props.selected?.type === "main") setCharacterId(mainId);
   }, [props.selected]);
+
+  useEffect(() => {
+    dispatch(
+      setCurrentlyViewing({ objectType: "character", objectId: characterId })
+    );
+  }, [characterId]);
 
   return (
     <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
