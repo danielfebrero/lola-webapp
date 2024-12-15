@@ -54,27 +54,6 @@ const actions = [
     sex_level: 55,
     suited_for_main_character: 80,
   },
-  {
-    action_title: "Protect Maya from Suspicion",
-    action_description:
-      "Leonardo intervenes when another guest begins questioning Maya’s presence, acting as her ally to gain her trust.",
-    sex_level: 15,
-    suited_for_main_character: 85,
-  },
-  {
-    action_title: "Offer Maya a Role in the Party’s Future",
-    action_description:
-      "Leonardo hints at a larger role for Maya within the exclusive circle, using it as a test of her ambitions and loyalty.",
-    sex_level: 45,
-    suited_for_main_character: 90,
-  },
-  {
-    action_title: "Confront Maya Directly",
-    action_description:
-      "Leonardo pulls Maya aside and directly questions her intentions, using both his charm and intimidation to uncover the truth.",
-    sex_level: 35,
-    suited_for_main_character: 95,
-  },
 ];
 
 const GamePage: React.FC = () => {

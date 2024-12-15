@@ -14,6 +14,8 @@ const Settings: React.FC = () => {
   const [selectedView, setSelectedView] = useState<
     "personalization" | "account" | "membership"
   >("personalization");
+  const [showChangeMyPassword, setShowChangeMyPassword] =
+    useState<boolean>(false);
 
   return (
     <div
@@ -70,14 +72,60 @@ const Settings: React.FC = () => {
             <div>Membership</div>
           </div>
         </div>
-        <div className="">
+        <div className="p-[20px] w-full">
           {selectedView === "account" ? (
-            <></>
+            <>
+              <div
+                className={clsx(
+                  { hidden: showChangeMyPassword },
+                  "cursor-pointer hover:underline"
+                )}
+                onClick={() => setShowChangeMyPassword(true)}
+              >
+                Change my password
+              </div>
+              <div
+                className={clsx(
+                  { hidden: !showChangeMyPassword },
+                  "flex flex-col"
+                )}
+              >
+                <input
+                  type="password"
+                  placeholder="Current password"
+                  className="outline-none p-[5px] mb-[10px]"
+                />
+                <input
+                  type="password"
+                  placeholder="New password"
+                  className="outline-none p-[5px] mb-[10px]"
+                />
+                <input
+                  type="password"
+                  placeholder="Confirm password"
+                  className="outline-none p-[5px] mb-[10px]"
+                />
+                <div className="flex justify-end w-full">
+                  <div
+                    className="cursor-pointer mr-[20px] hover:bg-lightGray rounded-lg pl-[20px] pr-[20px] p-[5px]"
+                    onClick={() => setShowChangeMyPassword(false)}
+                  >
+                    Change
+                  </div>
+                  <div
+                    className="cursor-pointer mr-[10px] hover:bg-lightGray rounded-lg pl-[20px] pr-[20px] p-[5px]"
+                    onClick={() => setShowChangeMyPassword(false)}
+                  >
+                    Cancel
+                  </div>
+                </div>
+              </div>
+            </>
           ) : selectedView === "membership" ? (
             <></>
-          ) : (
+          ) : selectedView === "personalization" ? (
             <></>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
