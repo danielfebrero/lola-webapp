@@ -50,29 +50,31 @@ const Header: React.FC = () => {
 
   return (
     <div className="pl-[20px] pr-[20px] pt-[10px] flex flex-row justify-between">
-      <div className="w-auto h-auto flex flex-row items-center">
-        {!isLeftPanelOpen ? (
-          <div className="flex flex-row text-textSecondary">
-            <div
-              className="h-[24px] w-[24px] cursor-pointer mr-[10px]"
-              onClick={() => dispatch(toggleLeftPanel())}
-            >
-              <PanelIcon />
-            </div>
-            <NavLink to={newChatLocation}>
-              <div className="h-[24px] w-[24px]  mr-[10px]">
-                <NewChatIcon />
+      <div className="w-auto h-auto">
+        <div className="flex flex-row items-center">
+          {!isLeftPanelOpen ? (
+            <div className="flex flex-row text-textSecondary">
+              <div
+                className="h-[24px] w-[24px] cursor-pointer mr-[10px]"
+                onClick={() => dispatch(toggleLeftPanel())}
+              >
+                <PanelIcon />
               </div>
-            </NavLink>
-          </div>
-        ) : null}
-        <div
-          className="h-[40px] items-center flex flex-row text-textSecondary cursor-pointer"
-          onClick={toggleModeDropdown}
-        >
-          <span className="font-bold">{headerLabel}</span>
-          <div className="h-[24px] w-[24px]">
-            <ChevronDown />
+              <NavLink to={newChatLocation}>
+                <div className="h-[24px] w-[24px]  mr-[10px]">
+                  <NewChatIcon />
+                </div>
+              </NavLink>
+            </div>
+          ) : null}
+          <div
+            className="h-[40px] items-center flex flex-row text-textSecondary cursor-pointer"
+            onClick={toggleModeDropdown}
+          >
+            <span className="font-bold">{headerLabel}</span>
+            <div className="h-[24px] w-[24px]">
+              <ChevronDown />
+            </div>
           </div>
         </div>
         <div className={clsx({ hidden: !modeDropdownOpen })}>

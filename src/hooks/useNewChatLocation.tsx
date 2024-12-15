@@ -6,11 +6,11 @@ const useNewChatLocation = (): string => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname.includes("character")) {
+    if (location.pathname.indexOf("/character") === 0) {
       setNewChatLocation("/character/new");
-    } else if (location.pathname.includes("game")) {
+    } else if (location.pathname.indexOf("/game") === 0) {
       setNewChatLocation("/game/new");
-    } else if (location.pathname.includes("story")) {
+    } else if (location.pathname.indexOf("/story") === 0) {
       setNewChatLocation("/story/new");
     } else {
       setNewChatLocation("/story/new");
