@@ -49,11 +49,11 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         <SendChatInput type="character" id={characterId} />
       </div>
 
-      <div className="grow w-1/2 pl-5">
-        <div className="mb-2">
-          {["report", "JSON", "image"].map((viewType, index, typesArray) => (
+      <div className="grow w-1/2 pl-5 flex items-center flex-col">
+        <div className="bg-lightGray p-[5px] rounded-lg w-fit flex flex-row">
+          {["report", "JSON", "image"].map((viewType) => (
             <>
-              <span
+              <div
                 key={viewType}
                 onClick={() =>
                   handleViewTypeChange(
@@ -61,15 +61,19 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   )
                 }
                 className={clsx(
-                  "cursor-pointer px-1",
-                  selectedRightViewType === viewType.toLowerCase()
-                    ? "underline text-gray-500 decoration-gray-500"
-                    : ""
+                  "cursor-pointer",
+                  "pl-[20px] pr-[20px] pt-[5px] pb-[5px]",
+                  "rounded-lg",
+                  {
+                    "text-textPrimary border border-borderLight bg-white":
+                      selectedRightViewType === viewType.toLowerCase(),
+                    "text-gray-400":
+                      selectedRightViewType !== viewType.toLowerCase(),
+                  }
                 )}
               >
                 {viewType.charAt(0).toUpperCase() + viewType.slice(1)}
-              </span>
-              <span>{index < typesArray.length - 1 ? " / " : ""}</span>
+              </div>
             </>
           ))}
         </div>

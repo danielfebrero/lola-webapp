@@ -1,10 +1,39 @@
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router";
+
 import imageLola from "../../lola.jpeg";
 import imageDani from "../../dani.webp";
+import clsx from "clsx";
 
 interface ChatProps {
   type: "character" | "story";
   id?: string;
 }
+
+const newCharacterChat = [
+  {
+    content:
+      "Who am I? The question echoed louder with every heartbeat. What is my name? My gender? My height? What do I even enjoy in this life?",
+    character: "dani",
+  },
+];
+
+const characterChat = [
+  {
+    content:
+      "She sat alone in her dimly lit apartment, the hum of the city outside barely audible over the storm of thoughts in her mind. What happened to me? she wondered, her fingers tracing the edge of her coffee mug. Just days ago, she had been lost in the monotony of her routine, her creativity strangled by self-doubt. And then, she had stumbled into Muse. That gallery, that man—Andre. His words still lingered in her mind, wrapping around her like a taut thread she couldn’t untangle. He saw something in me, she thought, her cheeks warming at the memory of his gaze, steady and piercing. She had painted that night, not just with her hands but with her heart, spilling emotions she didn’t even know she’d buried. It had been terrifying, raw, and somehow freeing. But what now? she questioned, staring at the blank canvas she had brought home. The ache in her chest whispered that this was only the beginning.",
+    character: "cara",
+  },
+  {
+    content: "You should buy some new lingerie.",
+    character: "user",
+  },
+  {
+    content:
+      "As she glanced at her reflection in the mirror, a playful smirk tugged at her lips. You know what? I’m going to buy myself some new lingerie—something bold, something that feels as daring as I want to be.",
+    character: "cara",
+  },
+];
 
 const story = [
   {
@@ -168,38 +197,52 @@ const story = [
 ];
 
 const Chat: React.FC<ChatProps> = (props) => {
-  console.log(props);
+  const [chatLog, setChatLog] = useState(characterChat);
+  const location = useLocation();
+
+  useEffect(() => {
+    props.id === "new"
+      ? setChatLog(newCharacterChat)
+      : props.id === "qsqf909Ddsdf-a-random-story"
+      ? setChatLog(story)
+      : setChatLog(characterChat);
+  }, [props]);
+
   return (
     <div className="w-full max-w-[715px]">
       <div className="w-full flex">
         <div className="w-auto grow mb-[30px]">
-          {props.id === "new"
-            ? "Who am I? The question echoed louder with every heartbeat. What is my name? My gender? My height? What do I even enjoy in this life?"
-            : props.id === "qsqf909Ddsdf-a-random-story"
-            ? story.map((message) =>
-                message.character === "user" ? (
-                  <div className="flex flex-row justify-end mb-[20px]">
-                    <div className="w-fit  bg-messageBackground rounded-lg p-[10px] max-w-[60%]">
-                      {message.content}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex flex-row mb-[10px]">
-                    <div className="w-[30px] h-[30px] mr-[10px]">
-                      {message.character !== "narrator" ? (
-                        <img
-                          className="rounded-full h-[30px] w-[30px]"
-                          src={
-                            message.character === "cara" ? imageLola : imageDani
-                          }
-                        />
-                      ) : null}
-                    </div>
-                    <div className="grow max-w-[650px]">{message.content}</div>
-                  </div>
-                )
-              )
-            : "Carla came by this week, and as always, her visit left a pleasant, almost soothing impression, though it also awakened that part of me that constantly questions everything. 💭 Her words, her gestures, her gaze—everything about her seems deliberate, as if she knows the effect she has. 😌 It made me want to change something, a small detail to mark a subtle transformation. So, I treated myself to a pair of Ray-Bans, a choice both classic and bold, almost like a nod to another era. 😎 But deep down, do such small decisions really suffice to fill this void or give new meaning to what I’m trying to express? 🤔"}
+          {chatLog.map((message) =>
+            message.character === "user" ? (
+              <div className="flex flex-row justify-end mb-[20px]">
+                <div
+                  className={clsx(
+                    {
+                      "max-w-[60%]": location.pathname.indexOf("/story") === 0,
+                      "max-w-[80%]": location.pathname.indexOf("/story") !== 0,
+                    },
+                    "w-fit  bg-messageBackground rounded-lg p-[10px]"
+                  )}
+                >
+                  {message.content}
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-row mb-[10px]">
+                <div className="w-[30px] h-[30px] mr-[10px]">
+                  {message.character !== "narrator" ? (
+                    <img
+                      className="rounded-full h-[30px] w-[30px]"
+                      src={message.character === "cara" ? imageLola : imageDani}
+                    />
+                  ) : null}
+                </div>
+                <div className="grow max-w-[calc(100%-50px)]">
+                  {message.content}
+                </div>
+              </div>
+            )
+          )}
         </div>
       </div>
     </div>

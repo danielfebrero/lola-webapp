@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import LeftPanel from "./components/LeftPanel";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Overlay from "./components/Overlay";
+import Settings from "./components/Settings";
 
 import CharacterPage from "./pages/Character";
 import GamePage from "./pages/Game";
@@ -18,6 +20,9 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
+        <Overlay>
+          <Settings />
+        </Overlay>
         <div className="app text-textPrimary flex flex-row">
           <LeftPanel />
           <div className="flex flex-col h-screen overflow-y-scroll w-full z-10 bg-white">

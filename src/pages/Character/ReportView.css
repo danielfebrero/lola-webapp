@@ -8,6 +8,6 @@ ul {
 }
 
 #ReportViewContainer {
-  max-height: calc(100vh - 144px);
+  max-height: calc(100vh - 170px);
   overflow-y: scroll;
 }
