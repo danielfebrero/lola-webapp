@@ -1,0 +1,4 @@
+.react-json-view {
+  max-height: calc(100vh - 144px);
+  overflow-y: scroll;
+}

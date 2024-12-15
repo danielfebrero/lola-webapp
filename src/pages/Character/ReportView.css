@@ -1,0 +1,13 @@
+hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+ul {
+  margin-bottom: 10px;
+}
+
+#ReportViewContainer {
+  max-height: calc(100vh - 144px);
+  overflow-y: scroll;
+}
