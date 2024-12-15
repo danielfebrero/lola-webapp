@@ -97,7 +97,7 @@ const LeftPanel: React.FC = () => {
                   <div className="h-[24px] w-[24px]">
                     <img
                       src={char.image}
-                      className="rounded-full h-[24px] w-[24px]"
+                      className="rounded-full h-[24px] w-[24px] object-cover"
                     />
                   </div>
                   <span className="pl-[10px]">{char.label}</span>

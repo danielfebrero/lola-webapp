@@ -232,7 +232,7 @@ const Chat: React.FC<ChatProps> = (props) => {
                 <div className="w-[30px] h-[30px] mr-[10px]">
                   {message.character !== "narrator" ? (
                     <img
-                      className="rounded-full h-[30px] w-[30px]"
+                      className="rounded-full h-[30px] w-[30px] object-cover"
                       src={message.character === "cara" ? imageLola : imageDani}
                     />
                   ) : null}
