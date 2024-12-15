@@ -43,6 +43,7 @@ const App: React.FC = () => {
                 />
                 <Route path="/game" element={<GamePage />} />
                 <Route path="/game/new" element={<NewGamePage />} />
+                <Route path="/game/:gameId" element={<GamePage />} />
                 <Route path="/story/:storyId" element={<StoryPage />} />
                 <Route path="/story/new" element={<NewStoryPage />} />
               </Routes>

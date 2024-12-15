@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 interface SendChatInputProps {
-  type: "character" | "story";
+  type: "character" | "story" | "game";
   id?: string;
 }
 

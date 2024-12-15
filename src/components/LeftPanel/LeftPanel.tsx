@@ -36,7 +36,12 @@ const LeftPanel: React.FC = () => {
     },
   ];
 
-  const games = [];
+  const games = [
+    {
+      id: "098DF098SDFQ08F-dani-tome-1",
+      label: "Dani Tome 1",
+    },
+  ];
 
   return (
     <div
@@ -117,14 +122,24 @@ const LeftPanel: React.FC = () => {
               </NavLink>
             ) : null}
           </div>
-          <NavLink to="/game/new">
-            <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-              <div className="h-[20px] w-[20px] text-textSecondary">
-                <PlusIcon />
+          {games.length === 0 ? (
+            <NavLink to="/game/new">
+              <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                <div className="h-[20px] w-[20px] text-textSecondary">
+                  <PlusIcon />
+                </div>
+                <span className="pl-[10px]">New game</span>
               </div>
-              <span className="pl-[10px]">New game</span>
-            </div>
-          </NavLink>
+            </NavLink>
+          ) : (
+            games.map((game) => (
+              <NavLink to={`/game/${game.id}`}>
+                <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                  <span className="">{game.label}</span>
+                </div>
+              </NavLink>
+            ))
+          )}
         </div>
         <div className="h-auto w-full flex flex-col">
           <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
