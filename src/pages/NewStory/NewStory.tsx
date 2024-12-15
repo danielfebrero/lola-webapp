@@ -26,12 +26,12 @@ const characters = [
     image: imageDani,
   },
   {
-    id: "2329890kj09-claire",
+    id: "2329890kj09-claire-2",
     label: "Claire",
     image: imageLola,
   },
   {
-    id: "dani01",
+    id: "dani01-2",
     label: "Dani",
     image: imageDani,
   },
@@ -40,6 +40,7 @@ const characters = [
 const NewStoryPage: React.FC = () => {
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
   const navigate = useNavigate();
+  const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
 
   const createStory = () => {
     navigate("/story/098DF098SDFQ08F-dani-dentist-and-claire");
@@ -72,11 +73,27 @@ const NewStoryPage: React.FC = () => {
         <div className="font-semibold text-lg mb-[20px]">Characters</div>
         <div className="flex flex-row">
           {characters.map((char) => (
-            <div className="flex flex-col items-center mx-[10px] cursor-pointer">
+            <div
+              className="flex flex-col items-center mx-[10px] cursor-pointer"
+              onClick={() => {
+                selectedCharacters.includes(char.id)
+                  ? setSelectedCharacters(
+                      selectedCharacters.filter((id) => id !== char.id)
+                    )
+                  : setSelectedCharacters([...selectedCharacters, char.id]);
+              }}
+            >
               <div className="h-[64px] w-[64px] mb-[10px]">
                 <img
                   src={char.image}
-                  className="rounded-full h-[64px] w-[64px] object-cover"
+                  className={clsx(
+                    {
+                      "border-4 border-green-700": selectedCharacters.includes(
+                        char.id
+                      ),
+                    },
+                    "rounded-full h-[64px] w-[64px] object-cover"
+                  )}
                 />
               </div>
               <div className="text-textSecondary">{char.label}</div>

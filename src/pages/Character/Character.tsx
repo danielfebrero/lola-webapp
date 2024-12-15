@@ -42,7 +42,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   return (
     <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
-      <div className="grow border-r-2 border-borderColor w-1/2 pr-5 flex flex-col h-[calc(100vh-75px)]">
+      <div className="grow border-r-2 border-borderColor w-1/2 pr-5 flex flex-col h-[calc(100vh-110px)]">
         <div className="grow overflow-y-scroll">
           <Chat type="character" id={characterId} />
         </div>

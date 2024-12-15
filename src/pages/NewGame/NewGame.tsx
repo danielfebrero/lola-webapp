@@ -69,6 +69,8 @@ const games = [
 const NewGamePage: React.FC = () => {
   const navigate = useNavigate();
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
+  const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
+  const [selectedGame, setSelectedGame] = useState<string>("");
 
   const createGame = () => {
     navigate("/game/098DF098SDFQ08F-dani-tome-1");
@@ -101,11 +103,27 @@ const NewGamePage: React.FC = () => {
         <div className="font-semibold text-lg mb-[20px]">Chose a hero</div>
         <div className="flex flex-row">
           {characters.map((char) => (
-            <div className="flex flex-col items-center mx-[10px] cursor-pointer">
+            <div
+              className="flex flex-col items-center mx-[10px] cursor-pointer"
+              onClick={() => {
+                selectedCharacters.includes(char.id)
+                  ? setSelectedCharacters(
+                      selectedCharacters.filter((id) => id !== char.id)
+                    )
+                  : setSelectedCharacters([...selectedCharacters, char.id]);
+              }}
+            >
               <div className="h-[64px] w-[64px] mb-[10px]">
                 <img
                   src={char.image}
-                  className="rounded-full h-[64px] w-[64px] object-cover"
+                  className={clsx(
+                    {
+                      "border-4 border-green-700": selectedCharacters.includes(
+                        char.id
+                      ),
+                    },
+                    "rounded-full h-[64px] w-[64px] object-cover"
+                  )}
                 />
               </div>
               <div className="text-textSecondary">{char.label}</div>
@@ -117,11 +135,19 @@ const NewGamePage: React.FC = () => {
         </div>
         <div className="grid gap-4 grid-cols-5">
           {games.map((game) => (
-            <div className="flex flex-col items-center mx-[10px] cursor-pointer w-auto">
+            <div
+              className="flex flex-col items-center mx-[10px] cursor-pointer w-auto"
+              onClick={() => {
+                setSelectedGame(game.id);
+              }}
+            >
               <div className="h-[64px] w-[64px] mb-[10px]">
                 <img
                   src={imageDani}
-                  className="rounded-full h-[64px] w-[64px] object-cover"
+                  className={clsx(
+                    { "border-4 border-green-700": selectedGame === game.id },
+                    "rounded-full h-[64px] w-[64px] object-cover"
+                  )}
                 />
               </div>
               <div className="text-textSecondary text-center">{game.label}</div>

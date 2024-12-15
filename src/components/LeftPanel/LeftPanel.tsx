@@ -1,4 +1,5 @@
 import { NavLink } from "react-router";
+import clsx from "clsx";
 
 import PanelIcon from "../../icons/panel";
 import NewChatIcon from "../../icons/newChat";
@@ -8,7 +9,6 @@ import imageClaire from "../../lola.jpeg";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { toggleLeftPanel } from "../../store/features/app/appSlice";
 import useNewChatLocation from "../../hooks/useNewChatLocation";
-import clsx from "clsx";
 
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
