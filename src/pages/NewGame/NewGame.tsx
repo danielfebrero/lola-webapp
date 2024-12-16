@@ -108,7 +108,7 @@ const NewGamePage: React.FC = () => {
             onKeyDown={(e) => e.key === "Enter" && setShowAIInput(false)}
           />
         </div>
-        <div className="font-semibold text-lg mb-[20px]">Chose a hero</div>
+        <div className="font-semibold text-lg mb-[20px]">Choose a hero</div>
         <div className="flex flex-row">
           {characters.map((char) => (
             <div
@@ -139,7 +139,7 @@ const NewGamePage: React.FC = () => {
           ))}
         </div>
         <div className="font-semibold text-lg mt-[40px] mb-[20px]">
-          Chose a game
+          Choose a game
         </div>
         <div className="grid gap-4 grid-cols-5">
           {games.map((game) => (
