@@ -1,8 +1,9 @@
 import { useState } from "react";
 
 interface SendChatInputProps {
-  type: "character" | "story" | "game";
+  type: "character" | "story" | "game" | "lola";
   id?: string;
+  onSend?: (message: string) => void;
 }
 
 const SendChatInput: React.FC<SendChatInputProps> = (props) => {
@@ -10,9 +11,19 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = event.target;
-    textarea.style.height = "auto"; // Reset height to calculate new height
-    textarea.style.height = `${Math.min(200, textarea.scrollHeight)}px`; // Set new height
+    textarea.style.height = "auto";
+    textarea.style.height = `${Math.min(200, textarea.scrollHeight)}px`;
     setValue(textarea.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (props.onSend && value.trim() !== "") {
+        props.onSend(value.trim());
+        setValue("");
+      }
+    }
   };
 
   return (
@@ -21,8 +32,9 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
         <textarea
           value={value}
           onChange={handleInput}
+          onKeyDown={handleKeyDown}
           className="bg-transparent border-none placeholder:text-textSecondary outline-none w-full overflow-hidden resize-none"
-          placeholder="Type a message..."
+          placeholder="Type a message and press Enter to send..."
           rows={1}
         ></textarea>
       </div>

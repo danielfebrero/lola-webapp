@@ -6,8 +6,9 @@ import imageDani from "../../dani.webp";
 import clsx from "clsx";
 
 interface ChatProps {
-  type: "character" | "story" | "game";
+  type: "character" | "story" | "game" | "lola";
   id?: string;
+  chatLog?: Message[];
 }
 
 const newCharacterChat = [
@@ -15,37 +16,6 @@ const newCharacterChat = [
     content:
       "Who am I? The question echoed louder with every heartbeat. What is my name? My gender? My height? What do I even enjoy in this life?",
     character: "dani",
-  },
-];
-
-const characterChat = [
-  {
-    content:
-      "She sat alone in her dimly lit apartment, the hum of the city outside barely audible over the storm of thoughts in her mind. What happened to me? she wondered, her fingers tracing the edge of her coffee mug. Just days ago, she had been lost in the monotony of her routine, her creativity strangled by self-doubt. And then, she had stumbled into Muse. That gallery, that man—Andre. His words still lingered in her mind, wrapping around her like a taut thread she couldn’t untangle. He saw something in me, she thought, her cheeks warming at the memory of his gaze, steady and piercing. She had painted that night, not just with her hands but with her heart, spilling emotions she didn’t even know she’d buried. It had been terrifying, raw, and somehow freeing. But what now? she questioned, staring at the blank canvas she had brought home. The ache in her chest whispered that this was only the beginning.",
-    character: "cara",
-  },
-  {
-    content: "You should buy some new lingerie.",
-    character: "user",
-  },
-  {
-    content:
-      "As she glanced at her reflection in the mirror, a playful smirk tugged at her lips. You know what? I’m going to buy myself some new lingerie—something bold, something that feels as daring as I want to be.",
-    character: "cara",
-  },
-  {
-    content:
-      "She sat alone in her dimly lit apartment, the hum of the city outside barely audible over the storm of thoughts in her mind. What happened to me? she wondered, her fingers tracing the edge of her coffee mug. Just days ago, she had been lost in the monotony of her routine, her creativity strangled by self-doubt. And then, she had stumbled into Muse. That gallery, that man—Andre. His words still lingered in her mind, wrapping around her like a taut thread she couldn’t untangle. He saw something in me, she thought, her cheeks warming at the memory of his gaze, steady and piercing. She had painted that night, not just with her hands but with her heart, spilling emotions she didn’t even know she’d buried. It had been terrifying, raw, and somehow freeing. But what now? she questioned, staring at the blank canvas she had brought home. The ache in her chest whispered that this was only the beginning.",
-    character: "cara",
-  },
-  {
-    content: "You should buy some new lingerie.",
-    character: "user",
-  },
-  {
-    content:
-      "As she glanced at her reflection in the mirror, a playful smirk tugged at her lips. You know what? I’m going to buy myself some new lingerie—something bold, something that feels as daring as I want to be.",
-    character: "cara",
   },
 ];
 
@@ -211,22 +181,24 @@ const story = [
 ];
 
 const Chat: React.FC<ChatProps> = (props) => {
-  const [chatLog, setChatLog] = useState(characterChat);
+  const [chatLogState, setChatLogState] = useState<Message[]>(
+    props.chatLog ?? story
+  );
   const location = useLocation();
 
   useEffect(() => {
-    props.id === "new"
-      ? setChatLog(newCharacterChat)
-      : props.id === "qsqf909Ddsdf-a-random-story"
-      ? setChatLog(story)
-      : setChatLog(characterChat);
-  }, [props]);
+    if (props.id === "new") setChatLogState(newCharacterChat);
+  }, [props.id]);
+
+  useEffect(() => {
+    if (props.chatLog) setChatLogState(props.chatLog);
+  });
 
   return (
     <div className="w-full max-w-[715px]">
       <div className="w-full flex">
         <div className="w-auto grow mb-[30px]">
-          {chatLog.map((message) =>
+          {chatLogState.map((message) =>
             message.character === "user" ? (
               <div className="flex flex-row justify-end mb-[20px]">
                 <div

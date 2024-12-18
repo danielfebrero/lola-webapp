@@ -11,6 +11,7 @@ import Settings from "./components/Settings";
 import CharacterPage from "./pages/Character";
 import GamePage from "./pages/Game";
 import StoryPage from "./pages/Story";
+import LolaPage from "./pages/Lola";
 import NewStoryPage from "./pages/NewStory";
 import NewGamePage from "./pages/NewGame";
 
@@ -46,6 +47,8 @@ const App: React.FC = () => {
                 <Route path="/game/:gameId" element={<GamePage />} />
                 <Route path="/story/:storyId" element={<StoryPage />} />
                 <Route path="/story/new" element={<NewStoryPage />} />
+                <Route path="/lola/:conversationId" element={<LolaPage />} />
+                <Route path="/lola/new" element={<LolaPage />} />
               </Routes>
             </div>
             <div className="flex w-full">

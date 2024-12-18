@@ -76,6 +76,27 @@ const ModeDropdown: React.FC<ModeDropdownProps> = (props) => {
           )}
         </div>
       </NavLink>
+      <NavLink
+        to={
+          location.pathname.indexOf("/lola") == 0
+            ? location.pathname
+            : "/lola/new"
+        }
+      >
+        <div className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row justify-between items-center">
+          <div>
+            <div>Lola</div>
+            <div className="text-textSecondary text-xs">
+              Chatbot without instructions
+            </div>
+          </div>
+          {location.pathname.indexOf("/lola") == 0 && (
+            <div className="h-[20px] w-[20px]">
+              <CheckIcon />
+            </div>
+          )}
+        </div>
+      </NavLink>
     </div>
   );
 };

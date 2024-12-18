@@ -8,7 +8,7 @@ import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 const WEBSOCKET_URL =
   "wss://ukd7mmb496.execute-api.us-east-1.amazonaws.com/dev";
 
-const StoryPage: React.FC = () => {
+const LolaPage: React.FC = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
@@ -20,7 +20,10 @@ const StoryPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(
-      setCurrentlyViewing({ objectType: "story", objectId: params.storyId })
+      setCurrentlyViewing({
+        objectType: "lola",
+        objectId: params.conversationId,
+      })
     );
   }, [params.storyId, dispatch]);
 
@@ -125,11 +128,11 @@ const StoryPage: React.FC = () => {
           ref={chatContainerRef}
           className="grow overflow-y-scroll justify-center flex"
         >
-          <Chat type="story" id={params.storyId} chatLog={chatLog} />
+          <Chat type="lola" id={params.conversationId} chatLog={chatLog} />
         </div>
         <div className="justify-center flex w-full">
           <div className="w-[715px]">
-            <SendChatInput type="story" onSend={handleUserMessage} />
+            <SendChatInput type="lola" onSend={handleUserMessage} />
           </div>
         </div>
       </div>
@@ -137,4 +140,4 @@ const StoryPage: React.FC = () => {
   );
 };
 
-export default StoryPage;
+export default LolaPage;
