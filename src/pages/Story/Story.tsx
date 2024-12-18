@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 
 const WEBSOCKET_URL =
-  "wss://swu38jef45.execute-api.us-east-1.amazonaws.com/dev";
+  "wss://xs7kr2xx1e.execute-api.us-east-1.amazonaws.com/dev";
 
 const StoryPage: React.FC = () => {
   const params = useParams();
