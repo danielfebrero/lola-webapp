@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 
 const WEBSOCKET_URL =
-  "wss://ukd7mmb496.execute-api.us-east-1.amazonaws.com/dev";
+  "wss://swu38jef45.execute-api.us-east-1.amazonaws.com/dev";
 
 const LolaPage: React.FC = () => {
   const params = useParams();
@@ -110,7 +110,7 @@ const LolaPage: React.FC = () => {
     // Send action via WebSocket
     const msg: Record<string, any> = {
       action: "generateText", // Updated action name
-      endpoint: "story_writer",
+      endpoint: "lola",
       input_text: message,
     };
 
