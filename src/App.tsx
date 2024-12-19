@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import { Provider } from "react-redux";
+import { Analytics } from "@vercel/analytics/react";
 
 import LeftPanel from "./components/LeftPanel";
 import Header from "./components/Header";
@@ -21,6 +22,7 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
+        <Analytics />
         <Overlay>
           <Settings />
         </Overlay>
