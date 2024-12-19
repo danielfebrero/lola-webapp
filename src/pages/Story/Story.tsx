@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 
 const WEBSOCKET_URL =
-  "wss://xs7kr2xx1e.execute-api.us-east-1.amazonaws.com/dev";
+  "wss://2hfugts0d2.execute-api.us-east-1.amazonaws.com/dev";
 
 const StoryPage: React.FC = () => {
   const params = useParams();
@@ -107,7 +107,7 @@ const StoryPage: React.FC = () => {
     // Send action via WebSocket
     const msg: Record<string, any> = {
       action: "generateText", // Updated action name
-      endpoint: "story_writer",
+      endpoint: "story",
       input_text: message,
     };
 
@@ -128,7 +128,7 @@ const StoryPage: React.FC = () => {
           <Chat type="story" id={params.storyId} chatLog={chatLog} />
         </div>
         <div className="justify-center flex w-full">
-          <div className="w-[715px]">
+          <div className="w-[65%]">
             <SendChatInput type="story" onSend={handleUserMessage} />
           </div>
         </div>

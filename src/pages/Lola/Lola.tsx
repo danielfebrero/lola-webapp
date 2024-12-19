@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 
 const WEBSOCKET_URL =
-  "wss://xs7kr2xx1e.execute-api.us-east-1.amazonaws.com/dev";
+  "wss://2hfugts0d2.execute-api.us-east-1.amazonaws.com/dev";
 
 const LolaPage: React.FC = () => {
   const params = useParams();
@@ -25,7 +25,7 @@ const LolaPage: React.FC = () => {
         objectId: params.conversationId,
       })
     );
-  }, [params.storyId, dispatch]);
+  }, [params.conversationId, dispatch]);
 
   useEffect(() => {
     // Open the WebSocket connection
@@ -131,7 +131,7 @@ const LolaPage: React.FC = () => {
           <Chat type="lola" id={params.conversationId} chatLog={chatLog} />
         </div>
         <div className="justify-center flex w-full">
-          <div className="w-[715px]">
+          <div className="w-[65%]">
             <SendChatInput type="lola" onSend={handleUserMessage} />
           </div>
         </div>

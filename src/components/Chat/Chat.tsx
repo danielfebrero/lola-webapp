@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router";
+import Markdown from "markdown-to-jsx";
 
 import imageLola from "../../lola.jpeg";
 import imageDani from "../../dani.webp";
@@ -210,7 +211,7 @@ const Chat: React.FC<ChatProps> = (props) => {
                     "w-fit  bg-messageBackground rounded-lg p-[10px]"
                   )}
                 >
-                  {message.content}
+                  <Markdown>{message.content}</Markdown>
                 </div>
               </div>
             ) : (
@@ -224,7 +225,7 @@ const Chat: React.FC<ChatProps> = (props) => {
                   ) : null}
                 </div>
                 <div className="grow max-w-[calc(100%-50px)]">
-                  {message.content}
+                  <Markdown>{message.content}</Markdown>
                 </div>
               </div>
             )
