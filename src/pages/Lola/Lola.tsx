@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 
 const WEBSOCKET_URL =
-  "wss://2hfugts0d2.execute-api.us-east-1.amazonaws.com/dev";
+  "wss://2yncx4m7ji.execute-api.us-east-1.amazonaws.com/dev";
 
 const LolaPage: React.FC = () => {
   const params = useParams();
