@@ -18,15 +18,12 @@ const Init: React.FC = () => {
     if (socketConnection === null) {
       const websocket = new WebSocket(WEBSOCKET_URL);
       dispatch(setSocketConnection(websocket));
+      websocket.onopen = () => {
+        initData();
+        setIsDataLoaded(true);
+      };
     }
   }, [socketConnection]);
-
-  useEffect(() => {
-    if (socketConnection && !isDataLoaded) {
-      initData();
-      setIsDataLoaded(true);
-    }
-  }, [socketConnection, isDataLoaded]);
 
   useEffect(() => {
     return () => socketConnection?.close();
