@@ -30,23 +30,12 @@ const LeftPanel: React.FC = () => {
     },
   ];
 
-  const stories = [
-    {
-      id: "qsqf909Ddsdf-a-random-story",
-      label: "A random story",
-    },
-  ];
-
   const games = [
     {
       id: "098DF098SDFQ08F-dani-tome-1",
       label: "Dani Tome 1",
     },
   ];
-
-  useEffect(() => {
-    console.log({ chatLogs });
-  }, [chatLogs]);
 
   return (
     <div
@@ -149,7 +138,7 @@ const LeftPanel: React.FC = () => {
         <div className="h-auto w-full flex flex-col">
           <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
             <div className="font-bold h-[40px] content-center">Stories</div>
-            {stories.length > 0 ? (
+            {chatLogs.filter((log) => log.type === "story").length > 0 ? (
               <NavLink to="/story/new">
                 <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary">
                   <PlusIcon />
@@ -172,7 +161,9 @@ const LeftPanel: React.FC = () => {
               .map((story) => (
                 <NavLink to={`/story/${story.threadId}`}>
                   <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                    <span className="">{story.title}</span>
+                    <span className="">
+                      {story.title ?? "New Conversation"}
+                    </span>
                   </div>
                 </NavLink>
               ))

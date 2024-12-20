@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
-import { addChatLog, setChatLogs } from "../store/features/app/appSlice";
+import {
+  addChatLog,
+  setChatLogs,
+  setChatLog,
+} from "../store/features/app/appSlice";
 
 export default function useWebSocket({
   setThreadId,
@@ -61,6 +65,12 @@ export default function useWebSocket({
             dispatch(setChatLogs(data.data));
             break;
 
+          case "messages":
+            dispatch(
+              setChatLog({ chatLog: data.data, threadId: data.threadId })
+            );
+            break;
+
           case "error":
             console.error("Error from server:", data.error);
             break;
@@ -110,5 +120,12 @@ export default function useWebSocket({
       JSON.stringify({ action: "fetchData", endpoint: "threads" })
     );
   };
-  return { sendMessage, initData };
+
+  const getThreadChatLog = (threadId: string) => {
+    console.log("Fetching chatLog for thread: ", threadId);
+    socketConnection?.send(
+      JSON.stringify({ action: "fetchData", endpoint: "messages", threadId })
+    );
+  };
+  return { sendMessage, initData, getThreadChatLog };
 }

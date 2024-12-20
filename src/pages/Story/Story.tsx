@@ -16,7 +16,9 @@ const LolaPage: React.FC = () => {
   const [isChatInputAvailable, setIsChatInputAvailable] =
     useState<boolean>(true);
 
-  const { sendMessage } = useWebSocket({ setIsChatInputAvailable });
+  const { sendMessage, getThreadChatLog } = useWebSocket({
+    setIsChatInputAvailable,
+  });
 
   const chatLogs = useAppSelector((state) => state.app.chatLogs);
 
@@ -27,7 +29,10 @@ const LolaPage: React.FC = () => {
   }, [chatLogs, params.storyId]);
 
   useEffect(() => {
-    params.storyId && setThreadId(params.storyId);
+    if (params.storyId) {
+      setThreadId(params.storyId);
+      getThreadChatLog(params.storyId);
+    }
   }, [params.storyId]);
 
   useEffect(() => {

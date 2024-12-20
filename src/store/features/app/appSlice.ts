@@ -14,7 +14,7 @@ interface AppState {
     threadId: string;
     chatLog?: Message[];
     type: string;
-    title: string;
+    title?: string;
   }[];
   isDataLoaded: boolean;
 }
@@ -52,6 +52,12 @@ export const appSlice = createSlice({
     setChatLogs: (state, action) => {
       state.chatLogs = action.payload;
     },
+    setChatLog: (state, action) => {
+      const currentLog = state.chatLogs?.find(
+        (log) => log.threadId === action.payload.threadId
+      );
+      if (currentLog) currentLog.chatLog = action.payload.chatLog;
+    },
     addChatLog: (state, action) => {
       const currentLog = state.chatLogs?.find(
         (log) => log.threadId === action.payload.threadId
@@ -84,7 +90,7 @@ export const appSlice = createSlice({
             },
           ],
           type: action.payload.type,
-          title: action.payload.title ?? action.payload.threadId,
+          title: action.payload.title,
         });
       }
     },
@@ -100,6 +106,7 @@ export const {
   setCurrentlyViewing,
   setSocketConnection,
   setChatLogs,
+  setChatLog,
   addChatLog,
   setIsDataLoaded,
 } = appSlice.actions;
