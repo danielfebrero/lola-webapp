@@ -24,7 +24,7 @@ const LolaPage: React.FC = () => {
     const log =
       chatLogs.find((log) => log.threadId === params.storyId)?.chatLog ?? [];
     setChatLog(log);
-  }, [chatLogs]);
+  }, [chatLogs, params.storyId]);
 
   useEffect(() => {
     params.storyId && setThreadId(params.storyId);
