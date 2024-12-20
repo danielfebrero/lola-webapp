@@ -17,10 +17,6 @@ export default function useWebSocket({
   useEffect(() => {
     if (!socketConnection) return;
 
-    socketConnection.onopen = () => {
-      console.log("WebSocket connected");
-    };
-
     socketConnection.onmessage = (event) => {
       console.log("Incoming message:", { data: event.data });
       try {
@@ -75,10 +71,6 @@ export default function useWebSocket({
         console.error("Failed to parse WebSocket message", event.data, err);
       }
     };
-
-    socketConnection.onclose = () => {
-      console.log("WebSocket disconnected");
-    };
   }, [socketConnection, dispatch, setThreadId]);
 
   const sendMessage = (
@@ -110,8 +102,9 @@ export default function useWebSocket({
     socketConnection?.send(JSON.stringify(msg));
   };
 
-  const initData = () => {
-    socketConnection?.send(
+  const initData = (websocket: WebSocket) => {
+    console.log("Sending initData");
+    websocket.send(
       JSON.stringify({ action: "fetchData", endpoint: "threads" })
     );
   };
