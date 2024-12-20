@@ -4,8 +4,10 @@ import { addChatLog } from "../store/features/app/appSlice";
 
 export default function useWebSocket({
   setThreadId,
+  setIsChatInputAvailable,
 }: {
   setThreadId?: (threadId: string) => void;
+  setIsChatInputAvailable?: (isChatInputAvailable: boolean) => void;
 }) {
   const socketConnection = useAppSelector(
     (state) => state.app.socketConnection
@@ -29,6 +31,7 @@ export default function useWebSocket({
             switch (data.status) {
               case "complete":
                 // Handle logic for when chat generation is complete
+                if (setIsChatInputAvailable) setIsChatInputAvailable(true);
                 console.log("Chat generation complete");
                 break;
               case "done":
@@ -50,6 +53,7 @@ export default function useWebSocket({
                 break;
               case "init":
                 if (setThreadId) setThreadId(data.threadId);
+                if (setIsChatInputAvailable) setIsChatInputAvailable(false);
                 break;
               default:
                 console.warn("Unhandled chat status:", data.status);
@@ -79,6 +83,8 @@ export default function useWebSocket({
     threadId: string | null
   ) => {
     // Add user's message to the chat log
+    if (setIsChatInputAvailable) setIsChatInputAvailable(false);
+
     if (threadId)
       dispatch(
         addChatLog({

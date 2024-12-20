@@ -13,8 +13,10 @@ const LolaPage: React.FC = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const [isChatInputAvailable, setIsChatInputAvailable] =
+    useState<boolean>(true);
 
-  const { sendMessage } = useWebSocket({});
+  const { sendMessage } = useWebSocket({ setIsChatInputAvailable });
 
   const chatLogs = useAppSelector((state) => state.app.chatLogs);
 
@@ -63,6 +65,7 @@ const LolaPage: React.FC = () => {
             <SendChatInput
               type="story"
               onSend={(message) => sendMessage(message, "story", threadId)}
+              isChatInputAvailable={isChatInputAvailable}
             />
           </div>
         </div>

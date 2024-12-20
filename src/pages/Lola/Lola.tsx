@@ -15,8 +15,13 @@ const LolaPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+  const [isChatInputAvailable, setIsChatInputAvailable] =
+    useState<boolean>(true);
 
-  const { sendMessage } = useWebSocket({ setThreadId });
+  const { sendMessage } = useWebSocket({
+    setThreadId,
+    setIsChatInputAvailable,
+  });
 
   const chatLogs = useAppSelector((state) => state.app.chatLogs);
 
@@ -88,6 +93,7 @@ const LolaPage: React.FC = () => {
             <SendChatInput
               type="lola"
               onSend={(message) => sendMessageToLola(message, "lola", threadId)}
+              isChatInputAvailable={isChatInputAvailable}
             />
           </div>
         </div>

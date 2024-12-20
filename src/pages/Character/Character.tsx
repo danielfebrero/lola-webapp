@@ -55,7 +55,11 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         <div className="grow overflow-y-scroll">
           <Chat type="character" id={characterId} />
         </div>
-        <SendChatInput type="character" id={characterId} />
+        <SendChatInput
+          type="character"
+          id={characterId}
+          isChatInputAvailable={false}
+        />
       </div>
 
       <div className="grow w-1/2 pl-5 flex items-center flex-col">

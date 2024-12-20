@@ -4,6 +4,7 @@ interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
   id?: string;
   onSend?: (message: string) => void;
+  isChatInputAvailable: boolean;
 }
 
 const SendChatInput: React.FC<SendChatInputProps> = (props) => {
@@ -33,6 +34,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
           value={value}
           onChange={handleInput}
           onKeyDown={handleKeyDown}
+          disabled={!props.isChatInputAvailable}
           className="bg-transparent border-none placeholder:text-textSecondary outline-none w-full overflow-hidden resize-none"
           placeholder="Type a message and press Enter to send..."
           rows={1}
