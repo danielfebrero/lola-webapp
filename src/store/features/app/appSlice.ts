@@ -10,6 +10,7 @@ interface AppState {
   };
   socketConnection: WebSocket | null;
   chatLogs: { threadId: string; chatLog: Message[] }[];
+  isDataLoaded: boolean;
 }
 
 // Define the initial state using that type
@@ -22,6 +23,7 @@ const initialState: AppState = {
   },
   socketConnection: null,
   chatLogs: [],
+  isDataLoaded: false,
 };
 
 export const appSlice = createSlice({
@@ -40,6 +42,9 @@ export const appSlice = createSlice({
     },
     setSocketConnection: (state, action) => {
       state.socketConnection = action.payload;
+    },
+    setChatLogs: (state, action) => {
+      state.chatLogs = action.payload;
     },
     addChatLog: (state, action) => {
       const currentLog = state.chatLogs.find(
@@ -72,6 +77,9 @@ export const appSlice = createSlice({
         });
       }
     },
+    setIsDataLoaded: (state, action) => {
+      state.isDataLoaded = action.payload;
+    },
   },
 });
 
@@ -80,7 +88,9 @@ export const {
   toggleSettings,
   setCurrentlyViewing,
   setSocketConnection,
+  setChatLogs,
   addChatLog,
+  setIsDataLoaded,
 } = appSlice.actions;
 
 export default appSlice.reducer;
