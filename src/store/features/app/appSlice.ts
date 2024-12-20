@@ -48,7 +48,9 @@ export const appSlice = createSlice({
       if (currentLog) {
         // if last message is already from "narrator", we concatenate
         if (
-          currentLog.chatLog[currentLog.chatLog.length - 1].role === "assistant"
+          currentLog.chatLog[currentLog.chatLog.length - 1].role ===
+            "assistant" &&
+          action.payload.role === "assistant"
         ) {
           currentLog.chatLog[currentLog.chatLog.length - 1].content +=
             action.payload.content;
