@@ -10,7 +10,11 @@ import CloseIcon from "../../icons/close";
 import SendIcon from "../../icons/send";
 
 import { useAppDispatch } from "../../store/hooks";
-import { setCurrentlyViewing } from "../../store/features/app/appSlice";
+import {
+  addChatLog,
+  setCurrentlyViewing,
+} from "../../store/features/app/appSlice";
+import useWebSocket from "../../hooks/useWebSocket";
 
 const characters = [
   {
@@ -42,17 +46,35 @@ const characters = [
 
 const NewStoryPage: React.FC = () => {
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
+  const [context, setContext] = useState<string>("");
+  const [threadId, setThreadId] = useState<string | null>(null);
+  const [hasSentMessage, setHasSentMessage] = useState<boolean>(false);
   const navigate = useNavigate();
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const dispatch = useAppDispatch();
+  const { sendMessage } = useWebSocket({ setThreadId });
 
   const createStory = () => {
-    navigate("/story/098DF098SDFQ08F-dani-dentist-and-claire");
+    sendMessage(context, "story", null);
+    setHasSentMessage(true);
   };
 
   useEffect(() => {
     dispatch(setCurrentlyViewing({ objectType: "story", objectId: null }));
   }, []);
+
+  useEffect(() => {
+    if (threadId) {
+      dispatch(
+        addChatLog({
+          threadId,
+          content: context,
+          role: "user",
+        })
+      );
+      navigate("/story/" + threadId);
+    }
+  }, [threadId]);
 
   return (
     <div className="flex flex-col h-full justify-center items-center">
@@ -116,10 +138,18 @@ const NewStoryPage: React.FC = () => {
         </div>
         <div className="font-semibold text-lg mt-[40px] mb-[20px]">Context</div>
         <div className="flex flex-row items-center">
-          <textarea className="rounded-lg border border-lightBorder resize-none h-[100px] w-[400px] outline-none p-[10px]"></textarea>
+          <textarea
+            className="rounded-lg border border-lightBorder resize-none h-[100px] w-[400px] outline-none p-[10px]"
+            onChange={(e) => setContext(e.target.value)}
+          >
+            {context}
+          </textarea>
           <div
-            className="ml-[20px] w-[32px] h-[32px] text-white bg-black rounded-full flex justify-center items-center cursor-pointer"
-            onClick={createStory}
+            className={clsx(
+              { "bg-black": !hasSentMessage, "bg-gray-400": hasSentMessage },
+              "ml-[20px] w-[32px] h-[32px] text-white rounded-full flex justify-center items-center cursor-pointer"
+            )}
+            onClick={hasSentMessage ? undefined : createStory}
           >
             <SendIcon />
           </div>

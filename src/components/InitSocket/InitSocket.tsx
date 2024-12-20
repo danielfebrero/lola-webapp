@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setSocketConnection } from "../../store/features/app/appSlice";
 
 const WEBSOCKET_URL =
-  "wss://q0inpoefsg.execute-api.us-east-1.amazonaws.com/dev";
+  "wss://v7uxhpktv5.execute-api.us-east-1.amazonaws.com/dev";
 
 const InitSocket: React.FC = () => {
   const dispatch = useAppDispatch();

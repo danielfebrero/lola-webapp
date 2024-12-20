@@ -1,26 +1,41 @@
 import { useParams } from "react-router";
 import { useEffect, useRef, useState } from "react";
+
 import Chat from "../../components/Chat";
 import SendChatInput from "../../components/SendChatInput";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
-const StoryPage: React.FC = () => {
+const LolaPage: React.FC = () => {
   const [chatLog, setChatLog] = useState<Message[]>([]);
   const [threadId, setThreadId] = useState<string | null>(null);
-
   const params = useParams();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const { sendMessage } = useWebSocket(setThreadId, setChatLog);
+  const { sendMessage } = useWebSocket({});
+
+  const chatLogs = useAppSelector((state) => state.app.chatLogs);
+
+  useEffect(() => {
+    const log =
+      chatLogs.find((log) => log.threadId === params.storyId)?.chatLog ?? [];
+    setChatLog(log);
+  }, [chatLogs]);
+
+  useEffect(() => {
+    params.storyId && setThreadId(params.storyId);
+  }, [params.storyId]);
 
   useEffect(() => {
     dispatch(
-      setCurrentlyViewing({ objectType: "story", objectId: params.storyId })
+      setCurrentlyViewing({
+        objectType: "story",
+        objectId: params.storyId,
+      })
     );
-  }, [params.storyId, dispatch]);
+  }, [params.conversationId, dispatch]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -41,7 +56,7 @@ const StoryPage: React.FC = () => {
           ref={chatContainerRef}
           className="grow overflow-y-scroll justify-center flex"
         >
-          <Chat type="story" id={params.storyId} chatLog={chatLog} />
+          <Chat type="story" id={params.conversationId} chatLog={chatLog} />
         </div>
         <div className="justify-center flex w-full">
           <div className="w-[65%]">
@@ -56,4 +71,4 @@ const StoryPage: React.FC = () => {
   );
 };
 
-export default StoryPage;
+export default LolaPage;

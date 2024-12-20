@@ -1,4 +1,4 @@
 interface Message {
-  character: string;
+  role: string;
   content: string;
 }

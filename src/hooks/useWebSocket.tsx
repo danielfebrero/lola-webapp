@@ -1,92 +1,101 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { addChatLog } from "../store/features/app/appSlice";
 
-import { useAppSelector } from "../store/hooks";
-
-export default function useWebSocket(
-  setThreadId?: (threadId: string) => void,
-  setChatLog?: (
-    chatLog: Message[] | ((prevState: Message[]) => Message[])
-  ) => void
-) {
+export default function useWebSocket({
+  setThreadId,
+}: {
+  setThreadId?: (threadId: string) => void;
+}) {
   const socketConnection = useAppSelector(
     (state) => state.app.socketConnection
   );
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (socketConnection) {
-      socketConnection.onopen = () => {
-        console.log("WebSocket connected");
-      };
+    if (!socketConnection) return;
 
-      socketConnection.onmessage = (event) => {
-        console.log("Incoming message:", event.data);
-        try {
-          const data = JSON.parse(event.data);
+    socketConnection.onopen = () => {
+      console.log("WebSocket connected");
+    };
 
-          // Si un threadId est retourné par le serveur
-          if (data.threadId && setThreadId) {
-            setThreadId(data.threadId);
-            return;
-          }
+    socketConnection.onmessage = (event) => {
+      console.log("Incoming message:", { data: event.data });
+      try {
+        const data = JSON.parse(event.data);
+        console.log({ data });
+        switch (data.type) {
+          case "chat":
+            switch (data.status) {
+              case "complete":
+                // Handle logic for when chat generation is complete
+                console.log("Chat generation complete");
+                break;
+              case "done":
+                // Handle logic for when chat generation is done
+                console.log("Chat generation done");
+                break;
+              case "partial":
+                // Handle logic for when chat generation is partial
+                console.log("Partial chat data received");
 
-          if (data.status === "done") {
-            // La génération est terminée
-            // On pourrait gérer ici une logique de fin
-          } else if (data.error) {
-            // Gérer les erreurs
+                // Add assistant's message to the chat log
+                dispatch(
+                  addChatLog({
+                    threadId: data.threadId,
+                    content: data.content,
+                    role: "assistant",
+                  })
+                );
+                break;
+              case "init":
+                if (setThreadId) setThreadId(data.threadId);
+                break;
+              default:
+                console.warn("Unhandled chat status:", data.status);
+            }
+            break;
+
+          case "error":
             console.error("Error from server:", data.error);
-          } else if (typeof data === "string" && setChatLog) {
-            // data est un fragment de texte envoyé par l'assistant
-            setChatLog((oldLog) => {
-              // Si le dernier message est déjà du "narrator", on concatène
-              if (
-                oldLog.length > 0 &&
-                oldLog[oldLog.length - 1].character === "narrator"
-              ) {
-                const updatedMsg = {
-                  ...oldLog[oldLog.length - 1],
-                  content: oldLog[oldLog.length - 1].content + data,
-                };
-                return [...oldLog.slice(0, -1), updatedMsg];
-              } else {
-                // Sinon on crée un nouveau message
-                return [...oldLog, { character: "narrator", content: data }];
-              }
-            });
-          }
-        } catch (err) {
-          console.error("Failed to parse WebSocket message", event.data, err);
-        }
-      };
+            break;
 
-      socketConnection.onclose = () => {
-        console.log("WebSocket disconnected");
-      };
-    }
-  }, []);
+          default:
+            console.warn("Unhandled message type:", data.type);
+        }
+      } catch (err) {
+        console.error("Failed to parse WebSocket message", event.data, err);
+      }
+    };
+
+    socketConnection.onclose = () => {
+      console.log("WebSocket disconnected");
+    };
+  }, [socketConnection, dispatch, setThreadId]);
 
   const sendMessage = (
     message: string,
     endpoint: string,
     threadId: string | null
   ) => {
-    // Ajoute le message de l'utilisateur dans le chat
-    setChatLog &&
-      setChatLog((oldLog) => [
-        ...oldLog,
-        { character: "user", content: message },
-      ]);
+    // Add user's message to the chat log
+    if (threadId)
+      dispatch(
+        addChatLog({
+          threadId,
+          content: message,
+          role: "user",
+        })
+      );
 
-    // Envoie l'action via WebSocket
+    // Send the action via WebSocket
     const msg: Record<string, any> = {
       action: "generateText",
       endpoint: endpoint,
       input_text: message,
     };
 
-    if (threadId) {
-      msg.threadId = threadId; // Ajoute le threadId s'il existe
-    }
+    if (threadId) msg.threadId = threadId; // Include threadId if it exists
 
     socketConnection?.send(JSON.stringify(msg));
   };

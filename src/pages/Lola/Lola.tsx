@@ -1,20 +1,57 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useEffect, useRef, useState } from "react";
+
 import Chat from "../../components/Chat";
 import SendChatInput from "../../components/SendChatInput";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
+import { addChatLog } from "../../store/features/app/appSlice";
 
 const LolaPage: React.FC = () => {
   const [chatLog, setChatLog] = useState<Message[]>([]);
   const [threadId, setThreadId] = useState<string | null>(null);
-
   const params = useParams();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
-  const { sendMessage } = useWebSocket(setThreadId, setChatLog);
+  const { sendMessage } = useWebSocket({ setThreadId });
+
+  const chatLogs = useAppSelector((state) => state.app.chatLogs);
+
+  const sendMessageToLola = (
+    content: string,
+    type: string,
+    threadId: string | null
+  ) => {
+    sendMessage(content, type, threadId);
+    if (chatLog.length === 0) setChatLog([{ role: "user", content }]);
+  };
+
+  useEffect(() => {
+    const log =
+      chatLogs.find((log) => log.threadId === params.conversationId)?.chatLog ??
+      chatLog;
+    setChatLog(log);
+  }, [chatLogs]);
+
+  useEffect(() => {
+    if (threadId) {
+      if (chatLog.length === 1)
+        dispatch(
+          addChatLog({ threadId, content: chatLog[0].content, role: "user" })
+        );
+      navigate("/lola/" + threadId);
+    }
+  }, [threadId]);
+
+  useEffect(() => {
+    if (!params.conversationId) {
+      setThreadId(null);
+      setChatLog([]);
+    }
+  }, [params.conversationId]);
 
   useEffect(() => {
     dispatch(
@@ -50,7 +87,7 @@ const LolaPage: React.FC = () => {
           <div className="w-[65%]">
             <SendChatInput
               type="lola"
-              onSend={(message) => sendMessage(message, "lola", threadId)}
+              onSend={(message) => sendMessageToLola(message, "lola", threadId)}
             />
           </div>
         </div>

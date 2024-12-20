@@ -9,6 +9,7 @@ interface AppState {
     objectId: string | null;
   };
   socketConnection: WebSocket | null;
+  chatLogs: { threadId: string; chatLog: Message[] }[];
 }
 
 // Define the initial state using that type
@@ -20,6 +21,7 @@ const initialState: AppState = {
     objectId: "",
   },
   socketConnection: null,
+  chatLogs: [],
 };
 
 export const appSlice = createSlice({
@@ -39,6 +41,35 @@ export const appSlice = createSlice({
     setSocketConnection: (state, action) => {
       state.socketConnection = action.payload;
     },
+    addChatLog: (state, action) => {
+      const currentLog = state.chatLogs.find(
+        (log) => log.threadId === action.payload.threadId
+      );
+      if (currentLog) {
+        // if last message is already from "narrator", we concatenate
+        if (
+          currentLog.chatLog[currentLog.chatLog.length - 1].role === "assistant"
+        ) {
+          currentLog.chatLog[currentLog.chatLog.length - 1].content +=
+            action.payload.content;
+        } else {
+          currentLog.chatLog.push({
+            content: action.payload.content,
+            role: action.payload.role,
+          });
+        }
+      } else {
+        state.chatLogs.push({
+          threadId: action.payload.threadId,
+          chatLog: [
+            {
+              content: action.payload.content,
+              role: action.payload.role,
+            },
+          ],
+        });
+      }
+    },
   },
 });
 
@@ -47,6 +78,7 @@ export const {
   toggleSettings,
   setCurrentlyViewing,
   setSocketConnection,
+  addChatLog,
 } = appSlice.actions;
 
 export default appSlice.reducer;
