@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Overlay from "./components/Overlay";
 import Settings from "./components/Settings";
+import InitSocket from "./components/InitSocket";
 
 import CharacterPage from "./pages/Character";
 import GamePage from "./pages/Game";
@@ -23,6 +24,7 @@ const App: React.FC = () => {
     <Provider store={store}>
       <BrowserRouter>
         <Analytics />
+        <InitSocket />
         <Overlay>
           <Settings />
         </Overlay>

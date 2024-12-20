@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Chat from "../../components/Chat";
 import SendChatInput from "../../components/SendChatInput";
 import { useAppDispatch } from "../../store/hooks";
@@ -7,11 +7,14 @@ import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
 const StoryPage: React.FC = () => {
+  const [chatLog, setChatLog] = useState<Message[]>([]);
+  const [threadId, setThreadId] = useState<string | null>(null);
+
   const params = useParams();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const { chatLog, sendMessage } = useWebSocket({ endpoint: "story" });
+  const { sendMessage } = useWebSocket(setThreadId, setChatLog);
 
   useEffect(() => {
     dispatch(
@@ -42,7 +45,10 @@ const StoryPage: React.FC = () => {
         </div>
         <div className="justify-center flex w-full">
           <div className="w-[65%]">
-            <SendChatInput type="story" onSend={sendMessage} />
+            <SendChatInput
+              type="story"
+              onSend={(message) => sendMessage(message, "story", threadId)}
+            />
           </div>
         </div>
       </div>

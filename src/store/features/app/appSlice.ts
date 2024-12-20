@@ -8,6 +8,7 @@ interface AppState {
     objectType: string;
     objectId: string | null;
   };
+  socketConnection: WebSocket | null;
 }
 
 // Define the initial state using that type
@@ -18,6 +19,7 @@ const initialState: AppState = {
     objectType: "",
     objectId: "",
   },
+  socketConnection: null,
 };
 
 export const appSlice = createSlice({
@@ -34,10 +36,17 @@ export const appSlice = createSlice({
     setCurrentlyViewing: (state, action) => {
       state.currentlyViewing = action.payload;
     },
+    setSocketConnection: (state, action) => {
+      state.socketConnection = action.payload;
+    },
   },
 });
 
-export const { toggleLeftPanel, toggleSettings, setCurrentlyViewing } =
-  appSlice.actions;
+export const {
+  toggleLeftPanel,
+  toggleSettings,
+  setCurrentlyViewing,
+  setSocketConnection,
+} = appSlice.actions;
 
 export default appSlice.reducer;
