@@ -9,11 +9,12 @@ import imageClaire from "../../lola.jpeg";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { toggleLeftPanel } from "../../store/features/app/appSlice";
 import useNewChatLocation from "../../hooks/useNewChatLocation";
+import { useEffect } from "react";
 
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
   const newChatLocation = useNewChatLocation();
-  const isLeftPanelOpen = useAppSelector((state) => state.app.isLeftPanelOpen);
+  const { isLeftPanelOpen, chatLogs } = useAppSelector((state) => state.app);
 
   const characters = [
     {
@@ -42,6 +43,10 @@ const LeftPanel: React.FC = () => {
       label: "Dani Tome 1",
     },
   ];
+
+  useEffect(() => {
+    console.log({ chatLogs });
+  }, [chatLogs]);
 
   return (
     <div
@@ -152,7 +157,7 @@ const LeftPanel: React.FC = () => {
               </NavLink>
             ) : null}
           </div>
-          {stories.length === 0 ? (
+          {chatLogs.filter((log) => log.type === "story").length === 0 ? (
             <NavLink to="/story/new">
               <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                 <div className="h-[20px] w-[20px] text-textSecondary">
@@ -162,13 +167,15 @@ const LeftPanel: React.FC = () => {
               </div>
             </NavLink>
           ) : (
-            stories.map((story) => (
-              <NavLink to={`/story/${story.id}`}>
-                <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                  <span className="">{story.label}</span>
-                </div>
-              </NavLink>
-            ))
+            chatLogs
+              .filter((log) => log.type === "story")
+              .map((story) => (
+                <NavLink to={`/story/${story.threadId}`}>
+                  <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                    <span className="">{story.title}</span>
+                  </div>
+                </NavLink>
+              ))
           )}
         </div>
       </div>

@@ -70,6 +70,7 @@ const NewStoryPage: React.FC = () => {
           threadId,
           content: context,
           role: "user",
+          type: "story",
         })
       );
       navigate("/story/" + threadId);

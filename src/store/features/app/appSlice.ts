@@ -9,7 +9,13 @@ interface AppState {
     objectId: string | null;
   };
   socketConnection: WebSocket | null;
-  chatLogs: { threadId: string; chatLog: Message[] }[];
+  chatLogs: {
+    created_at: string;
+    threadId: string;
+    chatLog?: Message[];
+    type: string;
+    title: string;
+  }[];
   isDataLoaded: boolean;
 }
 
@@ -47,10 +53,12 @@ export const appSlice = createSlice({
       state.chatLogs = action.payload;
     },
     addChatLog: (state, action) => {
-      const currentLog = state.chatLogs.find(
+      const currentLog = state.chatLogs?.find(
         (log) => log.threadId === action.payload.threadId
       );
       if (currentLog) {
+        if (!currentLog.chatLog) currentLog.chatLog = [];
+
         // if last message is already from "narrator", we concatenate
         if (
           currentLog.chatLog[currentLog.chatLog.length - 1].role ===
@@ -67,6 +75,7 @@ export const appSlice = createSlice({
         }
       } else {
         state.chatLogs.push({
+          created_at: Date.now().toString(),
           threadId: action.payload.threadId,
           chatLog: [
             {
@@ -74,6 +83,8 @@ export const appSlice = createSlice({
               role: action.payload.role,
             },
           ],
+          type: action.payload.type,
+          title: action.payload.title ?? action.payload.threadId,
         });
       }
     },

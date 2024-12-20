@@ -43,6 +43,7 @@ export default function useWebSocket({
                   addChatLog({
                     threadId: data.threadId,
                     content: data.content,
+                    type: data.type,
                     role: "assistant",
                   })
                 );
@@ -57,7 +58,7 @@ export default function useWebSocket({
             break;
 
           case "threads":
-            dispatch(setChatLogs(data.threads));
+            dispatch(setChatLogs(data.data));
             break;
 
           case "error":
@@ -87,6 +88,7 @@ export default function useWebSocket({
           threadId,
           content: message,
           role: "user",
+          type: endpoint,
         })
       );
 

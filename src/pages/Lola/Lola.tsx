@@ -25,12 +25,8 @@ const LolaPage: React.FC = () => {
 
   const chatLogs = useAppSelector((state) => state.app.chatLogs);
 
-  const sendMessageToLola = (
-    content: string,
-    type: string,
-    threadId: string | null
-  ) => {
-    sendMessage(content, type, threadId);
+  const sendMessageToLola = (content: string, threadId: string | null) => {
+    sendMessage(content, "lola", threadId);
     if (chatLog.length === 0) setChatLog([{ role: "user", content }]);
   };
 
@@ -45,7 +41,12 @@ const LolaPage: React.FC = () => {
     if (threadId) {
       if (chatLog.length === 1)
         dispatch(
-          addChatLog({ threadId, content: chatLog[0].content, role: "user" })
+          addChatLog({
+            threadId,
+            content: chatLog[0].content,
+            role: "user",
+            type: "lola",
+          })
         );
       navigate("/lola/" + threadId);
     }
@@ -92,7 +93,7 @@ const LolaPage: React.FC = () => {
           <div className="w-[65%]">
             <SendChatInput
               type="lola"
-              onSend={(message) => sendMessageToLola(message, "lola", threadId)}
+              onSend={(message) => sendMessageToLola(message, threadId)}
               isChatInputAvailable={isChatInputAvailable}
             />
           </div>
