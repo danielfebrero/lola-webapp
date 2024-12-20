@@ -10,7 +10,7 @@ interface UseWebSocketOptions {
 }
 
 const WEBSOCKET_URL =
-  "wss://mzl7im2d11.execute-api.us-east-1.amazonaws.com/dev";
+  "wss://q0inpoefsg.execute-api.us-east-1.amazonaws.com/dev";
 
 export default function useWebSocket({ endpoint }: UseWebSocketOptions) {
   const [chatLog, setChatLog] = useState<Message[]>([]);
