@@ -217,7 +217,7 @@ const Chat: React.FC<ChatProps> = (props) => {
             ) : (
               <div className="flex flex-row mb-[10px]">
                 <div className="w-[30px] h-[30px] mr-[10px]">
-                  {message.role !== "narrator" ? (
+                  {message.role !== "assistant" ? (
                     <img
                       className="rounded-full h-[30px] w-[30px] object-cover"
                       src={message.role === "cara" ? imageLola : imageDani}
