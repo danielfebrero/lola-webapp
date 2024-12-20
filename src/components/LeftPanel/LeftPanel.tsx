@@ -161,7 +161,7 @@ const LeftPanel: React.FC = () => {
               .map((story) => (
                 <NavLink to={`/story/${story.threadId}`}>
                   <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                    <span className="">
+                    <span className="truncate">
                       {story.title ?? "New Conversation"}
                     </span>
                   </div>

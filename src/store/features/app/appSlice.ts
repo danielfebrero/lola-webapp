@@ -49,6 +49,12 @@ export const appSlice = createSlice({
     setSocketConnection: (state, action) => {
       state.socketConnection = action.payload;
     },
+    setThreadTitle: (state, action) => {
+      const currentLog = state.chatLogs?.find(
+        (log) => log.threadId === action.payload.threadId
+      );
+      if (currentLog) currentLog.title = action.payload.title;
+    },
     setChatLogs: (state, action) => {
       state.chatLogs = action.payload;
     },
@@ -105,6 +111,7 @@ export const {
   toggleSettings,
   setCurrentlyViewing,
   setSocketConnection,
+  setThreadTitle,
   setChatLogs,
   setChatLog,
   addChatLog,

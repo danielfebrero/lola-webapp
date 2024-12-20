@@ -4,6 +4,7 @@ import {
   addChatLog,
   setChatLogs,
   setChatLog,
+  setThreadTitle,
 } from "../store/features/app/appSlice";
 
 export default function useWebSocket({
@@ -63,6 +64,12 @@ export default function useWebSocket({
 
           case "threads":
             dispatch(setChatLogs(data.data));
+            break;
+
+          case "thread_title":
+            dispatch(
+              setThreadTitle({ threadId: data.threadId, title: data.title })
+            );
             break;
 
           case "messages":
