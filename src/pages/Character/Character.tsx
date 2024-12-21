@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import clsx from "clsx";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 
 import Chat from "../../components/Chat";
 import SendChatInput from "../../components/SendChatInput";
 import JSONView from "./JSONView";
 import ReportView from "./ReportView";
 import ImageView from "./ImageView";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
+import useWebSocket from "../../hooks/useWebSocket";
+import { addChatLog } from "../../store/features/app/appSlice";
 
 interface CharacterPageProps {
   characterId?: string;
@@ -17,18 +19,57 @@ interface CharacterPageProps {
 
 const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const params = useParams();
+  const navigate = useNavigate();
+  const chatLogs = useAppSelector((state) => state.app.chatLogs);
+  const [threadId, setThreadId] = useState<string | null>(null);
   const [characterId, setCharacterId] = useState<string | undefined>(
     params.characterId
   );
+  const [chatLog, setChatLog] = useState<Message[]>([]);
+
   const dispatch = useAppDispatch();
+  const [isChatInputAvailable, setIsChatInputAvailable] =
+    useState<boolean>(true);
 
   const [selectedRightViewType, setSelectedRightViewType] = useState<
     "report" | "json" | "image"
   >("report");
 
+  const { sendMessage } = useWebSocket({
+    setThreadId,
+    setIsChatInputAvailable,
+  });
+
+  const sendMessageToCharacter = (content: string, threadId: string | null) => {
+    sendMessage(content, "character", threadId);
+    if (chatLog.length === 0) setChatLog([{ role: "user", content }]);
+  };
+
   const handleViewTypeChange = (viewType: "report" | "json" | "image") => {
     setSelectedRightViewType(viewType);
   };
+
+  useEffect(() => {
+    const log =
+      chatLogs.find((log) => log.threadId === params.characterId)?.chatLog ??
+      chatLog;
+    setChatLog(log);
+  }, [chatLogs]);
+
+  useEffect(() => {
+    if (threadId) {
+      if (chatLog.length === 1)
+        dispatch(
+          addChatLog({
+            threadId,
+            content: chatLog[0].content,
+            role: "user",
+            type: "character",
+          })
+        );
+      navigate("/character/" + threadId);
+    }
+  }, [threadId]);
 
   useEffect(() => {
     params.characterId && setCharacterId(params.characterId);
@@ -53,12 +94,13 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
       <div className="grow border-r-2 border-borderColor w-1/2 pr-5 flex flex-col h-[calc(100vh-110px)]">
         <div className="grow overflow-y-scroll">
-          <Chat type="character" id={characterId} />
+          <Chat type="character" id={characterId} chatLog={chatLog} />
         </div>
         <SendChatInput
           type="character"
           id={characterId}
-          isChatInputAvailable={false}
+          isChatInputAvailable={isChatInputAvailable}
+          onSend={(message) => sendMessageToCharacter(message, threadId)}
         />
       </div>
 
