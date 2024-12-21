@@ -102,29 +102,6 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     }
   }, [params.characterId]);
 
-  // useEffect(() => {
-  //   if (threadId && threadId !== "new") {
-  //     if (chatLog.length === 2) {
-  //       dispatch(
-  //         addChatLog({
-  //           threadId,
-  //           content: newroleChat,
-  //           role: "assistant",
-  //           type: "character",
-  //         })
-  //       );
-  //       dispatch(
-  //         addChatLog({
-  //           threadId,
-  //           content: chatLog[1]?.content,
-  //           role: "user",
-  //           type: "character",
-  //         })
-  //       );
-  //     }
-  //   }
-  // }, [threadId]);
-
   useEffect(() => {
     const mainId = "mainId";
     if (props.selected?.type === "main") setCharacterId(mainId);
