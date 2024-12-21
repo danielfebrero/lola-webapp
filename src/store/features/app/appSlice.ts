@@ -96,6 +96,13 @@ export const appSlice = createSlice({
             role: action.payload.role,
           });
         }
+        if (
+          !state.chatLogs?.find(
+            (log) => log.threadId === action.payload.threadId
+          )
+        ) {
+          state.chatLogs.push(currentLog);
+        }
       } else {
         if (!state.chatLogs) state.chatLogs = [];
         state.chatLogs.push({

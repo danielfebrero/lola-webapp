@@ -13,20 +13,13 @@ interface ChatProps {
 }
 
 const Chat: React.FC<ChatProps> = (props) => {
-  const [chatLogState, setChatLogState] = useState<Message[]>(
-    props.chatLog ?? []
-  );
   const location = useLocation();
-
-  useEffect(() => {
-    if (props.chatLog) setChatLogState(props.chatLog);
-  });
 
   return (
     <div className="w-full max-w-[715px]">
       <div className="w-full flex">
         <div className="w-auto grow mb-[30px]">
-          {chatLogState.map((message, idx) =>
+          {props.chatLog?.map((message, idx) =>
             message.role === "user" ? (
               <div
                 className="flex flex-row justify-end mb-[20px]"
