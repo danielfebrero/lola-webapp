@@ -74,7 +74,10 @@ export default function useWebSocket({
 
           case "messages":
             dispatch(
-              setChatLog({ chatLog: data.data, threadId: data.threadId })
+              setChatLog({
+                chatLog: data.data,
+                threadId: data.threadId,
+              })
             );
             break;
 
@@ -134,5 +137,5 @@ export default function useWebSocket({
       JSON.stringify({ action: "fetchData", endpoint: "messages", threadId })
     );
   };
-  return { sendMessage, initData, getThreadChatLog };
+  return { sendMessage, initData, getThreadChatLog, socketConnection };
 }

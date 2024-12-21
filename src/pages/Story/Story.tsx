@@ -8,7 +8,6 @@ import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
 const LolaPage: React.FC = () => {
-  const [chatLog, setChatLog] = useState<Message[]>([]);
   const [threadId, setThreadId] = useState<string | null>(null);
   const params = useParams();
   const dispatch = useAppDispatch();
@@ -16,24 +15,25 @@ const LolaPage: React.FC = () => {
   const [isChatInputAvailable, setIsChatInputAvailable] =
     useState<boolean>(true);
 
-  const { sendMessage, getThreadChatLog } = useWebSocket({
+  const { sendMessage, getThreadChatLog, socketConnection } = useWebSocket({
     setIsChatInputAvailable,
   });
 
-  const chatLogs = useAppSelector((state) => state.app.chatLogs);
-
-  useEffect(() => {
-    const log =
-      chatLogs.find((log) => log.threadId === params.storyId)?.chatLog ?? [];
-    setChatLog(log);
-  }, [chatLogs, params.storyId]);
+  const chatLog = useAppSelector(
+    (state) =>
+      state.app.chatLogs.find((log) => log.threadId === params.storyId)
+        ?.chatLog ?? []
+  );
 
   useEffect(() => {
     if (params.storyId) {
+      console.log("get thread chat log");
       setThreadId(params.storyId);
-      getThreadChatLog(params.storyId);
+      if (socketConnection?.readyState === WebSocket.OPEN) {
+        getThreadChatLog(params.storyId);
+      }
     }
-  }, [params.storyId]);
+  }, [params.storyId, socketConnection?.readyState]);
 
   useEffect(() => {
     dispatch(

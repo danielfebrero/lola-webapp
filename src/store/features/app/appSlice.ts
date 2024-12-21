@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import _ from "lodash";
 
 // Define a type for the slice state
 interface AppState {
@@ -9,13 +10,7 @@ interface AppState {
     objectId: string | null;
   };
   socketConnection: WebSocket | null;
-  chatLogs: {
-    created_at: string;
-    threadId: string;
-    chatLog?: Message[];
-    type: string;
-    title?: string;
-  }[];
+  chatLogs: ChatLog[];
   isDataLoaded: boolean;
 }
 
@@ -56,13 +51,22 @@ export const appSlice = createSlice({
       if (currentLog) currentLog.title = action.payload.title;
     },
     setChatLogs: (state, action) => {
-      state.chatLogs = action.payload;
+      state.chatLogs = action.payload.map((cl: ChatLog) => ({
+        ...cl,
+        ...state.chatLogs.find((l) => l.threadId === cl.threadId),
+      }));
     },
     setChatLog: (state, action) => {
       const currentLog = state.chatLogs?.find(
         (log) => log.threadId === action.payload.threadId
       );
       if (currentLog) currentLog.chatLog = action.payload.chatLog;
+      else {
+        state.chatLogs.push({
+          threadId: action.payload.threadId,
+          chatLog: action.payload.chatLog,
+        });
+      }
     },
     addChatLog: (state, action) => {
       const currentLog = state.chatLogs?.find(
