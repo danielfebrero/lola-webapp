@@ -53,13 +53,22 @@ export const appSlice = createSlice({
       state.chatLogs = action.payload.map((cl: ChatLog) => ({
         ...cl,
         ...state.chatLogs.find((l) => l.threadId === cl.threadId),
+        chatLog: [
+          ...(state.chatLogs.find((l) => l.threadId === cl.threadId)?.chatLog ??
+            []),
+          ...(cl.chatLog ?? []),
+        ],
       }));
     },
     setChatLog: (state, action) => {
       const currentLog = state.chatLogs?.find(
         (log) => log.threadId === action.payload.threadId
       );
-      if (currentLog) currentLog.chatLog = action.payload.chatLog;
+      if (currentLog)
+        currentLog.chatLog = [
+          ...(currentLog.chatLog ?? []),
+          ...action.payload.chatLog,
+        ];
       else {
         state.chatLogs.push({
           threadId: action.payload.threadId,
@@ -89,7 +98,7 @@ export const appSlice = createSlice({
         }
       } else {
         if (!state.chatLogs) state.chatLogs = [];
-        state.chatLogs?.push({
+        state.chatLogs.push({
           created_at: Date.now().toString(),
           threadId: action.payload.threadId,
           chatLog: [
