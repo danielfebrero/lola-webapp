@@ -31,7 +31,7 @@ const App: React.FC = () => {
         <div className="app text-textPrimary flex flex-ro no-scrollbar">
           <LeftPanel />
           <div className="flex flex-col h-screen overflow-y-scroll w-full z-10 bg-white no-scrollbar">
-            <div className="flex flex-col grow overflow-y-scroll">
+            <div className="flex flex-col grow overflow-y-scroll no-scrollbar">
               <Header />
               <Routes>
                 <Route
