@@ -85,7 +85,6 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   useEffect(() => {
     if (threadId && threadId !== "new") {
-      setChatLog([]);
       navigate("/character/" + threadId);
     }
   }, [threadId]);
