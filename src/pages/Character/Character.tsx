@@ -95,7 +95,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [chatLogState]);
 
   useEffect(() => {
-    if (params.characterId === "new") {
+    if (!params.characterId) {
       setThreadId(null);
       setChatLog(newroleChat);
     }

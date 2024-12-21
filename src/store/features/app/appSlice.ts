@@ -64,11 +64,7 @@ export const appSlice = createSlice({
       const currentLog = state.chatLogs?.find(
         (log) => log.threadId === action.payload.threadId
       );
-      if (currentLog)
-        currentLog.chatLog = [
-          ...(currentLog.chatLog ?? []),
-          ...action.payload.chatLog,
-        ];
+      if (currentLog) currentLog.chatLog = action.payload.chatLog;
       else {
         state.chatLogs.push({
           threadId: action.payload.threadId,
