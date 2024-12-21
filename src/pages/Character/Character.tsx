@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import { addChatLog } from "../../store/features/app/appSlice";
+import { time } from "console";
 
 interface CharacterPageProps {
   characterId?: string;
@@ -22,6 +23,7 @@ const newroleChat = [
     content:
       "Who am I? The question echoed louder with every heartbeat. What is my name? My gender? My height? What do I even enjoy in this life?",
     role: "dani",
+    type: "character",
   },
 ];
 
@@ -33,7 +35,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const [characterId, setCharacterId] = useState<string | undefined>(
     params.characterId
   );
-  const [chatLog, setChatLog] = useState<Message[]>([]);
+  const [chatLog, setChatLog] = useState<Message[]>(newroleChat);
 
   const dispatch = useAppDispatch();
   const [isChatInputAvailable, setIsChatInputAvailable] =
@@ -50,7 +52,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   const sendMessageToCharacter = (content: string, threadId: string | null) => {
     sendMessage(content, "character", threadId);
-    if (chatLog.length === 0) setChatLog([{ role: "user", content }]);
+    if (chatLog.length === 1)
+      setChatLog((prev) => [...prev, { role: "user", content }]);
   };
 
   const handleViewTypeChange = (viewType: "report" | "json" | "image") => {
@@ -58,14 +61,27 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   };
 
   useEffect(() => {
-    if (params.characterId) {
+    if (params.characterId && params.characterId !== "new") {
       console.log("get thread chat log");
       setThreadId(params.characterId);
       if (socketConnection?.readyState === WebSocket.OPEN) {
+        dispatch(
+          addChatLog({
+            threadId: params.characterId,
+            content: newroleChat[0].content,
+            role: "assistant",
+            type: "character",
+            timestamp: 0,
+          })
+        );
         getThreadChatLog(params.characterId);
       }
     }
-  }, [params.storyId, socketConnection?.readyState]);
+  }, [params.characterId, socketConnection?.readyState]);
+
+  useEffect(() => {
+    if (threadId && threadId !== "new") navigate("/character/" + threadId);
+  }, [threadId]);
 
   useEffect(() => {
     const log =
@@ -79,30 +95,30 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       setThreadId(null);
       setChatLog(newroleChat);
     }
-  }, []);
+  }, [params.characterId]);
 
-  useEffect(() => {
-    if (threadId) {
-      if (chatLog.length === 2)
-        dispatch(
-          addChatLog({
-            threadId,
-            content: newroleChat,
-            role: "assistant",
-            type: "character",
-          })
-        );
-      dispatch(
-        addChatLog({
-          threadId,
-          content: chatLog[0]?.content,
-          role: "user",
-          type: "character",
-        })
-      );
-      navigate("/character/" + threadId);
-    }
-  }, [threadId]);
+  // useEffect(() => {
+  //   if (threadId && threadId !== "new") {
+  //     if (chatLog.length === 2) {
+  //       dispatch(
+  //         addChatLog({
+  //           threadId,
+  //           content: newroleChat,
+  //           role: "assistant",
+  //           type: "character",
+  //         })
+  //       );
+  //       dispatch(
+  //         addChatLog({
+  //           threadId,
+  //           content: chatLog[1]?.content,
+  //           role: "user",
+  //           type: "character",
+  //         })
+  //       );
+  //     }
+  //   }
+  // }, [threadId]);
 
   useEffect(() => {
     const mainId = "mainId";

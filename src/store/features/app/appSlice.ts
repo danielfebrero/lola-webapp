@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import _ from "lodash";
 
 // Define a type for the slice state
 interface AppState {
@@ -74,7 +73,6 @@ export const appSlice = createSlice({
       );
       if (currentLog) {
         if (!currentLog.chatLog) currentLog.chatLog = [];
-
         // if last message is already from "narrator", we concatenate
         if (
           currentLog.chatLog[currentLog.chatLog.length - 1].role ===
@@ -90,13 +88,16 @@ export const appSlice = createSlice({
           });
         }
       } else {
-        state.chatLogs.push({
+        if (!state.chatLogs) state.chatLogs = [];
+        state.chatLogs?.push({
           created_at: Date.now().toString(),
           threadId: action.payload.threadId,
           chatLog: [
             {
               content: action.payload.content,
               role: action.payload.role,
+              timestamp: Date.now().toString(),
+              threadId: action.payload.threadId,
             },
           ],
           type: action.payload.type,

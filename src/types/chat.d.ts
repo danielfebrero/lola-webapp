@@ -1,6 +1,8 @@
 interface Message {
   role: string;
   content: string;
+  threadId?: string;
+  timestamp?: string;
 }
 
 interface ChatLog {

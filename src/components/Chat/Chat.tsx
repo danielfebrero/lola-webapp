@@ -26,9 +26,12 @@ const Chat: React.FC<ChatProps> = (props) => {
     <div className="w-full max-w-[715px]">
       <div className="w-full flex">
         <div className="w-auto grow mb-[30px]">
-          {chatLogState.map((message) =>
+          {chatLogState.map((message, idx) =>
             message.role === "user" ? (
-              <div className="flex flex-row justify-end mb-[20px]">
+              <div
+                className="flex flex-row justify-end mb-[20px]"
+                key={message.timestamp ?? idx}
+              >
                 <div
                   className={clsx(
                     {
@@ -42,7 +45,10 @@ const Chat: React.FC<ChatProps> = (props) => {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-row mb-[10px]">
+              <div
+                className="flex flex-row mb-[10px]"
+                key={message.timestamp ?? idx}
+              >
                 <div className="w-[30px] h-[30px] mr-[10px]">
                   {message.role !== "assistant" ? (
                     <img
