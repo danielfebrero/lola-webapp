@@ -18,7 +18,7 @@ const LolaPage: React.FC = () => {
   const [isChatInputAvailable, setIsChatInputAvailable] =
     useState<boolean>(true);
 
-  const { sendMessage } = useWebSocket({
+  const { sendMessage, socketConnection, getThreadChatLog } = useWebSocket({
     setThreadId,
     setIsChatInputAvailable,
   });
@@ -29,6 +29,16 @@ const LolaPage: React.FC = () => {
     sendMessage(content, "lola", threadId);
     if (chatLog.length === 0) setChatLog([{ role: "user", content }]);
   };
+
+  useEffect(() => {
+    if (params.conversationId) {
+      console.log("get thread chat log");
+      setThreadId(params.conversationId);
+      if (socketConnection?.readyState === WebSocket.OPEN) {
+        getThreadChatLog(params.conversationId);
+      }
+    }
+  }, [params.storyId, socketConnection?.readyState]);
 
   useEffect(() => {
     const log =
