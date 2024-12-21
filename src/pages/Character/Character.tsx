@@ -17,6 +17,14 @@ interface CharacterPageProps {
   selected?: Record<string, string>;
 }
 
+const newroleChat = [
+  {
+    content:
+      "Who am I? The question echoed louder with every heartbeat. What is my name? My gender? My height? What do I even enjoy in this life?",
+    role: "dani",
+  },
+];
+
 const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const params = useParams();
   const navigate = useNavigate();
@@ -35,7 +43,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     "report" | "json" | "image"
   >("report");
 
-  const { sendMessage } = useWebSocket({
+  const { sendMessage, getThreadChatLog, socketConnection } = useWebSocket({
     setThreadId,
     setIsChatInputAvailable,
   });
@@ -50,6 +58,16 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   };
 
   useEffect(() => {
+    if (params.characterId) {
+      console.log("get thread chat log");
+      setThreadId(params.characterId);
+      if (socketConnection?.readyState === WebSocket.OPEN) {
+        getThreadChatLog(params.characterId);
+      }
+    }
+  }, [params.storyId, socketConnection?.readyState]);
+
+  useEffect(() => {
     const log =
       chatLogs.find((log) => log.threadId === params.characterId)?.chatLog ??
       chatLog;
@@ -57,27 +75,34 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [chatLogs]);
 
   useEffect(() => {
+    if (params.characterId === "new") {
+      setThreadId(null);
+      setChatLog(newroleChat);
+    }
+  }, []);
+
+  useEffect(() => {
     if (threadId) {
-      if (chatLog.length === 1)
+      if (chatLog.length === 2)
         dispatch(
           addChatLog({
             threadId,
-            content: chatLog[0].content,
-            role: "user",
+            content: newroleChat,
+            role: "assistant",
             type: "character",
           })
         );
+      dispatch(
+        addChatLog({
+          threadId,
+          content: chatLog[0]?.content,
+          role: "user",
+          type: "character",
+        })
+      );
       navigate("/character/" + threadId);
     }
   }, [threadId]);
-
-  useEffect(() => {
-    params.characterId && setCharacterId(params.characterId);
-  }, [params.characterId]);
-
-  useEffect(() => {
-    props.characterId && setCharacterId(props.characterId);
-  }, [props.characterId]);
 
   useEffect(() => {
     const mainId = "mainId";
