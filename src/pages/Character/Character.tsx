@@ -11,10 +11,8 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import { addChatLog } from "../../store/features/app/appSlice";
-import { time } from "console";
 
 interface CharacterPageProps {
-  characterId?: string;
   selected?: Record<string, string>;
 }
 
@@ -30,12 +28,16 @@ const newroleChat = [
 const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const params = useParams();
   const navigate = useNavigate();
-  const chatLogs = useAppSelector((state) => state.app.chatLogs);
+  const chatLogState = useAppSelector(
+    (state) =>
+      state.app.chatLogs.find((log) => log.threadId === params.characterId)
+        ?.chatLog ?? []
+  );
   const [threadId, setThreadId] = useState<string | null>(null);
   const [characterId, setCharacterId] = useState<string | undefined>(
     params.characterId
   );
-  const [chatLog, setChatLog] = useState<Message[]>([]);
+  const [chatLog, setChatLog] = useState<Message[]>(chatLogState);
 
   const dispatch = useAppDispatch();
   const [isChatInputAvailable, setIsChatInputAvailable] =
@@ -64,18 +66,18 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     if (params.characterId && params.characterId !== "new") {
       console.log("get thread chat log");
       setThreadId(params.characterId);
-      if (chatLog.length === 0) {
-        dispatch(
-          addChatLog({
-            threadId: params.characterId,
-            content: newroleChat[0].content,
-            role: "assistant",
-            type: "character",
-            timestamp: 0,
-          })
-        );
-      }
       if (socketConnection?.readyState === WebSocket.OPEN) {
+        if (chatLogState.length === 0) {
+          dispatch(
+            addChatLog({
+              threadId: params.characterId,
+              content: newroleChat[0].content,
+              role: "assistant",
+              type: "character",
+              timestamp: 0,
+            })
+          );
+        }
         getThreadChatLog(params.characterId);
       }
     }
@@ -89,11 +91,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [threadId]);
 
   useEffect(() => {
-    const log =
-      chatLogs.find((log) => log.threadId === params.characterId)?.chatLog ??
-      chatLog;
+    const log = chatLogState ?? chatLog;
     setChatLog(log);
-  }, [chatLogs]);
+  }, [chatLogState]);
 
   useEffect(() => {
     if (params.characterId === "new") {
