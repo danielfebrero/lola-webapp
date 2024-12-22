@@ -12,7 +12,9 @@ import useNewChatLocation from "../../hooks/useNewChatLocation";
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
   const newChatLocation = useNewChatLocation();
-  const { isLeftPanelOpen, chatLogs } = useAppSelector((state) => state.app);
+  const { isLeftPanelOpen, chatLogs, characters } = useAppSelector(
+    (state) => state.app
+  );
 
   const games = [
     {
@@ -86,7 +88,10 @@ const LeftPanel: React.FC = () => {
                         className="rounded-full h-[24px] w-[24px] object-cover"
                       />
                     </div>
-                    <span className="pl-[10px]">{char.title}</span>
+                    <span className="pl-[10px]">
+                      {characters.find((c) => c.threadId === char.threadId)
+                        ?.json?.name ?? char.title}
+                    </span>
                   </div>
                 </NavLink>
               ))

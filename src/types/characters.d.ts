@@ -1,6 +1,6 @@
 interface Character {
   threadId: string;
   name?: string;
-  json?: Object;
+  json?: Record<string, any>;
   markdown?: string;
 }
