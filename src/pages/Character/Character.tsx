@@ -172,9 +172,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
             </div>
           ))}
         </div>
-        <div className="mt-4">
+        <div className="mt-4 w-full">
           {selectedRightViewType === "report" && (
-            <div>
+            <div className="w-full">
               <ReportView
                 type="character"
                 id={characterId}
@@ -183,7 +183,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
             </div>
           )}
           {selectedRightViewType === "json" && (
-            <div>
+            <div className="w-full">
               <JSONView
                 type="character"
                 id={characterId}
@@ -193,7 +193,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
             </div>
           )}
           {selectedRightViewType === "image" && (
-            <div>
+            <div className="w-full">
               <ImageView type="character" id={characterId} />
             </div>
           )}

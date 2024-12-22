@@ -19,14 +19,16 @@ const JSONView: React.FC<JSONViewProps> = (props) => {
           <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24"></svg>
         </>
       ) : (
-        <ReactJson
-          src={props.json}
-          theme="bright:inverted"
-          collapsed={false}
-          enableClipboard={true}
-          displayObjectSize={false}
-          displayDataTypes={false}
-        />
+        <div className="">
+          <ReactJson
+            src={props.json}
+            theme="bright:inverted"
+            collapsed={false}
+            enableClipboard={true}
+            displayObjectSize={false}
+            displayDataTypes={false}
+          />
+        </div>
       )}
     </div>
   );
