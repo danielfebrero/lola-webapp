@@ -117,7 +117,7 @@ export const appSlice = createSlice({
             },
           ],
           type: action.payload.type,
-          title: action.payload.title,
+          title: `New ${action.payload.type}`,
         });
       }
     },

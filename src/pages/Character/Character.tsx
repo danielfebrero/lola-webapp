@@ -62,6 +62,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     });
 
   const sendMessageToCharacter = (content: string, threadId: string | null) => {
+    console.log({ content, threadId });
     sendMessage(content, "character", threadId);
     if (chatLog.length === 1)
       setChatLog((prev) => [...prev, { role: "user", content }]);
@@ -112,7 +113,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [chatLogState]);
 
   useEffect(() => {
-    if (!params.characterId) {
+    if (params.characterId === "new") {
       setThreadId(null);
       setChatLog(newroleChat);
     }
