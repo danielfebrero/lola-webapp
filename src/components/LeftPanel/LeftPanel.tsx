@@ -30,10 +30,10 @@ const LeftPanel: React.FC = () => {
           "min-w-[260px]": isLeftPanelOpen,
           "w-0": !isLeftPanelOpen,
         },
-        `transition-all duration-500 h-screen overflow-y-scroll`
+        `transition-all duration-500 h-screen overflow-y-scroll bg-lightGray`
       )}
     >
-      <div className="h-screen w-[260px] bg-lightGray flex flex-col pl-[20px] pr-[20px] pt-[10px]">
+      <div className="h-screen w-[260px] flex flex-col pl-[20px] pr-[20px] pt-[10px]">
         <div className="h-auto w-full flex flex-col">
           <div className="font-bold h-[40px] items-center flex flex-row justify-between text-textSecondary">
             <div
