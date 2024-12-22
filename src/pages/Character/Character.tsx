@@ -22,7 +22,7 @@ const newroleChat = [
   {
     content:
       "Who am I? The question echoed louder with every heartbeat. What is my name? My gender? My height? What do I even enjoy in this life?",
-    role: "dani",
+    role: "assistant",
     type: "character",
   },
 ];
