@@ -11,9 +11,11 @@ import {
 export default function useWebSocket({
   setThreadId,
   setIsChatInputAvailable,
+  setIsProcessing,
 }: {
   setThreadId?: (threadId: string) => void;
   setIsChatInputAvailable?: (isChatInputAvailable: boolean) => void;
+  setIsProcessing?: (isProcessing: boolean) => void;
 }) {
   const socketConnection = useAppSelector(
     (state) => state.app.socketConnection
@@ -34,10 +36,12 @@ export default function useWebSocket({
               case "complete":
                 // Handle logic for when chat generation is complete
                 if (setIsChatInputAvailable) setIsChatInputAvailable(true);
+                if (setIsProcessing) setIsProcessing(true);
                 console.log("Chat generation complete");
                 break;
               case "done":
                 // Handle logic for when chat generation is done
+                if (setIsProcessing) setIsProcessing(false);
                 console.log("Chat generation done");
                 break;
               case "partial":

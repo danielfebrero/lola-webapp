@@ -46,7 +46,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     params.characterId
   );
   const [chatLog, setChatLog] = useState<Message[]>(chatLogState);
-
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const [isChatInputAvailable, setIsChatInputAvailable] =
     useState<boolean>(true);
@@ -59,6 +59,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     useWebSocket({
       setThreadId,
       setIsChatInputAvailable,
+      setIsProcessing,
     });
 
   const sendMessageToCharacter = (content: string, threadId: string | null) => {
@@ -187,6 +188,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 type="character"
                 id={characterId}
                 json={character.json}
+                isProcessing={isProcessing}
               />
             </div>
           )}
