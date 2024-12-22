@@ -178,7 +178,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
               <ReportView
                 type="character"
                 id={characterId}
-                markdown={character.markdown}
+                json={character.json}
+                isProcessing={isProcessing}
               />
             </div>
           )}

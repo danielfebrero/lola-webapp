@@ -6658,10 +6658,10 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
-markdown-to-jsx@^7.7.1:
-  version "7.7.1"
-  resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-7.7.1.tgz#8840c35583c1c024330573adb0effa28746708ee"
-  integrity sha512-BjLkHb+fWCAH9gp7ndbgPrY+zeZlGFtCiQNTWk+PD+GKfLg9YsUPNonSsYXGw6nQ7eZqeR+i71X59PpWXlxc/w==
+markdown-to-jsx@^7.7.2:
+  version "7.7.2"
+  resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-7.7.2.tgz#59c1dd64f48b53719311ab140be3cd51cdabccd3"
+  integrity sha512-N3AKfYRvxNscvcIH6HDnDKILp4S8UWbebp+s92Y8SwIq0CuSbLW4Jgmrbjku3CWKjTQO0OyIMS6AhzqrwjEa3g==
 
 math-intrinsics@^1.0.0:
   version "1.0.0"
