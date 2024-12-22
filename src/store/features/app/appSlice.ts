@@ -104,7 +104,7 @@ export const appSlice = createSlice({
         }
       } else {
         if (!state.chatLogs) state.chatLogs = [];
-        state.chatLogs.push({
+        state.chatLogs.unshift({
           created_at: Date.now().toString(),
           threadId: action.payload.threadId,
           chatLog: [
