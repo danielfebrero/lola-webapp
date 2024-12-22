@@ -54,7 +54,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   const [selectedRightViewType, setSelectedRightViewType] = useState<
     "report" | "json" | "image"
-  >("json");
+  >("report");
 
   const { sendMessage, getThreadChatLog, getCharacter, socketConnection } =
     useWebSocket({
