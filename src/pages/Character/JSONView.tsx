@@ -12,9 +12,7 @@ interface JSONViewProps {
 const JSONView: React.FC<JSONViewProps> = (props) => {
   return (
     <div>
-      {!props.json ? (
-        <div className="text-center mt-[50px]">Nothing to show here yet</div>
-      ) : props.isProcessing ? (
+      {props.isProcessing ? (
         <div className="p-4 max-w-sm w-full mx-auto mt-[50px]">
           <div className="animate-pulse flex space-x-4">
             <div className="flex-1 space-y-6 py-1">
@@ -29,6 +27,8 @@ const JSONView: React.FC<JSONViewProps> = (props) => {
             </div>
           </div>
         </div>
+      ) : !props.json ? (
+        <div className="text-center mt-[50px]">Nothing to show here yet</div>
       ) : (
         <div className="">
           <ReactJson
