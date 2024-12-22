@@ -80,35 +80,22 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       setIsChatLoading(true);
       setIsProcessing(true);
       if (params.characterId !== threadId) setThreadId(params.characterId);
-      if (socketConnection?.readyState === WebSocket.OPEN) {
-        console.log("get thread chat log");
-        getThreadChatLog(params.characterId);
-        console.log("get character");
-        getCharacter(params.characterId);
-      }
+      setTimeout(() => {
+        if (
+          socketConnection?.readyState === WebSocket.OPEN &&
+          params.characterId
+        ) {
+          console.log("get thread chat log");
+          getThreadChatLog(params.characterId);
+          console.log("get character");
+          getCharacter(params.characterId);
+        }
+      }, 50);
     }
   }, [params.characterId, socketConnection?.readyState]);
 
   useEffect(() => {
     if (threadId && threadId !== "new") {
-      if (chatLog.length === 2) {
-        dispatch(
-          addChatLog({
-            threadId,
-            content: chatLog[0].content,
-            role: "assistant",
-            type: "character",
-          })
-        );
-        dispatch(
-          addChatLog({
-            threadId,
-            content: chatLog[1].content,
-            role: "user",
-            type: "character",
-          })
-        );
-      }
       navigate("/character/" + threadId);
     }
   }, [threadId]);
