@@ -8,7 +8,10 @@ import JSONView from "./JSONView";
 import ReportView from "./ReportView";
 import ImageView from "./ImageView";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setCurrentlyViewing } from "../../store/features/app/appSlice";
+import {
+  setCurrentlyViewing,
+  addChatLog,
+} from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
 interface CharacterPageProps {
@@ -50,7 +53,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   const [selectedRightViewType, setSelectedRightViewType] = useState<
     "report" | "json" | "image"
-  >("report");
+  >("json");
 
   const { sendMessage, getThreadChatLog, getCharacter, socketConnection } =
     useWebSocket({
@@ -70,10 +73,11 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   useEffect(() => {
     if (params.characterId && params.characterId !== "new") {
-      console.log("get thread chat log");
       if (params.characterId !== threadId) setThreadId(params.characterId);
       if (socketConnection?.readyState === WebSocket.OPEN) {
+        console.log("get thread chat log");
         getThreadChatLog(params.characterId);
+        console.log("get character");
         getCharacter(params.characterId);
       }
     }
@@ -81,6 +85,24 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   useEffect(() => {
     if (threadId && threadId !== "new") {
+      if (chatLog.length === 2) {
+        dispatch(
+          addChatLog({
+            threadId,
+            content: chatLog[0].content,
+            role: "assistant",
+            type: "character",
+          })
+        );
+        dispatch(
+          addChatLog({
+            threadId,
+            content: chatLog[1].content,
+            role: "user",
+            type: "character",
+          })
+        );
+      }
       navigate("/character/" + threadId);
     }
   }, [threadId]);
@@ -124,9 +146,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       <div className="grow w-1/2 pl-5 flex items-center flex-col">
         <div className="bg-lightGray p-[5px] rounded-lg w-fit flex flex-row">
           {["report", "JSON", "image"].map((viewType) => (
-            <>
+            <div key={viewType}>
               <div
-                key={viewType}
                 onClick={() =>
                   handleViewTypeChange(
                     viewType.toLowerCase() as "report" | "json" | "image"
@@ -146,7 +167,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
               >
                 {viewType.charAt(0).toUpperCase() + viewType.slice(1)}
               </div>
-            </>
+            </div>
           ))}
         </div>
         <div className="mt-4">

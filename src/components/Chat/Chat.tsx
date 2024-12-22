@@ -23,7 +23,7 @@ const Chat: React.FC<ChatProps> = (props) => {
             message.role === "user" ? (
               <div
                 className="flex flex-row justify-end mb-[20px]"
-                key={message.timestamp ?? idx}
+                key={message.id ?? message.timestamp ?? idx}
               >
                 <div
                   className={clsx(

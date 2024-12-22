@@ -90,6 +90,7 @@ export const appSlice = createSlice({
             action.payload.content;
         } else {
           currentLog.chatLog.push({
+            id: action.payload.id,
             content: action.payload.content,
             role: action.payload.role,
           });
@@ -108,6 +109,7 @@ export const appSlice = createSlice({
           threadId: action.payload.threadId,
           chatLog: [
             {
+              id: action.payload.id,
               content: action.payload.content,
               role: action.payload.role,
               timestamp: Date.now().toString(),

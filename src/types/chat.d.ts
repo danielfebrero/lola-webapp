@@ -1,4 +1,5 @@
 interface Message {
+  id?: string;
   role: string;
   content: string;
   threadId?: string;
