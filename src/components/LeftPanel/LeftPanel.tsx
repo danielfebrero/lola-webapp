@@ -27,10 +27,10 @@ const LeftPanel: React.FC = () => {
     <div
       className={clsx(
         {
-          "w-[260px]": isLeftPanelOpen,
+          "min-w-[260px]": isLeftPanelOpen,
           "w-0": !isLeftPanelOpen,
         },
-        `transition-all duration-500`
+        `transition-all duration-500 h-screen overflow-y-scroll`
       )}
     >
       <div className="h-screen w-[260px] bg-lightGray flex flex-col pl-[20px] pr-[20px] pt-[10px]">
