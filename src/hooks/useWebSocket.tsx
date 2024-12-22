@@ -5,6 +5,7 @@ import {
   setChatLogs,
   setChatLog,
   setThreadTitle,
+  setCharacter,
 } from "../store/features/app/appSlice";
 
 export default function useWebSocket({
@@ -64,6 +65,10 @@ export default function useWebSocket({
 
           case "threads":
             dispatch(setChatLogs(data.data));
+            break;
+
+          case "character":
+            dispatch(setCharacter({ threadId: data.threadId, ...data.data }));
             break;
 
           case "thread_title":
@@ -137,5 +142,19 @@ export default function useWebSocket({
       JSON.stringify({ action: "fetchData", endpoint: "messages", threadId })
     );
   };
-  return { sendMessage, initData, getThreadChatLog, socketConnection };
+
+  const getCharacter = (threadId: string) => {
+    console.log("Fetching Character for thread: ", threadId);
+    socketConnection?.send(
+      JSON.stringify({ action: "fetchData", endpoint: "character", threadId })
+    );
+  };
+
+  return {
+    sendMessage,
+    initData,
+    getThreadChatLog,
+    getCharacter,
+    socketConnection,
+  };
 }

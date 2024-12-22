@@ -10,7 +10,6 @@ import ImageView from "./ImageView";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
-import { addChatLog } from "../../store/features/app/appSlice";
 
 interface CharacterPageProps {
   selected?: Record<string, string>;
@@ -33,6 +32,12 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       state.app.chatLogs.find((log) => log.threadId === params.characterId)
         ?.chatLog ?? newroleChat
   );
+  const character = useAppSelector(
+    (state) =>
+      state.app.characters.find(
+        (char) => char.threadId === params.characterId
+      ) ?? ({} as Character)
+  );
   const [threadId, setThreadId] = useState<string | null>(null);
   const [characterId, setCharacterId] = useState<string | undefined>(
     params.characterId
@@ -47,10 +52,11 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     "report" | "json" | "image"
   >("report");
 
-  const { sendMessage, getThreadChatLog, socketConnection } = useWebSocket({
-    setThreadId,
-    setIsChatInputAvailable,
-  });
+  const { sendMessage, getThreadChatLog, getCharacter, socketConnection } =
+    useWebSocket({
+      setThreadId,
+      setIsChatInputAvailable,
+    });
 
   const sendMessageToCharacter = (content: string, threadId: string | null) => {
     sendMessage(content, "character", threadId);
@@ -67,18 +73,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       console.log("get thread chat log");
       if (params.characterId !== threadId) setThreadId(params.characterId);
       if (socketConnection?.readyState === WebSocket.OPEN) {
-        // if (chatLogState.length === 0) {
-        //   dispatch(
-        //     addChatLog({
-        //       threadId: params.characterId,
-        //       content: newroleChat[0].content,
-        //       role: "assistant",
-        //       type: "character",
-        //       timestamp: 0,
-        //     })
-        //   );
-        // }
         getThreadChatLog(params.characterId);
+        getCharacter(params.characterId);
       }
     }
   }, [params.characterId, socketConnection?.readyState]);
@@ -156,12 +152,20 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         <div className="mt-4">
           {selectedRightViewType === "report" && (
             <div>
-              <ReportView type="character" id={characterId} />
+              <ReportView
+                type="character"
+                id={characterId}
+                markdown={character.markdown}
+              />
             </div>
           )}
           {selectedRightViewType === "json" && (
             <div>
-              <JSONView type="character" id={characterId} />
+              <JSONView
+                type="character"
+                id={characterId}
+                json={character.json}
+              />
             </div>
           )}
           {selectedRightViewType === "image" && (

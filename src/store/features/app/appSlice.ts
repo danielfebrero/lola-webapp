@@ -11,6 +11,7 @@ interface AppState {
   socketConnection: WebSocket | null;
   chatLogs: ChatLog[];
   isDataLoaded: boolean;
+  characters: Character[];
 }
 
 // Define the initial state using that type
@@ -24,6 +25,7 @@ const initialState: AppState = {
   socketConnection: null,
   chatLogs: [],
   isDataLoaded: false,
+  characters: [],
 };
 
 export const appSlice = createSlice({
@@ -120,6 +122,23 @@ export const appSlice = createSlice({
     setIsDataLoaded: (state, action) => {
       state.isDataLoaded = action.payload;
     },
+    setCharacter: (state, action) => {
+      const currentCharacter = state.characters?.find(
+        (character) => character.threadId === action.payload.threadId
+      );
+      if (currentCharacter) {
+        currentCharacter.name = action.payload.name;
+        currentCharacter.json = action.payload.json;
+        currentCharacter.markdown = action.payload.markdown;
+      } else {
+        state.characters.push({
+          threadId: action.payload.threadId,
+          name: action.payload.name,
+          json: action.payload.json,
+          markdown: action.payload.markdown,
+        });
+      }
+    },
   },
 });
 
@@ -133,6 +152,7 @@ export const {
   setChatLog,
   addChatLog,
   setIsDataLoaded,
+  setCharacter,
 } = appSlice.actions;
 
 export default appSlice.reducer;
