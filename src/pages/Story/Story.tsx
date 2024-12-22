@@ -9,6 +9,7 @@ import useWebSocket from "../../hooks/useWebSocket";
 
 const LolaPage: React.FC = () => {
   const [threadId, setThreadId] = useState<string | null>(null);
+  const [isChatLoading, setIsChatLoading] = useState<boolean>(false);
   const params = useParams();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
@@ -17,6 +18,7 @@ const LolaPage: React.FC = () => {
 
   const { sendMessage, getThreadChatLog, socketConnection } = useWebSocket({
     setIsChatInputAvailable,
+    setIsChatLoading,
   });
 
   const chatLog = useAppSelector(
@@ -29,6 +31,7 @@ const LolaPage: React.FC = () => {
     if (params.storyId) {
       console.log("get thread chat log");
       setThreadId(params.storyId);
+      setIsChatLoading(true);
       if (socketConnection?.readyState === WebSocket.OPEN) {
         getThreadChatLog(params.storyId);
       }
@@ -63,7 +66,12 @@ const LolaPage: React.FC = () => {
           ref={chatContainerRef}
           className="grow overflow-y-scroll justify-center flex"
         >
-          <Chat type="story" id={params.conversationId} chatLog={chatLog} />
+          <Chat
+            type="story"
+            id={params.conversationId}
+            chatLog={chatLog}
+            isChatLoading={isChatLoading}
+          />
         </div>
         <div className="justify-center flex w-full">
           <div className="w-[65%]">

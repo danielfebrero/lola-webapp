@@ -11,6 +11,7 @@ import { addChatLog } from "../../store/features/app/appSlice";
 const LolaPage: React.FC = () => {
   const [chatLog, setChatLog] = useState<Message[]>([]);
   const [threadId, setThreadId] = useState<string | null>(null);
+  const [isChatLoading, setIsChatLoading] = useState<boolean>(false);
   const params = useParams();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
@@ -21,6 +22,7 @@ const LolaPage: React.FC = () => {
   const { sendMessage, socketConnection, getThreadChatLog } = useWebSocket({
     setThreadId,
     setIsChatInputAvailable,
+    setIsChatLoading,
   });
 
   const chatLogs = useAppSelector((state) => state.app.chatLogs);
@@ -33,6 +35,8 @@ const LolaPage: React.FC = () => {
   useEffect(() => {
     if (params.conversationId) {
       console.log("get thread chat log");
+      setIsChatLoading(true);
+      setIsChatInputAvailable(false);
       setThreadId(params.conversationId);
       if (socketConnection?.readyState === WebSocket.OPEN) {
         getThreadChatLog(params.conversationId);
@@ -97,7 +101,12 @@ const LolaPage: React.FC = () => {
           ref={chatContainerRef}
           className="grow overflow-y-scroll justify-center flex"
         >
-          <Chat type="lola" id={params.conversationId} chatLog={chatLog} />
+          <Chat
+            type="lola"
+            id={params.conversationId}
+            chatLog={chatLog}
+            isChatLoading={isChatLoading}
+          />
         </div>
         <div className="justify-center flex w-full">
           <div className="w-[65%]">

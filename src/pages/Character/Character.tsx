@@ -47,6 +47,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   );
   const [chatLog, setChatLog] = useState<Message[]>(chatLogState);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [isChatLoading, setIsChatLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const [isChatInputAvailable, setIsChatInputAvailable] =
     useState<boolean>(true);
@@ -60,6 +61,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       setThreadId,
       setIsChatInputAvailable,
       setIsProcessing,
+      setIsChatLoading,
     });
 
   const sendMessageToCharacter = (content: string, threadId: string | null) => {
@@ -75,6 +77,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   useEffect(() => {
     if (params.characterId && params.characterId !== "new") {
+      setIsChatLoading(true);
+      setIsProcessing(true);
       if (params.characterId !== threadId) setThreadId(params.characterId);
       if (socketConnection?.readyState === WebSocket.OPEN) {
         console.log("get thread chat log");
@@ -135,7 +139,12 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
       <div className="grow border-r-2 border-borderColor w-1/2 pr-5 flex flex-col h-[calc(100vh-110px)]">
         <div className="grow overflow-y-scroll">
-          <Chat type="character" id={characterId} chatLog={chatLog} />
+          <Chat
+            type="character"
+            id={characterId}
+            chatLog={chatLog}
+            isChatLoading={isChatLoading}
+          />
         </div>
         <SendChatInput
           type="character"

@@ -12,10 +12,12 @@ export default function useWebSocket({
   setThreadId,
   setIsChatInputAvailable,
   setIsProcessing,
+  setIsChatLoading,
 }: {
   setThreadId?: (threadId: string) => void;
   setIsChatInputAvailable?: (isChatInputAvailable: boolean) => void;
   setIsProcessing?: (isProcessing: boolean) => void;
+  setIsChatLoading?: (isChatLoading: boolean) => void;
 }) {
   const socketConnection = useAppSelector(
     (state) => state.app.socketConnection
@@ -72,6 +74,7 @@ export default function useWebSocket({
             break;
 
           case "character":
+            if (setIsProcessing) setIsProcessing(false);
             dispatch(setCharacter({ threadId: data.threadId, ...data.data }));
             break;
 
@@ -82,6 +85,8 @@ export default function useWebSocket({
             break;
 
           case "messages":
+            if (setIsChatLoading) setIsChatLoading(false);
+            if (setIsChatInputAvailable) setIsChatInputAvailable(true);
             dispatch(
               setChatLog({
                 chatLog: data.data,
