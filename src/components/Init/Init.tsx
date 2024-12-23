@@ -24,7 +24,6 @@ const Init: React.FC = () => {
 
     websocket.onopen = () => {
       console.log("WebSocket connected");
-      setReconnectAttempts(0); // Reset attempts on successful connection
       dispatch(setSocketConnection(websocket));
       setTimeout(() => {
         if (!isDataLoaded) {
