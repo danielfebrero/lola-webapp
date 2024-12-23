@@ -159,9 +159,12 @@ export default function useWebSocket({
   };
 
   const initData = (websocket: WebSocket) => {
-    console.log("Sending initData");
+    console.log("Fetching initData");
     websocket.send(
       JSON.stringify({ action: "fetchData", endpoint: "threads" })
+    );
+    websocket.send(
+      JSON.stringify({ action: "fetchData", endpoint: "characters" })
     );
   };
 
