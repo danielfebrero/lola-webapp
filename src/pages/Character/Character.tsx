@@ -54,7 +54,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     useState<boolean>(true);
 
   const [selectedRightViewType, setSelectedRightViewType] = useState<
-    "report" | "json" | "image"
+    "report" | "json" | "images"
   >("report");
 
   const { sendMessage, getThreadChatLog, getCharacter, socketConnection } =
@@ -73,7 +73,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       setChatLog((prev) => [...prev, { role: "user", content }]);
   };
 
-  const handleViewTypeChange = (viewType: "report" | "json" | "image") => {
+  const handleViewTypeChange = (viewType: "report" | "json" | "images") => {
     setSelectedRightViewType(viewType);
   };
 
@@ -146,12 +146,12 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
       <div className="grow w-1/2 pl-5 flex items-center flex-col">
         <div className="bg-lightGray p-[5px] rounded-lg w-fit flex flex-row">
-          {["report", "JSON", "image"].map((viewType) => (
+          {["report", "JSON", "images"].map((viewType) => (
             <div key={viewType}>
               <div
                 onClick={() =>
                   handleViewTypeChange(
-                    viewType.toLowerCase() as "report" | "json" | "image"
+                    viewType.toLowerCase() as "report" | "json" | "images"
                   )
                 }
                 className={clsx(
@@ -194,7 +194,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
               />
             </div>
           )}
-          {selectedRightViewType === "image" && (
+          {selectedRightViewType === "images" && (
             <div className="w-full">
               <ImageView
                 type="character"
