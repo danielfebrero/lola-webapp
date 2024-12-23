@@ -70,7 +70,7 @@ export const appSlice = createSlice({
         currentLog.chatLog = action.payload.chatLog;
         if (action.payload.type) currentLog.type = action.payload.type;
       } else {
-        state.chatLogs.push({
+        state.chatLogs.unshift({
           threadId: action.payload.threadId,
           chatLog: action.payload.chatLog,
           type: action.payload.type,
@@ -83,7 +83,10 @@ export const appSlice = createSlice({
       );
       if (currentLog) {
         if (!currentLog.chatLog) currentLog.chatLog = [];
-        if (!currentLog.type) currentLog.type = action.payload.message_type;
+        if (!currentLog.type) currentLog.type = action.payload.type;
+        if (!currentLog.title)
+          currentLog.title =
+            action.payload.title ?? `New ${action.payload.type}`;
 
         // if last message is already from "narrator", we concatenate
         if (
@@ -100,13 +103,6 @@ export const appSlice = createSlice({
             role: action.payload.role,
           });
         }
-        if (
-          !state.chatLogs?.find(
-            (log) => log.threadId === action.payload.threadId
-          )
-        ) {
-          state.chatLogs.push(currentLog);
-        }
       } else {
         if (!state.chatLogs) state.chatLogs = [];
         state.chatLogs.unshift({
@@ -121,7 +117,7 @@ export const appSlice = createSlice({
               threadId: action.payload.threadId,
             },
           ],
-          type: action.payload.message_type,
+          type: action.payload.type,
           title: `New ${action.payload.type}`,
         });
       }
