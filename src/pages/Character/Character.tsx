@@ -180,6 +180,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 json={character.json}
                 images={character.images}
                 isProcessing={isProcessing}
+                isImageGenerating={isImageGenerating}
               />
             </div>
           )}

@@ -10,6 +10,7 @@ interface ReportViewProps {
   id?: string | null;
   json?: Record<string, any>;
   isProcessing: boolean;
+  isImageGenerating: boolean;
   images?: string[];
 }
 
@@ -34,12 +35,17 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
             <div
               className={clsx(
                 {
-                  "animate-pulse": !props.images || props.images?.length === 0,
+                  "animate-pulse":
+                    !props.images ||
+                    props.images?.length === 0 ||
+                    props.isImageGenerating,
                 },
                 "h-[120px] w-[120px] rounded-full bg-slate-200 items-center flex"
               )}
             >
-              {props.images && props.images.length > 0 ? (
+              {props.images &&
+              props.images.length > 0 &&
+              !props.isImageGenerating ? (
                 <img
                   className="rounded-full object-cover"
                   src={props.images[0]}
