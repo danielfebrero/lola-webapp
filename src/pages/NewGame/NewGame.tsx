@@ -77,7 +77,7 @@ const NewGamePage: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full justify-center items-center">
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center w-full">
         <div
           className={clsx(
             { hidden: !showAIInput },
@@ -164,7 +164,7 @@ const NewGamePage: React.FC = () => {
             </div>
           ))}
           <div
-            className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer"
+            className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer self-center justify-self-center"
             onClick={() => setShowAIInput(true)}
           >
             <PlusIcon />

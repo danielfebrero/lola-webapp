@@ -60,7 +60,7 @@ const NewStoryPage: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full justify-center items-center">
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center w-full">
         <div
           className={clsx(
             { hidden: !showAIInput },
