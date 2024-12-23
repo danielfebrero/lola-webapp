@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
-const LolaPage: React.FC = () => {
+const Storypage: React.FC = () => {
   const [threadId, setThreadId] = useState<string | null>(null);
   const [isChatLoading, setIsChatLoading] = useState<boolean>(false);
   const params = useParams();
@@ -87,4 +87,4 @@ const LolaPage: React.FC = () => {
   );
 };
 
-export default LolaPage;
+export default Storypage;
