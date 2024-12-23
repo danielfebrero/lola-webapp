@@ -117,7 +117,10 @@ const NewGamePage: React.FC = () => {
             >
               <div className="h-[64px] w-[64px] mb-[10px]">
                 <img
-                  src={imageDani}
+                  src={
+                    characters.find((c) => c.threadId === char.threadId)
+                      ?.images?.[0] ?? imageDani
+                  }
                   className={clsx(
                     {
                       "border-4 border-green-700": selectedCharacters.includes(

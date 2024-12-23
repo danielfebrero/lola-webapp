@@ -197,11 +197,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
               <ImageView
                 type="character"
                 id={threadId}
-                images={
-                  character.images && character.images.length > 0
-                    ? character.images
-                    : [imageDani]
-                }
+                images={character.images}
                 isProcessing={isImageGenerating}
               />
             </div>
