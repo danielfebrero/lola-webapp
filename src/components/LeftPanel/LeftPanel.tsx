@@ -85,7 +85,10 @@ const LeftPanel: React.FC = () => {
                     <div className="flex flex-row items-center h-[40px] hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px]">
                       <div className="h-[24px] w-[24px]">
                         <img
-                          src={imageDani}
+                          src={
+                            characters.find((c) => c.threadId === char.threadId)
+                              ?.images?.[0] ?? imageDani
+                          }
                           className="rounded-full h-[24px] w-[24px] object-cover"
                         />
                       </div>
