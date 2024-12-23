@@ -9,40 +9,12 @@ import PlusIcon from "../../icons/plus";
 import CloseIcon from "../../icons/close";
 import SendIcon from "../../icons/send";
 
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   addChatLog,
   setCurrentlyViewing,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
-
-const characters = [
-  {
-    id: "random",
-    label: "Random",
-    image: imageDani,
-  },
-  {
-    id: "2329890kj09-claire",
-    label: "Claire",
-    image: imageLola,
-  },
-  {
-    id: "dani01",
-    label: "Dani",
-    image: imageDani,
-  },
-  {
-    id: "2329890kj09-claire-2",
-    label: "Claire",
-    image: imageLola,
-  },
-  {
-    id: "dani01-2",
-    label: "Dani",
-    image: imageDani,
-  },
-];
 
 const NewStoryPage: React.FC = () => {
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
@@ -52,7 +24,10 @@ const NewStoryPage: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const dispatch = useAppDispatch();
-  const { sendMessage } = useWebSocket({ setThreadId });
+  const { sendMessage, getCharacters, socketConnection } = useWebSocket({
+    setThreadId,
+  });
+  const { characters } = useAppSelector((state) => state.app);
 
   const createStory = () => {
     sendMessage(context, "story", null);
@@ -62,6 +37,12 @@ const NewStoryPage: React.FC = () => {
   useEffect(() => {
     dispatch(setCurrentlyViewing({ objectType: "story", objectId: null }));
   }, []);
+
+  useEffect(() => {
+    if (socketConnection?.readyState === WebSocket.OPEN) {
+      getCharacters();
+    }
+  }, [socketConnection?.readyState]);
 
   useEffect(() => {
     if (threadId) {
@@ -107,27 +88,30 @@ const NewStoryPage: React.FC = () => {
             <div
               className="flex flex-col items-center mx-[10px] cursor-pointer"
               onClick={() => {
-                selectedCharacters.includes(char.id)
+                selectedCharacters.includes(char.threadId)
                   ? setSelectedCharacters(
-                      selectedCharacters.filter((id) => id !== char.id)
+                      selectedCharacters.filter((id) => id !== char.threadId)
                     )
-                  : setSelectedCharacters([...selectedCharacters, char.id]);
+                  : setSelectedCharacters([
+                      ...selectedCharacters,
+                      char.threadId,
+                    ]);
               }}
             >
               <div className="h-[64px] w-[64px] mb-[10px]">
                 <img
-                  src={char.image}
+                  src={imageDani}
                   className={clsx(
                     {
                       "border-4 border-green-700": selectedCharacters.includes(
-                        char.id
+                        char.threadId
                       ),
                     },
                     "rounded-full h-[64px] w-[64px] object-cover"
                   )}
                 />
               </div>
-              <div className="text-textSecondary">{char.label}</div>
+              <div className="text-textSecondary">{char.json?.name}</div>
             </div>
           ))}
           <div

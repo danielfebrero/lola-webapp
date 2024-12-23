@@ -129,6 +129,9 @@ export const appSlice = createSlice({
     setIsDataLoaded: (state, action) => {
       state.isDataLoaded = action.payload;
     },
+    setCharacters: (state, action) => {
+      state.characters = action.payload;
+    },
     setCharacter: (state, action) => {
       const currentCharacter = state.characters?.find(
         (character) => character.threadId === action.payload.threadId
@@ -160,6 +163,7 @@ export const {
   addChatLog,
   setIsDataLoaded,
   setCharacter,
+  setCharacters,
 } = appSlice.actions;
 
 export default appSlice.reducer;
