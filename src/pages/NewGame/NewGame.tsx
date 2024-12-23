@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import clsx from "clsx";
 
 import imageDani from "../../dani.webp";
@@ -100,7 +100,7 @@ const NewGamePage: React.FC = () => {
           />
         </div>
         <div className="font-semibold text-lg mb-[20px]">Choose a hero</div>
-        <div className="flex flex-row">
+        <div className="flex flex-row overflow-x-scroll w-[70%]">
           {characters.map((char) => (
             <div
               className="flex flex-col items-center mx-[10px] cursor-pointer"
@@ -131,6 +131,14 @@ const NewGamePage: React.FC = () => {
               <div className="text-textSecondary">{char.json?.name}</div>
             </div>
           ))}
+          <NavLink to={"/character/new"}>
+            <div
+              className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer flex"
+              // onClick={() => setShowAIInput(true)}
+            >
+              <PlusIcon />
+            </div>
+          </NavLink>
         </div>
         <div className="font-semibold text-lg mt-[40px] mb-[20px]">
           Choose a game
