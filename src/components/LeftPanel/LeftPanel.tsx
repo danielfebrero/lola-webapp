@@ -27,8 +27,8 @@ const LeftPanel: React.FC = () => {
     <div
       className={clsx(
         {
-          "min-w-[260px]": isLeftPanelOpen,
-          "w-0": !isLeftPanelOpen,
+          "min-w-[260px] w-[260px]": isLeftPanelOpen,
+          "min-w-0 w-0": !isLeftPanelOpen,
         },
         `transition-all duration-500 h-screen bg-lightGray`
       )}
