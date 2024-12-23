@@ -48,6 +48,7 @@ export default function useWebSocket({
               case "done":
                 // Handle logic for when chat generation is done
                 if (setIsProcessing) setIsProcessing(false);
+                if (setIsImageGenerating) setIsImageGenerating(false);
                 console.log("Chat generation done");
                 break;
               case "partial":
