@@ -49,7 +49,7 @@ const LeftPanel: React.FC = () => {
             </NavLink>
           </div>
         </div>
-        <div className="h-auto w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-visible pb-[20px] ml-[-10px] mr-[-10px]">
+        <div className="h-auto w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-clip pb-[20px] ml-[-10px] mr-[-10px]">
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>Characters</div>
