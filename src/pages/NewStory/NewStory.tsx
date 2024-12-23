@@ -30,7 +30,7 @@ const NewStoryPage: React.FC = () => {
   const { characters } = useAppSelector((state) => state.app);
 
   const createStory = () => {
-    sendMessage(context, "story", null);
+    sendMessage(context, "story", null, { characters: selectedCharacters });
     setHasSentMessage(true);
   };
 

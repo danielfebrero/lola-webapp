@@ -117,7 +117,8 @@ export default function useWebSocket({
   const sendMessage = (
     message: string,
     endpoint: string,
-    threadId: string | null
+    threadId: string | null,
+    extraFields?: Record<string, any>
   ) => {
     // Add user's message to the chat log
     if (setIsChatInputAvailable) setIsChatInputAvailable(false);
@@ -137,6 +138,7 @@ export default function useWebSocket({
       action: "generateText",
       endpoint: endpoint,
       input_text: message,
+      ...extraFields,
     };
 
     if (threadId) msg.threadId = threadId; // Include threadId if it exists
