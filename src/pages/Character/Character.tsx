@@ -55,7 +55,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   const [selectedRightViewType, setSelectedRightViewType] = useState<
     "report" | "json" | "image"
-  >("image");
+  >("report");
 
   const { sendMessage, getThreadChatLog, getCharacter, socketConnection } =
     useWebSocket({
@@ -178,6 +178,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 type="character"
                 id={threadId}
                 json={character.json}
+                images={character.images}
                 isProcessing={isProcessing}
               />
             </div>
