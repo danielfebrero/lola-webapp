@@ -6,7 +6,7 @@ import Loading from "../../components/Loading";
 
 interface JSONViewProps {
   type: "character";
-  id?: string;
+  id?: string | null;
   json?: Object;
   isProcessing: boolean;
 }

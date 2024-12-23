@@ -4,7 +4,7 @@ import Loading from "../../components/Loading";
 
 interface ReportViewProps {
   type: "character" | "story";
-  id?: string;
+  id?: string | null;
   json?: Record<string, any>;
   isProcessing: boolean;
 }

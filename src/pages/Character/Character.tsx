@@ -35,6 +35,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       state.app.chatLogs.find((log) => log.threadId === params.characterId)
         ?.chatLog ?? newroleChat
   );
+  const chatLogs = useAppSelector((state) => state.app.chatLogs);
   const character = useAppSelector(
     (state) =>
       state.app.characters.find(
@@ -42,9 +43,6 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       ) ?? ({} as Character)
   );
   const [threadId, setThreadId] = useState<string | null>(null);
-  const [characterId, setCharacterId] = useState<string | undefined>(
-    params.characterId
-  );
   const [chatLog, setChatLog] = useState<Message[]>(chatLogState);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isChatLoading, setIsChatLoading] = useState<boolean>(false);
@@ -112,15 +110,16 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [params.characterId]);
 
   useEffect(() => {
-    const mainId = "mainId";
-    if (props.selected?.type === "main") setCharacterId(mainId);
-  }, [props.selected]);
+    const mainId =
+      chatLogs.filter((log) => log.type === "character")[0]?.threadId ?? null;
+    if (props.selected?.type === "main") setThreadId(mainId);
+  }, [props.selected, chatLogs]);
 
   useEffect(() => {
     dispatch(
-      setCurrentlyViewing({ objectType: "character", objectId: characterId })
+      setCurrentlyViewing({ objectType: "character", objectId: threadId })
     );
-  }, [characterId]);
+  }, [threadId]);
 
   return (
     <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
@@ -128,14 +127,14 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         <div className="grow overflow-y-scroll">
           <Chat
             type="character"
-            id={characterId}
+            id={threadId}
             chatLog={chatLog}
             isChatLoading={isChatLoading}
           />
         </div>
         <SendChatInput
           type="character"
-          id={characterId}
+          id={threadId}
           isChatInputAvailable={isChatInputAvailable}
           onSend={(message) => sendMessageToCharacter(message, threadId)}
         />
@@ -173,7 +172,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
             <div className="w-full">
               <ReportView
                 type="character"
-                id={characterId}
+                id={threadId}
                 json={character.json}
                 isProcessing={isProcessing}
               />
@@ -183,7 +182,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
             <div className="w-full">
               <JSONView
                 type="character"
-                id={characterId}
+                id={threadId}
                 json={character.json}
                 isProcessing={isProcessing}
               />
@@ -191,7 +190,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
           )}
           {selectedRightViewType === "image" && (
             <div className="w-full">
-              <ImageView type="character" id={characterId} />
+              <ImageView type="character" id={threadId} />
             </div>
           )}
         </div>

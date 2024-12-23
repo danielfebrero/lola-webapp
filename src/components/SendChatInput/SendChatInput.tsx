@@ -2,7 +2,7 @@ import { useState } from "react";
 
 interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
-  id?: string;
+  id?: string | null;
   onSend?: (message: string) => void;
   isChatInputAvailable: boolean;
 }

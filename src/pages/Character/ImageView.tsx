@@ -2,7 +2,7 @@ import imageDani from "../../dani.webp";
 
 interface ImageViewProps {
   type: "character" | "story";
-  id?: string;
+  id?: string | null;
 }
 
 const ImageView: React.FC<ImageViewProps> = (props) => {

@@ -9,7 +9,7 @@ import Loading from "../Loading";
 
 interface ChatProps {
   type: "character" | "story" | "game" | "lola";
-  id?: string;
+  id?: string | null;
   chatLog?: Message[];
   isChatLoading: boolean;
 }
