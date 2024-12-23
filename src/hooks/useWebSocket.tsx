@@ -14,11 +14,13 @@ export default function useWebSocket({
   setIsChatInputAvailable,
   setIsProcessing,
   setIsChatLoading,
+  setIsImageGenerating,
 }: {
   setThreadId?: (threadId: string) => void;
   setIsChatInputAvailable?: (isChatInputAvailable: boolean) => void;
   setIsProcessing?: (isProcessing: boolean) => void;
   setIsChatLoading?: (isChatLoading: boolean) => void;
+  setIsImageGenerating?: (isImageGenerating: boolean) => void;
 }) {
   const socketConnection = useAppSelector(
     (state) => state.app.socketConnection
@@ -40,6 +42,7 @@ export default function useWebSocket({
                 // Handle logic for when chat generation is complete
                 if (setIsChatInputAvailable) setIsChatInputAvailable(true);
                 if (setIsProcessing) setIsProcessing(true);
+                if (setIsImageGenerating) setIsImageGenerating(true);
                 console.log("Chat generation complete");
                 break;
               case "done":
@@ -87,6 +90,14 @@ export default function useWebSocket({
             dispatch(
               setThreadTitle({ threadId: data.threadId, title: data.title })
             );
+            break;
+
+          case "image_generation":
+            if (setIsImageGenerating) setIsImageGenerating(false);
+            dispatch(
+              setCharacter({ threadId: data.threadId, newImage: data.s3Url })
+            );
+
             break;
 
           case "messages":

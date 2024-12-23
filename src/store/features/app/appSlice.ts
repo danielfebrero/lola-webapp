@@ -133,15 +133,25 @@ export const appSlice = createSlice({
         (character) => character.threadId === action.payload.threadId
       );
       if (currentCharacter) {
-        currentCharacter.name = action.payload.name;
-        currentCharacter.json = action.payload.json;
-        currentCharacter.markdown = action.payload.markdown;
+        currentCharacter.name = action.payload.name ?? currentCharacter.name;
+        currentCharacter.json = action.payload.json ?? currentCharacter.json;
+        if (action.payload.newImage) {
+          if (!currentCharacter.images)
+            currentCharacter.images = [action.payload.newImage];
+          else currentCharacter.images.unshift(action.payload.newImage);
+        }
+        currentCharacter.images =
+          action.payload.images ?? currentCharacter.images;
       } else {
         state.characters.push({
           threadId: action.payload.threadId,
           name: action.payload.name,
           json: action.payload.json,
-          markdown: action.payload.markdown,
+          images: action.payload.images
+            ? action.payload.images
+            : action.payload.newImage
+            ? [action.payload.newImage]
+            : [],
         });
       }
     },

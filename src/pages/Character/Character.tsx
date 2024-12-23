@@ -14,6 +14,8 @@ import {
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
+import imageDani from "../../dani.webp";
+
 interface CharacterPageProps {
   selected?: Record<string, string>;
 }
@@ -45,6 +47,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const [threadId, setThreadId] = useState<string | null>(null);
   const [chatLog, setChatLog] = useState<Message[]>(chatLogState);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [isImageGenerating, setIsImageGenerating] = useState<boolean>(false);
   const [isChatLoading, setIsChatLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const [isChatInputAvailable, setIsChatInputAvailable] =
@@ -60,6 +63,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       setIsChatInputAvailable,
       setIsProcessing,
       setIsChatLoading,
+      setIsImageGenerating,
     });
 
   const sendMessageToCharacter = (content: string, threadId: string | null) => {
@@ -190,7 +194,16 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
           )}
           {selectedRightViewType === "image" && (
             <div className="w-full">
-              <ImageView type="character" id={threadId} />
+              <ImageView
+                type="character"
+                id={threadId}
+                images={
+                  character.images && character.images.length > 0
+                    ? character.images
+                    : [imageDani]
+                }
+                isProcessing={isImageGenerating}
+              />
             </div>
           )}
         </div>
