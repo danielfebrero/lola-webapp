@@ -55,7 +55,7 @@ export default function useWebSocket({
                   addChatLog({
                     threadId: data.threadId,
                     content: data.content,
-                    type: data.type,
+                    type: data.feature_type,
                     role: "assistant",
                   })
                 );
@@ -91,6 +91,7 @@ export default function useWebSocket({
               setChatLog({
                 chatLog: data.data,
                 threadId: data.threadId,
+                type: data.feature_type,
               })
             );
             break;

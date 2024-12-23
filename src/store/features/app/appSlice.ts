@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 // Define a type for the slice state
 interface AppState {
@@ -53,8 +53,8 @@ export const appSlice = createSlice({
     },
     setChatLogs: (state, action) => {
       state.chatLogs = action.payload.map((cl: ChatLog) => ({
-        ...cl,
         ...state.chatLogs.find((l) => l.threadId === cl.threadId),
+        ...cl,
         chatLog: [
           ...(state.chatLogs.find((l) => l.threadId === cl.threadId)?.chatLog ??
             []),
@@ -66,11 +66,14 @@ export const appSlice = createSlice({
       const currentLog = state.chatLogs?.find(
         (log) => log.threadId === action.payload.threadId
       );
-      if (currentLog) currentLog.chatLog = action.payload.chatLog;
-      else {
+      if (currentLog) {
+        currentLog.chatLog = action.payload.chatLog;
+        if (action.payload.type) currentLog.type = action.payload.type;
+      } else {
         state.chatLogs.push({
           threadId: action.payload.threadId,
           chatLog: action.payload.chatLog,
+          type: action.payload.type,
         });
       }
     },
@@ -80,6 +83,8 @@ export const appSlice = createSlice({
       );
       if (currentLog) {
         if (!currentLog.chatLog) currentLog.chatLog = [];
+        if (!currentLog.type) currentLog.type = action.payload.message_type;
+
         // if last message is already from "narrator", we concatenate
         if (
           currentLog.chatLog[currentLog.chatLog.length - 1]?.role ===
@@ -116,7 +121,7 @@ export const appSlice = createSlice({
               threadId: action.payload.threadId,
             },
           ],
-          type: action.payload.type,
+          type: action.payload.message_type,
           title: `New ${action.payload.type}`,
         });
       }
