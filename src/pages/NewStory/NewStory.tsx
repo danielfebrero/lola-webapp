@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import clsx from "clsx";
 
 import imageDani from "../../dani.webp";
@@ -17,6 +17,7 @@ import useWebSocket from "../../hooks/useWebSocket";
 
 const NewStoryPage: React.FC = () => {
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
+  const [AIInputValue, setAIInputValue] = useState<string>("");
   const [context, setContext] = useState<string>("");
   const [threadId, setThreadId] = useState<string | null>(null);
   const [hasSentMessage, setHasSentMessage] = useState<boolean>(false);
@@ -77,12 +78,14 @@ const NewStoryPage: React.FC = () => {
           <input
             type="text"
             placeholder="Dani's dentist, she is a sexy 34yo petite brunette"
+            value={AIInputValue}
+            onChange={(e) => setAIInputValue(e.target.value)}
             className="w-[60%] outline-none border rounded-full p-[10px]"
             onKeyDown={(e) => e.key === "Enter" && setShowAIInput(false)}
           />
         </div>
         <div className="font-semibold text-lg mb-[20px]">Characters</div>
-        <div className="flex flex-row">
+        <div className="flex flex-row overflow-x-scroll w-[70%]">
           {characters.map((char) => (
             <div
               className="flex flex-col items-center mx-[10px] cursor-pointer"
@@ -113,12 +116,14 @@ const NewStoryPage: React.FC = () => {
               <div className="text-textSecondary">{char.json?.name}</div>
             </div>
           ))}
-          <div
-            className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer"
-            onClick={() => setShowAIInput(true)}
-          >
-            <PlusIcon />
-          </div>
+          <NavLink to={"/character/new"}>
+            <div
+              className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer flex"
+              // onClick={() => setShowAIInput(true)}
+            >
+              <PlusIcon />
+            </div>
+          </NavLink>
         </div>
         <div className="font-semibold text-lg mt-[40px] mb-[20px]">Context</div>
         <div className="flex flex-row items-center">

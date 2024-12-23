@@ -25,14 +25,20 @@ const JSONToText: React.FC<JSONToTextProps> = ({ data, title }) => {
         <div className="ml-5 pl-3">
           {Object.entries(value).map(([key, val]) => (
             <div key={key} className="mb-2">
-              <strong>{capitalize(key)}:</strong> {renderData(val)}
+              {val ? (
+                <>
+                  <strong>{capitalize(key)}:</strong> {renderData(val)}
+                </>
+              ) : (
+                <>{capitalize(key)}</>
+              )}
             </div>
           ))}
         </div>
       );
     } else {
       // Render primitive values
-      return <span>{value?.toString() || "null"}</span>;
+      return <span>{value?.toString() || ""}</span>;
     }
   };
 
