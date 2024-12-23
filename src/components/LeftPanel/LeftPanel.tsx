@@ -49,8 +49,8 @@ const LeftPanel: React.FC = () => {
             </NavLink>
           </div>
         </div>
-        <div className="h-auto w-full flex flex-col overflow-y-scroll pb-[20px]">
-          <div className="h-auto w-full flex flex-col">
+        <div className="h-auto w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-visible pb-[20px] ml-[-10px] mr-[-10px]">
+          <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>Characters</div>
               {chatLogs.filter((log) => log.type === "character").length > 0 ? (
@@ -63,7 +63,7 @@ const LeftPanel: React.FC = () => {
             </div>
             {chatLogs.filter((log) => log.type === "character").length === 0 ? (
               <NavLink to="/character/new">
-                <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px]">
+                <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                   <div className="h-[20px] w-[20px] text-textSecondary">
                     <PlusIcon />
                   </div>
@@ -89,7 +89,7 @@ const LeftPanel: React.FC = () => {
                           className="rounded-full h-[24px] w-[24px] object-cover"
                         />
                       </div>
-                      <span className="pl-[10px]">
+                      <span className="pl-[10px] truncate">
                         {characters.find((c) => c.threadId === char.threadId)
                           ?.json?.name ?? char.title}
                       </span>
@@ -98,7 +98,7 @@ const LeftPanel: React.FC = () => {
                 ))
             )}
           </div>
-          <div className="h-auto w-full flex flex-col">
+          <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div className="font-bold h-[40px] content-center">Games</div>
               {games.length > 0 ? (
@@ -122,13 +122,13 @@ const LeftPanel: React.FC = () => {
               games.map((game) => (
                 <NavLink to={`/game/${game.id}`} key={game.id}>
                   <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                    <span className="">{game.label}</span>
+                    <span className="truncate">{game.label}</span>
                   </div>
                 </NavLink>
               ))
             )}
           </div>
-          <div className="h-auto w-full flex flex-col">
+          <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div className="font-bold h-[40px] content-center">Stories</div>
               {chatLogs.filter((log) => log.type === "story").length > 0 ? (
