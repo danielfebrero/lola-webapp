@@ -144,7 +144,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         />
       </div>
 
-      <div className="grow w-1/2 pl-5 flex items-center flex-col">
+      <div className="grow w-1/2 pl-5 flex items-center flex-col h-[calc(100vh-110px)]">
         <div className="bg-lightGray p-[5px] rounded-lg w-fit flex flex-row">
           {["report", "JSON", "images"].map((viewType) => (
             <div key={viewType}>
@@ -171,7 +171,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
             </div>
           ))}
         </div>
-        <div className="mt-4 w-full">
+        <div className="mt-4 w-full   overflow-y-scroll">
           {selectedRightViewType === "report" && (
             <div className="w-full">
               <ReportView
