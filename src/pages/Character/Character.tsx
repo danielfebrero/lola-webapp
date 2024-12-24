@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import clsx from "clsx";
 import { useParams, useNavigate } from "react-router";
 
@@ -32,6 +32,8 @@ const newroleChat = [
 const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const params = useParams();
   const navigate = useNavigate();
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+
   const chatLogState = useAppSelector(
     (state) =>
       state.app.chatLogs.find((log) => log.threadId === params.characterId)
@@ -123,12 +125,24 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     dispatch(
       setCurrentlyViewing({ objectType: "character", objectId: threadId })
     );
-  }, [threadId]);
+  }, [dispatch, threadId]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTo({
+          top: chatContainerRef.current.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [chatLog]);
 
   return (
     <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
       <div className="grow border-r-2 border-borderColor w-1/2 pr-5 flex flex-col h-[calc(100vh-110px)]">
-        <div className="grow overflow-y-scroll">
+        <div className="grow overflow-y-scroll" ref={chatContainerRef}>
           <Chat
             type="character"
             id={threadId}
