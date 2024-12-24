@@ -73,7 +73,7 @@ const NewGamePage: React.FC = () => {
     if (socketConnection?.readyState === WebSocket.OPEN) {
       getCharacters();
     }
-  }, [socketConnection?.readyState]);
+  }, [socketConnection?.readyState, getCharacters]);
 
   return (
     <div className="flex flex-col h-full justify-center items-center">
@@ -100,7 +100,7 @@ const NewGamePage: React.FC = () => {
           />
         </div>
         <div className="font-semibold text-lg mb-[20px]">Choose a hero</div>
-        <div className="flex flex-row overflow-x-scroll w-[70%]">
+        <div className="flex flex-row overflow-x-scroll w-[70%] justify-center">
           {characters.map((char) => (
             <div
               className="flex flex-col items-center mx-[10px] cursor-pointer"

@@ -36,13 +36,13 @@ const NewStoryPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(setCurrentlyViewing({ objectType: "story", objectId: null }));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (socketConnection?.readyState === WebSocket.OPEN) {
       getCharacters();
     }
-  }, [socketConnection?.readyState]);
+  }, [socketConnection?.readyState, getCharacters]);
 
   useEffect(() => {
     if (threadId) {
@@ -85,7 +85,7 @@ const NewStoryPage: React.FC = () => {
           />
         </div>
         <div className="font-semibold text-lg mb-[20px]">Characters</div>
-        <div className="flex flex-row overflow-x-scroll w-[70%]">
+        <div className="flex flex-row overflow-x-scroll w-[70%] justify-center">
           {characters.map((char) => (
             <div
               className="flex flex-col items-center mx-[10px] cursor-pointer"
