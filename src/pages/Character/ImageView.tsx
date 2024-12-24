@@ -25,7 +25,7 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
       ) : (
         <div className="flex flex-col">
           <img src={selectedImg} />
-          <div className="flex flex-row h-[150px] w-auto">
+          <div className="grid grid-cols-4 h-[150px] w-auto">
             {props.images.map((img) => (
               <img
                 key={img}
