@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import { Provider } from "react-redux";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 import LeftPanel from "./components/LeftPanel";
 import Header from "./components/Header";
@@ -24,6 +25,7 @@ const App: React.FC = () => {
     <Provider store={store}>
       <BrowserRouter>
         <Analytics />
+        <SpeedInsights />
         <Init />
         <Overlay>
           <Settings />
