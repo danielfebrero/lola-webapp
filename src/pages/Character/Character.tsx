@@ -96,7 +96,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         }
       }, 50);
     }
-  }, [params.characterId, socketConnection?.readyState]);
+  }, [params.characterId, socketConnection?.readyState, threadId]);
 
   useEffect(() => {
     if (threadId && threadId !== "new") {

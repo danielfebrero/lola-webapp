@@ -42,7 +42,7 @@ const NewStoryPage: React.FC = () => {
     if (socketConnection?.readyState === WebSocket.OPEN) {
       getCharacters();
     }
-  }, [socketConnection?.readyState, getCharacters]);
+  }, [socketConnection?.readyState]);
 
   useEffect(() => {
     if (threadId) {

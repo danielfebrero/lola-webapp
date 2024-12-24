@@ -73,7 +73,7 @@ const NewGamePage: React.FC = () => {
     if (socketConnection?.readyState === WebSocket.OPEN) {
       getCharacters();
     }
-  }, [socketConnection?.readyState, getCharacters]);
+  }, [socketConnection?.readyState]);
 
   return (
     <div className="flex flex-col h-full justify-center items-center">
