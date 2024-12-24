@@ -135,7 +135,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
           behavior: "smooth",
         });
       }
-    }, 100);
+    }, 0);
     return () => clearTimeout(timer);
   }, [chatLog]);
 

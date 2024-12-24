@@ -55,7 +55,7 @@ const Storypage: React.FC = () => {
           behavior: "smooth",
         });
       }
-    }, 100);
+    }, 0);
     return () => clearTimeout(timer);
   }, [chatLog]);
 
