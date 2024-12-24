@@ -27,13 +27,7 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
           <img src={selectedImg} />
           <div className="grid grid-cols-4 h-[150px] w-auto">
             {props.images.map((img) => (
-              <img
-                key={img}
-                src={img}
-                height={150}
-                width={150}
-                onClick={() => setSelectedImg(img)}
-              />
+              <img key={img} src={img} onClick={() => setSelectedImg(img)} />
             ))}
           </div>
         </div>
