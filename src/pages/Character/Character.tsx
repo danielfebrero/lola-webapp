@@ -144,13 +144,13 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       {isSmallScreen && !isLeftPanelOpen && (
         <div className="fixed flex flex-col w-full text-textSecondary left-[15px]">
           <div
-            className="h-[24px] w-[24px]"
+            className="h-[24px] w-[24px]  mt-[20px]"
             onClick={() => setMobileView("chat")}
           >
             <ChatIcon />
           </div>
           <div
-            className="h-[24px] w-[24px]  mt-[10px]"
+            className="h-[24px] w-[24px]  mt-[20px]"
             onClick={() => setMobileView("report")}
           >
             <ExploreIcon />
