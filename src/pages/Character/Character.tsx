@@ -138,9 +138,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [chatLog]);
 
   return (
-    <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
+    <div className="grow pl-5 pr-5 pt-2.5 md:pb-5 pb-[10px] flex flex-row overflow-y-scroll">
       {isSmallScreen && (
-        <div className="absolute flex flex-col w-full text-textSecondary">
+        <div className="fixed flex flex-col w-full text-textSecondary left-[15px]">
           <div
             className="h-[24px] w-[24px]"
             onClick={() => setMobileView("chat")}
@@ -156,7 +156,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         </div>
       )}
       {(!isSmallScreen || mobileView === "chat") && (
-        <div className="grow md:border-r-2 md:border-borderColor md:w-1/2 md:pr-5 flex flex-col h-[calc(100vh-110px)]">
+        <div className="grow md:border-r-2 md:border-borderColor md:w-1/2 md:pr-5 flex flex-col h-full overflow-y-scroll">
           <div className="grow overflow-y-scroll" ref={chatContainerRef}>
             <Chat
               type="character"
@@ -165,12 +165,14 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
               isChatLoading={isChatLoading}
             />
           </div>
-          <SendChatInput
-            type="character"
-            id={threadId}
-            isChatInputAvailable={isChatInputAvailable}
-            onSend={(message) => sendMessageToCharacter(message, threadId)}
-          />
+          <div className="justify-center flex w-full md:px-0 px-[30px]">
+            <SendChatInput
+              type="character"
+              id={threadId}
+              isChatInputAvailable={isChatInputAvailable}
+              onSend={(message) => sendMessageToCharacter(message, threadId)}
+            />
+          </div>
         </div>
       )}
 

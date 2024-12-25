@@ -61,7 +61,7 @@ const Storypage: React.FC = () => {
 
   return (
     <div className="flex justify-center h-full">
-      <div className="grow pt-[10px] pb-[20px] flex flex-col h-[calc(100vh-75px)]">
+      <div className="grow pt-[10px] md:pb-[20px] pb-[10px] flex flex-col h-[calc(100vh-75px)]">
         <div
           ref={chatContainerRef}
           className="grow overflow-y-scroll justify-center flex"
@@ -74,7 +74,7 @@ const Storypage: React.FC = () => {
           />
         </div>
         <div className="justify-center flex w-full">
-          <div className="w-[65%]">
+          <div className="md:max-w-[715px] w-[100%] px-[30px]">
             <SendChatInput
               type="story"
               onSend={(message) => sendMessage(message, "story", threadId)}

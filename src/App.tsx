@@ -32,7 +32,7 @@ const App: React.FC = () => {
         <Overlay>
           <Settings />
         </Overlay>
-        <div className="app text-textPrimary flex flex-ro no-scrollbar">
+        <div className="app text-textPrimary flex flex-ro no-scrollbar overflow-hidden">
           <LeftPanel />
           <div className="flex flex-col h-screen overflow-y-scroll w-full z-10 bg-white no-scrollbar">
             <div className="flex flex-col grow overflow-y-scroll no-scrollbar">
