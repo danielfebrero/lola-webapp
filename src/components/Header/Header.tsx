@@ -17,7 +17,6 @@ const Header: React.FC = () => {
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [headerLabel, setHeaderLabel] = useState("Main character");
   const location = useLocation();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isLeftPanelOpen = useAppSelector((state) => state.app.isLeftPanelOpen);
   const currentlyViewing = useAppSelector(

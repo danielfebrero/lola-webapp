@@ -140,7 +140,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   return (
     <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
       {isSmallScreen && (
-        <div className="absolute flex flex-col w-full">
+        <div className="absolute flex flex-col w-full text-textSecondary">
           <div
             className="h-[24px] w-[24px]"
             onClick={() => setMobileView("chat")}
