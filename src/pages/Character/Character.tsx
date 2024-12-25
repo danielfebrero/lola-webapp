@@ -36,7 +36,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       state.app.chatLogs.find((log) => log.threadId === params.characterId)
         ?.chatLog ?? newroleChat
   );
-  const { chatLogs, isSmallScreen } = useAppSelector((state) => state.app);
+  const { chatLogs, isSmallScreen, isLeftPanelOpen } = useAppSelector(
+    (state) => state.app
+  );
   const character = useAppSelector(
     (state) =>
       state.app.characters.find(
@@ -139,7 +141,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   return (
     <div className="grow pl-5 pr-5 pt-2.5 md:pb-5 pb-[10px] flex flex-row overflow-y-scroll">
-      {isSmallScreen && (
+      {isSmallScreen && !isLeftPanelOpen && (
         <div className="fixed flex flex-col w-full text-textSecondary left-[15px]">
           <div
             className="h-[24px] w-[24px]"
