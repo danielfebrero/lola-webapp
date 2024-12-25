@@ -8,13 +8,10 @@ import JSONView from "./JSONView";
 import ReportView from "./ReportView";
 import ImageView from "./ImageView";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import {
-  setCurrentlyViewing,
-  addChatLog,
-} from "../../store/features/app/appSlice";
+import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
-
-import imageDani from "../../dani.webp";
+import ExploreIcon from "../../icons/explore";
+import ChatIcon from "../../icons/chat";
 
 interface CharacterPageProps {
   selected?: Record<string, string>;
@@ -39,7 +36,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       state.app.chatLogs.find((log) => log.threadId === params.characterId)
         ?.chatLog ?? newroleChat
   );
-  const chatLogs = useAppSelector((state) => state.app.chatLogs);
+  const { chatLogs, isSmallScreen } = useAppSelector((state) => state.app);
   const character = useAppSelector(
     (state) =>
       state.app.characters.find(
@@ -54,6 +51,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const dispatch = useAppDispatch();
   const [isChatInputAvailable, setIsChatInputAvailable] =
     useState<boolean>(true);
+  const [mobileView, setMobileView] = useState<string>("chat");
 
   const [selectedRightViewType, setSelectedRightViewType] = useState<
     "report" | "json" | "images"
@@ -141,85 +139,105 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   return (
     <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
-      <div className="grow border-r-2 border-borderColor w-1/2 pr-5 flex flex-col h-[calc(100vh-110px)]">
-        <div className="grow overflow-y-scroll" ref={chatContainerRef}>
-          <Chat
+      {isSmallScreen && (
+        <div className="absolute flex flex-col w-full">
+          <div
+            className="h-[24px] w-[24px]"
+            onClick={() => setMobileView("chat")}
+          >
+            <ChatIcon />
+          </div>
+          <div
+            className="h-[24px] w-[24px]  mt-[10px]"
+            onClick={() => setMobileView("report")}
+          >
+            <ExploreIcon />
+          </div>
+        </div>
+      )}
+      {(!isSmallScreen || mobileView === "chat") && (
+        <div className="grow md:border-r-2 md:border-borderColor md:w-1/2 pr-5 flex flex-col h-[calc(100vh-110px)]">
+          <div className="grow overflow-y-scroll" ref={chatContainerRef}>
+            <Chat
+              type="character"
+              id={threadId}
+              chatLog={chatLog}
+              isChatLoading={isChatLoading}
+            />
+          </div>
+          <SendChatInput
             type="character"
             id={threadId}
-            chatLog={chatLog}
-            isChatLoading={isChatLoading}
+            isChatInputAvailable={isChatInputAvailable}
+            onSend={(message) => sendMessageToCharacter(message, threadId)}
           />
         </div>
-        <SendChatInput
-          type="character"
-          id={threadId}
-          isChatInputAvailable={isChatInputAvailable}
-          onSend={(message) => sendMessageToCharacter(message, threadId)}
-        />
-      </div>
+      )}
 
-      <div className="grow w-1/2 pl-5 flex items-center flex-col h-[calc(100vh-110px)]">
-        <div className="bg-lightGray p-[5px] rounded-lg w-fit flex flex-row">
-          {["report", "JSON", "images"].map((viewType) => (
-            <div key={viewType}>
-              <div
-                onClick={() =>
-                  handleViewTypeChange(
-                    viewType.toLowerCase() as "report" | "json" | "images"
-                  )
-                }
-                className={clsx(
-                  "cursor-pointer",
-                  "pl-[20px] pr-[20px] pt-[5px] pb-[5px]",
-                  "rounded-lg",
-                  {
-                    "text-textPrimary border border-borderLight bg-white":
-                      selectedRightViewType === viewType.toLowerCase(),
-                    "text-gray-400":
-                      selectedRightViewType !== viewType.toLowerCase(),
+      {(!isSmallScreen || mobileView === "report") && (
+        <div className="grow md:w-1/2 pl-5 flex items-center flex-col h-[calc(100vh-110px)]">
+          <div className="bg-lightGray p-[5px] rounded-lg w-fit flex flex-row">
+            {["report", "JSON", "images"].map((viewType) => (
+              <div key={viewType}>
+                <div
+                  onClick={() =>
+                    handleViewTypeChange(
+                      viewType.toLowerCase() as "report" | "json" | "images"
+                    )
                   }
-                )}
-              >
-                {viewType.charAt(0).toUpperCase() + viewType.slice(1)}
+                  className={clsx(
+                    "cursor-pointer",
+                    "pl-[20px] pr-[20px] pt-[5px] pb-[5px]",
+                    "rounded-lg",
+                    {
+                      "text-textPrimary border border-borderLight bg-white":
+                        selectedRightViewType === viewType.toLowerCase(),
+                      "text-gray-400":
+                        selectedRightViewType !== viewType.toLowerCase(),
+                    }
+                  )}
+                >
+                  {viewType.charAt(0).toUpperCase() + viewType.slice(1)}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div className="mt-4 w-full   overflow-y-scroll">
+            {selectedRightViewType === "report" && (
+              <div className="w-full">
+                <ReportView
+                  type="character"
+                  id={threadId}
+                  json={character.json}
+                  images={character.images}
+                  isProcessing={isProcessing}
+                  isImageGenerating={isImageGenerating}
+                />
+              </div>
+            )}
+            {selectedRightViewType === "json" && (
+              <div className="w-full">
+                <JSONView
+                  type="character"
+                  id={threadId}
+                  json={character.json}
+                  isProcessing={isProcessing}
+                />
+              </div>
+            )}
+            {selectedRightViewType === "images" && (
+              <div className="w-full">
+                <ImageView
+                  type="character"
+                  id={threadId}
+                  images={character.images}
+                  isProcessing={isImageGenerating}
+                />
+              </div>
+            )}
+          </div>
         </div>
-        <div className="mt-4 w-full   overflow-y-scroll">
-          {selectedRightViewType === "report" && (
-            <div className="w-full">
-              <ReportView
-                type="character"
-                id={threadId}
-                json={character.json}
-                images={character.images}
-                isProcessing={isProcessing}
-                isImageGenerating={isImageGenerating}
-              />
-            </div>
-          )}
-          {selectedRightViewType === "json" && (
-            <div className="w-full">
-              <JSONView
-                type="character"
-                id={threadId}
-                json={character.json}
-                isProcessing={isProcessing}
-              />
-            </div>
-          )}
-          {selectedRightViewType === "images" && (
-            <div className="w-full">
-              <ImageView
-                type="character"
-                id={threadId}
-                images={character.images}
-                isProcessing={isImageGenerating}
-              />
-            </div>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 };
