@@ -41,7 +41,14 @@ const LeftPanel: React.FC = () => {
             >
               <PanelIcon />
             </div>
-            <NavLink to={newChatLocation}>
+            <NavLink
+              to={newChatLocation}
+              onClick={
+                isSmallScreen && isLeftPanelOpen
+                  ? () => dispatch(toggleLeftPanel())
+                  : undefined
+              }
+            >
               <div className="h-[24px] w-[24px]">
                 <NewChatIcon />
               </div>
