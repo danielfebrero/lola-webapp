@@ -76,7 +76,7 @@ const NewGamePage: React.FC = () => {
   }, [socketConnection?.readyState]);
 
   return (
-    <div className="flex flex-col h-full justify-center items-center">
+    <div className="flex flex-col h-full justify-center items-center overflow-y-scroll">
       <div className="flex flex-col items-center w-full">
         <div
           className={clsx(
@@ -100,7 +100,7 @@ const NewGamePage: React.FC = () => {
           />
         </div>
         <div className="font-semibold text-lg mb-[20px]">Choose a hero</div>
-        <div className="flex flex-row overflow-x-scroll w-[70%] justify-center">
+        <div className="flex flex-row overflow-x-scroll md:w-[70%] w-[100%] justify-center">
           {characters.map((char) => (
             <div
               className="flex flex-col items-center mx-[10px] cursor-pointer"
@@ -146,7 +146,7 @@ const NewGamePage: React.FC = () => {
         <div className="font-semibold text-lg mt-[40px] mb-[20px]">
           Choose a game
         </div>
-        <div className="grid gap-4 grid-cols-5">
+        <div className="grid gap-4 md:grid-cols-5 grid-cols-3 px-[30px]">
           {games.map((game) => (
             <div
               className="flex flex-col items-center mx-[10px] cursor-pointer w-auto"

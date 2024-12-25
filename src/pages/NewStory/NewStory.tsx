@@ -85,7 +85,7 @@ const NewStoryPage: React.FC = () => {
           />
         </div>
         <div className="font-semibold text-lg mb-[20px]">Characters</div>
-        <div className="flex flex-row overflow-x-scroll w-[70%] justify-center">
+        <div className="flex flex-row overflow-x-scroll md:w-[70%] w-screen px-[10px] justify-center">
           {characters.map((char) => (
             <div
               className="flex flex-col items-center mx-[10px] cursor-pointer"
@@ -131,7 +131,7 @@ const NewStoryPage: React.FC = () => {
         <div className="font-semibold text-lg mt-[40px] mb-[20px]">Context</div>
         <div className="flex flex-row items-center">
           <textarea
-            className="rounded-lg border border-lightBorder resize-none h-[100px] w-[400px] outline-none p-[10px]"
+            className="rounded-lg border border-lightBorder resize-none h-[100px] md:w-[400px] w-[100%] outline-none p-[10px]"
             onChange={(e) => setContext(e.target.value)}
           >
             {context}

@@ -12,11 +12,13 @@ interface AppState {
   chatLogs: ChatLog[];
   isDataLoaded: boolean;
   characters: Character[];
+  isSmallScreen: boolean;
 }
 
 // Define the initial state using that type
 const initialState: AppState = {
-  isLeftPanelOpen: true,
+  isSmallScreen: window.screen.width < 700,
+  isLeftPanelOpen: window.screen.width > 700,
   isSettingsOpen: false,
   currentlyViewing: {
     objectType: "",

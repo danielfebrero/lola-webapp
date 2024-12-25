@@ -12,9 +12,8 @@ import useNewChatLocation from "../../hooks/useNewChatLocation";
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
   const newChatLocation = useNewChatLocation();
-  const { isLeftPanelOpen, chatLogs, characters } = useAppSelector(
-    (state) => state.app
-  );
+  const { isLeftPanelOpen, chatLogs, characters, isSmallScreen } =
+    useAppSelector((state) => state.app);
 
   const games = [
     {
@@ -54,7 +53,14 @@ const LeftPanel: React.FC = () => {
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>Characters</div>
               {chatLogs.filter((log) => log.type === "character").length > 0 ? (
-                <NavLink to="/character/new">
+                <NavLink
+                  to="/character/new"
+                  onClick={
+                    isSmallScreen
+                      ? () => dispatch(toggleLeftPanel())
+                      : undefined
+                  }
+                >
                   <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary">
                     <PlusIcon />
                   </div>
@@ -62,7 +68,12 @@ const LeftPanel: React.FC = () => {
               ) : null}
             </div>
             {chatLogs.filter((log) => log.type === "character").length === 0 ? (
-              <NavLink to="/character/new">
+              <NavLink
+                to="/character/new"
+                onClick={
+                  isSmallScreen ? () => dispatch(toggleLeftPanel()) : undefined
+                }
+              >
                 <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                   <div className="h-[20px] w-[20px] text-textSecondary">
                     <PlusIcon />
@@ -76,6 +87,11 @@ const LeftPanel: React.FC = () => {
                 .map((char) => (
                   <NavLink
                     key={char.threadId}
+                    onClick={
+                      isSmallScreen
+                        ? () => dispatch(toggleLeftPanel())
+                        : undefined
+                    }
                     to={
                       char.type === "main"
                         ? "/character/main"
@@ -120,7 +136,14 @@ const LeftPanel: React.FC = () => {
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div className="font-bold h-[40px] content-center">Games</div>
               {games.length > 0 ? (
-                <NavLink to="/game/new">
+                <NavLink
+                  to="/game/new"
+                  onClick={
+                    isSmallScreen
+                      ? () => dispatch(toggleLeftPanel())
+                      : undefined
+                  }
+                >
                   <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary">
                     <PlusIcon />
                   </div>
@@ -128,7 +151,12 @@ const LeftPanel: React.FC = () => {
               ) : null}
             </div>
             {games.length === 0 ? (
-              <NavLink to="/game/new">
+              <NavLink
+                to="/game/new"
+                onClick={
+                  isSmallScreen ? () => dispatch(toggleLeftPanel()) : undefined
+                }
+              >
                 <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                   <div className="h-[20px] w-[20px] text-textSecondary">
                     <PlusIcon />
@@ -138,7 +166,15 @@ const LeftPanel: React.FC = () => {
               </NavLink>
             ) : (
               games.map((game) => (
-                <NavLink to={`/game/${game.id}`} key={game.id}>
+                <NavLink
+                  to={`/game/${game.id}`}
+                  key={game.id}
+                  onClick={
+                    isSmallScreen
+                      ? () => dispatch(toggleLeftPanel())
+                      : undefined
+                  }
+                >
                   <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                     <span className="truncate">{game.label}</span>
                   </div>
@@ -150,7 +186,14 @@ const LeftPanel: React.FC = () => {
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div className="font-bold h-[40px] content-center">Stories</div>
               {chatLogs.filter((log) => log.type === "story").length > 0 ? (
-                <NavLink to="/story/new">
+                <NavLink
+                  to="/story/new"
+                  onClick={
+                    isSmallScreen
+                      ? () => dispatch(toggleLeftPanel())
+                      : undefined
+                  }
+                >
                   <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary">
                     <PlusIcon />
                   </div>
@@ -158,7 +201,12 @@ const LeftPanel: React.FC = () => {
               ) : null}
             </div>
             {chatLogs.filter((log) => log.type === "story").length === 0 ? (
-              <NavLink to="/story/new">
+              <NavLink
+                to="/story/new"
+                onClick={
+                  isSmallScreen ? () => dispatch(toggleLeftPanel()) : undefined
+                }
+              >
                 <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                   <div className="h-[20px] w-[20px] text-textSecondary">
                     <PlusIcon />
@@ -170,7 +218,15 @@ const LeftPanel: React.FC = () => {
               chatLogs
                 .filter((log) => log.type === "story")
                 .map((story) => (
-                  <NavLink to={`/story/${story.threadId}`} key={story.threadId}>
+                  <NavLink
+                    to={`/story/${story.threadId}`}
+                    key={story.threadId}
+                    onClick={
+                      isSmallScreen
+                        ? () => dispatch(toggleLeftPanel())
+                        : undefined
+                    }
+                  >
                     <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                       <span className="truncate">
                         {story.title ?? "New Conversation"}

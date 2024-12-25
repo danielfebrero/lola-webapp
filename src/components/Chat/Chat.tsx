@@ -49,15 +49,15 @@ const Chat: React.FC<ChatProps> = (props) => {
                   className="flex flex-row mb-[10px]"
                   key={message.timestamp ?? idx}
                 >
-                  <div className="w-[30px] h-[30px] mr-[10px]">
+                  {/* <div className="w-[30px] h-[30px] mr-[10px]">
                     {message.role !== "assistant" ? (
                       <img
                         className="rounded-full h-[30px] w-[30px] object-cover"
                         src={message.role === "cara" ? imageLola : imageDani}
                       />
                     ) : null}
-                  </div>
-                  <div className="grow max-w-[calc(100%-50px)]">
+                  </div> */}
+                  <div className="grow max-w-[100%] px-[30px]">
                     <Markdown>{message.content}</Markdown>
                   </div>
                 </div>
