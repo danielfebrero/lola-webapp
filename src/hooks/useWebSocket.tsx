@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import i18n from "i18next";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import {
   addChatLog,
@@ -150,6 +151,7 @@ export default function useWebSocket({
       action: "generateText",
       endpoint: endpoint,
       input_text: message,
+      language: i18n.language,
       ...extraFields,
     };
 

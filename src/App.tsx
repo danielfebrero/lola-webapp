@@ -20,6 +20,8 @@ import NewGamePage from "./pages/NewGame";
 
 import { store } from "./store/store";
 
+import "./i18n";
+
 const App: React.FC = () => {
   return (
     <Provider store={store}>
