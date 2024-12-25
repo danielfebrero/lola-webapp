@@ -156,7 +156,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         </div>
       )}
       {(!isSmallScreen || mobileView === "chat") && (
-        <div className="grow md:border-r-2 md:border-borderColor md:w-1/2 pr-5 flex flex-col h-[calc(100vh-110px)]">
+        <div className="grow md:border-r-2 md:border-borderColor md:w-1/2 md:pr-5 flex flex-col h-[calc(100vh-110px)]">
           <div className="grow overflow-y-scroll" ref={chatContainerRef}>
             <Chat
               type="character"
