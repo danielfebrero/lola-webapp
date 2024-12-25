@@ -59,8 +59,8 @@ const NewStoryPage: React.FC = () => {
   }, [threadId]);
 
   return (
-    <div className="flex flex-col h-full justify-center items-center">
-      <div className="flex flex-col items-center w-full">
+    <div className="flex flex-col h-full justify-center items-center overflow-y-scroll pt-[30px] md:pt-0">
+      <div className="flex flex-col items-center w-full h-full justify-center">
         <div
           className={clsx(
             { hidden: !showAIInput },
@@ -85,7 +85,7 @@ const NewStoryPage: React.FC = () => {
           />
         </div>
         <div className="font-semibold text-lg mb-[20px]">Characters</div>
-        <div className="flex flex-row overflow-x-scroll md:px-[20px] w-[100%] px-[10px] justify-center">
+        <div className="flex flex-row flex-wrap md:px-[100px] w-full left-0 px-[10px] justify-center">
           {characters.map((char) => (
             <div
               className="flex flex-col items-center mx-[10px] cursor-pointer"
