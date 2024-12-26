@@ -157,7 +157,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [chatLog]);
 
   return (
-    <div className="grow pl-5 pr-5 pt-2.5 md:pb-5 pb-[10px] flex flex-row overflow-y-scroll">
+    <div className="grow pl-5 pr-5 pt-2.5 md:pb-5 pb-[10px] flex flex-row overflow-y-scroll no-scrollbar">
       {isSmallScreen && !isLeftPanelOpen && (
         <div className="fixed flex flex-col text-textSecondary left-[15px] w-auto">
           <div
@@ -175,8 +175,11 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         </div>
       )}
       {(!isSmallScreen || mobileView === "chat") && (
-        <div className="grow md:border-r-2 md:border-borderColor md:w-1/2 md:pr-5 flex flex-col h-full overflow-y-scroll">
-          <div className="grow overflow-y-scroll" ref={chatContainerRef}>
+        <div className="grow md:border-r-2 md:border-borderColor md:w-1/2 md:pr-5 flex flex-col h-full overflow-y-scroll no-scrollbar">
+          <div
+            className="grow overflow-y-scroll no-scrollbar"
+            ref={chatContainerRef}
+          >
             <Chat
               type="character"
               id={threadId}
@@ -224,7 +227,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
               </div>
             ))}
           </div>
-          <div className="mt-4 w-full   overflow-y-scroll">
+          <div className="mt-4 w-full   overflow-y-scroll no-scrollbar">
             {selectedRightViewType === "report" && (
               <div className="w-full">
                 <ReportView

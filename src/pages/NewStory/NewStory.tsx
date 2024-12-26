@@ -59,7 +59,7 @@ const NewStoryPage: React.FC = () => {
   }, [threadId]);
 
   return (
-    <div className="flex flex-col h-full justify-center items-center overflow-y-scroll pt-[30px] md:pt-0">
+    <div className="flex flex-col h-full justify-center items-center overflow-y-scroll no-scrollbar pt-[30px] md:pt-0">
       <div className="flex flex-col items-center w-full h-full justify-center">
         <div
           className={clsx(

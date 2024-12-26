@@ -81,12 +81,12 @@ const GamePage: React.FC = () => {
   return (
     <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
       <div className="grow border-r-2 border-borderColor w-1/2 pr-5 flex flex-col h-[calc(100vh-110px)]">
-        <div className="grow overflow-y-scroll">
+        <div className="grow overflow-y-scroll no-scrollbar">
           <Chat type="game" id={params.gameId} isChatLoading={isChatLoading} />
         </div>
       </div>
       <div className="grow w-1/2 pl-5 flex flex-col h-[calc(100vh-110px)]">
-        <div className="overflow-y-scroll grid grid-cols-1">
+        <div className="overflow-y-scroll no-scrollbar grid grid-cols-1">
           {actions.map((action) => (
             <div className="flex flex-col p-[20px] border-b border-borderColor hover:bg-lightGray cursor-pointer">
               <div className="font-semibold">{action.action_title}</div>
