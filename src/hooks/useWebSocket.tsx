@@ -213,31 +213,53 @@ export default function useWebSocket({
   const initData = (websocket: WebSocket) => {
     console.log("Fetching initData");
     websocket.send(
-      JSON.stringify({ action: "fetchData", endpoint: "threads" })
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "threads",
+        token: auth.user?.id_token,
+      })
     );
     websocket.send(
-      JSON.stringify({ action: "fetchData", endpoint: "characters" })
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "characters",
+        token: auth.user?.id_token,
+      })
     );
   };
 
   const getThreadChatLog = (threadId: string) => {
     console.log("Fetching chatLog for thread: ", threadId);
     socketConnection?.send(
-      JSON.stringify({ action: "fetchData", endpoint: "messages", threadId })
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "messages",
+        threadId,
+        token: auth.user?.id_token,
+      })
     );
   };
 
   const getCharacter = (threadId: string) => {
     console.log("Fetching Character for thread: ", threadId);
     socketConnection?.send(
-      JSON.stringify({ action: "fetchData", endpoint: "character", threadId })
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "character",
+        threadId,
+        token: auth.user?.id_token,
+      })
     );
   };
 
   const getCharacters = () => {
     console.log("Fetching Characters");
     socketConnection?.send(
-      JSON.stringify({ action: "fetchData", endpoint: "characters" })
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "characters",
+        token: auth.user?.id_token,
+      })
     );
   };
 

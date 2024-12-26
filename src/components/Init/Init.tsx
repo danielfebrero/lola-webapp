@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "react-oidc-context";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   setSocketConnection,
@@ -14,6 +15,7 @@ const RECONNECT_INTERVALS = [1000, 2000, 5000, 10000]; // Exponential backoff in
 
 const Init: React.FC = () => {
   const dispatch = useAppDispatch();
+  const auth = useAuth();
   const { socketConnection, isDataLoaded } = useAppSelector(
     (state) => state.app
   );
@@ -26,12 +28,6 @@ const Init: React.FC = () => {
     websocket.onopen = () => {
       console.log("WebSocket connected");
       dispatch(setSocketConnection(websocket));
-      setTimeout(() => {
-        if (!isDataLoaded) {
-          initData(websocket);
-          dispatch(setIsDataLoaded(true));
-        }
-      }, 150);
     };
 
     setTimeout(() => {
@@ -65,6 +61,13 @@ const Init: React.FC = () => {
 
     return () => socketConnection?.close(); // Cleanup on unmount
   }, [socketConnection]);
+
+  useEffect(() => {
+    if (!isDataLoaded && auth.isAuthenticated && socketConnection) {
+      initData(socketConnection);
+      dispatch(setIsDataLoaded(true));
+    }
+  }, [auth.isAuthenticated, socketConnection, isDataLoaded, dispatch]);
 
   window.addEventListener("resize", () =>
     dispatch(setIsSmallScreen(window.innerWidth < 768))
