@@ -10,6 +10,7 @@ import {
   setThreadTitle,
   setCharacter,
   setCharacters,
+  toggleLoginModal,
 } from "../store/features/app/appSlice";
 
 export default function useWebSocket({
@@ -177,7 +178,7 @@ export default function useWebSocket({
     extraFields?: Record<string, any>
   ) => {
     if (!auth.isAuthenticated) {
-      auth.signinPopup();
+      dispatch(toggleLoginModal());
       return;
     }
 

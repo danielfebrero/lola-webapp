@@ -6,12 +6,14 @@ interface OverlayProps {
 }
 
 const Overlay: React.FC<OverlayProps> = (props) => {
-  const { isSettingsOpen } = useAppSelector((state) => state.app);
+  const { isSettingsOpen, isLoginModalOpen } = useAppSelector(
+    (state) => state.app
+  );
 
   return (
     <div
       className={clsx(
-        { hidden: !isSettingsOpen },
+        { hidden: !isSettingsOpen && !isLoginModalOpen },
         "absolute h-screen w-screen bg-transparentBlack z-50 flex justify-center items-center"
       )}
     >

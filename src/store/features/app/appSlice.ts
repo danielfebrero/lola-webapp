@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface AppState {
   isLeftPanelOpen: boolean;
   isSettingsOpen: boolean;
+  isLoginModalOpen: boolean;
   currentlyViewing: {
     objectType: string;
     objectId: string | null;
@@ -20,6 +21,7 @@ const initialState: AppState = {
   isSmallScreen: window.innerWidth < 768,
   isLeftPanelOpen: window.innerWidth >= 768,
   isSettingsOpen: false,
+  isLoginModalOpen: false,
   currentlyViewing: {
     objectType: "",
     objectId: "",
@@ -43,6 +45,9 @@ export const appSlice = createSlice({
     },
     toggleSettings: (state) => {
       state.isSettingsOpen = !state.isSettingsOpen;
+    },
+    toggleLoginModal: (state) => {
+      state.isLoginModalOpen = !state.isLoginModalOpen;
     },
     setCurrentlyViewing: (state, action) => {
       state.currentlyViewing = action.payload;
@@ -180,6 +185,7 @@ export const {
   setIsSmallScreen,
   toggleLeftPanel,
   toggleSettings,
+  toggleLoginModal,
   setCurrentlyViewing,
   setSocketConnection,
   setThreadTitle,

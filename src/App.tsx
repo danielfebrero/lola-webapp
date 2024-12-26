@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Overlay from "./components/Overlay";
 import Settings from "./components/Settings";
 import Init from "./components/Init";
+import LoginModal from "./components/LoginModal";
 
 import CharacterPage from "./pages/Character";
 import GamePage from "./pages/Game";
@@ -31,6 +32,7 @@ const App: React.FC = () => {
         <Init />
         <Overlay>
           <Settings />
+          <LoginModal />
         </Overlay>
         <div className="app text-textPrimary flex flex-ro no-scrollbar overflow-hidden">
           <LeftPanel />
