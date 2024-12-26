@@ -19,6 +19,17 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
     props.hide();
   });
 
+  const signOutRedirect = () => {
+    const clientId = "6hg2ttnt7v00aflhj0qbgm0dgj";
+    const logoutUri = window.location.origin;
+    const cognitoDomain =
+      "https://us-east-1ggrb4rlvb.auth.us-east-1.amazoncognito.com";
+    auth.removeUser();
+    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(
+      logoutUri
+    )}`;
+  };
+
   return (
     <div
       ref={ref}
@@ -36,7 +47,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
       {auth.isAuthenticated ? (
         <div
           className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row items-center"
-          onClick={() => auth.removeUser()}
+          onClick={signOutRedirect}
         >
           <div className="h-[20px] w-[20px] text-textSecondary">
             <LogoutIcon />
@@ -46,7 +57,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
       ) : (
         <div
           className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row items-center"
-          onClick={() => auth.signinPopup()}
+          onClick={() => auth.signinRedirect()}
         >
           <div className="h-[20px] w-[20px] text-textSecondary">
             <LogoutIcon />

@@ -209,8 +209,6 @@ export default function useWebSocket({
     socketConnection?.send(JSON.stringify(msg));
   };
 
-  console.log({ user: auth.user, auth });
-
   const initData = (websocket: WebSocket) => {
     console.log("Fetching initData");
     websocket.send(

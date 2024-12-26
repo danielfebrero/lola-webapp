@@ -7,13 +7,11 @@ const LoginSuccess: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (auth.activeNavigator === "signinRedirect") {
-      auth.signinSilent().then(() => {
-        navigate("/");
-      });
+    if (auth.isAuthenticated) {
+      navigate("/");
     }
-  }, [auth, navigate]);
-  return <></>;
+  }, [auth]);
+  return <div className="w-full text-center">Logging in progress...</div>;
 };
 
 export default LoginSuccess;
