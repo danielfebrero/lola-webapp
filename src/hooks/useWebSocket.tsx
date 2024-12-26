@@ -177,10 +177,10 @@ export default function useWebSocket({
     threadId: string | null,
     extraFields?: Record<string, any>
   ) => {
-    if (!auth.isAuthenticated) {
-      dispatch(toggleLoginModal());
-      return;
-    }
+    // if (!auth.isAuthenticated) {
+    //   dispatch(toggleLoginModal());
+    //   return;
+    // }
 
     // Add user's message to the chat log
     if (threadId) dispatch(setChatLog({ threadId, canSendMessage: false }));

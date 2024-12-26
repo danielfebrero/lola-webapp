@@ -63,7 +63,7 @@ const Init: React.FC = () => {
   }, [socketConnection]);
 
   useEffect(() => {
-    if (!isDataLoaded && auth.isAuthenticated && socketConnection) {
+    if (!isDataLoaded && socketConnection) {
       initData(socketConnection);
       dispatch(setIsDataLoaded(true));
     }
