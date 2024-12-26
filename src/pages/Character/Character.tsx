@@ -129,7 +129,13 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   useEffect(() => {
     const mainId =
       chatLogs.filter((log) => log.type === "character")[0]?.threadId ?? null;
-    if (props.selected?.type === "main") setThreadId(mainId);
+    if (props.selected?.type === "main" && mainId) {
+      setThreadId(mainId);
+    }
+
+    if (props.selected?.type === "main" && !mainId) {
+      navigate("/character/new");
+    }
   }, [props.selected, chatLogs]);
 
   useEffect(() => {
