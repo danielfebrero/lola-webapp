@@ -13,6 +13,8 @@ const cognitoAuthConfig = {
   response_type: "code",
   scope: "phone openid email",
   userStore: new WebStorageStateStore({ store: window.localStorage }),
+  loadUserInfo: true,
+  automaticSilentRenew: true,
 };
 
 const root = ReactDOM.createRoot(

@@ -35,7 +35,7 @@ const LoginModal: React.FC = () => {
             Login or signup
           </button>
         ) : (
-          <div className="">Login successful</div>
+          <div className="mt-[20px] text-center w-full">Login successful</div>
         )}
       </div>
     </div>
