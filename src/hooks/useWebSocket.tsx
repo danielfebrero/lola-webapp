@@ -115,6 +115,7 @@ export default function useWebSocket({
               setCharacter({
                 threadId: data.threadId,
                 isReportProcessing: false,
+                isImageProcessing: !data.error,
                 ...data.data,
               })
             );

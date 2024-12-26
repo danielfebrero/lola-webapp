@@ -1,9 +1,6 @@
-import { useState, useEffect } from "react";
 import { useLocation } from "react-router";
 import Markdown from "markdown-to-jsx";
 
-import imageLola from "../../lola.jpeg";
-import imageDani from "../../dani.webp";
 import clsx from "clsx";
 import Loading from "../Loading";
 

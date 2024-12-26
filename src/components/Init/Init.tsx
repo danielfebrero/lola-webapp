@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   setSocketConnection,
   setIsDataLoaded,
+  setIsSmallScreen,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
@@ -65,6 +66,9 @@ const Init: React.FC = () => {
     return () => socketConnection?.close(); // Cleanup on unmount
   }, [socketConnection]);
 
+  window.addEventListener("resize", () =>
+    dispatch(setIsSmallScreen(window.innerWidth < 768))
+  );
   return <></>;
 };
 

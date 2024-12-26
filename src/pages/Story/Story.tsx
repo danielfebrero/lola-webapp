@@ -30,7 +30,6 @@ const Storypage: React.FC = () => {
 
   useEffect(() => {
     if (params.storyId) {
-      console.log("get thread chat log");
       setThreadId(params.storyId);
       dispatch(
         setChatLog({
@@ -40,6 +39,7 @@ const Storypage: React.FC = () => {
         })
       );
       if (socketConnection?.readyState === WebSocket.OPEN) {
+        console.log("get thread chat log");
         getThreadChatLog(params.storyId);
       }
     }

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router";
+import { NavLink, useLocation } from "react-router";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 
 import ChevronDown from "../../icons/chevronDown";

@@ -17,8 +17,8 @@ interface AppState {
 
 // Define the initial state using that type
 const initialState: AppState = {
-  isSmallScreen: window.screen.width < 700,
-  isLeftPanelOpen: window.screen.width > 700,
+  isSmallScreen: window.innerWidth < 768,
+  isLeftPanelOpen: window.innerWidth >= 768,
   isSettingsOpen: false,
   currentlyViewing: {
     objectType: "",
@@ -35,6 +35,9 @@ export const appSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    setIsSmallScreen: (state, action) => {
+      state.isSmallScreen = action.payload;
+    },
     toggleLeftPanel: (state) => {
       state.isLeftPanelOpen = !state.isLeftPanelOpen;
     },
@@ -174,6 +177,7 @@ export const appSlice = createSlice({
 });
 
 export const {
+  setIsSmallScreen,
   toggleLeftPanel,
   toggleSettings,
   setCurrentlyViewing,

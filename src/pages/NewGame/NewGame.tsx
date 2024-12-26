@@ -67,7 +67,7 @@ const NewGamePage: React.FC = () => {
 
   useEffect(() => {
     dispatch(setCurrentlyViewing({ objectType: "game", objectId: null }));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (socketConnection?.readyState === WebSocket.OPEN) {
