@@ -8,7 +8,7 @@ const LoginSuccess: React.FC = () => {
 
   useEffect(() => {
     if (auth.activeNavigator === "signinRedirect") {
-      auth.signinRedirect().then(() => {
+      auth.signinSilent().then(() => {
         navigate("/");
       });
     }
