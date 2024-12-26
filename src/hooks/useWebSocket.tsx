@@ -13,15 +13,11 @@ import {
 export default function useWebSocket({
   setThreadId,
   setIsChatInputAvailable,
-  setIsProcessing,
   setIsChatLoading,
-  setIsImageGenerating,
 }: {
   setThreadId?: (threadId: string) => void;
   setIsChatInputAvailable?: (isChatInputAvailable: boolean) => void;
-  setIsProcessing?: (isProcessing: boolean) => void;
   setIsChatLoading?: (isChatLoading: boolean) => void;
-  setIsImageGenerating?: (isImageGenerating: boolean) => void;
 }) {
   const socketConnection = useAppSelector(
     (state) => state.app.socketConnection
@@ -41,15 +37,29 @@ export default function useWebSocket({
             switch (data.status) {
               case "complete":
                 // Handle logic for when chat generation is complete
+                if (data.threadId && data.feature_type === "character") {
+                  dispatch(
+                    setCharacter({
+                      threadId: data.threadId,
+                      isReportProcessing: true,
+                      isImageProcessing: true,
+                    })
+                  );
+                }
                 if (setIsChatInputAvailable) setIsChatInputAvailable(true);
-                if (setIsProcessing) setIsProcessing(true);
-                if (setIsImageGenerating) setIsImageGenerating(true);
                 console.log("Chat generation complete");
                 break;
               case "done":
                 // Handle logic for when chat generation is done
-                if (setIsProcessing) setIsProcessing(false);
-                if (setIsImageGenerating) setIsImageGenerating(false);
+                if (data.threadId && data.feature_type === "character") {
+                  dispatch(
+                    setCharacter({
+                      threadId: data.threadId,
+                      isReportProcessing: false,
+                      isImageProcessing: false,
+                    })
+                  );
+                }
                 console.log("Chat generation done");
                 break;
               case "partial":
@@ -80,8 +90,24 @@ export default function useWebSocket({
             break;
 
           case "character":
-            if (setIsProcessing) setIsProcessing(false);
-            dispatch(setCharacter({ threadId: data.threadId, ...data.data }));
+            dispatch(
+              setCharacter({
+                threadId: data.threadId,
+                isReportProcessing: false,
+                isImageProcessing: false,
+                ...data.data,
+              })
+            );
+            break;
+
+          case "json_character_generation":
+            dispatch(
+              setCharacter({
+                threadId: data.threadId,
+                isReportProcessing: false,
+                ...data.data,
+              })
+            );
             break;
 
           case "characters":
@@ -95,9 +121,12 @@ export default function useWebSocket({
             break;
 
           case "image_generation":
-            if (setIsImageGenerating) setIsImageGenerating(false);
             dispatch(
-              setCharacter({ threadId: data.threadId, newImage: data.s3Url })
+              setCharacter({
+                threadId: data.threadId,
+                newImage: data.s3Url,
+                isImageProcessing: false,
+              })
             );
 
             break;

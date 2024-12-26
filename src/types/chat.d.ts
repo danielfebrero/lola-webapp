@@ -12,4 +12,5 @@ interface ChatLog {
   chatLog?: Message[];
   type?: string;
   title?: string;
+  isLoading?: boolean;
 }

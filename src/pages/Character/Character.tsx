@@ -8,7 +8,10 @@ import JSONView from "./JSONView";
 import ReportView from "./ReportView";
 import ImageView from "./ImageView";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setCurrentlyViewing } from "../../store/features/app/appSlice";
+import {
+  setCurrentlyViewing,
+  setCharacter,
+} from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import ExploreIcon from "../../icons/explore";
 import ChatIcon from "../../icons/chat";
@@ -47,8 +50,6 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   );
   const [threadId, setThreadId] = useState<string | null>(null);
   const [chatLog, setChatLog] = useState<Message[]>(chatLogState);
-  const [isProcessing, setIsProcessing] = useState<boolean>(false);
-  const [isImageGenerating, setIsImageGenerating] = useState<boolean>(false);
   const [isChatLoading, setIsChatLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const [isChatInputAvailable, setIsChatInputAvailable] =
@@ -63,9 +64,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     useWebSocket({
       setThreadId,
       setIsChatInputAvailable,
-      setIsProcessing,
       setIsChatLoading,
-      setIsImageGenerating,
     });
 
   const sendMessageToCharacter = (content: string, threadId: string | null) => {
@@ -82,7 +81,13 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   useEffect(() => {
     if (params.characterId && params.characterId !== "new") {
       setIsChatLoading(true);
-      setIsProcessing(true);
+      dispatch(
+        setCharacter({
+          threadId: params.characterId,
+          isImageProcessing: true,
+          isReportProcessing: true,
+        })
+      );
       if (params.characterId !== threadId) setThreadId(params.characterId);
       setTimeout(() => {
         if (
@@ -214,8 +219,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   id={threadId}
                   json={character.json}
                   images={character.images}
-                  isProcessing={isProcessing}
-                  isImageGenerating={isImageGenerating}
+                  isProcessing={character.isReportProcessing ?? false}
+                  isImageGenerating={character.isImageProcessing ?? false}
                 />
               </div>
             )}
@@ -225,7 +230,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   type="character"
                   id={threadId}
                   json={character.json}
-                  isProcessing={isProcessing}
+                  isProcessing={character.isReportProcessing ?? false}
                 />
               </div>
             )}
@@ -235,7 +240,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   type="character"
                   id={threadId}
                   images={character.images}
-                  isProcessing={isImageGenerating}
+                  isProcessing={character.isImageProcessing ?? false}
                 />
               </div>
             )}

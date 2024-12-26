@@ -137,6 +137,12 @@ export const appSlice = createSlice({
       if (currentCharacter) {
         currentCharacter.name = action.payload.name ?? currentCharacter.name;
         currentCharacter.json = action.payload.json ?? currentCharacter.json;
+        currentCharacter.isImageProcessing =
+          action.payload.isImageProcessing ??
+          currentCharacter.isImageProcessing;
+        currentCharacter.isReportProcessing =
+          action.payload.isReportProcessing ??
+          currentCharacter.isReportProcessing;
         if (action.payload.newImage) {
           if (!currentCharacter.images)
             currentCharacter.images = [action.payload.newImage];
