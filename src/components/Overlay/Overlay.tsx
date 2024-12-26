@@ -6,7 +6,7 @@ interface OverlayProps {
 }
 
 const Overlay: React.FC<OverlayProps> = (props) => {
-  const isSettingsOpen = useAppSelector((state) => state.app.isSettingsOpen);
+  const { isSettingsOpen } = useAppSelector((state) => state.app);
 
   return (
     <div

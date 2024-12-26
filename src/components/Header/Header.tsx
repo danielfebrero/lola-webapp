@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router";
+import { useAuth } from "react-oidc-context";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 
 import ChevronDown from "../../icons/chevronDown";
@@ -13,6 +14,7 @@ import useNewChatLocation from "../../hooks/useNewChatLocation";
 import ShareIcon from "../../icons/share";
 
 const Header: React.FC = () => {
+  const auth = useAuth();
   const [modeDropdownOpen, setModeDropdownOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [headerLabel, setHeaderLabel] = useState("Main character");
@@ -104,7 +106,9 @@ const Header: React.FC = () => {
           className="bg-sky-700 rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer"
           onClick={toggleProfileDropdown}
         >
-          D
+          {auth.isAuthenticated
+            ? auth.user?.profile.email?.substring(0, 1).toUpperCase()
+            : null}
         </div>
         <div className={clsx({ hidden: !profileDropdownOpen })}>
           <ProfileDropdown hide={() => setProfileDropdownOpen(false)} />

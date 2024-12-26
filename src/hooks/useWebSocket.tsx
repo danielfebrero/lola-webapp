@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import i18n from "i18next";
+import { useAuth } from "react-oidc-context";
+
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import {
   addChatLog,
@@ -15,6 +17,7 @@ export default function useWebSocket({
 }: {
   setThreadId?: (threadId: string) => void;
 }) {
+  const auth = useAuth();
   const socketConnection = useAppSelector(
     (state) => state.app.socketConnection
   );
@@ -173,6 +176,11 @@ export default function useWebSocket({
     threadId: string | null,
     extraFields?: Record<string, any>
   ) => {
+    if (!auth.isAuthenticated) {
+      auth.signinPopup();
+      return;
+    }
+
     // Add user's message to the chat log
     if (threadId) dispatch(setChatLog({ threadId, canSendMessage: false }));
     if (threadId)
@@ -191,6 +199,7 @@ export default function useWebSocket({
       endpoint: endpoint,
       input_text: message,
       language: i18n.language,
+      token: auth.user?.id_token,
       ...extraFields,
     };
 
@@ -198,6 +207,8 @@ export default function useWebSocket({
 
     socketConnection?.send(JSON.stringify(msg));
   };
+
+  console.log({ user: auth.user });
 
   const initData = (websocket: WebSocket) => {
     console.log("Fetching initData");

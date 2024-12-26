@@ -12,6 +12,7 @@ module.exports = {
         borderBlack: "#0000001a",
         messageBackground: "hsla(0,0%,91%,.5)",
         transparentBlack: "#00000080",
+        buttonGreen: "#10a37f",
       },
     },
   },

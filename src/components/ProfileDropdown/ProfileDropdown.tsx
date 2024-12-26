@@ -19,7 +19,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
   return (
     <div
       ref={ref}
-      className="rounded-lg border border-borderLight shadow pl-[5px] pr-[5px] pt-[5px] pb-[5px] w-fit absolute z-10 bg-white min-w-[260px] right-[20px] mt-[10px]"
+      className="rounded-lg border border-borderLight shadow pl-[5px] pr-[5px] pt-[5px] pb-[5px] w-fit absolute z-10 bg-white min-w-[260px] right-[20px] mt-[40px]"
     >
       <div
         className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row items-center"
