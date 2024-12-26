@@ -4,28 +4,30 @@ import { useEffect, useRef, useState } from "react";
 import Chat from "../../components/Chat";
 import SendChatInput from "../../components/SendChatInput";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setCurrentlyViewing } from "../../store/features/app/appSlice";
+import {
+  setCurrentlyViewing,
+  setChatLog as setChatLogAction,
+} from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import { addChatLog } from "../../store/features/app/appSlice";
 
 const LolaPage: React.FC = () => {
   const [chatLog, setChatLog] = useState<Message[]>([]);
   const [threadId, setThreadId] = useState<string | null>(null);
-  const [isChatLoading, setIsChatLoading] = useState<boolean>(false);
   const params = useParams();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
-  const [isChatInputAvailable, setIsChatInputAvailable] =
-    useState<boolean>(true);
 
   const { sendMessage, socketConnection, getThreadChatLog } = useWebSocket({
     setThreadId,
-    setIsChatInputAvailable,
-    setIsChatLoading,
   });
 
   const chatLogs = useAppSelector((state) => state.app.chatLogs);
+
+  const chatState = useAppSelector((state) =>
+    state.app.chatLogs.find((log) => log.threadId === params.conversationId)
+  );
 
   const sendMessageToLola = (content: string, threadId: string | null) => {
     sendMessage(content, "lola", threadId);
@@ -35,8 +37,13 @@ const LolaPage: React.FC = () => {
   useEffect(() => {
     if (params.conversationId) {
       console.log("get thread chat log");
-      setIsChatLoading(true);
-      setIsChatInputAvailable(false);
+      dispatch(
+        setChatLogAction({
+          threadId: params.conversationId,
+          isLoading: true,
+          isInputAvailable: false,
+        })
+      );
       setThreadId(params.conversationId);
       if (socketConnection?.readyState === WebSocket.OPEN) {
         getThreadChatLog(params.conversationId);
@@ -105,7 +112,7 @@ const LolaPage: React.FC = () => {
             type="lola"
             id={params.conversationId}
             chatLog={chatLog}
-            isChatLoading={isChatLoading}
+            isChatLoading={chatState?.isLoading ?? false}
           />
         </div>
         <div className="justify-center flex w-full">
@@ -113,7 +120,8 @@ const LolaPage: React.FC = () => {
             <SendChatInput
               type="lola"
               onSend={(message) => sendMessageToLola(message, threadId)}
-              isChatInputAvailable={isChatInputAvailable}
+              canSendMessage={chatState?.canSendMessage ?? true}
+              isChatInputAvailable={chatState?.isInputAvailable ?? true}
             />
           </div>
         </div>

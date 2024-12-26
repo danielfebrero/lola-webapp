@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   setCurrentlyViewing,
   setCharacter,
+  setChatLog as setChatLogAction,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import ExploreIcon from "../../icons/explore";
@@ -39,6 +40,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       state.app.chatLogs.find((log) => log.threadId === params.characterId)
         ?.chatLog ?? newroleChat
   );
+  const chatState = useAppSelector((state) =>
+    state.app.chatLogs.find((log) => log.threadId === params.characterId)
+  );
   const { chatLogs, isSmallScreen, isLeftPanelOpen } = useAppSelector(
     (state) => state.app
   );
@@ -50,10 +54,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   );
   const [threadId, setThreadId] = useState<string | null>(null);
   const [chatLog, setChatLog] = useState<Message[]>(chatLogState);
-  const [isChatLoading, setIsChatLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const [isChatInputAvailable, setIsChatInputAvailable] =
-    useState<boolean>(true);
+  useState<boolean>(true);
   const [mobileView, setMobileView] = useState<string>("chat");
 
   const [selectedRightViewType, setSelectedRightViewType] = useState<
@@ -63,8 +65,6 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const { sendMessage, getThreadChatLog, getCharacter, socketConnection } =
     useWebSocket({
       setThreadId,
-      setIsChatInputAvailable,
-      setIsChatLoading,
     });
 
   const sendMessageToCharacter = (content: string, threadId: string | null) => {
@@ -80,7 +80,13 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   useEffect(() => {
     if (params.characterId && params.characterId !== "new") {
-      setIsChatLoading(true);
+      dispatch(
+        setChatLogAction({
+          threaId: params.characterId,
+          isLoading: true,
+          isInputAvailable: false,
+        })
+      );
       dispatch(
         setCharacter({
           threadId: params.characterId,
@@ -169,14 +175,15 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
               type="character"
               id={threadId}
               chatLog={chatLog}
-              isChatLoading={isChatLoading}
+              isChatLoading={chatState?.isLoading ?? false}
             />
           </div>
           <div className="justify-center flex w-full md:px-0 px-[30px]">
             <SendChatInput
               type="character"
               id={threadId}
-              isChatInputAvailable={isChatInputAvailable}
+              isChatInputAvailable={chatState?.isInputAvailable ?? true}
+              canSendMessage={chatState?.canSendMessage ?? true}
               onSend={(message) => sendMessageToCharacter(message, threadId)}
             />
           </div>

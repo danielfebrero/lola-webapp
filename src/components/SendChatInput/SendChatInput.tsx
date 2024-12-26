@@ -5,6 +5,7 @@ interface SendChatInputProps {
   id?: string | null;
   onSend?: (message: string) => void;
   isChatInputAvailable: boolean;
+  canSendMessage: boolean;
 }
 
 const SendChatInput: React.FC<SendChatInputProps> = (props) => {
@@ -20,7 +21,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      if (props.onSend && value.trim() !== "") {
+      if (props.onSend && value.trim() !== "" && props.canSendMessage) {
         props.onSend(value.trim());
         setValue("");
       }

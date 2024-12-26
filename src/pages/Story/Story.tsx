@@ -4,22 +4,19 @@ import { useEffect, useRef, useState } from "react";
 import Chat from "../../components/Chat";
 import SendChatInput from "../../components/SendChatInput";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setCurrentlyViewing } from "../../store/features/app/appSlice";
+import {
+  setCurrentlyViewing,
+  setChatLog,
+} from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
 const Storypage: React.FC = () => {
   const [threadId, setThreadId] = useState<string | null>(null);
-  const [isChatLoading, setIsChatLoading] = useState<boolean>(false);
   const params = useParams();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-  const [isChatInputAvailable, setIsChatInputAvailable] =
-    useState<boolean>(true);
 
-  const { sendMessage, getThreadChatLog, socketConnection } = useWebSocket({
-    setIsChatInputAvailable,
-    setIsChatLoading,
-  });
+  const { sendMessage, getThreadChatLog, socketConnection } = useWebSocket({});
 
   const chatLog = useAppSelector(
     (state) =>
@@ -27,11 +24,21 @@ const Storypage: React.FC = () => {
         ?.chatLog ?? []
   );
 
+  const chatState = useAppSelector((state) =>
+    state.app.chatLogs.find((log) => log.threadId === params.storyId)
+  );
+
   useEffect(() => {
     if (params.storyId) {
       console.log("get thread chat log");
       setThreadId(params.storyId);
-      setIsChatLoading(true);
+      dispatch(
+        setChatLog({
+          threadId: params.storyId,
+          isInputAvailable: false,
+          isLoading: true,
+        })
+      );
       if (socketConnection?.readyState === WebSocket.OPEN) {
         getThreadChatLog(params.storyId);
       }
@@ -70,7 +77,7 @@ const Storypage: React.FC = () => {
             type="story"
             id={params.conversationId}
             chatLog={chatLog}
-            isChatLoading={isChatLoading}
+            isChatLoading={chatState?.isLoading ?? false}
           />
         </div>
         <div className="justify-center flex w-full">
@@ -78,7 +85,8 @@ const Storypage: React.FC = () => {
             <SendChatInput
               type="story"
               onSend={(message) => sendMessage(message, "story", threadId)}
-              isChatInputAvailable={isChatInputAvailable}
+              canSendMessage={chatState?.canSendMessage ?? true}
+              isChatInputAvailable={chatState?.isInputAvailable ?? true}
             />
           </div>
         </div>

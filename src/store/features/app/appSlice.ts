@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 // Define a type for the slice state
 interface AppState {
@@ -69,13 +69,20 @@ export const appSlice = createSlice({
         (log) => log.threadId === action.payload.threadId
       );
       if (currentLog) {
-        currentLog.chatLog = action.payload.chatLog;
-        if (action.payload.type) currentLog.type = action.payload.type;
+        currentLog.chatLog = action.payload.chatLog ?? currentLog.chatLog;
+        currentLog.canSendMessage =
+          action.payload.canSendMessage ?? currentLog.canSendMessage;
+        currentLog.isLoading = action.payload.isLoading ?? currentLog.isLoading;
+        currentLog.isInputAvailable =
+          action.payload.isInputAvailable ?? currentLog.isInputAvailable;
+        currentLog.type = action.payload.type ?? currentLog.type;
       } else {
         state.chatLogs.unshift({
           threadId: action.payload.threadId,
           chatLog: action.payload.chatLog,
           type: action.payload.type,
+          isInputAvailable: true,
+          isLoading: false,
         });
       }
     },

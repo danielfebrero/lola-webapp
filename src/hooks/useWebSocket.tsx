@@ -12,12 +12,8 @@ import {
 
 export default function useWebSocket({
   setThreadId,
-  setIsChatInputAvailable,
-  setIsChatLoading,
 }: {
   setThreadId?: (threadId: string) => void;
-  setIsChatInputAvailable?: (isChatInputAvailable: boolean) => void;
-  setIsChatLoading?: (isChatLoading: boolean) => void;
 }) {
   const socketConnection = useAppSelector(
     (state) => state.app.socketConnection
@@ -46,7 +42,13 @@ export default function useWebSocket({
                     })
                   );
                 }
-                if (setIsChatInputAvailable) setIsChatInputAvailable(true);
+                dispatch(
+                  setChatLog({
+                    threadId: data.threadId,
+                    isInputAvailable: true,
+                    canSendMessage: true,
+                  })
+                );
                 console.log("Chat generation complete");
                 break;
               case "done":
@@ -70,6 +72,8 @@ export default function useWebSocket({
                 dispatch(
                   addChatLog({
                     threadId: data.threadId,
+                    canSendMessage: false,
+                    isInputAvailable: true,
                     content: data.content,
                     type: data.feature_type,
                     role: "assistant",
@@ -78,7 +82,13 @@ export default function useWebSocket({
                 break;
               case "init":
                 if (setThreadId) setThreadId(data.threadId);
-                if (setIsChatInputAvailable) setIsChatInputAvailable(false);
+                dispatch(
+                  setChatLog({
+                    threadId: data.threadId,
+                    isInputAvailable: true,
+                    canSendMessage: false,
+                  })
+                );
                 break;
               default:
                 console.warn("Unhandled chat status:", data.status);
@@ -132,12 +142,12 @@ export default function useWebSocket({
             break;
 
           case "messages":
-            if (setIsChatLoading) setIsChatLoading(false);
-            if (setIsChatInputAvailable) setIsChatInputAvailable(true);
             dispatch(
               setChatLog({
                 chatLog: data.data,
                 threadId: data.threadId,
+                isInputAvailable: true,
+                isLoading: false,
                 type: data.feature_type,
               })
             );
@@ -163,8 +173,7 @@ export default function useWebSocket({
     extraFields?: Record<string, any>
   ) => {
     // Add user's message to the chat log
-    if (setIsChatInputAvailable) setIsChatInputAvailable(false);
-
+    if (threadId) dispatch(setChatLog({ threadId, canSendMessage: false }));
     if (threadId)
       dispatch(
         addChatLog({
