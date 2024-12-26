@@ -62,6 +62,8 @@ const Init: React.FC = () => {
     return () => socketConnection?.close(); // Cleanup on unmount
   }, [socketConnection]);
 
+  console.log({ auth });
+
   useEffect(() => {
     if (!isDataLoaded && auth.isAuthenticated && socketConnection) {
       initData(socketConnection);

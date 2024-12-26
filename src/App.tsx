@@ -18,6 +18,7 @@ import StoryPage from "./pages/Story";
 import LolaPage from "./pages/Lola";
 import NewStoryPage from "./pages/NewStory";
 import NewGamePage from "./pages/NewGame";
+import LoginSuccess from "./pages/LoginSuccess";
 
 import { store } from "./store/store";
 
@@ -44,6 +45,7 @@ const App: React.FC = () => {
                   path="/"
                   element={<Navigate to="/character/main" replace />}
                 />
+                <Route path="/login/success" element={<LoginSuccess />} />
                 <Route
                   path="/character/main"
                   element={<CharacterPage selected={{ type: "main" }} />}
@@ -59,6 +61,10 @@ const App: React.FC = () => {
                 <Route path="/story/new" element={<NewStoryPage />} />
                 <Route path="/lola/:conversationId" element={<LolaPage />} />
                 <Route path="/lola/new" element={<LolaPage />} />
+                <Route
+                  path="/"
+                  element={<Navigate to="/character/main" replace />}
+                />
               </Routes>
             </div>
             <div className="flex w-full">

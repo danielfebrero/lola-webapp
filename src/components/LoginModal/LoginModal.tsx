@@ -27,12 +27,16 @@ const LoginModal: React.FC = () => {
         </div>
       </div>
       <div className="flex flex-row">
-        <button
-          onClick={() => auth.signinPopup()}
-          className="bg-buttonGreen text-white h-[50px] w-[220px] rounded-lg flex justify-center items-center mx-[40px] mt-[20px]"
-        >
-          Login or signup
-        </button>
+        {!auth.isAuthenticated ? (
+          <button
+            onClick={() => auth.signinPopup()}
+            className="bg-buttonGreen text-white h-[50px] w-[220px] rounded-lg flex justify-center items-center mx-[40px] mt-[20px]"
+          >
+            Login or signup
+          </button>
+        ) : (
+          <div className="">Login successful</div>
+        )}
       </div>
     </div>
   );

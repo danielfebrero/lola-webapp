@@ -36,7 +36,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
       {auth.isAuthenticated ? (
         <div
           className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row items-center"
-          onClick={() => auth.signoutPopup()}
+          onClick={() => auth.removeUser()}
         >
           <div className="h-[20px] w-[20px] text-textSecondary">
             <LogoutIcon />
