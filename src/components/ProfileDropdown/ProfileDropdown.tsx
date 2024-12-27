@@ -62,7 +62,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
           <div className="h-[20px] w-[20px] text-textSecondary">
             <LogoutIcon />
           </div>
-          <div className="ml-[10px]">Login</div>
+          <div className="ml-[10px]">Signup or login</div>
         </div>
       )}
     </div>
