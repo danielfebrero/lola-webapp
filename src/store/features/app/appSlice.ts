@@ -72,6 +72,11 @@ export const appSlice = createSlice({
         ],
       }));
     },
+    deleteChatLog: (state, action) => {
+      state.chatLogs = state.chatLogs.filter(
+        (log) => log.threadId !== action.payload
+      );
+    },
     setChatLog: (state, action) => {
       const currentLog = state.chatLogs?.find(
         (log) => log.threadId === action.payload.threadId
@@ -145,6 +150,11 @@ export const appSlice = createSlice({
     setCharacters: (state, action) => {
       state.characters = action.payload;
     },
+    deleteCharacter: (state, action) => {
+      state.characters = state.characters.filter(
+        (character) => character.threadId !== action.payload
+      );
+    },
     setCharacter: (state, action) => {
       const currentCharacter = state.characters?.find(
         (character) => character.threadId === action.payload.threadId
@@ -195,6 +205,8 @@ export const {
   setIsDataLoaded,
   setCharacter,
   setCharacters,
+  deleteCharacter,
+  deleteChatLog,
 } = appSlice.actions;
 
 export default appSlice.reducer;

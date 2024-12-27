@@ -10,6 +10,8 @@ import {
   setThreadTitle,
   setCharacter,
   setCharacters,
+  deleteChatLog,
+  deleteCharacter as deleteCharacterAction,
 } from "../store/features/app/appSlice";
 
 export default function useWebSocket({
@@ -31,138 +33,154 @@ export default function useWebSocket({
       try {
         const data = JSON.parse(event.data);
         console.log({ data });
-        switch (data.type) {
-          case "chat":
-            switch (data.status) {
-              case "complete":
-                // Handle logic for when chat generation is complete
-                if (data.threadId && data.feature_type === "character") {
-                  dispatch(
-                    setCharacter({
-                      threadId: data.threadId,
-                      isReportProcessing: true,
-                      isImageProcessing: true,
-                    })
-                  );
-                }
-                dispatch(
-                  setChatLog({
-                    threadId: data.threadId,
-                    isInputAvailable: true,
-                    canSendMessage: true,
-                  })
-                );
-                console.log("Chat generation complete");
-                break;
-              case "done":
-                // Handle logic for when chat generation is done
-                if (data.threadId && data.feature_type === "character") {
-                  dispatch(
-                    setCharacter({
-                      threadId: data.threadId,
-                      isReportProcessing: false,
-                      isImageProcessing: false,
-                    })
-                  );
-                }
-                console.log("Chat generation done");
-                break;
-              case "partial":
-                // Handle logic for when chat generation is partial
-                console.log("Partial chat data received");
+        switch (data.action) {
+          case "fetch":
+            switch (data.type) {
+              case "chat":
+                switch (data.status) {
+                  case "complete":
+                    // Handle logic for when chat generation is complete
+                    if (data.threadId && data.feature_type === "character") {
+                      dispatch(
+                        setCharacter({
+                          threadId: data.threadId,
+                          isReportProcessing: true,
+                          isImageProcessing: true,
+                        })
+                      );
+                    }
+                    dispatch(
+                      setChatLog({
+                        threadId: data.threadId,
+                        isInputAvailable: true,
+                        canSendMessage: true,
+                      })
+                    );
+                    console.log("Chat generation complete");
+                    break;
+                  case "done":
+                    // Handle logic for when chat generation is done
+                    if (data.threadId && data.feature_type === "character") {
+                      dispatch(
+                        setCharacter({
+                          threadId: data.threadId,
+                          isReportProcessing: false,
+                          isImageProcessing: false,
+                        })
+                      );
+                    }
+                    console.log("Chat generation done");
+                    break;
+                  case "partial":
+                    // Handle logic for when chat generation is partial
+                    console.log("Partial chat data received");
 
-                // Add assistant's message to the chat log
+                    // Add assistant's message to the chat log
+                    dispatch(
+                      addChatLog({
+                        threadId: data.threadId,
+                        canSendMessage: false,
+                        isInputAvailable: true,
+                        content: data.content,
+                        type: data.feature_type,
+                        role: "assistant",
+                      })
+                    );
+                    break;
+                  case "init":
+                    if (setThreadId) setThreadId(data.threadId);
+                    dispatch(
+                      setChatLog({
+                        threadId: data.threadId,
+                        isInputAvailable: true,
+                        canSendMessage: false,
+                      })
+                    );
+                    break;
+                  default:
+                    console.warn("Unhandled chat status:", data.status);
+                }
+                break;
+
+              case "threads":
+                dispatch(setChatLogs(data.data));
+                break;
+
+              case "character":
                 dispatch(
-                  addChatLog({
+                  setCharacter({
                     threadId: data.threadId,
-                    canSendMessage: false,
-                    isInputAvailable: true,
-                    content: data.content,
-                    type: data.feature_type,
-                    role: "assistant",
+                    isReportProcessing: false,
+                    isImageProcessing: false,
+                    ...data.data,
                   })
                 );
                 break;
-              case "init":
-                if (setThreadId) setThreadId(data.threadId);
+
+              case "json_character_generation":
+                dispatch(
+                  setCharacter({
+                    threadId: data.threadId,
+                    isReportProcessing: false,
+                    isImageProcessing: !data.error,
+                    ...data.data,
+                  })
+                );
+                break;
+
+              case "characters":
+                dispatch(setCharacters(data.data));
+                break;
+
+              case "thread_title":
+                dispatch(
+                  setThreadTitle({ threadId: data.threadId, title: data.title })
+                );
+                break;
+
+              case "image_generation":
+                dispatch(
+                  setCharacter({
+                    threadId: data.threadId,
+                    newImage: data.s3Url,
+                    isImageProcessing: false,
+                  })
+                );
+
+                break;
+
+              case "messages":
                 dispatch(
                   setChatLog({
+                    chatLog: data.data,
                     threadId: data.threadId,
                     isInputAvailable: true,
-                    canSendMessage: false,
+                    isLoading: false,
+                    type: data.feature_type,
                   })
                 );
                 break;
+
+              case "error":
+                console.error("Error from server:", data.error);
+                break;
+
               default:
-                console.warn("Unhandled chat status:", data.status);
+                console.warn("Unhandled message type:", data.type);
             }
             break;
 
-          case "threads":
-            dispatch(setChatLogs(data.data));
-            break;
-
-          case "character":
-            dispatch(
-              setCharacter({
-                threadId: data.threadId,
-                isReportProcessing: false,
-                isImageProcessing: false,
-                ...data.data,
-              })
-            );
-            break;
-
-          case "json_character_generation":
-            dispatch(
-              setCharacter({
-                threadId: data.threadId,
-                isReportProcessing: false,
-                isImageProcessing: !data.error,
-                ...data.data,
-              })
-            );
-            break;
-
-          case "characters":
-            dispatch(setCharacters(data.data));
-            break;
-
-          case "thread_title":
-            dispatch(
-              setThreadTitle({ threadId: data.threadId, title: data.title })
-            );
-            break;
-
-          case "image_generation":
-            dispatch(
-              setCharacter({
-                threadId: data.threadId,
-                newImage: data.s3Url,
-                isImageProcessing: false,
-              })
-            );
-
-            break;
-
-          case "messages":
-            dispatch(
-              setChatLog({
-                chatLog: data.data,
-                threadId: data.threadId,
-                isInputAvailable: true,
-                isLoading: false,
-                type: data.feature_type,
-              })
-            );
-            break;
-
-          case "error":
-            console.error("Error from server:", data.error);
-            break;
-
-          default:
-            console.warn("Unhandled message type:", data.type);
+          case "delete":
+            switch (data.type) {
+              case "character":
+                if (data.success) {
+                  dispatch(deleteCharacterAction(data.threadId));
+                  dispatch(deleteChatLog(data.threadId));
+                }
+                break;
+              default:
+                console.warn("Unhandled delete type:", data.type);
+            }
         }
       } catch (err) {
         console.error("Failed to parse WebSocket message", event.data, err);
