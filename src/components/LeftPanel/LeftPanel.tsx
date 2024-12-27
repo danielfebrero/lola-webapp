@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 import PanelIcon from "../../icons/panel";
 import NewChatIcon from "../../icons/newChat";
+import OptionsIcon from "../../icons/options";
 import PlusIcon from "../../icons/plus";
 import imageDani from "../../dani.webp";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -92,50 +93,56 @@ const LeftPanel: React.FC = () => {
               chatLogs
                 .filter((log) => log.type === "character")
                 .map((char) => (
-                  <NavLink
-                    key={char.threadId}
-                    onClick={
-                      isSmallScreen
-                        ? () => dispatch(toggleLeftPanel())
-                        : undefined
-                    }
-                    to={
-                      char.type === "main"
-                        ? "/character/main"
-                        : `/character/${char.threadId}`
-                    }
-                  >
-                    <div className="flex flex-row items-center h-[40px] hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px]">
-                      <div
-                        className={clsx(
-                          {
-                            "bg-gray-200 rounded-full":
-                              characters.find(
-                                (c) => c.threadId === char.threadId
-                              )?.images?.[0] === undefined,
-                          },
-                          "h-[24px] w-[24px]"
-                        )}
-                      >
-                        {" "}
-                        {characters.find((c) => c.threadId === char.threadId)
-                          ?.images?.[0] ? (
-                          <img
-                            src={
-                              characters.find(
-                                (c) => c.threadId === char.threadId
-                              )?.images?.[0] ?? imageDani
-                            }
-                            className="rounded-full h-[24px] w-[24px] object-cover"
-                          />
-                        ) : null}
+                  <div className="group flex flex-row items-center h-[40px] hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] justify-between">
+                    <NavLink
+                      key={char.threadId}
+                      className="flex grow"
+                      onClick={
+                        isSmallScreen
+                          ? () => dispatch(toggleLeftPanel())
+                          : undefined
+                      }
+                      to={
+                        char.type === "main"
+                          ? "/character/main"
+                          : `/character/${char.threadId}`
+                      }
+                    >
+                      <div className="flex flex-row">
+                        <div
+                          className={clsx(
+                            {
+                              "bg-gray-200 rounded-full":
+                                characters.find(
+                                  (c) => c.threadId === char.threadId
+                                )?.images?.[0] === undefined,
+                            },
+                            "h-[24px] w-[24px]"
+                          )}
+                        >
+                          {" "}
+                          {characters.find((c) => c.threadId === char.threadId)
+                            ?.images?.[0] ? (
+                            <img
+                              src={
+                                characters.find(
+                                  (c) => c.threadId === char.threadId
+                                )?.images?.[0] ?? imageDani
+                              }
+                              className="rounded-full h-[24px] w-[24px] object-cover"
+                            />
+                          ) : null}
+                        </div>
+                        <span className="pl-[10px] truncate">
+                          {characters.find((c) => c.threadId === char.threadId)
+                            ?.json?.name ?? char.title}
+                        </span>
                       </div>
-                      <span className="pl-[10px] truncate">
-                        {characters.find((c) => c.threadId === char.threadId)
-                          ?.json?.name ?? char.title}
-                      </span>
+                    </NavLink>
+                    <div className="group-hover:block hidden cursor-pointer h-[24px] w-[24px] text-textSecondary">
+                      <OptionsIcon />
                     </div>
-                  </NavLink>
+                  </div>
                 ))
             )}
           </div>
