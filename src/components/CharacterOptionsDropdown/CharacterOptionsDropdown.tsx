@@ -20,11 +20,14 @@ const CharacterOptionsDropdown: React.FC<CharacterOptionsDropdownProps> = (
       ref={ref}
       className="w-auto h-auto p-[10px] flex flex-col rounded-lg border border-borderColor absolute bg-white"
     >
-      <div className="rounded-md w-full hover:bg-lightGray px-[15px] py-[10px] flex flex-row items-center cursor-pointer text-textError">
+      <div
+        onClick={() => deleteCharacter(props.threadId)}
+        className="rounded-md w-full hover:bg-lightGray px-[15px] py-[10px] flex flex-row items-center cursor-pointer text-textError"
+      >
         <div className="h-[20px] w-[20px] mr-[10px]">
           <DeleteIcon />
         </div>
-        <span onClick={() => deleteCharacter(props.threadId)}>Delete</span>
+        <span>Delete</span>
       </div>
     </div>
   );
