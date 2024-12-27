@@ -155,6 +155,7 @@ const LeftPanel: React.FC = () => {
                     {displayCharacterDropdownId === char.threadId && (
                       <div className="left-[260px] z-20">
                         <CharacterOptionsDropdown
+                          threadId={char.threadId}
                           hide={() => setDisplayCharacterDropdownId(null)}
                         />
                       </div>

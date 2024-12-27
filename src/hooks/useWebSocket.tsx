@@ -10,7 +10,6 @@ import {
   setThreadTitle,
   setCharacter,
   setCharacters,
-  toggleLoginModal,
 } from "../store/features/app/appSlice";
 
 export default function useWebSocket({
