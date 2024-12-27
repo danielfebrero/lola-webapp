@@ -262,12 +262,25 @@ export default function useWebSocket({
     );
   };
 
+  const deleteCharacter = (threadId: string) => {
+    console.log("Deleting Character for thread: ", threadId);
+    socketConnection?.send(
+      JSON.stringify({
+        action: "deleteData",
+        endpoint: "character",
+        threadId,
+        token: auth.user?.id_token,
+      })
+    );
+  };
+
   return {
     sendMessage,
     initData,
     getThreadChatLog,
     getCharacter,
     getCharacters,
+    deleteCharacter,
     socketConnection,
   };
 }

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink } from "react-router";
 import clsx from "clsx";
 
@@ -9,9 +10,13 @@ import imageDani from "../../dani.webp";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { toggleLeftPanel } from "../../store/features/app/appSlice";
 import useNewChatLocation from "../../hooks/useNewChatLocation";
+import CharacterOptionsDropdown from "../CharacterOptionsDropdown";
 
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
+  const [displayCharacterDropdownId, setDisplayCharacterDropdownId] = useState<
+    string | null
+  >(null);
   const newChatLocation = useNewChatLocation();
   const { isLeftPanelOpen, chatLogs, characters, isSmallScreen } =
     useAppSelector((state) => state.app);
@@ -139,9 +144,21 @@ const LeftPanel: React.FC = () => {
                         </span>
                       </div>
                     </NavLink>
-                    <div className="group-hover:block hidden cursor-pointer h-[24px] w-[24px] text-textSecondary">
+                    <div
+                      className="group-hover:block hidden cursor-pointer h-[24px] w-[24px] text-textSecondary"
+                      onClick={() =>
+                        setDisplayCharacterDropdownId(char.threadId)
+                      }
+                    >
                       <OptionsIcon />
                     </div>
+                    {displayCharacterDropdownId === char.threadId && (
+                      <div className="left-[260px] z-20">
+                        <CharacterOptionsDropdown
+                          hide={() => setDisplayCharacterDropdownId(null)}
+                        />
+                      </div>
+                    )}
                   </div>
                 ))
             )}

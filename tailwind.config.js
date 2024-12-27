@@ -13,6 +13,7 @@ module.exports = {
         messageBackground: "hsla(0,0%,91%,.5)",
         transparentBlack: "#00000080",
         buttonGreen: "#10a37f",
+        textError: "#f93a37",
       },
     },
   },
