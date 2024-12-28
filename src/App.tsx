@@ -41,10 +41,7 @@ const App: React.FC = () => {
             <div className="flex flex-col grow overflow-y-scroll no-scrollbar">
               <Header />
               <Routes>
-                <Route
-                  path="/"
-                  element={<Navigate to="/character/main" replace />}
-                />
+                <Route path="/" element={<NewStoryPage />} />
                 <Route path="/login/success" element={<LoginSuccess />} />
                 <Route
                   path="/character/main"
