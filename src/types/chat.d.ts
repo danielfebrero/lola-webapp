@@ -13,6 +13,7 @@ interface ChatLog {
   type?: string;
   title?: string;
   isLoading?: boolean;
+  isBeingDeleted?: boolean;
   isInputAvailable?: boolean;
   canSendMessage?: boolean;
 }

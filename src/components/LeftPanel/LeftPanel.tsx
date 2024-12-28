@@ -6,6 +6,7 @@ import PanelIcon from "../../icons/panel";
 import NewChatIcon from "../../icons/newChat";
 import OptionsIcon from "../../icons/options";
 import PlusIcon from "../../icons/plus";
+import LoadingIcon from "../../icons/loading";
 import imageDani from "../../dani.webp";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { toggleLeftPanel } from "../../store/features/app/appSlice";
@@ -144,14 +145,21 @@ const LeftPanel: React.FC = () => {
                         </span>
                       </div>
                     </NavLink>
-                    <div
-                      className="group-hover:block hidden cursor-pointer h-[24px] w-[24px] text-textSecondary"
-                      onClick={() =>
-                        setDisplayCharacterDropdownId(char.threadId)
-                      }
-                    >
-                      <OptionsIcon />
-                    </div>
+                    {char.isBeingDeleted ? (
+                      <div className="h-[24px] w-[24px] text-textSecondary">
+                        <LoadingIcon />
+                      </div>
+                    ) : (
+                      <div
+                        className="group-hover:block hidden cursor-pointer h-[24px] w-[24px] text-textSecondary"
+                        onClick={() =>
+                          setDisplayCharacterDropdownId(char.threadId)
+                        }
+                      >
+                        <OptionsIcon />
+                      </div>
+                    )}
+
                     {displayCharacterDropdownId === char.threadId && (
                       <div className="left-[260px] z-20">
                         <CharacterOptionsDropdown

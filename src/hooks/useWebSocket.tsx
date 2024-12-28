@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import i18n from "i18next";
 import { useAuth } from "react-oidc-context";
+import { useNavigate } from "react-router";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import {
@@ -20,10 +21,11 @@ export default function useWebSocket({
   setThreadId?: (threadId: string) => void;
 }) {
   const auth = useAuth();
-  const socketConnection = useAppSelector(
-    (state) => state.app.socketConnection
+  const { socketConnection, currentlyViewing } = useAppSelector(
+    (state) => state.app
   );
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!socketConnection) return;
@@ -176,6 +178,12 @@ export default function useWebSocket({
                 if (data.success) {
                   dispatch(deleteCharacterAction(data.threadId));
                   dispatch(deleteChatLog(data.threadId));
+
+                  if (
+                    currentlyViewing.objectType === "character" &&
+                    currentlyViewing.objectId === data.threadId
+                  )
+                    navigate("/");
                 }
                 break;
               default:

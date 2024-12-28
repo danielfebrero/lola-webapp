@@ -89,6 +89,8 @@ export const appSlice = createSlice({
         currentLog.isInputAvailable =
           action.payload.isInputAvailable ?? currentLog.isInputAvailable;
         currentLog.type = action.payload.type ?? currentLog.type;
+        currentLog.isBeingDeleted =
+          action.payload.isBeingDeleted ?? currentLog.isBeingDeleted;
       } else {
         state.chatLogs.unshift({
           threadId: action.payload.threadId,
