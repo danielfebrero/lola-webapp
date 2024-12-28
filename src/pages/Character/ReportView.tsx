@@ -25,7 +25,7 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
 
   return (
     <div id="ReportViewContainer">
-      {!props.json ? (
+      {!props.json && !props.isProcessing ? (
         <div className="text-center mt-[50px]">Nothing to show here yet</div>
       ) : (
         <div>
