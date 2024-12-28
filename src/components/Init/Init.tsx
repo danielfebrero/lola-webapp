@@ -9,7 +9,7 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 
 const WEBSOCKET_URL =
-  "wss://ckqlc7jwu8.execute-api.us-east-1.amazonaws.com/dev";
+  "wss://wv57kwaa28.execute-api.us-east-1.amazonaws.com/dev";
 
 const RECONNECT_INTERVALS = [1000, 2000, 5000, 10000]; // Exponential backoff intervals (ms)
 
