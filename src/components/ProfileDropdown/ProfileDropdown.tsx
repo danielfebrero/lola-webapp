@@ -35,7 +35,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
       ref={ref}
       className="rounded-lg border border-borderLight shadow pl-[5px] pr-[5px] pt-[5px] pb-[5px] w-fit absolute z-10 bg-white min-w-[260px] right-[20px] mt-[40px]"
     >
-      <div
+      {/* <div
         className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row items-center"
         onClick={() => dispatch(toggleSettings())}
       >
@@ -43,7 +43,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
           <SettingsIcon />
         </div>
         <div className="ml-[10px]">Settings</div>
-      </div>
+      </div> */}
       {auth.isAuthenticated ? (
         <div
           className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row items-center"
