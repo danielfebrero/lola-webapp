@@ -102,7 +102,7 @@ const LeftPanel: React.FC = () => {
                   <div className="group flex flex-row items-center h-[40px] hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] justify-between">
                     <NavLink
                       key={char.threadId}
-                      className="flex grow"
+                      className="flex grow h-full items-center"
                       onClick={
                         isSmallScreen
                           ? () => dispatch(toggleLeftPanel())
