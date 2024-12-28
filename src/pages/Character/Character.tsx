@@ -256,7 +256,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   type="character"
                   id={threadId}
                   images={character.images}
-                  isProcessing={character.isImageProcessing ?? false}
+                  isImageGenerating={character.isImageProcessing ?? false}
                 />
               </div>
             )}

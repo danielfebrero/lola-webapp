@@ -25,9 +25,7 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
 
   return (
     <div id="ReportViewContainer">
-      {props.isProcessing ? (
-        <Loading />
-      ) : !props.json ? (
+      {!props.json ? (
         <div className="text-center mt-[50px]">Nothing to show here yet</div>
       ) : (
         <div>
@@ -35,17 +33,12 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
             <div
               className={clsx(
                 {
-                  "animate-pulse":
-                    !props.images ||
-                    props.images?.length === 0 ||
-                    props.isImageGenerating,
+                  "animate-pulse": !props.images || props.images?.length === 0,
                 },
                 "h-[120px] w-[120px] rounded-full bg-slate-200 items-center flex"
               )}
             >
-              {props.images &&
-              props.images.length > 0 &&
-              !props.isImageGenerating ? (
+              {props.images && props.images.length > 0 ? (
                 <img
                   className="rounded-full object-cover"
                   src={props.images[0]}
@@ -56,7 +49,7 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
               {props.json?.name}
             </span>
           </div>
-          <JSONToText data={json} />
+          {props.isProcessing ? <Loading /> : <JSONToText data={json} />}
         </div>
       )}
     </div>
