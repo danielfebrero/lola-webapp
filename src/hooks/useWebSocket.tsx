@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import i18n from "i18next";
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router";
+import { track } from "@vercel/analytics/react";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import {
@@ -202,10 +203,7 @@ export default function useWebSocket({
     threadId: string | null,
     extraFields?: Record<string, any>
   ) => {
-    // if (!auth.isAuthenticated) {
-    //   dispatch(toggleLoginModal());
-    //   return;
-    // }
+    track("sent_message");
 
     // Add user's message to the chat log
     if (threadId) dispatch(setChatLog({ threadId, canSendMessage: false }));
