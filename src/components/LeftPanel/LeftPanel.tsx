@@ -175,7 +175,8 @@ const LeftPanel: React.FC = () => {
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div className="font-bold h-[40px] content-center">Games</div>
-              {games.length > 0 ? (
+              {chatLogs.filter((log) => log.type === "you_are_the_hero")
+                .length > 0 ? (
                 <NavLink
                   to="/game/new"
                   onClick={
@@ -190,7 +191,8 @@ const LeftPanel: React.FC = () => {
                 </NavLink>
               ) : null}
             </div>
-            {games.length === 0 ? (
+            {chatLogs.filter((log) => log.type === "you_are_the_hero")
+              .length === 0 ? (
               <NavLink
                 to="/game/new"
                 onClick={
@@ -205,21 +207,23 @@ const LeftPanel: React.FC = () => {
                 </div>
               </NavLink>
             ) : (
-              games.map((game) => (
-                <NavLink
-                  to={`/game/${game.id}`}
-                  key={game.id}
-                  onClick={
-                    isSmallScreen
-                      ? () => dispatch(toggleLeftPanel())
-                      : undefined
-                  }
-                >
-                  <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                    <span className="truncate">{game.label}</span>
-                  </div>
-                </NavLink>
-              ))
+              chatLogs
+                .filter((log) => log.type === "you_are_the_hero")
+                .map((game) => (
+                  <NavLink
+                    to={`/game/${game.threadId}`}
+                    key={game.threadId}
+                    onClick={
+                      isSmallScreen
+                        ? () => dispatch(toggleLeftPanel())
+                        : undefined
+                    }
+                  >
+                    <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                      <span className="truncate">{game.title}</span>
+                    </div>
+                  </NavLink>
+                ))
             )}
           </div>
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">

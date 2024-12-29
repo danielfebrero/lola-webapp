@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router";
 
 import Chat from "../../components/Chat";
-import { useAppDispatch } from "../../store/hooks";
-import { setCurrentlyViewing } from "../../store/features/app/appSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import {
+  setCurrentlyViewing,
+  setChatLog,
+} from "../../store/features/app/appSlice";
+import useWebSocket from "../../hooks/useWebSocket";
 
 const lastGameId = "098DF098SDFQ08F-dani-tome-1";
 
@@ -60,17 +64,45 @@ const actions = [
 ];
 
 const GamePage: React.FC = () => {
-  const [isChatLoading, setIsChatLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
   const dispatch = useAppDispatch();
+  const { getThreadChatLog, socketConnection } = useWebSocket({});
+  const [threadId, setThreadId] = useState<string>();
+
+  const chatLog = useAppSelector(
+    (state) =>
+      state.app.chatLogs.find((log) => log.threadId === params.gameId)
+        ?.chatLog ?? []
+  );
+
+  const chatState = useAppSelector((state) =>
+    state.app.chatLogs.find((log) => log.threadId === params.gameId)
+  );
 
   useEffect(() => {
     if (location.pathname === "/game") {
       lastGameId ? navigate("/game/" + lastGameId) : navigate("/game/new");
     }
   }, []);
+
+  useEffect(() => {
+    if (params.gameId) {
+      setThreadId(params.gameId);
+      dispatch(
+        setChatLog({
+          threadId: params.gameId,
+          isInputAvailable: false,
+          isLoading: true,
+        })
+      );
+      if (socketConnection?.readyState === WebSocket.OPEN) {
+        console.log("get thread chat log");
+        getThreadChatLog(params.gameId);
+      }
+    }
+  }, [params.gameId, socketConnection?.readyState]);
 
   useEffect(() => {
     dispatch(
@@ -82,7 +114,12 @@ const GamePage: React.FC = () => {
     <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
       <div className="grow border-r-2 border-borderColor w-1/2 pr-5 flex flex-col h-[calc(100vh-110px)]">
         <div className="grow overflow-y-scroll no-scrollbar">
-          <Chat type="game" id={params.gameId} isChatLoading={isChatLoading} />
+          <Chat
+            type="game"
+            id={params.gameId}
+            chatLog={chatLog}
+            isChatLoading={chatState?.isLoading ?? false}
+          />
         </div>
       </div>
       <div className="grow w-1/2 pl-5 flex flex-col h-[calc(100vh-110px)]">

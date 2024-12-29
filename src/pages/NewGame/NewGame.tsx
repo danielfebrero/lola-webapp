@@ -55,14 +55,22 @@ const NewGamePage: React.FC = () => {
   const navigate = useNavigate();
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
-  const [selectedGame, setSelectedGame] = useState<string>("");
+  const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const dispatch = useAppDispatch();
   const { characters } = useAppSelector((state) => state.app);
+  const [hasSentMessage, setHasSentMessage] = useState<boolean>(false);
+  const [threadId, setThreadId] = useState<string | null>(null);
 
-  const { getCharacters, socketConnection } = useWebSocket({});
+  const { sendMessage, getCharacters, socketConnection } = useWebSocket({
+    setThreadId,
+  });
 
   const createGame = () => {
-    navigate("/game/098DF098SDFQ08F-dani-tome-1");
+    sendMessage("", "you_are_the_hero", null, {
+      hero: selectedCharacters[0],
+      context: games.filter((g) => g.id === selectedGame)[0].context,
+    });
+    setHasSentMessage(true);
   };
 
   useEffect(() => {
@@ -74,6 +82,12 @@ const NewGamePage: React.FC = () => {
       getCharacters();
     }
   }, [socketConnection?.readyState]);
+
+  useEffect(() => {
+    if (threadId) {
+      navigate("/game/" + threadId);
+    }
+  }, [threadId]);
 
   return (
     <div className="flex flex-col h-full justify-center items-center overflow-y-scroll no-scrollbar pt-[30px] md:pt-0">
@@ -106,13 +120,8 @@ const NewGamePage: React.FC = () => {
               className="flex flex-col items-center mx-[10px] cursor-pointer"
               onClick={() => {
                 selectedCharacters.includes(char.threadId)
-                  ? setSelectedCharacters(
-                      selectedCharacters.filter((id) => id !== char.threadId)
-                    )
-                  : setSelectedCharacters([
-                      ...selectedCharacters,
-                      char.threadId,
-                    ]);
+                  ? setSelectedCharacters([])
+                  : setSelectedCharacters([char.threadId]);
               }}
             >
               <div className="h-[64px] w-[64px] mb-[10px]">
@@ -135,10 +144,7 @@ const NewGamePage: React.FC = () => {
             </div>
           ))}
           <NavLink to={"/character/new"}>
-            <div
-              className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer flex"
-              // onClick={() => setShowAIInput(true)}
-            >
+            <div className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer flex">
               <PlusIcon />
             </div>
           </NavLink>
@@ -151,7 +157,7 @@ const NewGamePage: React.FC = () => {
             <div
               className="flex flex-col items-center mx-[10px] cursor-pointer w-auto"
               onClick={() => {
-                setSelectedGame(game.id);
+                setSelectedGame((prev) => (prev === game.id ? null : game.id));
               }}
             >
               <div className="h-[64px] w-[64px] mb-[10px]">
@@ -166,16 +172,36 @@ const NewGamePage: React.FC = () => {
               <div className="text-textSecondary text-center">{game.label}</div>
             </div>
           ))}
-          <div
+          {/* <div
             className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer self-center justify-self-center"
             onClick={() => setShowAIInput(true)}
           >
             <PlusIcon />
-          </div>
+          </div> */}
         </div>
         <div
-          className="ml-[20px] w-[32px] h-[32px] text-white bg-black rounded-full flex justify-center items-center cursor-pointer"
-          onClick={createGame}
+          className={clsx(
+            {
+              "cursor-pointer":
+                selectedCharacters.length > 0 &&
+                selectedGame &&
+                !hasSentMessage,
+              "bg-black":
+                selectedCharacters.length > 0 &&
+                selectedGame &&
+                !hasSentMessage,
+              "bg-slate-200":
+                !(selectedCharacters.length > 0) ||
+                !selectedGame ||
+                hasSentMessage,
+            },
+            "ml-[20px] w-[32px] h-[32px] text-white bg-black rounded-full flex justify-center items-center "
+          )}
+          onClick={
+            selectedCharacters.length > 0 && selectedGame && !hasSentMessage
+              ? createGame
+              : undefined
+          }
         >
           <SendIcon />
         </div>
