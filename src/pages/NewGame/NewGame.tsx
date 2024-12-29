@@ -32,12 +32,6 @@ const games = [
       "The world has crumbled, and you are one of the last survivors of a global zombie outbreak. In a sprawling urban wasteland, you must gather resources, protect your group, and unravel the mystery of the virus. Will you fight for humanity’s survival, or carve out your own selfish path?",
   },
   {
-    id: "space_odyssey",
-    label: "Space Odyssey",
-    context:
-      "As the captain of a space exploration vessel, your mission to find a habitable planet takes an unexpected turn when an ancient alien race awakens. You must navigate interstellar politics, hostile environments, and cryptic alien technology to secure humanity's future—or risk becoming part of the stars' forgotten history.",
-  },
-  {
     id: "enchanted_forest",
     label: "Enchanted Forest",
     context:
