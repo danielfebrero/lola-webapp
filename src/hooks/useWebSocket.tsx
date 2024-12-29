@@ -15,6 +15,7 @@ import {
   deleteChatLog,
   deleteCharacter as deleteCharacterAction,
   setGame,
+  deleteGame,
 } from "../store/features/app/appSlice";
 
 export default function useWebSocket({
@@ -222,6 +223,7 @@ export default function useWebSocket({
                 break;
 
               case "you_are_the_hero":
+                dispatch(deleteGame(data.threadId));
                 dispatch(deleteChatLog(data.threadId));
                 if (
                   currentlyViewing.objectType === "game" &&

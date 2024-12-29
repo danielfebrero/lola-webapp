@@ -71,6 +71,11 @@ export const appSlice = createSlice({
         state.games.push(action.payload);
       }
     },
+    deleteGame: (state, action) => {
+      state.games = state.games.filter(
+        (game) => game.threadId !== action.payload
+      );
+    },
     setThreadTitle: (state, action) => {
       const currentLog = state.chatLogs?.find(
         (log) => log.threadId === action.payload.threadId
@@ -227,6 +232,7 @@ export const {
   deleteCharacter,
   deleteChatLog,
   setGame,
+  deleteGame,
 } = appSlice.actions;
 
 export default appSlice.reducer;
