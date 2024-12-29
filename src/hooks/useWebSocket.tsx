@@ -14,6 +14,7 @@ import {
   setCharacters,
   deleteChatLog,
   deleteCharacter as deleteCharacterAction,
+  setGame,
 } from "../store/features/app/appSlice";
 
 export default function useWebSocket({
@@ -52,6 +53,19 @@ export default function useWebSocket({
                         })
                       );
                     }
+
+                    if (
+                      data.threadId &&
+                      data.feature_type === "you_are_the_hero"
+                    ) {
+                      dispatch(
+                        setGame({
+                          heroActionsIsLoading: true,
+                          threadId: data.threadId,
+                        })
+                      );
+                    }
+
                     dispatch(
                       setChatLog({
                         threadId: data.threadId,
@@ -149,7 +163,6 @@ export default function useWebSocket({
                     isImageProcessing: false,
                   })
                 );
-
                 break;
 
               case "messages":
@@ -162,6 +175,26 @@ export default function useWebSocket({
                     type: data.feature_type,
                   })
                 );
+                break;
+
+              case "hero_actions":
+                console.log({ hero_actions: data.data });
+                if (data.status === "init") {
+                  dispatch(
+                    setGame({
+                      heroActionsIsLoading: true,
+                      threadId: data.threadId,
+                    })
+                  );
+                } else {
+                  dispatch(
+                    setGame({
+                      heroActions: data.data.actions,
+                      heroActionsIsLoading: false,
+                      threadId: data.threadId,
+                    })
+                  );
+                }
                 break;
 
               case "error":
@@ -297,6 +330,18 @@ export default function useWebSocket({
     );
   };
 
+  const getHeroActions = (threadId: string) => {
+    console.log("Fetching Hero Actions");
+    socketConnection?.send(
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "hero_actions",
+        threadId,
+        token: auth.user?.id_token,
+      })
+    );
+  };
+
   return {
     sendMessage,
     initData,
@@ -304,6 +349,7 @@ export default function useWebSocket({
     getCharacter,
     getCharacters,
     deleteCharacter,
+    getHeroActions,
     socketConnection,
   };
 }

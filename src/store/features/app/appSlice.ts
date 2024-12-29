@@ -14,6 +14,7 @@ interface AppState {
   isDataLoaded: boolean;
   characters: Character[];
   isSmallScreen: boolean;
+  games: Games[];
 }
 
 // Define the initial state using that type
@@ -30,6 +31,7 @@ const initialState: AppState = {
   chatLogs: [],
   isDataLoaded: false,
   characters: [],
+  games: [],
 };
 
 export const appSlice = createSlice({
@@ -55,6 +57,20 @@ export const appSlice = createSlice({
     setSocketConnection: (state, action) => {
       state.socketConnection = action.payload;
     },
+    setGame: (state, action) => {
+      const currentGame = state.games.find(
+        (game) => game.threadId === action.payload.threadId
+      );
+      if (currentGame) {
+        currentGame.heroActions =
+          action.payload.heroActions ?? currentGame.heroActions;
+        currentGame.heroActionsIsLoading =
+          action.payload.heroActionsIsLoading ??
+          currentGame.heroActionsIsLoading;
+      } else {
+        state.games.push(action.payload);
+      }
+    },
     setThreadTitle: (state, action) => {
       const currentLog = state.chatLogs?.find(
         (log) => log.threadId === action.payload.threadId
@@ -78,6 +94,7 @@ export const appSlice = createSlice({
       );
     },
     setChatLog: (state, action) => {
+      if (!action.payload.threadId) return;
       const currentLog = state.chatLogs?.find(
         (log) => log.threadId === action.payload.threadId
       );
@@ -209,6 +226,7 @@ export const {
   setCharacters,
   deleteCharacter,
   deleteChatLog,
+  setGame,
 } = appSlice.actions;
 
 export default appSlice.reducer;
