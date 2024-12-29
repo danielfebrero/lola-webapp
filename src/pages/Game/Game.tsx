@@ -92,13 +92,18 @@ const GamePage: React.FC = () => {
       }
     }, 0);
     return () => clearTimeout(timer);
-  }, [chatLog]);
+  }, [
+    chatLog,
+    game?.heroActionsIsLoading,
+    chatState?.isLoading,
+    chatState?.canSendMessage,
+  ]);
 
   return (
     <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
       <div className="grow pr-5 flex flex-col h-[calc(100vh-110px)]">
         <div
-          className="grow overflow-y-scroll no-scrollbar justify-center items-center flex flex-col"
+          className="grow overflow-y-scroll no-scrollbar items-center flex flex-col"
           ref={chatContainerRef}
         >
           <Chat
@@ -110,8 +115,8 @@ const GamePage: React.FC = () => {
           {!chatState?.isLoading &&
           !game?.heroActionsIsLoading &&
           (chatState?.canSendMessage ?? true) ? (
-            <div className="grid grid-cols-2">
-              {heroActions?.slice(0, 4).map((action) => (
+            <div className="grid md:grid-cols-2 grid-cols-1">
+              {heroActions?.map((action) => (
                 <div
                   key={action.action_title}
                   className="flex flex-col p-[10px] m-[10px] rounded-lg border border-borderColor hover:bg-lightGray cursor-pointer"
