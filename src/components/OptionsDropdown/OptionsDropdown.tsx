@@ -4,22 +4,32 @@ import useWebSocket from "../../hooks/useWebSocket";
 import { useAppDispatch } from "../../store/hooks";
 import { setChatLog } from "../../store/features/app/appSlice";
 
-interface CharacterOptionsDropdownProps {
+interface OptionsDropdownProps {
   hide: () => void;
   threadId: string;
+  type: string;
 }
 
-const CharacterOptionsDropdown: React.FC<CharacterOptionsDropdownProps> = (
-  props
-) => {
+const OptionsDropdown: React.FC<OptionsDropdownProps> = (props) => {
   const ref = useClickOutside(() => {
     props.hide();
   });
-  const { deleteCharacter } = useWebSocket({});
+  const { deleteCharacter, deleteHeroGame } = useWebSocket({});
   const dispatch = useAppDispatch();
 
   const clickOnDelete = () => {
-    deleteCharacter(props.threadId);
+    switch (props.type) {
+      case "character":
+        deleteCharacter(props.threadId);
+        break;
+
+      case "you_are_the_hero":
+        deleteHeroGame(props.threadId);
+        break;
+
+      default:
+        console.warn("Unhandled type:", props.type);
+    }
     props.hide();
     dispatch(setChatLog({ threadId: props.threadId, isBeingDeleted: true }));
   };
@@ -42,4 +52,4 @@ const CharacterOptionsDropdown: React.FC<CharacterOptionsDropdownProps> = (
   );
 };
 
-export default CharacterOptionsDropdown;
+export default OptionsDropdown;

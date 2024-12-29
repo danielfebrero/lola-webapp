@@ -190,7 +190,7 @@ export default function useWebSocket({
                   dispatch(
                     setGame({
                       heroActions: data.data.actions,
-                      heroActionsIsLoading: false,
+                      heroActionsIsLoading: data.data.is_generating ?? false,
                       threadId: data.threadId,
                     })
                   );
@@ -217,9 +217,19 @@ export default function useWebSocket({
                     currentlyViewing.objectType === "character" &&
                     currentlyViewing.objectId === data.threadId
                   )
-                    navigate("/");
+                    navigate("/character/new");
                 }
                 break;
+
+              case "you_are_the_hero":
+                dispatch(deleteChatLog(data.threadId));
+                if (
+                  currentlyViewing.objectType === "game" &&
+                  currentlyViewing.objectId === data.threadId
+                )
+                  navigate("/game/new");
+                break;
+
               default:
                 console.warn("Unhandled delete type:", data.type);
             }
@@ -342,6 +352,18 @@ export default function useWebSocket({
     );
   };
 
+  const deleteHeroGame = (threadId: string) => {
+    console.log("Deleting Hero Game for thread: ", threadId);
+    socketConnection?.send(
+      JSON.stringify({
+        action: "deleteData",
+        endpoint: "you_are_the_hero",
+        threadId,
+        token: auth.user?.id_token,
+      })
+    );
+  };
+
   return {
     sendMessage,
     initData,
@@ -350,6 +372,7 @@ export default function useWebSocket({
     getCharacters,
     deleteCharacter,
     getHeroActions,
+    deleteHeroGame,
     socketConnection,
   };
 }

@@ -11,12 +11,12 @@ import imageDani from "../../dani.webp";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { toggleLeftPanel } from "../../store/features/app/appSlice";
 import useNewChatLocation from "../../hooks/useNewChatLocation";
-import CharacterOptionsDropdown from "../CharacterOptionsDropdown";
+import OptionsDropdown from "../OptionsDropdown";
 import useClickOutside from "../../hooks/useClickOutside";
 
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
-  const [displayCharacterDropdownId, setDisplayCharacterDropdownId] = useState<
+  const [displayOptionDropdownId, setDisplayOptionDropdownId] = useState<
     string | null
   >(null);
   const newChatLocation = useNewChatLocation();
@@ -152,18 +152,19 @@ const LeftPanel: React.FC = () => {
                       <div
                         className="group-hover:block hidden cursor-pointer h-[24px] w-[24px] text-textSecondary"
                         onClick={() =>
-                          setDisplayCharacterDropdownId(char.threadId)
+                          setDisplayOptionDropdownId(char.threadId)
                         }
                       >
                         <OptionsIcon />
                       </div>
                     )}
 
-                    {displayCharacterDropdownId === char.threadId && (
+                    {displayOptionDropdownId === char.threadId && (
                       <div className="left-[260px] z-20">
-                        <CharacterOptionsDropdown
+                        <OptionsDropdown
+                          type="character"
                           threadId={char.threadId}
-                          hide={() => setDisplayCharacterDropdownId(null)}
+                          hide={() => setDisplayOptionDropdownId(null)}
                         />
                       </div>
                     )}
@@ -209,19 +210,44 @@ const LeftPanel: React.FC = () => {
               chatLogs
                 .filter((log) => log.type === "you_are_the_hero")
                 .map((game) => (
-                  <NavLink
-                    to={`/game/${game.threadId}`}
-                    key={game.threadId}
-                    onClick={
-                      isSmallScreen
-                        ? () => dispatch(toggleLeftPanel())
-                        : undefined
-                    }
-                  >
-                    <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                      <span className="truncate">{game.title}</span>
-                    </div>
-                  </NavLink>
+                  <div className="group flex flex-row justify-between items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                    <NavLink
+                      to={`/game/${game.threadId}`}
+                      key={game.threadId}
+                      className="h-full grow flex items-center"
+                      onClick={
+                        isSmallScreen
+                          ? () => dispatch(toggleLeftPanel())
+                          : undefined
+                      }
+                    >
+                      <div className="truncate grow">{game.title}</div>
+                    </NavLink>
+                    {game.isBeingDeleted ? (
+                      <div className="h-[24px] w-[24px] text-textSecondary">
+                        <LoadingIcon />
+                      </div>
+                    ) : (
+                      <div
+                        className="group-hover:block hidden cursor-pointer h-[24px] w-[24px] text-textSecondary"
+                        onClick={() =>
+                          setDisplayOptionDropdownId(game.threadId)
+                        }
+                      >
+                        <OptionsIcon />
+                      </div>
+                    )}
+
+                    {displayOptionDropdownId === game.threadId && (
+                      <div className="left-[260px] z-20">
+                        <OptionsDropdown
+                          type="you_are_the_hero"
+                          threadId={game.threadId}
+                          hide={() => setDisplayOptionDropdownId(null)}
+                        />
+                      </div>
+                    )}
+                  </div>
                 ))
             )}
           </div>
