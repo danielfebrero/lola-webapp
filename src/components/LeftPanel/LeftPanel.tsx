@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { toggleLeftPanel } from "../../store/features/app/appSlice";
 import useNewChatLocation from "../../hooks/useNewChatLocation";
 import CharacterOptionsDropdown from "../CharacterOptionsDropdown";
+import useClickOutside from "../../hooks/useClickOutside";
 
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,15 +23,13 @@ const LeftPanel: React.FC = () => {
   const { isLeftPanelOpen, chatLogs, characters, isSmallScreen } =
     useAppSelector((state) => state.app);
 
-  const games = [
-    {
-      id: "098DF098SDFQ08F-dani-tome-1",
-      label: "Dani Tome 1",
-    },
-  ];
+  const outsideRef = useClickOutside(() =>
+    isLeftPanelOpen && isSmallScreen ? dispatch(toggleLeftPanel()) : null
+  );
 
   return (
     <div
+      ref={outsideRef}
       className={clsx(
         {
           "min-w-[260px] w-[260px]": isLeftPanelOpen,
