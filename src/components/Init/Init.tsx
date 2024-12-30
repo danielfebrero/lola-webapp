@@ -69,6 +69,12 @@ const Init: React.FC = () => {
     }
   }, [auth.isAuthenticated, socketConnection, isDataLoaded, dispatch]);
 
+  useEffect(() => {
+    if (auth.user?.refresh_token && !auth.isAuthenticated) {
+      auth.signinSilent();
+    }
+  }, [auth]);
+
   window.addEventListener("resize", () =>
     dispatch(setIsSmallScreen(window.innerWidth < 768))
   );
