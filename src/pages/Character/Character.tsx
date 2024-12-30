@@ -56,7 +56,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       ) ?? ({} as Character)
   );
   const [threadId, setThreadId] = useState<string | null>(null);
-  const [chatLog, setChatLog] = useState<Message[]>(chatLogState);
+  const [chatLog, setChatLog] = useState<Message[]>([]);
   const dispatch = useAppDispatch();
   useState<boolean>(true);
   const [mobileView, setMobileView] = useState<string>("chat");
@@ -113,13 +113,18 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [params.characterId, socketConnection?.readyState]);
 
   useEffect(() => {
-    if (threadId && threadId !== "new") {
+    if (threadId && threadId !== "new" && threadId !== "main") {
       navigate("/character/" + threadId);
     }
   }, [threadId]);
 
   useEffect(() => {
-    if (chatLogState && params.characterId !== "new") setChatLog(chatLogState);
+    if (
+      chatLogState &&
+      params.characterId !== "new" &&
+      params.characterId !== "main"
+    )
+      setChatLog(chatLogState);
   }, [chatLogState, params.characterId]);
 
   useEffect(() => {
@@ -129,17 +134,17 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     }
   }, [params.characterId]);
 
-  useEffect(() => {
-    const mainId =
-      chatLogs.filter((log) => log.type === "character")[0]?.threadId ?? null;
-    if (props.selected?.type === "main" && mainId) {
-      setThreadId(mainId);
-    }
+  // useEffect(() => {
+  //   // const mainId =
+  //   //   chatLogs.filter((log) => log.type === "character")[0]?.threadId ?? null;
+  //   // if (props.selected?.type === "main" && mainId && threadId !== mainId) {
+  //   //   navigate("/character/" + mainId);
+  //   // }
 
-    if (props.selected?.type === "main" && !mainId) {
-      navigate("/character/new");
-    }
-  }, [props.selected, chatLogs]);
+  //   if (props.selected?.type === "main") {
+  //     navigate("/character/new");
+  //   }
+  // }, [props.selected, chatLogs]);
 
   useEffect(() => {
     dispatch(

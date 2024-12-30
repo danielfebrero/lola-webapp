@@ -25,7 +25,7 @@ const ModeDropdown: React.FC<ModeDropdownProps> = (props) => {
         to={
           location.pathname.indexOf("/character") === 0
             ? location.pathname
-            : "/character/main"
+            : "/character/new"
         }
       >
         <div className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row justify-between items-center">
