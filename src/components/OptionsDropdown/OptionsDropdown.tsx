@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import useClickOutside from "../../hooks/useClickOutside";
 import DeleteIcon from "../../icons/delete";
 import useWebSocket from "../../hooks/useWebSocket";
@@ -11,6 +13,7 @@ interface OptionsDropdownProps {
 }
 
 const OptionsDropdown: React.FC<OptionsDropdownProps> = (props) => {
+  const { t } = useTranslation();
   const ref = useClickOutside(() => {
     props.hide();
   });
@@ -50,7 +53,7 @@ const OptionsDropdown: React.FC<OptionsDropdownProps> = (props) => {
         <div className="h-[20px] w-[20px] mr-[10px]">
           <DeleteIcon />
         </div>
-        <span>Delete</span>
+        <span>{t("Delete")}</span>
       </div>
     </div>
   );

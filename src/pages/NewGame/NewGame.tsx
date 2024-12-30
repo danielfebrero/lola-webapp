@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 import imageDani from "../../images/dani.webp";
 import imageCarnalDuneon from "../../images/carnaldungeon.webp";
@@ -56,6 +57,7 @@ const games = [
 ];
 
 const NewGamePage: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
@@ -117,7 +119,9 @@ const NewGamePage: React.FC = () => {
             onKeyDown={(e) => e.key === "Enter" && setShowAIInput(false)}
           />
         </div>
-        <div className="font-semibold text-lg mb-[20px]">Choose a hero</div>
+        <div className="font-semibold text-lg mb-[20px]">
+          {t("Choose a hero")}
+        </div>
         <div className="flex flex-row overflow-x-scroll md:w-[70%] w-full flex-wrap justify-center no-scrollbar">
           {characters.map((char) => (
             <div
@@ -154,7 +158,7 @@ const NewGamePage: React.FC = () => {
           </NavLink>
         </div>
         <div className="font-semibold text-lg mt-[40px] mb-[20px]">
-          Choose a game
+          {t("Choose a game")}
         </div>
         <div className="grid gap-4 md:grid-cols-5 grid-cols-3 px-[30px]">
           {games.map((game) => (
@@ -173,7 +177,9 @@ const NewGamePage: React.FC = () => {
                   )}
                 />
               </div>
-              <div className="text-textSecondary text-center">{game.label}</div>
+              <div className="text-textSecondary text-center">
+                {t(game.label)}
+              </div>
             </div>
           ))}
           {/* <div
@@ -185,7 +191,7 @@ const NewGamePage: React.FC = () => {
         </div>
         {selectedGame && (
           <div className="text-textSecondary text-center mt-[40px] md:w-[70%] w-full self-center justify-self-center rounded-lg bg-lightGray p-[20px]">
-            {games.filter((g) => g.id === selectedGame)[0].context}
+            {t(games.filter((g) => g.id === selectedGame)[0].context)}
           </div>
         )}
         <div

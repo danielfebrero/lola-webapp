@@ -1,20 +1,16 @@
 import { useAuth } from "react-oidc-context";
+import { useTranslation } from "react-i18next";
 
 import useClickOutside from "../../hooks/useClickOutside";
-
-import SettingsIcon from "../../icons/setting";
 import LogoutIcon from "../../icons/logout";
-
-import { useAppDispatch } from "../../store/hooks";
-import { toggleSettings } from "../../store/features/app/appSlice";
 
 interface ProfileDropdownProps {
   hide: () => void;
 }
 
 const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
-  const dispatch = useAppDispatch();
   const auth = useAuth();
+  const { t } = useTranslation();
   const ref = useClickOutside(() => {
     props.hide();
   });
@@ -52,7 +48,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
           <div className="h-[20px] w-[20px] text-textSecondary">
             <LogoutIcon />
           </div>
-          <div className="ml-[10px]">Logout</div>
+          <div className="ml-[10px]">{t("Logout")}</div>
         </div>
       ) : (
         <div
@@ -62,7 +58,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
           <div className="h-[20px] w-[20px] text-textSecondary">
             <LogoutIcon />
           </div>
-          <div className="ml-[10px]">Signup or login</div>
+          <div className="ml-[10px]">{t("Signup or login")}</div>
         </div>
       )}
     </div>

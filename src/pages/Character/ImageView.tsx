@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+
 import Loading from "../../components/Loading";
 
 interface ImageViewProps {
@@ -9,6 +11,7 @@ interface ImageViewProps {
 }
 
 const ImageView: React.FC<ImageViewProps> = (props) => {
+  const { t } = useTranslation();
   const [selectedImg, setSelectedImg] = useState<string>(
     props.images?.[0] ?? ""
   );
@@ -22,7 +25,9 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
       (!props.images || props.images?.length === 0) ? (
         <Loading />
       ) : props.id === "new" || !props.images || props.images.length === 0 ? (
-        <div className="text-center mt-[50px]">Nothing to show here yet</div>
+        <div className="text-center mt-[50px]">
+          {t("Nothing to show here yet")}
+        </div>
       ) : (
         <div className="flex flex-col">
           <img src={selectedImg} />

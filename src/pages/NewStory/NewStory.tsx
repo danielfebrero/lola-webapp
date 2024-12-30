@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 import imageDani from "../../images/dani.webp";
 
@@ -16,6 +17,7 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 
 const NewStoryPage: React.FC = () => {
+  const { t } = useTranslation();
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
   const [AIInputValue, setAIInputValue] = useState<string>("");
   const [context, setContext] = useState<string>("");
@@ -84,7 +86,7 @@ const NewStoryPage: React.FC = () => {
             onKeyDown={(e) => e.key === "Enter" && setShowAIInput(false)}
           />
         </div>
-        <div className="font-semibold text-lg mb-[20px]">Characters</div>
+        <div className="font-semibold text-lg mb-[20px]">{t("Characters")}</div>
         <div className="flex flex-row overflow-x-scroll md:w-[70%] w-full flex-wrap justify-center no-scrollbar">
           {characters.map((char) => (
             <div
@@ -128,7 +130,9 @@ const NewStoryPage: React.FC = () => {
             </div>
           </NavLink>
         </div>
-        <div className="font-semibold text-lg mt-[40px] mb-[20px]">Context</div>
+        <div className="font-semibold text-lg mt-[40px] mb-[20px]">
+          {t("Context")}
+        </div>
         <div className="flex flex-row items-center">
           <textarea
             className="rounded-lg border border-lightBorder resize-none h-[100px] md:w-[400px] w-[100%] outline-none p-[10px]"

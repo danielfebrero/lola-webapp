@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
@@ -10,6 +11,7 @@ interface SendChatInputProps {
 
 const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const [value, setValue] = useState<string>("");
+  const { t } = useTranslation();
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = event.target;
@@ -37,7 +39,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
           onKeyDown={handleKeyDown}
           disabled={!props.isChatInputAvailable}
           className="bg-transparent border-none placeholder:text-textSecondary outline-none w-full overflow-hidden resize-none"
-          placeholder="Type a message and press Enter to send..."
+          placeholder={t("Type a message and press Enter to send...")}
           rows={1}
         ></textarea>
       </div>

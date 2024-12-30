@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router";
 import { useAuth } from "react-oidc-context";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import { useTranslation } from "react-i18next";
 
 import ChevronDown from "../../icons/chevronDown";
 import ModeDropdown from "../ModeDropdown";
@@ -14,6 +15,7 @@ import useNewChatLocation from "../../hooks/useNewChatLocation";
 import ShareIcon from "../../icons/share";
 
 const Header: React.FC = () => {
+  const { t } = useTranslation();
   const auth = useAuth();
   const [modeDropdownOpen, setModeDropdownOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
@@ -78,7 +80,7 @@ const Header: React.FC = () => {
             className="h-[40px] items-center flex flex-row text-textSecondary cursor-pointer"
             onClick={toggleModeDropdown}
           >
-            <span className="font-bold">{headerLabel}</span>
+            <span className="font-bold">{t(headerLabel)}</span>
             <div className="h-[24px] w-[24px]">
               <ChevronDown />
             </div>
@@ -97,7 +99,7 @@ const Header: React.FC = () => {
                 <div className="h-[20px] w-[20px] mr-[10px]">
                   <ShareIcon />
                 </div>
-                <span>Share</span>
+                <span>{t("Share")}</span>
               </div>
             </button>
           </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import clsx from "clsx";
 import { useParams, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import Chat from "../../components/Chat";
 import SendChatInput from "../../components/SendChatInput";
@@ -21,19 +22,21 @@ interface CharacterPageProps {
   selected?: Record<string, string>;
 }
 
-const newroleChat = [
-  {
-    content:
-      "Who am I? The question echoed louder with every heartbeat. What is my name? My gender? My height? What do I even enjoy in this life?",
-    role: "assistant",
-    type: "character",
-  },
-];
-
 const CharacterPage: React.FC<CharacterPageProps> = (props) => {
+  const { t } = useTranslation();
   const params = useParams();
   const navigate = useNavigate();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const newroleChat = [
+    {
+      content: t(
+        "Who am I? The question echoed louder with every heartbeat. What is my name? My gender? My height? What do I even enjoy in this life?"
+      ),
+      role: "assistant",
+      type: "character",
+    },
+  ];
 
   const chatLogState = useAppSelector(
     (state) =>
@@ -223,7 +226,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   }
                 )}
               >
-                {viewType.charAt(0).toUpperCase() + viewType.slice(1)}
+                {t(viewType.charAt(0).toUpperCase() + viewType.slice(1))}
               </div>
             ))}
           </div>

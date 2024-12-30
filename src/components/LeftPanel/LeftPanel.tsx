@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 import PanelIcon from "../../icons/panel";
 import NewChatIcon from "../../icons/newChat";
@@ -16,6 +17,7 @@ import useClickOutside from "../../hooks/useClickOutside";
 
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const [displayOptionDropdownId, setDisplayOptionDropdownId] = useState<
     string | null
   >(null);
@@ -64,7 +66,7 @@ const LeftPanel: React.FC = () => {
         <div className="h-auto w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-clip pb-[20px] ml-[-10px] mr-[-10px] no-scrollbar">
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
-              <div>Characters</div>
+              <div>{t("Characters")}</div>
               {chatLogs.filter((log) => log.type === "character").length > 0 ? (
                 <NavLink
                   to="/character/new"
@@ -91,7 +93,7 @@ const LeftPanel: React.FC = () => {
                   <div className="h-[20px] w-[20px] text-textSecondary">
                     <PlusIcon />
                   </div>
-                  <span className="pl-[10px]">New character</span>
+                  <span className="pl-[10px]">{t("New character")}</span>
                 </div>
               </NavLink>
             ) : (
@@ -174,7 +176,9 @@ const LeftPanel: React.FC = () => {
           </div>
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
-              <div className="font-bold h-[40px] content-center">Games</div>
+              <div className="font-bold h-[40px] content-center">
+                {t("Games")}
+              </div>
               {chatLogs.filter((log) => log.type === "you_are_the_hero")
                 .length > 0 ? (
                 <NavLink
@@ -203,7 +207,7 @@ const LeftPanel: React.FC = () => {
                   <div className="h-[20px] w-[20px] text-textSecondary">
                     <PlusIcon />
                   </div>
-                  <span className="pl-[10px]">New game</span>
+                  <span className="pl-[10px]">{t("New game")}</span>
                 </div>
               </NavLink>
             ) : (
@@ -253,7 +257,9 @@ const LeftPanel: React.FC = () => {
           </div>
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
-              <div className="font-bold h-[40px] content-center">Stories</div>
+              <div className="font-bold h-[40px] content-center">
+                {t("Stories")}
+              </div>
               {chatLogs.filter((log) => log.type === "story").length > 0 ? (
                 <NavLink
                   to="/story/new"
@@ -280,7 +286,7 @@ const LeftPanel: React.FC = () => {
                   <div className="h-[20px] w-[20px] text-textSecondary">
                     <PlusIcon />
                   </div>
-                  <span className="pl-[10px]">New story</span>
+                  <span className="pl-[10px]">{t("New story")}</span>
                 </div>
               </NavLink>
             ) : (
@@ -299,7 +305,7 @@ const LeftPanel: React.FC = () => {
                       }
                     >
                       <div className="truncate">
-                        {story.title ?? "New Conversation"}
+                        {story.title ?? t("New conversation")}
                       </div>
                     </NavLink>
                     {story.isBeingDeleted ? (

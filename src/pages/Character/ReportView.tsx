@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 
 import "./ReportView.css";
@@ -16,6 +17,7 @@ interface ReportViewProps {
 
 const ReportView: React.FC<ReportViewProps> = (props) => {
   const [json, setJson] = useState<Record<string, any>>({});
+  const { t } = useTranslation();
 
   useEffect(() => {
     const tmpJson = { ...props.json };
@@ -26,7 +28,9 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
   return (
     <div id="ReportViewContainer">
       {!props.json && !props.isProcessing ? (
-        <div className="text-center mt-[50px]">Nothing to show here yet</div>
+        <div className="text-center mt-[50px]">
+          {t("Nothing to show here yet")}
+        </div>
       ) : (
         <div>
           <div className="flex flex-row mb-[20px]">
