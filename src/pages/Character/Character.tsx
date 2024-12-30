@@ -110,7 +110,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         }
       }, 50);
     }
-  }, [params.characterId, socketConnection?.readyState, threadId]);
+  }, [params.characterId, socketConnection?.readyState]);
 
   useEffect(() => {
     if (threadId && threadId !== "new") {
@@ -119,8 +119,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [threadId]);
 
   useEffect(() => {
-    if (chatLogState) setChatLog(chatLogState);
-  }, [chatLogState]);
+    if (chatLogState && params.characterId !== "new") setChatLog(chatLogState);
+  }, [chatLogState, params.characterId]);
 
   useEffect(() => {
     if (params.characterId === "new") {
