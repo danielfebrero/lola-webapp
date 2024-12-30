@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import clsx from "clsx";
 
-import imageDani from "../../dani.webp";
+import imageDani from "../../images/dani.webp";
+import imageCarnalDuneon from "../../images/carnaldungeon.webp";
+import imageSpySeduction from "../../images/spyseduction.webp";
+import imageZombieLust from "../../images/zombielust.webp";
+import imageForestOfDesires from "../../images/forestofdesires.webp";
+import imageTimeOfPleasures from "../../images/timeofpleasures.webp";
 
 import SendIcon from "../../icons/send";
 import PlusIcon from "../../icons/plus";
@@ -14,34 +19,39 @@ import useWebSocket from "../../hooks/useWebSocket";
 
 const games = [
   {
-    id: "dungeon",
-    label: "Dungeon",
+    id: "carnal_dungeon",
+    image: imageCarnalDuneon,
+    label: "Carnal Dungeon",
     context:
-      "You are a daring prince or princess tasked with defeating the legendary dragon, Karzareth, who has hoarded a treasure that holds the fate of your kingdom. Armed with a blade forged in starlight, you must navigate through dark, treacherous caverns filled with traps, riddles, and cursed creatures. Beware: every decision could either inch you closer to glory or seal your doom.",
+      "You are a bold adventurer, descending into a dungeon ruled by the Succubus Queen. The air is thick with the scent of desire, and every chamber tests your deepest inhibitions. The queen herself awaits at the end, promising unbridled ecstasy if you can withstand her carnal challenges—or total submission if you cannot.",
   },
   {
-    id: "spy_escape",
-    label: "Spy Escape",
+    id: "spy_seduction",
+    image: imageSpySeduction,
+    label: "Spy Seduction",
     context:
-      "You are an undercover agent trapped in an enemy facility after your cover was blown. The clock is ticking, and you have just 24 hours to evade capture, retrieve classified intel, and find an extraction point. Trust no one, choose your gadgets wisely, and decide who to betray to survive.",
+      "As a secret agent, you've been captured and find yourself at the mercy of a seductive interrogator. Each question is paired with temptations that blur the line between pleasure and pain. Will you resist their intoxicating allure and escape, or give in and reveal all in a haze of lust?",
   },
   {
-    id: "zombie_apocalypse",
-    label: "Zombie Apocalypse",
+    id: "zombie_lust",
+    image: imageZombieLust,
+    label: "Zombie Lust",
     context:
-      "The world has crumbled, and you are one of the last survivors of a global zombie outbreak. In a sprawling urban wasteland, you must gather resources, protect your group, and unravel the mystery of the virus. Will you fight for humanity’s survival, or carve out your own selfish path?",
+      "In a world overtaken by an outbreak, you discover a secret refuge where survivors indulge in primal desires to stave off despair. Among them is a mysterious stranger who tempts you into forbidden pleasures. But be warned: some carry more than scars of survival—they may have secrets that will consume you.",
   },
   {
-    id: "enchanted_forest",
-    label: "Enchanted Forest",
+    id: "forest_of_desires",
+    image: imageForestOfDesires,
+    label: "Forest of Desires",
     context:
-      "You are a wandering bard who stumbles upon an ancient, enchanted forest. The spirits of the forest offer you unimaginable power, but only if you solve their riddles and prove your worth. Will you use this power for good, or succumb to the allure of dark magic and rule the land with an iron fist?",
+      "Lost in an enchanted forest, you are seduced by nymphs who thrive on human passion. Each encounter pulls you deeper into their world of untamed lust. To leave, you must outwit their sensual games and prove you are worthy, or surrender and become their eternal plaything.",
   },
   {
-    id: "time_paradox",
-    label: "Time Paradox",
+    id: "time_of_pleasures",
+    image: imageTimeOfPleasures,
+    label: "Time of Pleasures",
     context:
-      "A mysterious device has thrown you into a chaotic loop of timelines. As a time-traveler, your choices will shape the past, present, and future. Every action could ripple across centuries, creating new alliances—or enemies. Can you solve the paradox and restore balance before time itself unravels?",
+      "Thrown into a time loop, you find yourself revisiting moments of unspeakable desire. Each era offers new lovers, each more daring than the last. But indulging too much could trap you in a cycle of endless ecstasy, never to return to reality. Will you risk it all to savor every moment?",
   },
 ];
 
@@ -156,7 +166,7 @@ const NewGamePage: React.FC = () => {
             >
               <div className="h-[64px] w-[64px] mb-[10px]">
                 <img
-                  src={imageDani}
+                  src={game.image}
                   className={clsx(
                     { "border-4 border-green-700": selectedGame === game.id },
                     "rounded-full h-[64px] w-[64px] object-cover"
@@ -173,6 +183,11 @@ const NewGamePage: React.FC = () => {
             <PlusIcon />
           </div> */}
         </div>
+        {selectedGame && (
+          <div className="text-textSecondary text-center mt-[40px] md:w-[70%] w-full self-center justify-self-center rounded-lg bg-lightGray p-[20px]">
+            {games.filter((g) => g.id === selectedGame)[0].context}
+          </div>
+        )}
         <div
           className={clsx(
             {

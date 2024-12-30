@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import clsx from "clsx";
 
-import imageDani from "../../dani.webp";
+import imageDani from "../../images/dani.webp";
 
 import PlusIcon from "../../icons/plus";
 import CloseIcon from "../../icons/close";
