@@ -209,6 +209,15 @@ export default function useWebSocket({
 
           case "delete":
             switch (data.type) {
+              case "story":
+                if (data.success) dispatch(deleteChatLog(data.threadId));
+
+                if (
+                  currentlyViewing.objectType === "story" &&
+                  currentlyViewing.objectId === data.threadId
+                )
+                  navigate("/story/new");
+                break;
               case "character":
                 if (data.success) {
                   dispatch(deleteCharacterAction(data.threadId));
