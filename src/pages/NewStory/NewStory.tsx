@@ -85,7 +85,7 @@ const NewStoryPage: React.FC = () => {
           />
         </div>
         <div className="font-semibold text-lg mb-[20px]">Characters</div>
-        <div className="flex flex-row flex-wrap md:px-[100px] w-full left-0 px-[10px] justify-center">
+        <div className="flex flex-row overflow-x-scroll md:w-[70%] w-full flex-wrap justify-center no-scrollbar">
           {characters.map((char) => (
             <div
               className="flex flex-col items-center mx-[10px] cursor-pointer"

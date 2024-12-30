@@ -108,7 +108,7 @@ const NewGamePage: React.FC = () => {
           />
         </div>
         <div className="font-semibold text-lg mb-[20px]">Choose a hero</div>
-        <div className="flex flex-row overflow-x-scroll md:w-[70%] w-full flex-wrap justify-center">
+        <div className="flex flex-row overflow-x-scroll md:w-[70%] w-full flex-wrap justify-center no-scrollbar">
           {characters.map((char) => (
             <div
               className="flex flex-col items-center mx-[10px] cursor-pointer"
