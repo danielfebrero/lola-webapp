@@ -43,7 +43,7 @@ const App: React.FC = () => {
               <Header />
               <Routes>
                 <Route path="/" element={<NewStoryPage />} />
-                <Route path="login/silent-renew" element={<SilentRenew />} />
+                <Route path="/login/silent-renew" element={<SilentRenew />} />
                 <Route path="/login/success" element={<LoginSuccess />} />
                 <Route
                   path="/character/main"
