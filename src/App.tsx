@@ -42,7 +42,10 @@ const App: React.FC = () => {
             <div className="flex flex-col grow overflow-y-scroll no-scrollbar">
               <Header />
               <Routes>
-                <Route path="/" element={<NewStoryPage />} />
+                <Route
+                  path="/"
+                  element={<Navigate to="/story/new" replace />}
+                />
                 <Route path="/login/silent-renew" element={<SilentRenew />} />
                 <Route path="/login/success" element={<LoginSuccess />} />
                 <Route
@@ -60,10 +63,6 @@ const App: React.FC = () => {
                 <Route path="/story/new" element={<NewStoryPage />} />
                 <Route path="/lola/:conversationId" element={<LolaPage />} />
                 <Route path="/lola/new" element={<LolaPage />} />
-                <Route
-                  path="/"
-                  element={<Navigate to="/character/main" replace />}
-                />
               </Routes>
             </div>
             <div className="flex w-full">
