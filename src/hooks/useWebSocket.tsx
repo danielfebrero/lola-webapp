@@ -366,6 +366,18 @@ export default function useWebSocket({
     );
   };
 
+  const deleteStory = (threadId: string) => {
+    console.log("Deleting story for thread: ", threadId);
+    socketConnection?.send(
+      JSON.stringify({
+        action: "deleteData",
+        endpoint: "story",
+        threadId,
+        token: auth.user?.id_token,
+      })
+    );
+  };
+
   return {
     sendMessage,
     initData,
@@ -375,6 +387,7 @@ export default function useWebSocket({
     deleteCharacter,
     getHeroActions,
     deleteHeroGame,
+    deleteStory,
     socketConnection,
   };
 }

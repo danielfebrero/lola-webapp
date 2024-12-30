@@ -101,7 +101,7 @@ const LeftPanel: React.FC = () => {
                   <div className="group flex flex-row items-center h-[40px] hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] justify-between">
                     <NavLink
                       key={char.threadId}
-                      className="flex grow h-full items-center"
+                      className="h-full grow flex items-center w-[calc(100%-40px)]"
                       onClick={
                         isSmallScreen
                           ? () => dispatch(toggleLeftPanel())
@@ -150,7 +150,7 @@ const LeftPanel: React.FC = () => {
                       </div>
                     ) : (
                       <div
-                        className="group-hover:block hidden cursor-pointer h-[24px] w-[24px] text-textSecondary"
+                        className="group-hover:block hidden cursor-pointer  ml-[5px] h-[24px] w-[24px] text-textSecondary"
                         onClick={() =>
                           setDisplayOptionDropdownId(char.threadId)
                         }
@@ -214,7 +214,7 @@ const LeftPanel: React.FC = () => {
                     <NavLink
                       to={`/game/${game.threadId}`}
                       key={game.threadId}
-                      className="h-full grow flex items-center"
+                      className="h-full grow flex items-center w-[calc(100%-40px)]"
                       onClick={
                         isSmallScreen
                           ? () => dispatch(toggleLeftPanel())
@@ -229,7 +229,7 @@ const LeftPanel: React.FC = () => {
                       </div>
                     ) : (
                       <div
-                        className="group-hover:block hidden cursor-pointer h-[24px] w-[24px] text-textSecondary"
+                        className="group-hover:block hidden  ml-[5px] cursor-pointer h-[24px] w-[24px] text-textSecondary"
                         onClick={() =>
                           setDisplayOptionDropdownId(game.threadId)
                         }
@@ -287,21 +287,45 @@ const LeftPanel: React.FC = () => {
               chatLogs
                 .filter((log) => log.type === "story")
                 .map((story) => (
-                  <NavLink
-                    to={`/story/${story.threadId}`}
-                    key={story.threadId}
-                    onClick={
-                      isSmallScreen
-                        ? () => dispatch(toggleLeftPanel())
-                        : undefined
-                    }
-                  >
-                    <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                      <span className="truncate">
+                  <div className="group flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                    <NavLink
+                      to={`/story/${story.threadId}`}
+                      key={story.threadId}
+                      className="h-full grow flex items-center w-[calc(100%-40px)]"
+                      onClick={
+                        isSmallScreen
+                          ? () => dispatch(toggleLeftPanel())
+                          : undefined
+                      }
+                    >
+                      <div className="truncate">
                         {story.title ?? "New Conversation"}
-                      </span>
-                    </div>
-                  </NavLink>
+                      </div>
+                    </NavLink>
+                    {story.isBeingDeleted ? (
+                      <div className="h-[24px] w-[24px] text-textSecondary">
+                        <LoadingIcon />
+                      </div>
+                    ) : (
+                      <div
+                        className="group-hover:block hidden cursor-pointer ml-[5px] h-[24px] w-[24px] text-textSecondary"
+                        onClick={() =>
+                          setDisplayOptionDropdownId(story.threadId)
+                        }
+                      >
+                        <OptionsIcon />
+                      </div>
+                    )}
+                    {displayOptionDropdownId === story.threadId && (
+                      <div className="left-[260px] z-20">
+                        <OptionsDropdown
+                          type="story"
+                          threadId={story.threadId}
+                          hide={() => setDisplayOptionDropdownId(null)}
+                        />
+                      </div>
+                    )}
+                  </div>
                 ))
             )}
           </div>

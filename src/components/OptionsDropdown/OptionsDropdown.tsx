@@ -14,7 +14,7 @@ const OptionsDropdown: React.FC<OptionsDropdownProps> = (props) => {
   const ref = useClickOutside(() => {
     props.hide();
   });
-  const { deleteCharacter, deleteHeroGame } = useWebSocket({});
+  const { deleteCharacter, deleteHeroGame, deleteStory } = useWebSocket({});
   const dispatch = useAppDispatch();
 
   const clickOnDelete = () => {
@@ -25,6 +25,10 @@ const OptionsDropdown: React.FC<OptionsDropdownProps> = (props) => {
 
       case "you_are_the_hero":
         deleteHeroGame(props.threadId);
+        break;
+
+      case "story":
+        deleteStory(props.threadId);
         break;
 
       default:
