@@ -9,6 +9,8 @@ import es from "./locales/es/es.json";
 import hi from "./locales/hi/hi.json";
 import pt from "./locales/pt/pt.json";
 import ru from "./locales/ru/ru.json";
+import ar from "./locales/ar/ar.json";
+import sv from "./locales/sv/sv.json";
 
 const resources = {
   en: {
@@ -31,6 +33,12 @@ const resources = {
   },
   ru: {
     translation: ru,
+  },
+  ar: {
+    translation: ar,
+  },
+  sv: {
+    translation: sv,
   },
 };
 
