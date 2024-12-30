@@ -6,7 +6,7 @@ const SilentRenew: React.FC = () => {
 
   useEffect(() => {
     auth.signinSilent();
-  }, []);
+  }, [auth]);
 
   return <div className="w-full text-center">Logging in progress...</div>;
 };
