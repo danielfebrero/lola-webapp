@@ -19,6 +19,7 @@ import LolaPage from "./pages/Lola";
 import NewStoryPage from "./pages/NewStory";
 import NewGamePage from "./pages/NewGame";
 import LoginSuccess from "./pages/LoginSuccess";
+import SilentRenew from "./pages/SilentRenew";
 
 import { store } from "./store/store";
 
@@ -42,6 +43,7 @@ const App: React.FC = () => {
               <Header />
               <Routes>
                 <Route path="/" element={<NewStoryPage />} />
+                <Route path="login/silent-renew" element={<SilentRenew />} />
                 <Route path="/login/success" element={<LoginSuccess />} />
                 <Route
                   path="/character/main"

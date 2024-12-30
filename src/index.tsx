@@ -14,6 +14,7 @@ const cognitoAuthConfig = {
   userStore: new WebStorageStateStore({ store: window.localStorage }),
   loadUserInfo: true,
   automaticSilentRenew: true,
+  silent_redirect_uri: window.location.origin + "/login/silent-renew",
 };
 
 const root = ReactDOM.createRoot(
