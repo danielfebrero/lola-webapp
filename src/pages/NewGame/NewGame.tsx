@@ -74,7 +74,7 @@ const NewGamePage: React.FC = () => {
   const createGame = () => {
     sendMessage("", "you_are_the_hero", null, {
       hero: selectedCharacters[0],
-      context: games.filter((g) => g.id === selectedGame)[0].context,
+      context: t(games.filter((g) => g.id === selectedGame)[0].context),
     });
     setHasSentMessage(true);
   };
