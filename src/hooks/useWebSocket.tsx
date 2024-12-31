@@ -18,6 +18,7 @@ import {
   setGame,
   deleteGame,
 } from "../store/features/app/appSlice";
+import useGA from "./useGA";
 
 export default function useWebSocket({
   setThreadId,
@@ -30,6 +31,7 @@ export default function useWebSocket({
   );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { sendEvent } = useGA();
 
   useEffect(() => {
     if (!socketConnection) return;
@@ -259,7 +261,7 @@ export default function useWebSocket({
     extraFields?: Record<string, any>
   ) => {
     track("sent_message");
-    ReactGA.send({
+    sendEvent({
       category: "interaction",
       action: "send_message",
       label: "send_message_" + endpoint, // optional
