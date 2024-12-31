@@ -143,7 +143,7 @@ const NewStoryPage: React.FC = () => {
           <div
             className={clsx(
               { "bg-black": !hasSentMessage, "bg-gray-400": hasSentMessage },
-              "ml-[20px] w-[32px] h-[32px] text-white rounded-full flex justify-center items-center cursor-pointer"
+              "min-w-[32px] ml-[20px] w-[32px] h-[32px] text-white rounded-full flex justify-center items-center cursor-pointer"
             )}
             onClick={hasSentMessage ? undefined : createStory}
           >
