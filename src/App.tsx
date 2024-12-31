@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import { Provider } from "react-redux";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import ReactGA from "react-ga4";
 
 import LeftPanel from "./components/LeftPanel";
 import Header from "./components/Header";
@@ -26,6 +27,9 @@ import { store } from "./store/store";
 import "./i18n";
 
 const App: React.FC = () => {
+  useEffect(() => {
+    ReactGA.initialize("G-43V6GGK855");
+  }, []);
   return (
     <Provider store={store}>
       <BrowserRouter>

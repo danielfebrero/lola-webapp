@@ -21,6 +21,7 @@
     "oidc-client-ts": "^3.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-ga4": "^2.1.0",
     "react-i18next": "^15.2.0",
     "react-json-view": "^1.21.3",
     "react-oidc-context": "^3.2.0",

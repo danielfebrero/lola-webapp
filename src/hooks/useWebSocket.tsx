@@ -3,6 +3,7 @@ import i18n from "i18next";
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router";
 import { track } from "@vercel/analytics/react";
+import ReactGA from "react-ga4";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import {
@@ -258,6 +259,12 @@ export default function useWebSocket({
     extraFields?: Record<string, any>
   ) => {
     track("sent_message");
+    ReactGA.send({
+      category: "interaction",
+      action: "send_message",
+      label: "send_message_" + endpoint, // optional
+      value: message.length, // optional, must be a number
+    });
 
     // Add user's message to the chat log
     if (threadId) dispatch(setChatLog({ threadId, canSendMessage: false }));
