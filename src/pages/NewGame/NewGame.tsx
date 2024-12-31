@@ -192,12 +192,22 @@ const NewGamePage: React.FC = () => {
     }
   }, [threadId]);
 
+  // Scroll to the bottom when selectedGame changes
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollTo({
+        top: bottomRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [selectedGame]);
+
   return (
     <div
       ref={bottomRef}
       className="flex flex-col h-full justify-center items-center overflow-y-scroll no-scrollbar pt-[30px] md:pt-0"
     >
-      <div className="flex flex-col items-center w-full h-full md:justify-center">
+      <div className="flex flex-col items-center w-full h-full md:pt-[30px]">
         <div
           className={clsx(
             { hidden: !showAIInput },
@@ -225,7 +235,7 @@ const NewGamePage: React.FC = () => {
         <div className="flex flex-row md:w-[70%] w-full flex-wrap justify-center no-scrollbar">
           {characters.map((char) => (
             <div
-              className="flex flex-col items-center mx-[10px] cursor-pointer"
+              className="flex flex-col items-center m-[10px] cursor-pointer"
               onClick={() => {
                 selectedCharacters.includes(char.threadId)
                   ? setSelectedCharacters([])
