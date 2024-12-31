@@ -91,10 +91,10 @@ const Header: React.FC = () => {
         </div>
       </div>
       <div className="flex flex-row">
-        {currentlyViewing.objectId &&
+        {/* {currentlyViewing.objectId &&
         currentlyViewing.objectType === "story" ? (
           <div>
-            <button className="pl-[10px] pr-[10px] p-[5px] border border-borderColor rounded-full mr-[10px] hover:bg-lightGray">
+            <button className="pl-[10px] pr-[10px] p-[5px] border border-borderColor rounded-full mr-[20px] hover:bg-lightGray">
               <div className="flex flex-row items-center">
                 <div className="h-[20px] w-[20px] mr-[10px]">
                   <ShareIcon />
@@ -103,7 +103,7 @@ const Header: React.FC = () => {
               </div>
             </button>
           </div>
-        ) : null}
+        ) : null} */}
         <div
           className="bg-sky-700 rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer"
           onClick={toggleProfileDropdown}
