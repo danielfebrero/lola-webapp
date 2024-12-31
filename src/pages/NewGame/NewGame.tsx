@@ -13,6 +13,7 @@ import imageTimeOfPleasures from "../../images/timeofpleasures.webp";
 import SendIcon from "../../icons/send";
 import PlusIcon from "../../icons/plus";
 import CloseIcon from "../../icons/close";
+import AdultIcon from "../../icons/adult";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
@@ -23,6 +24,7 @@ const games = [
     id: "carnal_dungeon",
     image: imageCarnalDuneon,
     label: "Carnal Dungeon",
+    adult: true,
     context:
       "You are a bold adventurer, descending into a dungeon ruled by the Succubus Queen. The air is thick with the scent of desire, and every chamber tests your deepest inhibitions. The queen herself awaits at the end, promising unbridled ecstasy if you can withstand her carnal challenges—or total submission if you cannot.",
   },
@@ -30,6 +32,7 @@ const games = [
     id: "spy_seduction",
     image: imageSpySeduction,
     label: "Spy Seduction",
+    adult: true,
     context:
       "As a secret agent, you've been captured and find yourself at the mercy of a seductive interrogator. Each question is paired with temptations that blur the line between pleasure and pain. Will you resist their intoxicating allure and escape, or give in and reveal all in a haze of lust?",
   },
@@ -37,6 +40,7 @@ const games = [
     id: "zombie_lust",
     image: imageZombieLust,
     label: "Zombie Lust",
+    adult: true,
     context:
       "In a world overtaken by an outbreak, you discover a secret refuge where survivors indulge in primal desires to stave off despair. Among them is a mysterious stranger who tempts you into forbidden pleasures. But be warned: some carry more than scars of survival—they may have secrets that will consume you.",
   },
@@ -44,6 +48,7 @@ const games = [
     id: "forest_of_desires",
     image: imageForestOfDesires,
     label: "Forest of Desires",
+    adult: true,
     context:
       "Lost in an enchanted forest, you are seduced by nymphs who thrive on human passion. Each encounter pulls you deeper into their world of untamed lust. To leave, you must outwit their sensual games and prove you are worthy, or surrender and become their eternal plaything.",
   },
@@ -51,6 +56,7 @@ const games = [
     id: "time_of_pleasures",
     image: imageTimeOfPleasures,
     label: "Time of Pleasures",
+    adult: true,
     context:
       "Thrown into a time loop, you find yourself revisiting moments of unspeakable desire. Each era offers new lovers, each more daring than the last. But indulging too much could trap you in a cycle of endless ecstasy, never to return to reality. Will you risk it all to savor every moment?",
   },
@@ -176,6 +182,11 @@ const NewGamePage: React.FC = () => {
                     "rounded-full h-[64px] w-[64px] object-cover"
                   )}
                 />
+                {game.adult && (
+                  <div className="w-[24px] h-[24px] absolute mt-[-15px] ml-[50px]">
+                    <AdultIcon />
+                  </div>
+                )}
               </div>
               <div className="text-textSecondary text-center">
                 {t(game.label)}
