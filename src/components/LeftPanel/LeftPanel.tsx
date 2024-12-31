@@ -14,6 +14,7 @@ import { toggleLeftPanel } from "../../store/features/app/appSlice";
 import useNewChatLocation from "../../hooks/useNewChatLocation";
 import OptionsDropdown from "../OptionsDropdown";
 import useClickOutside from "../../hooks/useClickOutside";
+import useGA from "../../hooks/useGA";
 
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ const LeftPanel: React.FC = () => {
   const newChatLocation = useNewChatLocation();
   const { isLeftPanelOpen, chatLogs, characters, isSmallScreen } =
     useAppSelector((state) => state.app);
+  const { sendEvent } = useGA();
 
   const outsideRef = useClickOutside(() =>
     isLeftPanelOpen && isSmallScreen ? dispatch(toggleLeftPanel()) : null
@@ -45,17 +47,20 @@ const LeftPanel: React.FC = () => {
           <div className="font-bold h-[40px] items-center flex flex-row justify-between text-textSecondary">
             <div
               className="h-[24px] w-[24px] cursor-pointer"
-              onClick={() => dispatch(toggleLeftPanel())}
+              onClick={() => {
+                dispatch(toggleLeftPanel());
+                sendEvent("click_toggle_left_panel");
+              }}
             >
               <PanelIcon />
             </div>
             <NavLink
               to={newChatLocation}
-              onClick={
-                isSmallScreen && isLeftPanelOpen
-                  ? () => dispatch(toggleLeftPanel())
-                  : undefined
-              }
+              onClick={() => {
+                if (isSmallScreen && isLeftPanelOpen)
+                  dispatch(toggleLeftPanel());
+                sendEvent("click_new_chat_from_left_panel");
+              }}
             >
               <div className="h-[24px] w-[24px]">
                 <NewChatIcon />
@@ -70,11 +75,11 @@ const LeftPanel: React.FC = () => {
               {chatLogs.filter((log) => log.type === "character").length > 0 ? (
                 <NavLink
                   to="/character/new"
-                  onClick={
-                    isSmallScreen
-                      ? () => dispatch(toggleLeftPanel())
-                      : undefined
-                  }
+                  onClick={() => {
+                    if (isSmallScreen && isLeftPanelOpen)
+                      dispatch(toggleLeftPanel());
+                    sendEvent("click_plus_char_from_left_panel");
+                  }}
                 >
                   <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary">
                     <PlusIcon />
@@ -183,11 +188,11 @@ const LeftPanel: React.FC = () => {
                 .length > 0 ? (
                 <NavLink
                   to="/game/new"
-                  onClick={
-                    isSmallScreen
-                      ? () => dispatch(toggleLeftPanel())
-                      : undefined
-                  }
+                  onClick={() => {
+                    if (isSmallScreen && isLeftPanelOpen)
+                      dispatch(toggleLeftPanel());
+                    sendEvent("click_plus_game_from_left_panel");
+                  }}
                 >
                   <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary">
                     <PlusIcon />
@@ -263,11 +268,11 @@ const LeftPanel: React.FC = () => {
               {chatLogs.filter((log) => log.type === "story").length > 0 ? (
                 <NavLink
                   to="/story/new"
-                  onClick={
-                    isSmallScreen
-                      ? () => dispatch(toggleLeftPanel())
-                      : undefined
-                  }
+                  onClick={() => {
+                    if (isSmallScreen && isLeftPanelOpen)
+                      dispatch(toggleLeftPanel());
+                    sendEvent("click_plus_story_from_left_panel");
+                  }}
                 >
                   <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary">
                     <PlusIcon />

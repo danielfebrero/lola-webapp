@@ -12,7 +12,8 @@ import PanelIcon from "../../icons/panel";
 import NewChatIcon from "../../icons/newChat";
 import { toggleLeftPanel } from "../../store/features/app/appSlice";
 import useNewChatLocation from "../../hooks/useNewChatLocation";
-import ShareIcon from "../../icons/share";
+import useGA from "../../hooks/useGA";
+// import ShareIcon from "../../icons/share";
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
@@ -23,18 +24,24 @@ const Header: React.FC = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const isLeftPanelOpen = useAppSelector((state) => state.app.isLeftPanelOpen);
-  const currentlyViewing = useAppSelector(
-    (state) => state.app.currentlyViewing
-  );
   const newChatLocation = useNewChatLocation();
+  const { sendEvent } = useGA();
 
   const toggleModeDropdown = () => {
-    setModeDropdownOpen(!modeDropdownOpen);
+    setModeDropdownOpen((prev) => !prev);
   };
 
   const toggleProfileDropdown = () => {
-    setProfileDropdownOpen(!profileDropdownOpen);
+    setProfileDropdownOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (modeDropdownOpen) sendEvent("open_mode_dropdown");
+  }, [modeDropdownOpen]);
+
+  useEffect(() => {
+    if (profileDropdownOpen) sendEvent("open_profile_dropdown");
+  }, [profileDropdownOpen]);
 
   useEffect(() => {
     location.pathname.indexOf("/character/main") === 0

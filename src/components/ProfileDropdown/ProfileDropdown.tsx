@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import useClickOutside from "../../hooks/useClickOutside";
 import LogoutIcon from "../../icons/logout";
+import useGA from "../../hooks/useGA";
 
 interface ProfileDropdownProps {
   hide: () => void;
@@ -14,8 +15,10 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
   const ref = useClickOutside(() => {
     props.hide();
   });
+  const { sendEvent } = useGA();
 
   const signOutRedirect = () => {
+    sendEvent("click_signout");
     const clientId = "6hg2ttnt7v00aflhj0qbgm0dgj";
     const logoutUri = window.location.origin;
     const cognitoDomain =
@@ -53,7 +56,10 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
       ) : (
         <div
           className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row items-center"
-          onClick={() => auth.signinRedirect()}
+          onClick={() => {
+            sendEvent("click_signin_signup");
+            auth.signinRedirect();
+          }}
         >
           <div className="h-[20px] w-[20px] text-textSecondary">
             <LogoutIcon />

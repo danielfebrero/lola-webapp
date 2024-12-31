@@ -5,6 +5,7 @@ import DeleteIcon from "../../icons/delete";
 import useWebSocket from "../../hooks/useWebSocket";
 import { useAppDispatch } from "../../store/hooks";
 import { setChatLog } from "../../store/features/app/appSlice";
+import useGA from "../../hooks/useGA";
 
 interface OptionsDropdownProps {
   hide: () => void;
@@ -19,18 +20,22 @@ const OptionsDropdown: React.FC<OptionsDropdownProps> = (props) => {
   });
   const { deleteCharacter, deleteHeroGame, deleteStory } = useWebSocket({});
   const dispatch = useAppDispatch();
+  const { sendEvent } = useGA();
 
   const clickOnDelete = () => {
     switch (props.type) {
       case "character":
+        sendEvent("click_delete_char_from_left_panel");
         deleteCharacter(props.threadId);
         break;
 
       case "you_are_the_hero":
+        sendEvent("click_delete_game_from_left_panel");
         deleteHeroGame(props.threadId);
         break;
 
       case "story":
+        sendEvent("click_delete_story_from_left_panel");
         deleteStory(props.threadId);
         break;
 

@@ -17,6 +17,7 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 import ExploreIcon from "../../icons/explore";
 import ChatIcon from "../../icons/chat";
+import useGA from "../../hooks/useGA";
 
 interface CharacterPageProps {
   selected?: Record<string, string>;
@@ -27,7 +28,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const params = useParams();
   const navigate = useNavigate();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-
+  const { sendEvent } = useGA();
   const newroleChat = [
     {
       content: t(
@@ -214,7 +215,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
               <div
                 key={viewType}
                 onClick={() => {
-                  console.log(viewType);
+                  sendEvent("click_char_" + viewType);
                   handleViewTypeChange(
                     viewType.toLowerCase() as "report" | "json" | "images"
                   );
