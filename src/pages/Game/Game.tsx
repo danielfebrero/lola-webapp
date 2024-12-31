@@ -101,7 +101,7 @@ const GamePage: React.FC = () => {
 
   return (
     <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
-      <div className="grow pr-5 flex flex-col h-[calc(100vh-110px)]">
+      <div className="grow flex flex-col h-[calc(100vh-110px)]">
         <div
           className="grow overflow-y-scroll no-scrollbar items-center flex flex-col"
           ref={chatContainerRef}
