@@ -97,7 +97,7 @@ const NewGamePage: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full justify-center items-center overflow-y-scroll no-scrollbar pt-[30px] md:pt-0">
-      <div className="flex flex-col items-center w-full h-full">
+      <div className="flex flex-col items-center w-full h-full md:justify-center">
         <div
           className={clsx(
             { hidden: !showAIInput },
