@@ -67,7 +67,11 @@ const Init: React.FC = () => {
       initData(socketConnection);
       dispatch(setIsDataLoaded(true));
     }
-  }, [auth.isAuthenticated, socketConnection, isDataLoaded, dispatch]);
+  }, [socketConnection, isDataLoaded, dispatch]);
+
+  useEffect(() => {
+    if (auth.isAuthenticated) dispatch(setIsDataLoaded(false));
+  }, [auth.isAuthenticated, dispatch]);
 
   useEffect(() => {
     if (auth.user?.refresh_token && !auth.isAuthenticated) {
