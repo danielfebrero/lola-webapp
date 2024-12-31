@@ -97,7 +97,7 @@ const NewGamePage: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full justify-center items-center overflow-y-scroll no-scrollbar pt-[30px] md:pt-0">
-      <div className="flex flex-col items-center w-full h-full justify-center">
+      <div className="flex flex-col items-center w-full h-full">
         <div
           className={clsx(
             { hidden: !showAIInput },
@@ -194,31 +194,33 @@ const NewGamePage: React.FC = () => {
             {t(games.filter((g) => g.id === selectedGame)[0].context)}
           </div>
         )}
-        <div
-          className={clsx(
-            {
-              "cursor-pointer":
-                selectedCharacters.length > 0 &&
-                selectedGame &&
-                !hasSentMessage,
-              "bg-black":
-                selectedCharacters.length > 0 &&
-                selectedGame &&
-                !hasSentMessage,
-              "bg-slate-200":
-                !(selectedCharacters.length > 0) ||
-                !selectedGame ||
-                hasSentMessage,
-            },
-            "ml-[20px] w-[32px] h-[32px] mt-[40px] text-white bg-black rounded-full flex justify-center items-center "
-          )}
-          onClick={
-            selectedCharacters.length > 0 && selectedGame && !hasSentMessage
-              ? createGame
-              : undefined
-          }
-        >
-          <SendIcon />
+        <div className="pb-[40px]">
+          <div
+            className={clsx(
+              {
+                "cursor-pointer":
+                  selectedCharacters.length > 0 &&
+                  selectedGame &&
+                  !hasSentMessage,
+                "bg-black":
+                  selectedCharacters.length > 0 &&
+                  selectedGame &&
+                  !hasSentMessage,
+                "bg-slate-200":
+                  !(selectedCharacters.length > 0) ||
+                  !selectedGame ||
+                  hasSentMessage,
+              },
+              "ml-[20px] w-[32px] h-[32px] mt-[40px] text-white bg-black rounded-full flex justify-center items-center"
+            )}
+            onClick={
+              selectedCharacters.length > 0 && selectedGame && !hasSentMessage
+                ? createGame
+                : undefined
+            }
+          >
+            <SendIcon />
+          </div>
         </div>
       </div>
     </div>
