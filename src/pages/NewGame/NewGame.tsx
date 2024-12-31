@@ -70,86 +70,86 @@ const games = [
     context:
       "Thrown into a time loop, you find yourself revisiting moments of unspeakable desire. Each era offers new lovers, each more daring than the last. But indulging too much could trap you in a cycle of endless ecstasy, never to return to reality. Will you risk it all to savor every moment?",
   },
-  {
-    id: "vampire_night",
-    image: imageVampireNight,
-    label: "Vampire Night",
-    adult: true,
-    context:
-      "In the heart of a shadowy manor, you encounter a coven of vampires who hunger not only for blood but also for carnal delights. Will you succumb to their dark seduction, or find a way to escape their eternal night of pleasure?",
-  },
-  {
-    id: "cyber_pleasures",
-    image: imageCyberPleasures,
-    label: "Cyber Pleasures",
-    adult: true,
-    context:
-      "In a neon-lit city of the future, you explore virtual realities where fantasies become reality. But as the lines between the digital and physical blur, will you lose yourself to the pleasures of the cyber world?",
-  },
-  {
-    id: "desert_temptation",
-    image: imageDesertTemptation,
-    label: "Desert Temptation",
-    adult: true,
-    context:
-      "Stranded in an endless desert, you encounter a caravan of sensual mystics who test your body and mind. Only those who embrace the heat of desire can uncover the oasis of ultimate ecstasy.",
-  },
-  {
-    id: "haunted_desires",
-    image: imageHauntedDesires,
-    label: "Haunted Desires",
-    adult: true,
-    context:
-      "In a crumbling mansion, spirits of forbidden lovers haunt your nights. They whisper promises of eternal pleasure but warn of the price: your soul. Will you resist their ghostly touch, or surrender to the afterlife of lust?",
-  },
-  {
-    id: "pirates_of_passion",
-    image: imagePiratesOfPassion,
-    label: "Pirates of Passion",
-    adult: true,
-    context:
-      "Captured by a crew of sensual pirates, you are drawn into their world of untamed lust and treasures. Will you claim the captain’s heart or remain their prisoner of desire?",
-  },
-  {
-    id: "treasure_hunt",
-    image: imageTreasureHunt,
-    label: "Treasure Hunt",
-    adult: false,
-    context:
-      "Join a band of adventurers searching for a legendary treasure hidden in a labyrinth filled with traps and puzzles. Each decision brings you closer to riches—or peril.",
-  },
-  {
-    id: "alien_odyssey",
-    image: imageAlienOdyssey,
-    label: "Alien Odyssey",
-    adult: false,
-    context:
-      "You find yourself aboard a mysterious alien spacecraft. To survive, you must navigate unknown technology and befriend—or outwit—the alien inhabitants.",
-  },
-  {
-    id: "enchanted_library",
-    image: imageEnchantedLibrary,
-    label: "Enchanted Library",
-    adult: false,
-    context:
-      "Lost in an ancient library, you discover books that transport you into magical worlds. Solve riddles and make choices to find your way back—or stay lost in the pages forever.",
-  },
-  {
-    id: "robot_rebellion",
-    image: imageRobotRebellion,
-    label: "Robot Rebellion",
-    adult: false,
-    context:
-      "In a futuristic city, robots have begun to rise against their human creators. As a young engineer, you must decide whether to aid their cause or fight to protect humanity.",
-  },
-  {
-    id: "mystic_voyage",
-    image: imageMysticVoyage,
-    label: "Mystic Voyage",
-    adult: false,
-    context:
-      "Sailing on a mysterious ship, you are swept into a world of mythical sea creatures and enchanted islands. Every decision shapes your destiny on the high seas.",
-  },
+  // {
+  //   id: "vampire_night",
+  //   image: imageVampireNight,
+  //   label: "Vampire Night",
+  //   adult: true,
+  //   context:
+  //     "In the heart of a shadowy manor, you encounter a coven of vampires who hunger not only for blood but also for carnal delights. Will you succumb to their dark seduction, or find a way to escape their eternal night of pleasure?",
+  // },
+  // {
+  //   id: "cyber_pleasures",
+  //   image: imageCyberPleasures,
+  //   label: "Cyber Pleasures",
+  //   adult: true,
+  //   context:
+  //     "In a neon-lit city of the future, you explore virtual realities where fantasies become reality. But as the lines between the digital and physical blur, will you lose yourself to the pleasures of the cyber world?",
+  // },
+  // {
+  //   id: "desert_temptation",
+  //   image: imageDesertTemptation,
+  //   label: "Desert Temptation",
+  //   adult: true,
+  //   context:
+  //     "Stranded in an endless desert, you encounter a caravan of sensual mystics who test your body and mind. Only those who embrace the heat of desire can uncover the oasis of ultimate ecstasy.",
+  // },
+  // {
+  //   id: "haunted_desires",
+  //   image: imageHauntedDesires,
+  //   label: "Haunted Desires",
+  //   adult: true,
+  //   context:
+  //     "In a crumbling mansion, spirits of forbidden lovers haunt your nights. They whisper promises of eternal pleasure but warn of the price: your soul. Will you resist their ghostly touch, or surrender to the afterlife of lust?",
+  // },
+  // {
+  //   id: "pirates_of_passion",
+  //   image: imagePiratesOfPassion,
+  //   label: "Pirates of Passion",
+  //   adult: true,
+  //   context:
+  //     "Captured by a crew of sensual pirates, you are drawn into their world of untamed lust and treasures. Will you claim the captain’s heart or remain their prisoner of desire?",
+  // },
+  // {
+  //   id: "treasure_hunt",
+  //   image: imageTreasureHunt,
+  //   label: "Treasure Hunt",
+  //   adult: false,
+  //   context:
+  //     "Join a band of adventurers searching for a legendary treasure hidden in a labyrinth filled with traps and puzzles. Each decision brings you closer to riches—or peril.",
+  // },
+  // {
+  //   id: "alien_odyssey",
+  //   image: imageAlienOdyssey,
+  //   label: "Alien Odyssey",
+  //   adult: false,
+  //   context:
+  //     "You find yourself aboard a mysterious alien spacecraft. To survive, you must navigate unknown technology and befriend—or outwit—the alien inhabitants.",
+  // },
+  // {
+  //   id: "enchanted_library",
+  //   image: imageEnchantedLibrary,
+  //   label: "Enchanted Library",
+  //   adult: false,
+  //   context:
+  //     "Lost in an ancient library, you discover books that transport you into magical worlds. Solve riddles and make choices to find your way back—or stay lost in the pages forever.",
+  // },
+  // {
+  //   id: "robot_rebellion",
+  //   image: imageRobotRebellion,
+  //   label: "Robot Rebellion",
+  //   adult: false,
+  //   context:
+  //     "In a futuristic city, robots have begun to rise against their human creators. As a young engineer, you must decide whether to aid their cause or fight to protect humanity.",
+  // },
+  // {
+  //   id: "mystic_voyage",
+  //   image: imageMysticVoyage,
+  //   label: "Mystic Voyage",
+  //   adult: false,
+  //   context:
+  //     "Sailing on a mysterious ship, you are swept into a world of mythical sea creatures and enchanted islands. Every decision shapes your destiny on the high seas.",
+  // },
 ];
 
 const NewGamePage: React.FC = () => {

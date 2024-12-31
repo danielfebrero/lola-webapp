@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
@@ -30,6 +30,47 @@ const LeftPanel: React.FC = () => {
   const outsideRef = useClickOutside(() =>
     isLeftPanelOpen && isSmallScreen ? dispatch(toggleLeftPanel()) : null
   );
+  const [dropdownPosition, setDropdownPosition] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
+
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (displayOptionDropdownId && dropdownPosition && scrollRef.current) {
+        const scrollContainer = scrollRef.current.getBoundingClientRect();
+        const newTop = dropdownPosition.top - scrollContainer.top;
+        setDropdownPosition((prev) => ({
+          top: newTop,
+          left: prev?.left ?? 0, // Ensure left has a default value of 0
+        }));
+      }
+    };
+
+    const scrollContainer = scrollRef.current;
+    scrollContainer?.addEventListener("scroll", handleScroll);
+    return () => {
+      scrollContainer?.removeEventListener("scroll", handleScroll);
+    };
+  }, [displayOptionDropdownId]);
+
+  const handleDropdownClick = (event: React.MouseEvent, threadId: string) => {
+    const clickedElement = event.currentTarget.getBoundingClientRect();
+    const scrollContainer = scrollRef.current?.getBoundingClientRect();
+
+    if (scrollContainer) {
+      setDropdownPosition({
+        top: clickedElement.top - scrollContainer.top,
+        left:
+          clickedElement.left -
+          scrollContainer.left +
+          scrollRef.current!.scrollLeft,
+      });
+    }
+    setDisplayOptionDropdownId(threadId);
+  };
 
   return (
     <div
@@ -68,7 +109,10 @@ const LeftPanel: React.FC = () => {
             </NavLink>
           </div>
         </div>
-        <div className="h-auto w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-clip pb-[20px] ml-[-10px] mr-[-10px] no-scrollbar">
+        <div
+          ref={scrollRef}
+          className="h-auto w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-clip pb-[20px] ml-[-10px] mr-[-10px] no-scrollbar"
+        >
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>{t("Characters")}</div>
@@ -320,22 +364,30 @@ const LeftPanel: React.FC = () => {
                     ) : (
                       <div
                         className="group-hover:block hidden cursor-pointer ml-[5px] h-[24px] w-[24px] text-textSecondary"
-                        onClick={() =>
-                          setDisplayOptionDropdownId(story.threadId)
+                        onClick={(event) =>
+                          handleDropdownClick(event, story.threadId)
                         }
                       >
                         <OptionsIcon />
                       </div>
                     )}
-                    {displayOptionDropdownId === story.threadId && (
-                      <div className="left-[260px] z-20">
-                        <OptionsDropdown
-                          type="story"
-                          threadId={story.threadId}
-                          hide={() => setDisplayOptionDropdownId(null)}
-                        />
-                      </div>
-                    )}
+                    {displayOptionDropdownId === story.threadId &&
+                      dropdownPosition && (
+                        <div
+                          style={{
+                            position: "fixed",
+                            top: dropdownPosition.top,
+                            left: dropdownPosition.left,
+                          }}
+                          className="z-20"
+                        >
+                          <OptionsDropdown
+                            type="story"
+                            threadId={story.threadId}
+                            hide={() => setDisplayOptionDropdownId(null)}
+                          />
+                        </div>
+                      )}
                   </div>
                 ))
             )}
