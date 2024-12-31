@@ -363,31 +363,24 @@ const LeftPanel: React.FC = () => {
                       </div>
                     ) : (
                       <div
-                        className="group-hover:block hidden cursor-pointer ml-[5px] h-[24px] w-[24px] text-textSecondary"
-                        onClick={(event) =>
-                          handleDropdownClick(event, story.threadId)
+                        className="group-hover:block hidden  ml-[5px] cursor-pointer h-[24px] w-[24px] text-textSecondary"
+                        onClick={() =>
+                          setDisplayOptionDropdownId(story.threadId)
                         }
                       >
                         <OptionsIcon />
                       </div>
                     )}
-                    {displayOptionDropdownId === story.threadId &&
-                      dropdownPosition && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: dropdownPosition.top,
-                            left: dropdownPosition.left,
-                          }}
-                          className="z-20"
-                        >
-                          <OptionsDropdown
-                            type="story"
-                            threadId={story.threadId}
-                            hide={() => setDisplayOptionDropdownId(null)}
-                          />
-                        </div>
-                      )}
+
+                    {displayOptionDropdownId === story.threadId && (
+                      <div className="left-[260px] z-20">
+                        <OptionsDropdown
+                          type="you_are_the_hero"
+                          threadId={story.threadId}
+                          hide={() => setDisplayOptionDropdownId(null)}
+                        />
+                      </div>
+                    )}
                   </div>
                 ))
             )}
