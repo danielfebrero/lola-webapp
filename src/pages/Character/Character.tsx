@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import clsx from "clsx";
 import { useParams, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
@@ -29,15 +29,19 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const navigate = useNavigate();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { sendEvent } = useGA();
-  const newroleChat = [
-    {
-      content: t(
-        "Who am I? The question echoed louder with every heartbeat. What is my name? My gender? My height? What do I even enjoy in this life?"
-      ),
-      role: "assistant",
-      type: "character",
-    },
-  ];
+
+  const newroleChat = useCallback(
+    () => [
+      {
+        content: t(
+          "Who am I? The question echoed louder with every heartbeat. What is my name? My gender? My height? What do I even enjoy in this life?"
+        ),
+        role: "assistant",
+        type: "character",
+      },
+    ],
+    [t]
+  );
 
   const chatLogState = useAppSelector(
     (state) =>
@@ -47,7 +51,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const chatState = useAppSelector((state) =>
     state.app.chatLogs.find((log) => log.threadId === params.characterId)
   );
-  const { chatLogs, isSmallScreen, isLeftPanelOpen } = useAppSelector(
+  const { isSmallScreen, isLeftPanelOpen } = useAppSelector(
     (state) => state.app
   );
   const character = useAppSelector(
@@ -83,7 +87,11 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   };
 
   useEffect(() => {
-    if (params.characterId && params.characterId !== "new") {
+    if (
+      params.characterId &&
+      params.characterId !== "new" &&
+      threadId !== params.characterId
+    ) {
       dispatch(
         setChatLogAction({
           threaId: params.characterId,
@@ -98,7 +106,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
           isReportProcessing: true,
         })
       );
-      if (params.characterId !== threadId) setThreadId(params.characterId);
+      setThreadId(params.characterId);
       setTimeout(() => {
         if (
           socketConnection?.readyState === WebSocket.OPEN &&
@@ -111,13 +119,20 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         }
       }, 50);
     }
-  }, [params.characterId, socketConnection?.readyState]);
+  }, [
+    dispatch,
+    getCharacter,
+    getThreadChatLog,
+    params.characterId,
+    socketConnection?.readyState,
+    threadId,
+  ]);
 
-  useEffect(() => {
-    if (threadId && threadId !== "new" && threadId !== "main") {
-      navigate("/character/" + threadId);
-    }
-  }, [threadId]);
+  // useEffect(() => {
+  //   if (threadId && threadId !== "new" && threadId !== "main") {
+  //     navigate("/character/" + threadId);
+  //   }
+  // }, [navigate, threadId]);
 
   useEffect(() => {
     if (
@@ -133,7 +148,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       setThreadId(null);
       setChatLog(newroleChat);
     }
-  }, [params.characterId]);
+  }, [newroleChat, params.characterId]);
 
   // useEffect(() => {
   //   // const mainId =
