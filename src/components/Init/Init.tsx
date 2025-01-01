@@ -77,7 +77,7 @@ const Init: React.FC = () => {
     if (auth.user?.refresh_token && !auth.isAuthenticated) {
       auth.signinSilent();
     }
-  }, [auth]);
+  }, []);
 
   window.addEventListener("resize", () =>
     dispatch(setIsSmallScreen(window.innerWidth < 768))

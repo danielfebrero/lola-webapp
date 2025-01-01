@@ -222,14 +222,14 @@ export default function useWebSocket({
                 break;
               case "character":
                 if (data.success) {
-                  dispatch(deleteCharacterAction(data.threadId));
-                  dispatch(deleteChatLog(data.threadId));
-
                   if (
                     currentlyViewing.objectType === "character" &&
                     currentlyViewing.objectId === data.threadId
                   )
                     navigate("/character/new");
+
+                  dispatch(deleteCharacterAction(data.threadId));
+                  dispatch(deleteChatLog(data.threadId));
                 }
                 break;
 
