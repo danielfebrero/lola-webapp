@@ -36,8 +36,6 @@ const LeftPanel: React.FC = () => {
     left: number;
   } | null>(null);
 
-  const [onClickScrollTop, setOnClickScrollTop] = useState<number>(0);
-
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const handleDropdownClick = (event: React.MouseEvent, threadId: string) => {
@@ -46,7 +44,6 @@ const LeftPanel: React.FC = () => {
     const scrollContainer = scrollRef.current?.getBoundingClientRect();
 
     if (scrollContainer) {
-      setOnClickScrollTop(scrollContainer.top + 70);
       setDropdownPosition({
         top: (domRect?.top ?? 0) - scrollContainer.top + 70,
         left:
@@ -62,17 +59,7 @@ const LeftPanel: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (displayOptionDropdownId && dropdownPosition && scrollRef.current) {
-        const domRect = clickedElement;
-        const scrollContainer = scrollRef.current?.getBoundingClientRect();
-
-        setDropdownPosition({
-          top: (domRect?.top ?? 0) - scrollRef.current.scrollTop + 20,
-          left:
-            (domRect?.left ?? 0) -
-            scrollContainer.left +
-            scrollRef.current!.scrollLeft +
-            30,
-        });
+        setDisplayOptionDropdownId(null);
       }
     };
 
@@ -85,7 +72,6 @@ const LeftPanel: React.FC = () => {
     clickedElement,
     displayOptionDropdownId,
     dropdownPosition,
-    onClickScrollTop,
     setDropdownPosition,
   ]);
 
