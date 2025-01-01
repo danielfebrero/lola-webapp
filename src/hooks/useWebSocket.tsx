@@ -390,16 +390,16 @@ export default function useWebSocket({
     );
   };
 
-  const getGamesScenarios = () => {
-    console.log("Getting games scenarios.");
-    const msg: Record<string, any> = {
-      action: "generateText",
-      endpoint: "games_scenarios",
-      language: i18n.language,
-      token: auth.user?.id_token,
-    };
-    socketConnection?.send(JSON.stringify(msg));
-  };
+  // const getGamesScenarios = () => {
+  //   console.log("Getting games scenarios.");
+  //   const msg: Record<string, any> = {
+  //     action: "generateText",
+  //     endpoint: "games_scenarios",
+  //     language: i18n.language,
+  //     token: auth.user?.id_token,
+  //   };
+  //   socketConnection?.send(JSON.stringify(msg));
+  // };
 
   return {
     sendMessage,
@@ -411,7 +411,7 @@ export default function useWebSocket({
     getHeroActions,
     deleteHeroGame,
     deleteStory,
-    getGamesScenarios,
+    // getGamesScenarios,
     socketConnection,
   };
 }

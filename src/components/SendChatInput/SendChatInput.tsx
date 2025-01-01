@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface SendChatInputProps {
@@ -12,10 +12,11 @@ interface SendChatInputProps {
 const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const [value, setValue] = useState<string>("");
   const { t } = useTranslation();
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = event.target;
-    textarea.style.height = "auto";
+    textarea.style.height = `auto`;
     textarea.style.height = `${Math.min(200, textarea.scrollHeight)}px`;
     setValue(textarea.value);
   };
@@ -26,6 +27,9 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
       if (props.onSend && value.trim() !== "" && props.canSendMessage) {
         props.onSend(value.trim());
         setValue("");
+        if (textAreaRef.current) {
+          textAreaRef.current.style.height = "24px";
+        }
       }
     }
   };
@@ -34,6 +38,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
     <div className="w-full h-auto flex justify-center items-center">
       <div className="w-full flex items-center bg-lightGray rounded-lg p-[10px]">
         <textarea
+          ref={textAreaRef}
           value={value}
           onChange={handleInput}
           onKeyDown={handleKeyDown}
