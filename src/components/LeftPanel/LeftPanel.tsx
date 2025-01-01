@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
@@ -36,6 +36,8 @@ const LeftPanel: React.FC = () => {
     left: number;
   } | null>(null);
 
+  const [onClickScrollTop, setOnClickScrollTop] = useState<number>(0);
+
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const handleDropdownClick = (event: React.MouseEvent, threadId: string) => {
@@ -44,6 +46,7 @@ const LeftPanel: React.FC = () => {
     const scrollContainer = scrollRef.current?.getBoundingClientRect();
 
     if (scrollContainer) {
+      setOnClickScrollTop(scrollContainer.top + 70);
       setDropdownPosition({
         top: (domRect?.top ?? 0) - scrollContainer.top + 70,
         left:
@@ -63,7 +66,7 @@ const LeftPanel: React.FC = () => {
         const scrollContainer = scrollRef.current?.getBoundingClientRect();
 
         setDropdownPosition({
-          top: (domRect?.top ?? 0) - scrollRef.current.scrollTop + 70,
+          top: (domRect?.top ?? 0) - scrollRef.current.scrollTop + 20,
           left:
             (domRect?.left ?? 0) -
             scrollContainer.left +
@@ -82,6 +85,7 @@ const LeftPanel: React.FC = () => {
     clickedElement,
     displayOptionDropdownId,
     dropdownPosition,
+    onClickScrollTop,
     setDropdownPosition,
   ]);
 
@@ -232,11 +236,11 @@ const LeftPanel: React.FC = () => {
                       dropdownPosition && (
                         <div
                           style={{
-                            position: "fixed",
+                            // position: "fixed",
                             top: dropdownPosition.top,
                             left: dropdownPosition.left,
                           }}
-                          className="z-20"
+                          className="z-20 absolute"
                         >
                           <OptionsDropdown
                             type="character"
