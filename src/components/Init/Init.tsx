@@ -74,7 +74,8 @@ const Init: React.FC = () => {
   }, [auth.isAuthenticated, dispatch]);
 
   useEffect(() => {
-    if (auth.user?.refresh_token && !auth.isAuthenticated) {
+    console.log({ auth });
+    if (!auth.isAuthenticated) {
       auth.signinSilent();
     }
   }, []);
