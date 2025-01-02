@@ -11,6 +11,7 @@ import pt from "./locales/pt/pt.json";
 import ru from "./locales/ru/ru.json";
 import ar from "./locales/ar/ar.json";
 import sv from "./locales/sv/sv.json";
+import tr from "./locales/tr/tr.json";
 
 const resources = {
   en: {
@@ -39,6 +40,9 @@ const resources = {
   },
   sv: {
     translation: sv,
+  },
+  tr: {
+    translation: tr,
   },
 };
 
