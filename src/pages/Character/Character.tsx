@@ -236,7 +236,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       {(!isSmallScreen || mobileView === "report") && (
         <div className="grow md:w-1/2 pl-10 md:pl-5 flex items-center flex-col h-[calc(100vh-110px)]">
           <div className="bg-lightGray p-[5px] rounded-lg w-fit flex flex-row">
-            {["report", "JSON", "images"].map((viewType) => (
+            {["report", "images"].map((viewType) => (
               <div
                 key={viewType}
                 onClick={() => {
