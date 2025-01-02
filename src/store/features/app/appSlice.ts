@@ -209,6 +209,8 @@ export const appSlice = createSlice({
             : action.payload.newImage
             ? [action.payload.newImage]
             : [],
+          isImageProcessing: action.payload.isImageProcessing,
+          isReportProcessing: action.payload.isReportProcessing,
         });
       }
     },

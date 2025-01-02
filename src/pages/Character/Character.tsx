@@ -190,6 +190,10 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     return () => clearTimeout(timer);
   }, [chatLog]);
 
+  useEffect(() => {
+    console.log({ character });
+  }, [character]);
+
   return (
     <div className="grow pl-5 pr-5 pt-2.5 md:pb-5 pb-[10px] flex flex-row overflow-y-scroll no-scrollbar">
       {isSmallScreen && !isLeftPanelOpen && (
