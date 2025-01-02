@@ -280,7 +280,7 @@ export default function useWebSocket({
       endpoint: endpoint,
       input_text: message,
       language: i18n.language,
-      token: auth.user?.id_token,
+      token: auth.isAuthenticated ? auth.user?.id_token : undefined,
       ...extraFields,
     };
 
@@ -295,14 +295,14 @@ export default function useWebSocket({
       JSON.stringify({
         action: "fetchData",
         endpoint: "threads",
-        token: auth.user?.id_token,
+        token: auth.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
     websocket.send(
       JSON.stringify({
         action: "fetchData",
         endpoint: "characters",
-        token: auth.user?.id_token,
+        token: auth.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
   };
@@ -314,7 +314,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "messages",
         threadId,
-        token: auth.user?.id_token,
+        token: auth.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
   };
@@ -326,7 +326,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "character",
         threadId,
-        token: auth.user?.id_token,
+        token: auth.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
   };
@@ -337,7 +337,7 @@ export default function useWebSocket({
       JSON.stringify({
         action: "fetchData",
         endpoint: "characters",
-        token: auth.user?.id_token,
+        token: auth.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
   };
@@ -349,7 +349,7 @@ export default function useWebSocket({
         action: "deleteData",
         endpoint: "character",
         threadId,
-        token: auth.user?.id_token,
+        token: auth.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
   };
@@ -361,7 +361,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "hero_actions",
         threadId,
-        token: auth.user?.id_token,
+        token: auth.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
   };
@@ -373,7 +373,7 @@ export default function useWebSocket({
         action: "deleteData",
         endpoint: "you_are_the_hero",
         threadId,
-        token: auth.user?.id_token,
+        token: auth.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
   };
@@ -385,7 +385,7 @@ export default function useWebSocket({
         action: "deleteData",
         endpoint: "story",
         threadId,
-        token: auth.user?.id_token,
+        token: auth.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
   };
