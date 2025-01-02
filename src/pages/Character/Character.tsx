@@ -128,11 +128,16 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     threadId,
   ]);
 
-  // useEffect(() => {
-  //   if (threadId && threadId !== "new" && threadId !== "main") {
-  //     navigate("/character/" + threadId);
-  //   }
-  // }, [navigate, threadId]);
+  useEffect(() => {
+    if (
+      threadId &&
+      params.characterId !== threadId &&
+      threadId !== "new" &&
+      threadId !== "main"
+    ) {
+      navigate("/character/" + threadId);
+    }
+  }, [navigate, params.characterId, threadId]);
 
   useEffect(() => {
     if (
