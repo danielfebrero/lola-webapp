@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
@@ -18,6 +18,7 @@ import useWebSocket from "../../hooks/useWebSocket";
 
 const NewStoryPage: React.FC = () => {
   const { t } = useTranslation();
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
   const [AIInputValue, setAIInputValue] = useState<string>("");
   const [context, setContext] = useState<string>("");
@@ -59,6 +60,10 @@ const NewStoryPage: React.FC = () => {
       navigate("/story/" + threadId);
     }
   }, [threadId]);
+
+  useEffect(() => {
+    textAreaRef.current?.focus();
+  }, []);
 
   return (
     <div className="flex flex-col h-full justify-center items-center overflow-y-scroll no-scrollbar pt-[30px] md:pt-0">
@@ -137,6 +142,7 @@ const NewStoryPage: React.FC = () => {
           <textarea
             className="rounded-lg border border-lightBorder resize-none h-[100px] md:w-[400px] w-[100%] outline-none p-[10px]"
             onChange={(e) => setContext(e.target.value)}
+            ref={textAreaRef}
           >
             {context}
           </textarea>

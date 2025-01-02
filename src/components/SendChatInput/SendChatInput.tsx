@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface SendChatInputProps {
@@ -33,6 +33,10 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
       }
     }
   };
+
+  useEffect(() => {
+    textAreaRef.current?.focus();
+  }, []);
 
   return (
     <div className="w-full h-auto flex justify-center items-center">

@@ -129,15 +129,10 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   ]);
 
   useEffect(() => {
-    if (
-      threadId &&
-      params.characterId !== threadId &&
-      threadId !== "new" &&
-      threadId !== "main"
-    ) {
+    if (threadId) {
       navigate("/character/" + threadId);
     }
-  }, [navigate, params.characterId, threadId]);
+  }, [threadId]);
 
   useEffect(() => {
     if (
@@ -154,6 +149,16 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       setChatLog(newroleChat);
     }
   }, [newroleChat, params.characterId]);
+
+  useEffect(() => {
+    setThreadId(
+      params.characterId !== "new" ? params.characterId ?? null : null
+    );
+
+    return () => {
+      setThreadId(null);
+    };
+  }, []);
 
   // useEffect(() => {
   //   // const mainId =
