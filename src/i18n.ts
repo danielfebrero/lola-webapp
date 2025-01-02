@@ -12,6 +12,7 @@ import ru from "./locales/ru/ru.json";
 import ar from "./locales/ar/ar.json";
 import sv from "./locales/sv/sv.json";
 import tr from "./locales/tr/tr.json";
+import ja from "./locales/ja/ja.json";
 
 const resources = {
   en: {
@@ -43,6 +44,9 @@ const resources = {
   },
   tr: {
     translation: tr,
+  },
+  ja: {
+    translation: ja,
   },
 };
 
