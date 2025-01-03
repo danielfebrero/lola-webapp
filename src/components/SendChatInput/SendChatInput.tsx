@@ -36,7 +36,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
 
   useEffect(() => {
     textAreaRef.current?.focus();
-  }, []);
+  }, [props]);
 
   return (
     <div className="w-full h-auto flex justify-center items-center">
