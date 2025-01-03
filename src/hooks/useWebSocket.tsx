@@ -163,7 +163,7 @@ export default function useWebSocket({
                   setCharacter({
                     threadId: data.threadId,
                     newImage: data.s3Url,
-                    newImagesMultisize: data.S3Urls,
+                    newImagesMultisize: data.s3Urls,
                     isImageProcessing: false,
                   })
                 );
