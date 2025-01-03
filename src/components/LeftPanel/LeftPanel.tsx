@@ -193,8 +193,12 @@ const LeftPanel: React.FC = () => {
                           ) : null}
                         </div>
                         <span className="pl-[10px] truncate">
-                          {characters.find((c) => c.threadId === char.threadId)
-                            ?.json?.name ?? char.title}
+                          {t(
+                            characters.find((c) => c.threadId === char.threadId)
+                              ?.json?.name ??
+                              char.title ??
+                              ""
+                          )}
                         </span>
                       </div>
                     </NavLink>
@@ -382,9 +386,7 @@ const LeftPanel: React.FC = () => {
                           : undefined
                       }
                     >
-                      <div className="truncate">
-                        {story.title ?? t("New conversation")}
-                      </div>
+                      <div className="truncate">{t(story.title ?? "")}</div>
                     </NavLink>
                     {story.isBeingDeleted ? (
                       <div className="h-[24px] w-[24px] text-textSecondary">
