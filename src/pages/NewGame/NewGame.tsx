@@ -172,6 +172,7 @@ const NewGamePage: React.FC = () => {
     sendMessage("", "you_are_the_hero", null, {
       hero: selectedCharacters[0],
       context: t(games.filter((g) => g.id === selectedGame)[0].context),
+      adult: games.filter((g) => g.id === selectedGame)[0].adult,
     });
     setHasSentMessage(true);
   };
