@@ -18,8 +18,10 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
   );
 
   useEffect(() => {
-    setSelectedImg(props.images?.[0] ?? "");
-  }, [props.images]);
+    setSelectedImg(
+      props.imagesMultisize?.[0]?.original ?? props.images?.[0] ?? ""
+    );
+  }, [props.imagesMultisize, props.images]);
   return (
     <div>
       {props.isImageGenerating &&
@@ -41,6 +43,7 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
               <img
                 key={img.large}
                 src={img.large}
+                className="w-full h-full"
                 onClick={() => setSelectedImg(img.original)}
               />
             ))}
@@ -54,7 +57,12 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
               <div className="animate-pulse bg-slate-200"></div>
             ) : null}
             {props.images.map((img) => (
-              <img key={img} src={img} onClick={() => setSelectedImg(img)} />
+              <img
+                key={img}
+                src={img}
+                className="w-full h-full"
+                onClick={() => setSelectedImg(img)}
+              />
             ))}
           </div>
         </div>
