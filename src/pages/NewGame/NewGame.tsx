@@ -287,11 +287,11 @@ const NewGamePage: React.FC = () => {
                     "rounded-full h-[64px] w-[64px] object-cover"
                   )}
                 />
-                {/* {game.adult && (
-                  <div className="w-[24px] h-[24px] absolute mt-[-15px] ml-[50px]">
+                {game.adult && (
+                  <div className="w-[24px] h-[24px] mt-[-15px] ml-[50px]">
                     <AdultIcon />
                   </div>
-                )} */}
+                )}
               </div>
               <div className="text-textSecondary text-center">
                 {t(game.label)}
