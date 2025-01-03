@@ -110,9 +110,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         setThreadId(params.characterId);
         setTimeout(() => {
           if (params.characterId) {
-            console.log("get thread chat log");
             getThreadChatLog(params.characterId);
-            console.log("get character");
             getCharacter(params.characterId);
           }
         }, 50);
@@ -134,9 +132,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       params.characterId !== "main" &&
       socketConnection?.readyState === WebSocket.OPEN
     ) {
-      console.log("get thread chat log");
       getThreadChatLog(params.characterId);
-      console.log("get character");
       getCharacter(params.characterId);
     }
   }, [socketConnection?.readyState]);

@@ -257,7 +257,14 @@ export default function useWebSocket({
         console.error("Failed to parse WebSocket message", event.data, err);
       }
     };
-  }, [socketConnection, dispatch, setThreadId]);
+  }, [
+    socketConnection,
+    dispatch,
+    setThreadId,
+    currentlyViewing.objectType,
+    currentlyViewing.objectId,
+    navigate,
+  ]);
 
   const sendMessage = (
     message: string,
