@@ -107,22 +107,43 @@ const NewStoryPage: React.FC = () => {
                     ]);
               }}
             >
-              <div className="h-[64px] w-[64px] mb-[10px]">
-                <img
-                  src={
-                    characters.find((c) => c.threadId === char.threadId)
-                      ?.images?.[0] ?? imageDani
-                  }
-                  className={clsx(
-                    {
-                      "border-4 border-green-700": selectedCharacters.includes(
-                        char.threadId
-                      ),
-                    },
-                    "rounded-full h-[64px] w-[64px] object-cover"
-                  )}
-                />
-              </div>
+              {characters.find((c) => c.threadId === char.threadId)
+                ?.imagesMultisize?.[0] ? (
+                <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200">
+                  <img
+                    src={
+                      characters.find((c) => c.threadId === char.threadId)
+                        ?.imagesMultisize?.[0].medium
+                    }
+                    className={clsx(
+                      {
+                        "border-4 border-green-700":
+                          selectedCharacters.includes(char.threadId),
+                      },
+                      "rounded-full h-[64px] w-[64px] object-cover"
+                    )}
+                  />
+                </div>
+              ) : characters.find((c) => c.threadId === char.threadId)
+                  ?.images?.[0] ? (
+                <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200">
+                  <img
+                    src={
+                      characters.find((c) => c.threadId === char.threadId)
+                        ?.images?.[0]
+                    }
+                    className={clsx(
+                      {
+                        "border-4 border-green-700":
+                          selectedCharacters.includes(char.threadId),
+                      },
+                      "rounded-full h-[64px] w-[64px] object-cover"
+                    )}
+                  />
+                </div>
+              ) : (
+                <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200 animate-pulse"></div>
+              )}
               <div className="text-textSecondary">{char.json?.name}</div>
             </div>
           ))}

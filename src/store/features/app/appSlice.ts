@@ -197,8 +197,21 @@ export const appSlice = createSlice({
             currentCharacter.images = [action.payload.newImage];
           else currentCharacter.images.unshift(action.payload.newImage);
         }
+
+        if (action.payload.newImagesMultisize) {
+          if (!currentCharacter.imagesMultisize)
+            currentCharacter.imagesMultisize = [
+              action.payload.newImagesMultisize,
+            ];
+          else
+            currentCharacter.imagesMultisize.unshift(
+              action.payload.newImagesMultisize
+            );
+        }
         currentCharacter.images =
           action.payload.images ?? currentCharacter.images;
+        currentCharacter.imagesMultisize =
+          action.payload.images_multisize ?? currentCharacter.imagesMultisize;
       } else {
         state.characters.push({
           threadId: action.payload.threadId,
@@ -208,6 +221,11 @@ export const appSlice = createSlice({
             ? action.payload.images
             : action.payload.newImage
             ? [action.payload.newImage]
+            : [],
+          imagesMultisize: action.payload.images_multisize
+            ? action.payload.images_multisize
+            : action.payload.newImagesMultisize
+            ? [action.payload.newImagesMultisize]
             : [],
           isImageProcessing: action.payload.isImageProcessing,
           isReportProcessing: action.payload.isReportProcessing,

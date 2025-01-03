@@ -13,6 +13,7 @@ interface ReportViewProps {
   isProcessing: boolean;
   isImageGenerating: boolean;
   images?: string[];
+  imagesMultisize?: ImagesMultisize[];
 }
 
 const ReportView: React.FC<ReportViewProps> = (props) => {
@@ -42,7 +43,15 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
                 "h-[120px] w-[120px] rounded-full bg-slate-200 items-center flex"
               )}
             >
-              {props.images && props.images.length > 0 ? (
+              {props.imagesMultisize && props.imagesMultisize.length > 0 ? (
+                <img
+                  className="rounded-full object-cover"
+                  src={props.imagesMultisize[0].large}
+                />
+              ) : null}
+              {props.images &&
+              props.images.length > 0 &&
+              (!props.imagesMultisize || props.imagesMultisize.length === 0) ? (
                 <img
                   className="rounded-full object-cover"
                   src={props.images[0]}

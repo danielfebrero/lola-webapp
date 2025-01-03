@@ -181,12 +181,27 @@ const LeftPanel: React.FC = () => {
                         >
                           {" "}
                           {characters.find((c) => c.threadId === char.threadId)
-                            ?.images?.[0] ? (
+                            ?.imagesMultisize?.[0] ? (
                             <img
                               src={
                                 characters.find(
                                   (c) => c.threadId === char.threadId
-                                )?.images?.[0] ?? imageDani
+                                )?.imagesMultisize?.[0]?.small
+                              }
+                              className="rounded-full h-[24px] w-[24px] object-cover"
+                            />
+                          ) : characters.find(
+                              (c) => c.threadId === char.threadId
+                            )?.images?.[0] ? (
+                            <img
+                              src={
+                                characters.find(
+                                  (c) => c.threadId === char.threadId
+                                )?.imagesMultisize?.[0]?.small ??
+                                characters.find(
+                                  (c) => c.threadId === char.threadId
+                                )?.images?.[0] ??
+                                imageDani
                               }
                               className="rounded-full h-[24px] w-[24px] object-cover"
                             />
