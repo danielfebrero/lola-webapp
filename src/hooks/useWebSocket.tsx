@@ -212,13 +212,15 @@ export default function useWebSocket({
           case "delete":
             switch (data.type) {
               case "story":
-                if (data.success) dispatch(deleteChatLog(data.threadId));
+                if (data.success) {
+                  if (
+                    currentlyViewing.objectType === "story" &&
+                    currentlyViewing.objectId === data.threadId
+                  )
+                    navigate("/story/new");
+                  dispatch(deleteChatLog(data.threadId));
+                }
 
-                if (
-                  currentlyViewing.objectType === "story" &&
-                  currentlyViewing.objectId === data.threadId
-                )
-                  navigate("/story/new");
                 break;
               case "character":
                 if (data.success) {
@@ -234,13 +236,16 @@ export default function useWebSocket({
                 break;
 
               case "you_are_the_hero":
-                dispatch(deleteGame(data.threadId));
-                dispatch(deleteChatLog(data.threadId));
-                if (
-                  currentlyViewing.objectType === "game" &&
-                  currentlyViewing.objectId === data.threadId
-                )
-                  navigate("/game/new");
+                if (data.success) {
+                  if (
+                    currentlyViewing.objectType === "game" &&
+                    currentlyViewing.objectId === data.threadId
+                  )
+                    navigate("/game/new");
+
+                  dispatch(deleteGame(data.threadId));
+                  dispatch(deleteChatLog(data.threadId));
+                }
                 break;
 
               default:
