@@ -290,7 +290,7 @@ const LeftPanel: React.FC = () => {
                           : undefined
                       }
                     >
-                      <div className="truncate grow">{game.title}</div>
+                      <div className="truncate grow">{t(game.title ?? "")}</div>
                     </NavLink>
                     {game.isBeingDeleted ? (
                       <div className="h-[24px] w-[24px] text-textSecondary">
