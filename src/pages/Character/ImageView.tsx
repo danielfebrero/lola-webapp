@@ -34,7 +34,7 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
         </div>
       ) : props.imagesMultisize && props.imagesMultisize.length > 0 ? (
         <div className="flex flex-col">
-          <img src={selectedImg} />
+          <img src={selectedImg} width="1024" height="1024" />
           <div className="grid grid-cols-4 h-auto w-auto">
             {props.isImageGenerating ? (
               <div className="animate-pulse bg-slate-200"></div>
@@ -51,7 +51,7 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
         </div>
       ) : props.images && props.images.length > 0 ? (
         <div className="flex flex-col">
-          <img src={selectedImg} />
+          <img src={selectedImg} width="1024" height="1024" />
           <div className="grid grid-cols-4 h-auto w-auto">
             {props.isImageGenerating ? (
               <div className="animate-pulse bg-slate-200"></div>
