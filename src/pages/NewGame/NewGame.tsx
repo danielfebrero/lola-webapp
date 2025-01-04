@@ -3,7 +3,6 @@ import { NavLink, useNavigate } from "react-router";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
-import imageDani from "../../images/dani.webp";
 import imageCarnalDuneon from "../../images/carnaldungeon.webp";
 import imageSpySeduction from "../../images/spyseduction.webp";
 import imageZombieLust from "../../images/zombielust.webp";
@@ -33,7 +32,7 @@ import Meta from "../../components/Meta";
 const games = [
   {
     id: "carnal_dungeon",
-    image: imageCarnalDuneon,
+    image: imageCarnalDuneon.src,
     label: "Carnal Dungeon",
     adult: true,
     context:
