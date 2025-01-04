@@ -202,7 +202,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   return (
     <div className="grow pl-5 pr-5 pt-2.5 md:pb-5 pb-[10px] flex flex-row overflow-y-scroll no-scrollbar">
       {isSmallScreen && !isLeftPanelOpen && (
-        <div className="fixed flex flex-col text-textSecondary left-[15px] w-auto">
+        <div className="fixed flex flex-col text-textSecondary dark:text-darkTextSecondary left-[15px] w-auto">
           <div
             className="h-[24px] w-[24px]  mt-[20px]"
             onClick={() => setMobileView("chat")}
@@ -244,7 +244,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
       {(!isSmallScreen || mobileView === "report") && (
         <div className="grow md:w-1/2 pl-10 md:pl-5 flex items-center flex-col h-[calc(100vh-110px)]">
-          <div className="bg-lightGray p-[5px] rounded-lg w-fit flex flex-row">
+          <div className="bg-lightGray dark:bg-darkLightGray p-[5px] rounded-lg w-fit flex flex-row">
             {["report", "images"].map((viewType) => (
               <div
                 key={viewType}
@@ -259,7 +259,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   "pl-[20px] pr-[20px] pt-[5px] pb-[5px]",
                   "rounded-lg",
                   {
-                    "text-textPrimary border border-borderLight bg-white":
+                    "text-textPrimary dark:text-darkTextPrimary border border-borderLight bg-white":
                       selectedRightViewType === viewType.toLowerCase(),
                     "text-gray-400":
                       selectedRightViewType !== viewType.toLowerCase(),

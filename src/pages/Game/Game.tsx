@@ -119,14 +119,14 @@ const GamePage: React.FC = () => {
               {heroActions?.map((action) => (
                 <div
                   key={action.action_title}
-                  className="flex flex-col p-[10px] m-[10px] rounded-lg border border-borderColor hover:bg-lightGray cursor-pointer"
+                  className="flex flex-col p-[10px] m-[10px] rounded-lg border border-borderColor hover:bg-lightGray dark:hover:bg-darkLightGray cursor-pointer"
                   onClick={() =>
                     chooseAction(action.action_title, action.action_description)
                   }
                 >
                   <div className="group text-center">
                     {action.action_title}
-                    <div className="text-textSecondary text-sm">
+                    <div className="text-textSecondary dark:dark-textSecondary text-sm">
                       {action.action_description}
                     </div>
                   </div>

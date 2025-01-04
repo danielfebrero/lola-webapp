@@ -83,12 +83,12 @@ const LeftPanel: React.FC = () => {
           "min-w-[260px] w-[260px]": isLeftPanelOpen,
           "min-w-0 w-0": !isLeftPanelOpen,
         },
-        `transition-all duration-500 h-screen bg-lightGray`
+        `transition-all duration-500 h-screen bg-lightGray dark:bg-darkLightGray`
       )}
     >
       <div className="h-screen w-[260px] flex flex-col pl-[20px] pr-[20px] pt-[10px]">
         <div className="h-auto w-full flex flex-col">
-          <div className="font-bold h-[40px] items-center flex flex-row justify-between text-textSecondary">
+          <div className="font-bold h-[40px] items-center flex flex-row justify-between text-textSecondary dark:text-darkTextSecondary">
             <div
               className="h-[24px] w-[24px] cursor-pointer"
               onClick={() => {
@@ -128,7 +128,7 @@ const LeftPanel: React.FC = () => {
                     sendEvent("click_plus_char_from_left_panel");
                   }}
                 >
-                  <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary">
+                  <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
                     <PlusIcon />
                   </div>
                 </NavLink>
@@ -142,7 +142,7 @@ const LeftPanel: React.FC = () => {
                 }
               >
                 <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                  <div className="h-[20px] w-[20px] text-textSecondary">
+                  <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
                     <PlusIcon />
                   </div>
                   <span className="pl-[10px]">{t("New character")}</span>
@@ -218,7 +218,7 @@ const LeftPanel: React.FC = () => {
                       </div>
                     </NavLink>
                     {char.isBeingDeleted ? (
-                      <div className="h-[24px] w-[24px] text-textSecondary">
+                      <div className="h-[24px] w-[24px] text-textSecondar dark:text-darkTextSecondary">
                         <LoadingIcon />
                       </div>
                     ) : (
@@ -227,7 +227,7 @@ const LeftPanel: React.FC = () => {
                           {
                             hidden: displayOptionDropdownId !== char.threadId,
                           },
-                          "group-hover:block cursor-pointer  ml-[5px] h-[24px] w-[24px] text-textSecondary"
+                          "group-hover:block cursor-pointer  ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
                         )}
                         onClick={(event) =>
                           handleDropdownClick(event, char.threadId)
@@ -273,7 +273,7 @@ const LeftPanel: React.FC = () => {
                     sendEvent("click_plus_game_from_left_panel");
                   }}
                 >
-                  <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary">
+                  <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
                     <PlusIcon />
                   </div>
                 </NavLink>
@@ -288,7 +288,7 @@ const LeftPanel: React.FC = () => {
                 }
               >
                 <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                  <div className="h-[20px] w-[20px] text-textSecondary">
+                  <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
                     <PlusIcon />
                   </div>
                   <span className="pl-[10px]">{t("New game")}</span>
@@ -312,7 +312,7 @@ const LeftPanel: React.FC = () => {
                       <div className="truncate grow">{t(game.title ?? "")}</div>
                     </NavLink>
                     {game.isBeingDeleted ? (
-                      <div className="h-[24px] w-[24px] text-textSecondary">
+                      <div className="h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary">
                         <LoadingIcon />
                       </div>
                     ) : (
@@ -321,7 +321,7 @@ const LeftPanel: React.FC = () => {
                           {
                             hidden: displayOptionDropdownId !== game.threadId,
                           },
-                          "group-hover:block cursor-pointer  ml-[5px] h-[24px] w-[24px] text-textSecondary"
+                          "group-hover:block cursor-pointer  ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
                         )}
                         onClick={(event) =>
                           handleDropdownClick(event, game.threadId)
@@ -366,7 +366,7 @@ const LeftPanel: React.FC = () => {
                     sendEvent("click_plus_story_from_left_panel");
                   }}
                 >
-                  <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary">
+                  <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
                     <PlusIcon />
                   </div>
                 </NavLink>
@@ -380,7 +380,7 @@ const LeftPanel: React.FC = () => {
                 }
               >
                 <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                  <div className="h-[20px] w-[20px] text-textSecondary">
+                  <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
                     <PlusIcon />
                   </div>
                   <span className="pl-[10px]">{t("New story")}</span>
@@ -404,7 +404,7 @@ const LeftPanel: React.FC = () => {
                       <div className="truncate">{t(story.title ?? "")}</div>
                     </NavLink>
                     {story.isBeingDeleted ? (
-                      <div className="h-[24px] w-[24px] text-textSecondary">
+                      <div className="h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary">
                         <LoadingIcon />
                       </div>
                     ) : (
@@ -413,7 +413,7 @@ const LeftPanel: React.FC = () => {
                           {
                             hidden: displayOptionDropdownId !== story.threadId,
                           },
-                          "group-hover:block cursor-pointer  ml-[5px] h-[24px] w-[24px] text-textSecondary"
+                          "group-hover:block cursor-pointer  ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
                         )}
                         onClick={(event) =>
                           handleDropdownClick(event, story.threadId)

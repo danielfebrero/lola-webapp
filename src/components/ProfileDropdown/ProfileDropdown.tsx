@@ -35,33 +35,33 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
       className="rounded-lg border border-borderLight shadow pl-[5px] pr-[5px] pt-[5px] pb-[5px] w-fit absolute z-10 bg-white min-w-[260px] right-[20px] mt-[40px]"
     >
       {/* <div
-        className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row items-center"
+        className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkLightGray p-[10px] flex flex-row items-center"
         onClick={() => dispatch(toggleSettings())}
       >
-        <div className="h-[20px] w-[20px] text-textSecondary">
+        <div className="h-[20px] w-[20px] text-textSecondary dark:dark-textSecondary">
           <SettingsIcon />
         </div>
         <div className="ml-[10px]">Settings</div>
       </div> */}
       {auth.isAuthenticated ? (
         <div
-          className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row items-center"
+          className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkLightGray p-[10px] flex flex-row items-center"
           onClick={signOutRedirect}
         >
-          <div className="h-[20px] w-[20px] text-textSecondary">
+          <div className="h-[20px] w-[20px] text-textSecondary dark:dark-textSecondary">
             <LogoutIcon />
           </div>
           <div className="ml-[10px]">{t("Logout")}</div>
         </div>
       ) : (
         <div
-          className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row items-center"
+          className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkLightGray p-[10px] flex flex-row items-center"
           onClick={() => {
             sendEvent("click_signin_signup");
             auth.signinRedirect();
           }}
         >
-          <div className="h-[20px] w-[20px] text-textSecondary">
+          <div className="h-[20px] w-[20px] text-textSecondary dark:dark-textSecondary">
             <LogoutIcon />
           </div>
           <div className="ml-[10px]">{t("Signup or login")}</div>

@@ -28,10 +28,10 @@ const ModeDropdown: React.FC<ModeDropdownProps> = (props) => {
             : "/character/new"
         }
       >
-        <div className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row justify-between items-center">
+        <div className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkLightGray p-[10px] flex flex-row justify-between items-center">
           <div>
             <div>{t("Character")}</div>
-            <div className="text-textSecondary text-xs">
+            <div className="text-textSecondary dark:dark-textSecondary text-xs">
               {t("Take care of your characters")}
             </div>
           </div>
@@ -47,10 +47,10 @@ const ModeDropdown: React.FC<ModeDropdownProps> = (props) => {
           location.pathname.indexOf("/game") === 0 ? location.pathname : "/game"
         }
       >
-        <div className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row justify-between items-center">
+        <div className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkLightGray p-[10px] flex flex-row justify-between items-center">
           <div>
             <div>{t("You are the hero")}</div>
-            <div className="text-textSecondary text-xs">
+            <div className="text-textSecondary dark:dark-textSecondary text-xs">
               {t("Play the game")}
             </div>
           </div>
@@ -68,10 +68,10 @@ const ModeDropdown: React.FC<ModeDropdownProps> = (props) => {
             : "/story/new"
         }
       >
-        <div className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row justify-between items-center">
+        <div className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkLightGray p-[10px] flex flex-row justify-between items-center">
           <div>
             <div>{t("Story")}</div>
-            <div className="text-textSecondary text-xs">
+            <div className="text-textSecondary dark:dark-textSecondary text-xs">
               {t("You are the author")}
             </div>
           </div>
@@ -89,10 +89,10 @@ const ModeDropdown: React.FC<ModeDropdownProps> = (props) => {
             : "/lola/new"
         }
       >
-        <div className="cursor-pointer hover:bg-lightGray p-[10px] flex flex-row justify-between items-center">
+        <div className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkLightGray p-[10px] flex flex-row justify-between items-center">
           <div>
             <div>Lola</div>
-            <div className="text-textSecondary text-xs">
+            <div className="text-textSecondary dark:dark-textSecondary text-xs">
               {t("Chatbot without instructions")}
             </div>
           </div>

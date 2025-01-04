@@ -281,11 +281,13 @@ const NewGamePage: React.FC = () => {
                 <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200 animate-pulse"></div>
               )}
 
-              <div className="text-textSecondary">{char.json?.name}</div>
+              <div className="text-textSecondary dark:text-darkTextSecondary">
+                {char.json?.name}
+              </div>
             </div>
           ))}
           <NavLink to={"/character/new"}>
-            <div className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer flex">
+            <div className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary dark:text-darkTextSecondary cursor-pointer flex">
               <PlusIcon />
             </div>
           </NavLink>
@@ -315,20 +317,20 @@ const NewGamePage: React.FC = () => {
                   </div>
                 )}
               </div>
-              <div className="text-textSecondary text-center">
+              <div className="text-textSecondary dark:text-darkTextSecondary text-center">
                 {t(game.label)}
               </div>
             </div>
           ))}
           {/* <div
-            className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer self-center justify-self-center"
+            className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary dark:darkTextSecondary cursor-pointer self-center justify-self-center"
             onClick={() => setShowAIInput(true)}
           >
             <PlusIcon />
           </div> */}
         </div>
         {selectedGame && (
-          <div className="text-textSecondary text-center mt-[40px] md:w-[70%] w-full self-center justify-self-center rounded-lg bg-lightGray p-[20px]">
+          <div className="text-textSecondary dark:text-darkTextSecondary text-center mt-[40px] md:w-[70%] w-full self-center justify-self-center rounded-lg bg-lightGray dark:bg-darkLightGray p-[20px]">
             {t(games.filter((g) => g.id === selectedGame)[0].context)}
           </div>
         )}

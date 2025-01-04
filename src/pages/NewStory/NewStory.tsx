@@ -144,12 +144,14 @@ const NewStoryPage: React.FC = () => {
               ) : (
                 <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200 animate-pulse"></div>
               )}
-              <div className="text-textSecondary">{char.json?.name}</div>
+              <div className="text-textSecondary dark:text-darkTextSecondary">
+                {char.json?.name}
+              </div>
             </div>
           ))}
           <NavLink to={"/character/new"}>
             <div
-              className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer flex"
+              className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary dark:text-darkTextSecondary cursor-pointer flex"
               // onClick={() => setShowAIInput(true)}
             >
               <PlusIcon />

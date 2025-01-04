@@ -37,7 +37,10 @@ const Settings: React.FC = () => {
         <div className="flex flex-col p-[10px]">
           <div
             className={clsx(
-              { "bg-lightGray": selectedView === "personalization" },
+              {
+                "bg-lightGray dark:bg-darkLightGray":
+                  selectedView === "personalization",
+              },
               "rounded-lg flex flex-row items-center p-[10px] cursor-pointer"
             )}
             onClick={() => setSelectedView("personalization")}
@@ -49,7 +52,10 @@ const Settings: React.FC = () => {
           </div>
           <div
             className={clsx(
-              { "bg-lightGray": selectedView === "account" },
+              {
+                "bg-lightGray dark:bg-darkLightGray":
+                  selectedView === "account",
+              },
               "rounded-lg flex flex-row items-center p-[10px] cursor-pointer"
             )}
             onClick={() => setSelectedView("account")}
@@ -61,7 +67,10 @@ const Settings: React.FC = () => {
           </div>
           <div
             className={clsx(
-              { "bg-lightGray": selectedView === "membership" },
+              {
+                "bg-lightGray dark:bg-darkLightGray":
+                  selectedView === "membership",
+              },
               "rounded-lg flex flex-row items-center p-[10px] cursor-pointer"
             )}
             onClick={() => setSelectedView("membership")}
@@ -107,13 +116,13 @@ const Settings: React.FC = () => {
                 />
                 <div className="flex justify-end w-full">
                   <div
-                    className="cursor-pointer mr-[20px] hover:bg-lightGray rounded-lg pl-[20px] pr-[20px] p-[5px]"
+                    className="cursor-pointer mr-[20px] hover:bg-lightGray dark:hover:bg-darkLightGray rounded-lg pl-[20px] pr-[20px] p-[5px]"
                     onClick={() => setShowChangeMyPassword(false)}
                   >
                     Change
                   </div>
                   <div
-                    className="cursor-pointer mr-[10px] hover:bg-lightGray rounded-lg pl-[20px] pr-[20px] p-[5px]"
+                    className="cursor-pointer mr-[10px] hover:bg-lightGray dark:hover:bg-darkLightGray rounded-lg pl-[20px] pr-[20px] p-[5px]"
                     onClick={() => setShowChangeMyPassword(false)}
                   >
                     Cancel
