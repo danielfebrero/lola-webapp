@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: "class",
+  darkMode: "media",
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
@@ -25,6 +25,7 @@ module.exports = {
         darkTextSecondary: "#b4b4b4",
         darkMessageBackground: "rgba(50,50,50,.85)",
         darkBorderLight: "hsla(0,0%,100%,.1)",
+        darkBorderColor: "hsla(0,0%,100%,.15)",
       },
     },
   },
