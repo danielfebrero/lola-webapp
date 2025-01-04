@@ -104,7 +104,7 @@ const GamePage: React.FC = () => {
 
   return (
     <>
-      <Meta title={t("You are the hero")} />
+      <Meta title={t(chatState?.title ?? "You are the hero")} />
       <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-110px)]">
           <div

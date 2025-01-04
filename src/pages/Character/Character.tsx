@@ -203,7 +203,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   return (
     <>
-      <Meta title={t("Character")} />
+      <Meta title={character.json?.name ?? t("Character")} />
       <div className="grow pl-5 pr-5 pt-2.5 md:pb-5 pb-[10px] flex flex-row overflow-y-scroll no-scrollbar">
         {isSmallScreen && !isLeftPanelOpen && (
           <div className="fixed flex flex-col text-textSecondary dark:text-darkTextSecondary left-[15px] w-auto">

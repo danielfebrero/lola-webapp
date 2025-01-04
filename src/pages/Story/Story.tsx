@@ -71,7 +71,7 @@ const Storypage: React.FC = () => {
 
   return (
     <>
-      <Meta title={t("Story")} />
+      <Meta title={t(chatState?.title ?? "Story")} />
       <div className="flex justify-center h-full">
         <div className="grow pt-[10px] md:pb-[20px] pb-[10px] flex flex-col h-[calc(100vh-75px)]">
           <div
