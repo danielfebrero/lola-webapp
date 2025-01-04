@@ -124,7 +124,7 @@ const GamePage: React.FC = () => {
                 {heroActions?.map((action) => (
                   <div
                     key={action.action_title}
-                    className="flex flex-col p-[10px] m-[10px] rounded-lg border border-borderColor hover:bg-lightGray dark:hover:bg-darkLightGray cursor-pointer"
+                    className="flex flex-col p-[10px] m-[10px] rounded-lg border border-borderColor dark:border-darkBorderColor hover:bg-lightGray dark:hover:bg-darkLightGray cursor-pointer"
                     onClick={() =>
                       chooseAction(
                         action.action_title,
