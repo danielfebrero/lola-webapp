@@ -1,0 +1,31 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
+import { Provider } from "react-redux";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import ReactGA from "react-ga4";
+import LeftPanel from "./components/LeftPanel";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Overlay from "./components/Overlay";
+import Settings from "./components/Settings";
+import Init from "./components/Init";
+import LoginModal from "./components/LoginModal";
+import CharacterPage from "./pages/Character";
+import GamePage from "./pages/Game";
+import StoryPage from "./pages/Story";
+import LolaPage from "./pages/Lola";
+import NewStoryPage from "./pages/NewStory";
+import NewGamePage from "./pages/NewGame";
+import LoginSuccess from "./pages/LoginSuccess";
+import SilentRenew from "./pages/SilentRenew";
+import { store } from "./store/store";
+import "./i18n";
+const App = () => {
+    useEffect(() => {
+        ReactGA.initialize("G-43V6GGK855");
+    }, []);
+    return (_jsx(Provider, { store: store, children: _jsxs(BrowserRouter, { children: [_jsx(Analytics, {}), _jsx(SpeedInsights, {}), _jsx(Init, {}), _jsxs(Overlay, { children: [_jsx(Settings, {}), _jsx(LoginModal, {})] }), _jsxs("div", { className: "app text-textPrimary dark:text-darkTextPrimary flex flex-ro no-scrollbar overflow-hidden", children: [_jsx(LeftPanel, {}), _jsxs("div", { className: "flex flex-col h-screen overflow-y-scroll w-full z-10 bg-white dark:bg-darkMainSurfacePrimary no-scrollbar", children: [_jsxs("div", { className: "flex flex-col grow overflow-y-scroll no-scrollbar", children: [_jsx(Header, {}), _jsxs(Routes, { children: [_jsx(Route, { path: "/", element: _jsx(Navigate, { to: "/game/new", replace: true }) }), _jsx(Route, { path: "/login/silent-renew", element: _jsx(SilentRenew, {}) }), _jsx(Route, { path: "/login/success", element: _jsx(LoginSuccess, {}) }), _jsx(Route, { path: "/character/main", element: _jsx(CharacterPage, { selected: { type: "main" } }) }), _jsx(Route, { path: "/character/:characterId", element: _jsx(CharacterPage, {}) }), _jsx(Route, { path: "/game", element: _jsx(GamePage, {}) }), _jsx(Route, { path: "/game/new", element: _jsx(NewGamePage, {}) }), _jsx(Route, { path: "/game/:gameId", element: _jsx(GamePage, {}) }), _jsx(Route, { path: "/story/:storyId", element: _jsx(StoryPage, {}) }), _jsx(Route, { path: "/story/new", element: _jsx(NewStoryPage, {}) }), _jsx(Route, { path: "/lola/:conversationId", element: _jsx(LolaPage, {}) }), _jsx(Route, { path: "/lola/new", element: _jsx(LolaPage, {}) })] })] }), _jsx("div", { className: "flex w-full", children: _jsx(Footer, {}) })] })] })] }) }));
+};
+export default App;

@@ -1,0 +1,54 @@
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import { useParams } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Chat from "../../components/Chat";
+import SendChatInput from "../../components/SendChatInput";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setCurrentlyViewing, setChatLog, } from "../../store/features/app/appSlice";
+import useWebSocket from "../../hooks/useWebSocket";
+import Meta from "../../components/Meta";
+const Storypage = () => {
+    const [threadId, setThreadId] = useState(null);
+    const params = useParams();
+    const { t } = useTranslation();
+    const dispatch = useAppDispatch();
+    const chatContainerRef = useRef(null);
+    const { sendMessage, getThreadChatLog, socketConnection } = useWebSocket({});
+    const chatLog = useAppSelector((state) => state.app.chatLogs.find((log) => log.threadId === params.storyId)
+        ?.chatLog ?? []);
+    const chatState = useAppSelector((state) => state.app.chatLogs.find((log) => log.threadId === params.storyId));
+    useEffect(() => {
+        if (params.storyId) {
+            setThreadId(params.storyId);
+            dispatch(setChatLog({
+                threadId: params.storyId,
+                isInputAvailable: false,
+                isLoading: true,
+            }));
+            if (socketConnection?.readyState === WebSocket.OPEN) {
+                console.log("get thread chat log");
+                getThreadChatLog(params.storyId);
+            }
+        }
+    }, [params.storyId, socketConnection?.readyState]);
+    useEffect(() => {
+        dispatch(setCurrentlyViewing({
+            objectType: "story",
+            objectId: params.storyId,
+        }));
+    }, [params.conversationId, dispatch]);
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (chatContainerRef.current) {
+                chatContainerRef.current.scrollTo({
+                    top: chatContainerRef.current.scrollHeight,
+                    behavior: "smooth",
+                });
+            }
+        }, 0);
+        return () => clearTimeout(timer);
+    }, [chatLog]);
+    return (_jsxs(_Fragment, { children: [_jsx(Meta, { title: t(chatState?.title ?? "Story") }), _jsx("div", { className: "flex justify-center h-full", children: _jsxs("div", { className: "grow pt-[10px] md:pb-[20px] pb-[10px] flex flex-col h-[calc(100vh-75px)]", children: [_jsx("div", { ref: chatContainerRef, className: "grow overflow-y-scroll no-scrollbar justify-center flex", children: _jsx(Chat, { type: "story", id: params.conversationId, chatLog: chatLog, isChatLoading: chatState?.isLoading ?? false }) }), _jsx("div", { className: "justify-center flex w-full", children: _jsx("div", { className: "md:max-w-[715px] w-[100%] px-[30px]", children: _jsx(SendChatInput, { type: "story", onSend: (message) => sendMessage(message, "story", threadId), canSendMessage: chatState?.canSendMessage ?? true, isChatInputAvailable: chatState?.isInputAvailable ?? true }) }) })] }) })] }));
+};
+export default Storypage;
