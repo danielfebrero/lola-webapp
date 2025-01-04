@@ -69,7 +69,7 @@ const Header: React.FC = () => {
       <div className="w-auto h-auto">
         <div className="flex flex-row items-center">
           {!isLeftPanelOpen ? (
-            <div className="flex flex-row text-textSecondary">
+            <div className="flex flex-row text-textSecondary dark:text-darkTextSecondary">
               <div
                 className="h-[24px] w-[24px] cursor-pointer mr-[10px]"
                 onClick={() => dispatch(toggleLeftPanel())}
@@ -84,7 +84,7 @@ const Header: React.FC = () => {
             </div>
           ) : null}
           <div
-            className="h-[40px] items-center flex flex-row text-textSecondary cursor-pointer"
+            className="h-[40px] items-center flex flex-row text-textSecondary dark:text-darkTextSecondary cursor-pointer"
             onClick={toggleModeDropdown}
           >
             <span className="font-bold">{t(headerLabel)}</span>

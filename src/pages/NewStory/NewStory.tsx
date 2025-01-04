@@ -92,10 +92,10 @@ const NewStoryPage: React.FC = () => {
           />
         </div>
         <div className="font-semibold text-lg mb-[20px]">{t("Characters")}</div>
-        <div className="flex flex-row md:w-[70%] w-full flex-wrap justify-center no-scrollbar">
+        <div className="grid grid-cols-5 md:w-[70%] w-full flex-wrap justify-center no-scrollbar">
           {characters.map((char) => (
             <div
-              className="flex flex-col items-center mx-[10px] cursor-pointer"
+              className="flex flex-col items-center m-[10px] cursor-pointer"
               onClick={() => {
                 selectedCharacters.includes(char.threadId)
                   ? setSelectedCharacters(
@@ -144,12 +144,17 @@ const NewStoryPage: React.FC = () => {
               ) : (
                 <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200 animate-pulse"></div>
               )}
-              <div className="text-textSecondary">{char.json?.name}</div>
+              <div className="text-textSecondary dark:text-darkTextSecondary">
+                {char.json?.name}
+              </div>
             </div>
           ))}
-          <NavLink to={"/character/new"}>
+          <NavLink
+            to={"/character/new"}
+            className="flex items-center justify-center"
+          >
             <div
-              className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer flex"
+              className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary dark:text-darkTextSecondary cursor-pointer flex"
               // onClick={() => setShowAIInput(true)}
             >
               <PlusIcon />
@@ -161,7 +166,7 @@ const NewStoryPage: React.FC = () => {
         </div>
         <div className="flex flex-row items-center">
           <textarea
-            className="rounded-lg border border-lightBorder resize-none h-[100px] md:w-[400px] w-[100%] outline-none p-[10px]"
+            className="rounded-lg border border-lightBorder resize-none h-[100px] md:w-[400px] w-[100%] outline-none p-[10px] dark:bg-darkMessageBackground"
             onChange={(e) => setContext(e.target.value)}
             ref={textAreaRef}
           >

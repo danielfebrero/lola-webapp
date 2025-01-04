@@ -233,7 +233,7 @@ const NewGamePage: React.FC = () => {
         <div className="font-semibold text-lg mb-[20px]">
           {t("Choose a hero")}
         </div>
-        <div className="flex flex-row md:w-[70%] w-full flex-wrap justify-center no-scrollbar">
+        <div className="grid grid-cols-5 md:w-[70%] w-full flex-wrap justify-center no-scrollbar">
           {characters.map((char) => (
             <div
               className="flex flex-col items-center m-[10px] cursor-pointer"
@@ -281,11 +281,16 @@ const NewGamePage: React.FC = () => {
                 <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200 animate-pulse"></div>
               )}
 
-              <div className="text-textSecondary">{char.json?.name}</div>
+              <div className="text-textSecondary dark:text-darkTextSecondary">
+                {char.json?.name}
+              </div>
             </div>
           ))}
-          <NavLink to={"/character/new"}>
-            <div className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer flex">
+          <NavLink
+            to={"/character/new"}
+            className="flex items-center justify-center"
+          >
+            <div className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary dark:text-darkTextSecondary cursor-pointer flex">
               <PlusIcon />
             </div>
           </NavLink>
@@ -310,25 +315,25 @@ const NewGamePage: React.FC = () => {
                   )}
                 />
                 {game.adult && (
-                  <div className="w-[24px] h-[24px] mt-[-15px] ml-[50px]">
+                  <div className="w-[24px] h-[24px] mt-[-15px] ml-[50px] text-textSecondary dark:text-darkTextSecondary">
                     <AdultIcon />
                   </div>
                 )}
               </div>
-              <div className="text-textSecondary text-center">
+              <div className="text-textSecondary dark:text-darkTextSecondary text-center">
                 {t(game.label)}
               </div>
             </div>
           ))}
           {/* <div
-            className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary cursor-pointer self-center justify-self-center"
+            className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary dark:darkTextSecondary cursor-pointer self-center justify-self-center"
             onClick={() => setShowAIInput(true)}
           >
             <PlusIcon />
           </div> */}
         </div>
         {selectedGame && (
-          <div className="text-textSecondary text-center mt-[40px] md:w-[70%] w-full self-center justify-self-center rounded-lg bg-lightGray p-[20px]">
+          <div className="text-textSecondary dark:text-darkTextSecondary text-center mt-[40px] md:w-[70%] w-full self-center justify-self-center rounded-lg bg-lightGray dark:bg-darkLightGray p-[20px]">
             {t(games.filter((g) => g.id === selectedGame)[0].context)}
           </div>
         )}
@@ -344,12 +349,12 @@ const NewGamePage: React.FC = () => {
                   selectedCharacters.length > 0 &&
                   selectedGame &&
                   !hasSentMessage,
-                "bg-slate-200":
+                "bg-slate-200 dark:bg-darkTextSecondary":
                   !(selectedCharacters.length > 0) ||
                   !selectedGame ||
                   hasSentMessage,
               },
-              "ml-[20px] w-[32px] h-[32px] mt-[40px] text-white bg-black rounded-full flex justify-center items-center"
+              "ml-[20px] w-[32px] h-[32px] mt-[40px] text-white rounded-full flex justify-center items-center"
             )}
             onClick={
               selectedCharacters.length > 0 && selectedGame && !hasSentMessage

@@ -40,9 +40,9 @@ const App: React.FC = () => {
           <Settings />
           <LoginModal />
         </Overlay>
-        <div className="app text-textPrimary flex flex-ro no-scrollbar overflow-hidden">
+        <div className="app text-textPrimary dark:text-darkTextPrimary flex flex-ro no-scrollbar overflow-hidden">
           <LeftPanel />
-          <div className="flex flex-col h-screen overflow-y-scroll w-full z-10 bg-white no-scrollbar">
+          <div className="flex flex-col h-screen overflow-y-scroll w-full z-10 bg-white dark:bg-darkMainSurfacePrimary no-scrollbar">
             <div className="flex flex-col grow overflow-y-scroll no-scrollbar">
               <Header />
               <Routes>
