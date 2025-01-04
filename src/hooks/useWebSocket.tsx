@@ -18,6 +18,7 @@ import {
   deleteGame,
 } from "../store/features/app/appSlice";
 import useGA from "./useGA";
+import useNewChatLocation from "./useNewChatLocation";
 
 export default function useWebSocket({
   setThreadId,
@@ -25,6 +26,7 @@ export default function useWebSocket({
   setThreadId?: (threadId: string) => void;
 }) {
   const auth = useAuth();
+  const newChatLocation = useNewChatLocation();
   const { socketConnection, currentlyViewing } = useAppSelector(
     (state) => state.app
   );
@@ -170,6 +172,7 @@ export default function useWebSocket({
                 break;
 
               case "messages":
+                if (data.errorCode === "503") navigate(newChatLocation);
                 dispatch(
                   setChatLog({
                     chatLog: data.data,
