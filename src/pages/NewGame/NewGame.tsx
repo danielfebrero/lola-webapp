@@ -12,21 +12,21 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
-const imageCarnalDuneon = require("../../images/carnaldungeon.webp");
-const imageSpySeduction = require("../../images/spyseduction.webp");
-const imageZombieLust = require("../../images/zombielust.webp");
-const imageForestOfDesires = require("../../images/forestofdesires.webp");
-const imageTimeOfPleasures = require("../../images/timeofpleasures.webp");
-const imageVampireNight = require("../../images/vampirenight.webp");
-const imageCyberPleasures = require("../../images/cyberpleasures.webp");
-const imageDesertTemptation = require("../../images/deserttemptation.webp");
-const imageHauntedDesires = require("../../images/haunteddesires.webp");
-const imagePiratesOfPassion = require("../../images/piratesofpassion.webp");
-const imageTreasureHunt = require("../../images/treasurehunt.webp");
-const imageAlienOdyssey = require("../../images/alienodyssey.webp");
-const imageEnchantedLibrary = require("../../images/enchantedlibrary.webp");
-const imageRobotRebellion = require("../../images/robotrebellion.webp");
-const imageMysticVoyage = require("../../images/mysticvoyage.webp");
+const imageCarnalDuneon = `${process.env.PUBLIC_URL}/images/carnaldungeon.webp`;
+const imageSpySeduction = `${process.env.PUBLIC_URL}/images/spyseduction.webp`;
+const imageZombieLust = `${process.env.PUBLIC_URL}/images/zombielust.webp`;
+const imageForestOfDesires = `${process.env.PUBLIC_URL}/images/forestofdesires.webp`;
+const imageTimeOfPleasures = `${process.env.PUBLIC_URL}/images/timeofpleasures.webp`;
+const imageVampireNight = `${process.env.PUBLIC_URL}/images/vampirenight.webp`;
+const imageCyberPleasures = `${process.env.PUBLIC_URL}/images/cyberpleasures.webp`;
+const imageDesertTemptation = `${process.env.PUBLIC_URL}/images/deserttemptation.webp`;
+const imageHauntedDesires = `${process.env.PUBLIC_URL}/images/haunteddesires.webp`;
+const imagePiratesOfPassion = `${process.env.PUBLIC_URL}/images/piratesofpassion.webp`;
+const imageTreasureHunt = `${process.env.PUBLIC_URL}/images/treasurehunt.webp`;
+const imageAlienOdyssey = `${process.env.PUBLIC_URL}/images/alienodyssey.webp`;
+const imageEnchantedLibrary = `${process.env.PUBLIC_URL}/images/enchantedlibrary.webp`;
+const imageRobotRebellion = `${process.env.PUBLIC_URL}/images/robotrebellion.webp`;
+const imageMysticVoyage = `${process.env.PUBLIC_URL}/images/mysticvoyage.webp`;
 
 const games = [
   {
