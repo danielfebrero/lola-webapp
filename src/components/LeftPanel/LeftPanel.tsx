@@ -128,7 +128,7 @@ const LeftPanel: React.FC = () => {
                     sendEvent("click_plus_char_from_left_panel");
                   }}
                 >
-                  <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
+                  <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
                     <PlusIcon />
                   </div>
                 </NavLink>
@@ -141,7 +141,7 @@ const LeftPanel: React.FC = () => {
                   isSmallScreen ? () => dispatch(toggleLeftPanel()) : undefined
                 }
               >
-                <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                   <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
                     <PlusIcon />
                   </div>
@@ -152,7 +152,7 @@ const LeftPanel: React.FC = () => {
               chatLogs
                 .filter((log) => log.type === "character")
                 .map((char) => (
-                  <div className="group flex flex-row items-center h-[40px] hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] justify-between">
+                  <div className="group flex flex-row items-center h-[40px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] justify-between">
                     <NavLink
                       key={char.threadId}
                       className="h-full grow flex items-center w-[calc(100%-40px)]"
@@ -227,7 +227,7 @@ const LeftPanel: React.FC = () => {
                           {
                             hidden: displayOptionDropdownId !== char.threadId,
                           },
-                          "group-hover:block cursor-pointer  ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
+                          "group-hover:block cursor-pointer ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
                         )}
                         onClick={(event) =>
                           handleDropdownClick(event, char.threadId)
@@ -273,7 +273,7 @@ const LeftPanel: React.FC = () => {
                     sendEvent("click_plus_game_from_left_panel");
                   }}
                 >
-                  <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
+                  <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
                     <PlusIcon />
                   </div>
                 </NavLink>
@@ -287,7 +287,7 @@ const LeftPanel: React.FC = () => {
                   isSmallScreen ? () => dispatch(toggleLeftPanel()) : undefined
                 }
               >
-                <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                   <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
                     <PlusIcon />
                   </div>
@@ -298,7 +298,7 @@ const LeftPanel: React.FC = () => {
               chatLogs
                 .filter((log) => log.type === "you_are_the_hero")
                 .map((game) => (
-                  <div className="group flex flex-row justify-between items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                  <div className="group flex flex-row justify-between items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                     <NavLink
                       to={`/game/${game.threadId}`}
                       key={game.threadId}
@@ -321,7 +321,7 @@ const LeftPanel: React.FC = () => {
                           {
                             hidden: displayOptionDropdownId !== game.threadId,
                           },
-                          "group-hover:block cursor-pointer  ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
+                          "group-hover:block cursor-pointer ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
                         )}
                         onClick={(event) =>
                           handleDropdownClick(event, game.threadId)
@@ -366,7 +366,7 @@ const LeftPanel: React.FC = () => {
                     sendEvent("click_plus_story_from_left_panel");
                   }}
                 >
-                  <div className="w-[24px] h-[24px] hover:bg-gray-200 rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
+                  <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
                     <PlusIcon />
                   </div>
                 </NavLink>
@@ -379,7 +379,7 @@ const LeftPanel: React.FC = () => {
                   isSmallScreen ? () => dispatch(toggleLeftPanel()) : undefined
                 }
               >
-                <div className="flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                   <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
                     <PlusIcon />
                   </div>
@@ -390,7 +390,7 @@ const LeftPanel: React.FC = () => {
               chatLogs
                 .filter((log) => log.type === "story")
                 .map((story) => (
-                  <div className="group flex flex-row items-center hover:bg-gray-200 rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                  <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                     <NavLink
                       to={`/story/${story.threadId}`}
                       key={story.threadId}

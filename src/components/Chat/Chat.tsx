@@ -35,7 +35,7 @@ const Chat: React.FC<ChatProps> = (props) => {
                         "max-w-[80%]":
                           location.pathname.indexOf("/story") !== 0,
                       },
-                      "w-fit  bg-messageBackground rounded-lg p-[10px]"
+                      "w-fit  bg-messageBackground dark:bg-darkMessageBackground rounded-lg p-[10px]"
                     )}
                   >
                     <Markdown>{message.content}</Markdown>

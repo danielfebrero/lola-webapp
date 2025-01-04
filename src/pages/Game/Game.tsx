@@ -126,7 +126,7 @@ const GamePage: React.FC = () => {
                 >
                   <div className="group text-center">
                     {action.action_title}
-                    <div className="text-textSecondary dark:dark-textSecondary text-sm">
+                    <div className="text-textSecondary dark:text-darkTextSecondary text-sm">
                       {action.action_description}
                     </div>
                   </div>

@@ -259,7 +259,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   "pl-[20px] pr-[20px] pt-[5px] pb-[5px]",
                   "rounded-lg",
                   {
-                    "text-textPrimary dark:text-darkTextPrimary border border-borderLight bg-white":
+                    "text-textPrimary dark:text-darkTextPrimary border border-borderLight bg-white dark:bg-darkMessageBackground":
                       selectedRightViewType === viewType.toLowerCase(),
                     "text-gray-400":
                       selectedRightViewType !== viewType.toLowerCase(),

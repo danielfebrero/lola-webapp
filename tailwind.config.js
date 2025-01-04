@@ -18,9 +18,13 @@ module.exports = {
 
         //dark
         darkMainSurfacePrimary: "#212121",
+        darkMainSurfaceSecondary: "#2f2f2f",
+        darkMainSurcaceTertiary: "#424242",
         darkLightGray: "#171717",
         darkTextPrimary: "#ececec",
         darkTextSecondary: "#b4b4b4",
+        darkMessageBackground: "rgba(50,50,50,.85)",
+        darkBorderLight: "hsla(0,0%,100%,.1)",
       },
     },
   },

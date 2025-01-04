@@ -49,11 +49,11 @@ const OptionsDropdown: React.FC<OptionsDropdownProps> = (props) => {
   return (
     <div
       ref={ref}
-      className="w-auto h-auto p-[10px] flex flex-col rounded-lg border border-borderColor absolute bg-white"
+      className="w-auto h-auto p-[7px] flex flex-col rounded-lg border dark:border-darkBorderLight border-borderLight absolute bg-white dark:bg-darkMainSurfaceSecondary"
     >
       <div
         onClick={clickOnDelete}
-        className="rounded-md w-full hover:bg-lightGray dark:hover:bg-darkLightGray px-[15px] py-[10px] flex flex-row items-center cursor-pointer text-textError"
+        className="rounded-md w-full hover:bg-lightGray dark:hover:bg-darkLightGray p-[10px] flex flex-row items-center cursor-pointer text-textError"
       >
         <div className="h-[20px] w-[20px] mr-[10px]">
           <DeleteIcon />

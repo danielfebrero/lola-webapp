@@ -21,7 +21,7 @@ const Settings: React.FC = () => {
     <div
       className={clsx(
         { hidden: !isSettingsOpen },
-        "bg-white rounded-lg py-5 w-[680px]"
+        "bg-white dark:bg-darkMainSurfaceSecondary rounded-lg py-5 w-[680px]"
       )}
     >
       <div className="flex justify-between items-center pb-5 px-5 border-b border-borderBlack">

@@ -40,14 +40,14 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
 
   return (
     <div className="w-full h-auto flex justify-center items-center">
-      <div className="w-full flex items-center bg-lightGray dark:bg-darkLightGray rounded-lg p-[10px]">
+      <div className="w-full flex items-center bg-lightGray dark:bg-darkMessageBackground rounded-lg p-[10px]">
         <textarea
           ref={textAreaRef}
           value={value}
           onChange={handleInput}
           onKeyDown={handleKeyDown}
           disabled={!props.isChatInputAvailable}
-          className="bg-transparent border-none placeholder:text-textSecondary dark:placeholder:dark-textSecondary outline-none w-full overflow-hidden resize-none"
+          className="bg-transparent border-none placeholder:text-textSecondary dark:placeholder:text-darkTextSecondary outline-none w-full overflow-hidden resize-none"
           placeholder={t("Type a message and press Enter to send...")}
           rows={1}
         ></textarea>
