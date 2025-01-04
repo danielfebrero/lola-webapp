@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import clsx from "clsx";
 import { useParams, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Helmet } from "react-helmet-async";
 
 import Chat from "../../components/Chat";
 import SendChatInput from "../../components/SendChatInput";
