@@ -6,10 +6,12 @@ function useClickAnywhere(callback: (event: MouseEvent) => void): void {
       callback(event);
     };
 
-    document.addEventListener("mousedown", handleClickAnywhere);
+    typeof document !== "undefined" &&
+      document.addEventListener("mousedown", handleClickAnywhere);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickAnywhere);
+      typeof document !== "undefined" &&
+        document.removeEventListener("mousedown", handleClickAnywhere);
     };
   }, [callback]);
 }

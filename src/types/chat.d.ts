@@ -1,4 +1,4 @@
-interface Message {
+export interface Message {
   id?: string;
   role: string;
   content: string;
@@ -6,7 +6,7 @@ interface Message {
   timestamp?: string;
 }
 
-interface ChatLog {
+export interface ChatLog {
   created_at?: string;
   threadId: string;
   chatLog?: Message[];

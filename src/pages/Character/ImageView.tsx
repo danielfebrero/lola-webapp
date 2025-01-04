@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import Loading from "../../components/Loading";
+import { ImagesMultisize } from "../../types/characters";
 
 interface ImageViewProps {
   type: "character" | "story";

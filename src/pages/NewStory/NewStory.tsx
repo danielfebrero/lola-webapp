@@ -3,8 +3,6 @@ import { NavLink, useNavigate } from "react-router";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
-import imageDani from "../../images/dani.webp";
-
 import PlusIcon from "../../icons/plus";
 import CloseIcon from "../../icons/close";
 import SendIcon from "../../icons/send";

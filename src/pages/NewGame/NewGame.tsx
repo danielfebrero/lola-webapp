@@ -3,23 +3,6 @@ import { NavLink, useNavigate } from "react-router";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
-import imageDani from "../../images/dani.webp";
-import imageCarnalDuneon from "../../images/carnaldungeon.webp";
-import imageSpySeduction from "../../images/spyseduction.webp";
-import imageZombieLust from "../../images/zombielust.webp";
-import imageForestOfDesires from "../../images/forestofdesires.webp";
-import imageTimeOfPleasures from "../../images/timeofpleasures.webp";
-import imageVampireNight from "../../images/vampirenight.webp";
-import imageCyberPleasures from "../../images/cyberpleasures.webp";
-import imageDesertTemptation from "../../images/deserttemptation.webp";
-import imageHauntedDesires from "../../images/haunteddesires.webp";
-import imagePiratesOfPassion from "../../images/piratesofpassion.webp";
-import imageTreasureHunt from "../../images/treasurehunt.webp";
-import imageAlienOdyssey from "../../images/alienodyssey.webp";
-import imageEnchantedLibrary from "../../images/enchantedlibrary.webp";
-import imageRobotRebellion from "../../images/robotrebellion.webp";
-import imageMysticVoyage from "../../images/mysticvoyage.webp";
-
 import SendIcon from "../../icons/send";
 import PlusIcon from "../../icons/plus";
 import CloseIcon from "../../icons/close";
@@ -28,6 +11,22 @@ import AdultIcon from "../../icons/adult";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
+
+const imageCarnalDuneon = require("../../images/carnaldungeon.webp");
+const imageSpySeduction = require("../../images/spyseduction.webp");
+const imageZombieLust = require("../../images/zombielust.webp");
+const imageForestOfDesires = require("../../images/forestofdesires.webp");
+const imageTimeOfPleasures = require("../../images/timeofpleasures.webp");
+const imageVampireNight = require("../../images/vampirenight.webp");
+const imageCyberPleasures = require("../../images/cyberpleasures.webp");
+const imageDesertTemptation = require("../../images/deserttemptation.webp");
+const imageHauntedDesires = require("../../images/haunteddesires.webp");
+const imagePiratesOfPassion = require("../../images/piratesofpassion.webp");
+const imageTreasureHunt = require("../../images/treasurehunt.webp");
+const imageAlienOdyssey = require("../../images/alienodyssey.webp");
+const imageEnchantedLibrary = require("../../images/enchantedlibrary.webp");
+const imageRobotRebellion = require("../../images/robotrebellion.webp");
+const imageMysticVoyage = require("../../images/mysticvoyage.webp");
 
 const games = [
   {

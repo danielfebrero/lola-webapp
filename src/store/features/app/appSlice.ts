@@ -1,4 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ChatLog } from "../../../types/chat";
+import { Character } from "../../../types/characters";
+import { Games } from "../../../types/games";
 
 // Define a type for the slice state
 interface AppState {
@@ -19,8 +22,9 @@ interface AppState {
 
 // Define the initial state using that type
 const initialState: AppState = {
-  isSmallScreen: window.innerWidth < 768,
-  isLeftPanelOpen: window.innerWidth >= 768,
+  isSmallScreen: typeof window !== "undefined" && window.innerWidth < 768,
+  isLeftPanelOpen:
+    typeof window !== "undefined" ? window.innerWidth >= 768 : true,
   isSettingsOpen: false,
   isLoginModalOpen: false,
   currentlyViewing: {

@@ -8,7 +8,6 @@ import NewChatIcon from "../../icons/newChat";
 import OptionsIcon from "../../icons/options";
 import PlusIcon from "../../icons/plus";
 import LoadingIcon from "../../icons/loading";
-import imageDani from "../../images/dani.webp";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { toggleLeftPanel } from "../../store/features/app/appSlice";
 import useNewChatLocation from "../../hooks/useNewChatLocation";
@@ -200,8 +199,7 @@ const LeftPanel: React.FC = () => {
                                 )?.imagesMultisize?.[0]?.small ??
                                 characters.find(
                                   (c) => c.threadId === char.threadId
-                                )?.images?.[0] ??
-                                imageDani
+                                )?.images?.[0]
                               }
                               className="rounded-full h-[24px] w-[24px] object-cover"
                             />

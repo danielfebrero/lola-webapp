@@ -1,4 +1,4 @@
-interface Character {
+export interface Character {
   threadId: string;
   name?: string;
   json?: Record<string, any>;
@@ -8,7 +8,7 @@ interface Character {
   isReportProcessing?: boolean;
 }
 
-interface ImagesMultisize {
+export interface ImagesMultisize {
   original: string;
   large: string;
   medium: string;

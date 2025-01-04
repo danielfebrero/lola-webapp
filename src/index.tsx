@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { hydrateRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { AuthProvider } from "react-oidc-context";
@@ -17,10 +17,10 @@ const cognitoAuthConfig = {
   silent_redirect_uri: window.location.origin + "/login/silent-renew",
 };
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
-root.render(
+const container = document.getElementById("root");
+
+hydrateRoot(
+  container as unknown as Document,
   <React.StrictMode>
     <AuthProvider {...cognitoAuthConfig}>
       <App />

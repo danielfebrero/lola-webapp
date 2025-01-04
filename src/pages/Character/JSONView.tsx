@@ -1,7 +1,10 @@
-import ReactJson from "react-json-view";
+// import ReactJson from "react-json-view";
 import { useTranslation } from "react-i18next";
 
 import Loading from "../../components/Loading";
+import React from "react";
+
+const ReactJson = React.lazy(() => import("react-json-view"));
 
 interface JSONViewProps {
   type: "character";

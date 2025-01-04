@@ -12,10 +12,12 @@ function useClickOutside<T extends HTMLDivElement>(
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    typeof document !== "undefined" &&
+      document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      typeof document !== "undefined" &&
+        document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [callback]);
 

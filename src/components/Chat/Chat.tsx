@@ -3,6 +3,7 @@ import Markdown from "markdown-to-jsx";
 
 import clsx from "clsx";
 import Loading from "../Loading";
+import { Message } from "../../types/chat";
 
 interface ChatProps {
   type: "character" | "story" | "game" | "lola";
