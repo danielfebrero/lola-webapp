@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import { AuthProvider } from "react-oidc-context";
 import { WebStorageStateStore } from "oidc-client-ts";
+import { HelmetProvider } from "react-helmet-async";
 
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_GGRb4RlVb",
@@ -22,8 +23,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <AuthProvider {...cognitoAuthConfig}>
-      <App />
-    </AuthProvider>
+    <HelmetProvider>
+      <AuthProvider {...cognitoAuthConfig}>
+        <App />
+      </AuthProvider>
+    </HelmetProvider>
   </React.StrictMode>
 );

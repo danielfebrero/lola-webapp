@@ -10,6 +10,7 @@ import {
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import { addChatLog } from "../../store/features/app/appSlice";
+import Meta from "../../components/Meta";
 
 const LolaPage: React.FC = () => {
   const [chatLog, setChatLog] = useState<Message[]>([]);
@@ -102,31 +103,34 @@ const LolaPage: React.FC = () => {
   }, [chatLog]);
 
   return (
-    <div className="flex justify-center h-full">
-      <div className="grow pt-[10px] pb-[20px] flex flex-col h-[calc(100vh-75px)]">
-        <div
-          ref={chatContainerRef}
-          className="grow overflow-y-scroll no-scrollbar justify-center flex"
-        >
-          <Chat
-            type="lola"
-            id={params.conversationId}
-            chatLog={chatLog}
-            isChatLoading={chatState?.isLoading ?? false}
-          />
-        </div>
-        <div className="justify-center flex w-full">
-          <div className="w-[65%]">
-            <SendChatInput
+    <>
+      <Meta title={"Lola"} />
+      <div className="flex justify-center h-full">
+        <div className="grow pt-[10px] pb-[20px] flex flex-col h-[calc(100vh-75px)]">
+          <div
+            ref={chatContainerRef}
+            className="grow overflow-y-scroll no-scrollbar justify-center flex"
+          >
+            <Chat
               type="lola"
-              onSend={(message) => sendMessageToLola(message, threadId)}
-              canSendMessage={chatState?.canSendMessage ?? true}
-              isChatInputAvailable={chatState?.isInputAvailable ?? true}
+              id={params.conversationId}
+              chatLog={chatLog}
+              isChatLoading={chatState?.isLoading ?? false}
             />
+          </div>
+          <div className="justify-center flex w-full">
+            <div className="w-[65%]">
+              <SendChatInput
+                type="lola"
+                onSend={(message) => sendMessageToLola(message, threadId)}
+                canSendMessage={chatState?.canSendMessage ?? true}
+                isChatInputAvailable={chatState?.isInputAvailable ?? true}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

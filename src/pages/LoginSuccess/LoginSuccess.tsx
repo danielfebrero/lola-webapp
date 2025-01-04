@@ -4,6 +4,7 @@ import { useAuth } from "react-oidc-context";
 
 import { useAppDispatch } from "../../store/hooks";
 import { setIsDataLoaded } from "../../store/features/app/appSlice";
+import Meta from "../../components/Meta";
 
 const LoginSuccess: React.FC = () => {
   const auth = useAuth();
@@ -16,7 +17,12 @@ const LoginSuccess: React.FC = () => {
       navigate("/");
     }
   }, [auth]);
-  return <div className="w-full text-center">Logging in progress...</div>;
+  return (
+    <>
+      <Meta title={"Login"} />
+      <div className="w-full text-center">Logging in progress...</div>
+    </>
+  );
 };
 
 export default LoginSuccess;

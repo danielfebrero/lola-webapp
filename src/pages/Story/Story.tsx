@@ -1,5 +1,6 @@
 import { useParams } from "react-router";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import Chat from "../../components/Chat";
 import SendChatInput from "../../components/SendChatInput";
@@ -9,10 +10,12 @@ import {
   setChatLog,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
+import Meta from "../../components/Meta";
 
 const Storypage: React.FC = () => {
   const [threadId, setThreadId] = useState<string | null>(null);
   const params = useParams();
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -67,31 +70,34 @@ const Storypage: React.FC = () => {
   }, [chatLog]);
 
   return (
-    <div className="flex justify-center h-full">
-      <div className="grow pt-[10px] md:pb-[20px] pb-[10px] flex flex-col h-[calc(100vh-75px)]">
-        <div
-          ref={chatContainerRef}
-          className="grow overflow-y-scroll no-scrollbar justify-center flex"
-        >
-          <Chat
-            type="story"
-            id={params.conversationId}
-            chatLog={chatLog}
-            isChatLoading={chatState?.isLoading ?? false}
-          />
-        </div>
-        <div className="justify-center flex w-full">
-          <div className="md:max-w-[715px] w-[100%] px-[30px]">
-            <SendChatInput
+    <>
+      <Meta title={t("Story")} />
+      <div className="flex justify-center h-full">
+        <div className="grow pt-[10px] md:pb-[20px] pb-[10px] flex flex-col h-[calc(100vh-75px)]">
+          <div
+            ref={chatContainerRef}
+            className="grow overflow-y-scroll no-scrollbar justify-center flex"
+          >
+            <Chat
               type="story"
-              onSend={(message) => sendMessage(message, "story", threadId)}
-              canSendMessage={chatState?.canSendMessage ?? true}
-              isChatInputAvailable={chatState?.isInputAvailable ?? true}
+              id={params.conversationId}
+              chatLog={chatLog}
+              isChatLoading={chatState?.isLoading ?? false}
             />
+          </div>
+          <div className="justify-center flex w-full">
+            <div className="md:max-w-[715px] w-[100%] px-[30px]">
+              <SendChatInput
+                type="story"
+                onSend={(message) => sendMessage(message, "story", threadId)}
+                canSendMessage={chatState?.canSendMessage ?? true}
+                isChatInputAvailable={chatState?.isInputAvailable ?? true}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

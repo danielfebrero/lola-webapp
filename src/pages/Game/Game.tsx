@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import Chat from "../../components/Chat";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -10,9 +11,11 @@ import {
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import LoadingIcon from "../../icons/loading";
+import Meta from "../../components/Meta";
 
 const GamePage: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const location = useLocation();
   const params = useParams();
   const dispatch = useAppDispatch();
@@ -100,47 +103,53 @@ const GamePage: React.FC = () => {
   ]);
 
   return (
-    <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
-      <div className="grow flex flex-col h-[calc(100vh-110px)]">
-        <div
-          className="grow overflow-y-scroll no-scrollbar items-center flex flex-col"
-          ref={chatContainerRef}
-        >
-          <Chat
-            type="game"
-            id={params.gameId}
-            chatLog={chatLog}
-            isChatLoading={chatState?.isLoading ?? false}
-          />
-          {!chatState?.isLoading &&
-          !game?.heroActionsIsLoading &&
-          (chatState?.canSendMessage ?? true) ? (
-            <div className="grid md:grid-cols-2 grid-cols-1">
-              {heroActions?.map((action) => (
-                <div
-                  key={action.action_title}
-                  className="flex flex-col p-[10px] m-[10px] rounded-lg border border-borderColor hover:bg-lightGray dark:hover:bg-darkLightGray cursor-pointer"
-                  onClick={() =>
-                    chooseAction(action.action_title, action.action_description)
-                  }
-                >
-                  <div className="group text-center">
-                    {action.action_title}
-                    <div className="text-textSecondary dark:text-darkTextSecondary text-sm">
-                      {action.action_description}
+    <>
+      <Meta title={t("You are the hero")} />
+      <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
+        <div className="grow flex flex-col h-[calc(100vh-110px)]">
+          <div
+            className="grow overflow-y-scroll no-scrollbar items-center flex flex-col"
+            ref={chatContainerRef}
+          >
+            <Chat
+              type="game"
+              id={params.gameId}
+              chatLog={chatLog}
+              isChatLoading={chatState?.isLoading ?? false}
+            />
+            {!chatState?.isLoading &&
+            !game?.heroActionsIsLoading &&
+            (chatState?.canSendMessage ?? true) ? (
+              <div className="grid md:grid-cols-2 grid-cols-1">
+                {heroActions?.map((action) => (
+                  <div
+                    key={action.action_title}
+                    className="flex flex-col p-[10px] m-[10px] rounded-lg border border-borderColor hover:bg-lightGray dark:hover:bg-darkLightGray cursor-pointer"
+                    onClick={() =>
+                      chooseAction(
+                        action.action_title,
+                        action.action_description
+                      )
+                    }
+                  >
+                    <div className="group text-center">
+                      {action.action_title}
+                      <div className="text-textSecondary dark:text-darkTextSecondary text-sm">
+                        {action.action_description}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          ) : !chatState?.isLoading && game?.heroActionsIsLoading ? (
-            <div className="h-[48px] w-[48px]">
-              <LoadingIcon />
-            </div>
-          ) : null}
+                ))}
+              </div>
+            ) : !chatState?.isLoading && game?.heroActionsIsLoading ? (
+              <div className="h-[48px] w-[48px]">
+                <LoadingIcon />
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
