@@ -85,7 +85,7 @@ const Storypage: React.FC = () => {
               isChatLoading={chatState?.isLoading ?? false}
             />
           </div>
-          {chatState?.canSendMessage && (
+          {(chatState?.canSendMessage ?? true) && (
             <div className="flex w-full justify-center">
               <div className="flex w-full max-w-[715px] text-end px-[40px] pb-[20px] pt-[10px] justify-end">
                 <div
