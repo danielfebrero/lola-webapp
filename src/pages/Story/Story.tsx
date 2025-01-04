@@ -67,13 +67,13 @@ const Storypage: React.FC = () => {
       }
     }, 0);
     return () => clearTimeout(timer);
-  }, [chatLog]);
+  }, [chatLog, chatState?.isLoading, chatState?.canSendMessage]);
 
   return (
     <>
       <Meta title={t(chatState?.title ?? "Story")} />
       <div className="flex justify-center h-full">
-        <div className="grow pt-[10px] md:pb-[20px] pb-[10px] flex flex-col h-[calc(100vh-75px)]">
+        <div className="grow pt-[10px] flex flex-col h-[calc(100vh-75px)]">
           <div
             ref={chatContainerRef}
             className="grow overflow-y-scroll no-scrollbar justify-center flex"
@@ -85,6 +85,19 @@ const Storypage: React.FC = () => {
               isChatLoading={chatState?.isLoading ?? false}
             />
           </div>
+          {chatState?.canSendMessage && (
+            <div className="flex w-full justify-center">
+              <div className="flex w-full max-w-[715px] text-end px-[40px] pb-[20px] pt-[10px] justify-end">
+                <div
+                  onClick={() => sendMessage(t("Continue"), "story", threadId)}
+                  className="rounded-lg p-[15px] py-[7px] w-fit border border-borderColor dark:border-darkBorderColor hover:bg-lightGray dark:hover:bg-darkLightGray cursor-pointer"
+                >
+                  {t("Continue")}
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="justify-center flex w-full">
             <div className="md:max-w-[715px] w-[100%] px-[30px]">
               <SendChatInput
