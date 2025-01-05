@@ -54,7 +54,7 @@ const Chat: React.FC<ChatProps> = (props) => {
                       />
                     ) : null}
                   </div> */}
-                  <div className="grow max-w-[100%] px-[30px]">
+                  <div className="grow max-w-[100%] md:px-[30px]">
                     <Markdown>{message.content}</Markdown>
                   </div>
                 </div>

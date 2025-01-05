@@ -68,7 +68,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const [mobileView, setMobileView] = useState<string>("chat");
 
   const [selectedRightViewType, setSelectedRightViewType] = useState<
-    "report" | "json" | "images"
+    "report" | "json" | "images" | "chat"
   >("report");
 
   const { sendMessage, getThreadChatLog, getCharacter, socketConnection } =
@@ -83,7 +83,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       setChatLog((prev) => [...prev, { role: "user", content }]);
   };
 
-  const handleViewTypeChange = (viewType: "report" | "json" | "images") => {
+  const handleViewTypeChange = (
+    viewType: "report" | "json" | "images" | "chat"
+  ) => {
     setSelectedRightViewType(viewType);
   };
 
@@ -204,23 +206,23 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     <>
       <Meta title={character.json?.name ?? t("Character")} />
       <div className="grow pl-5 pr-5 pt-2.5 md:pb-5 pb-[10px] flex flex-row overflow-y-scroll no-scrollbar">
-        {isSmallScreen && !isLeftPanelOpen && (
-          <div className="fixed flex flex-col text-textSecondary dark:text-darkTextSecondary left-[15px] w-auto">
+        {/* {isSmallScreen && !isLeftPanelOpen && (
+          <div className="fixed grid grid-cols-2 items-center text-textSecondary dark:text-darkTextSecondary w-full justify-center">
             <div
-              className="h-[24px] w-[24px]  mt-[20px]"
+              className="h-[24px] w-[24px]"
               onClick={() => setMobileView("chat")}
             >
               <ChatIcon />
             </div>
             <div
-              className="h-[24px] w-[24px]  mt-[20px]"
+              className="h-[24px] w-[24px] "
               onClick={() => setMobileView("report")}
             >
               <ExploreIcon />
             </div>
           </div>
-        )}
-        {(!isSmallScreen || mobileView === "chat") && (
+        )} */}
+        {!isSmallScreen && (
           <div className="grow md:border-r-2 md:border-borderColor dark:md:border-darkBorderColor md:w-1/2 md:pr-5 flex flex-col h-full overflow-y-scroll no-scrollbar">
             <div
               className="grow overflow-y-scroll no-scrollbar"
@@ -246,9 +248,12 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         )}
 
         {(!isSmallScreen || mobileView === "report") && (
-          <div className="grow md:w-1/2 pl-10 md:pl-5 flex items-center flex-col h-[calc(100vh-110px)]">
+          <div className="grow md:w-1/2 md:pl-5 flex items-center flex-col h-[calc(100vh-110px)]">
             <div className="bg-lightGray dark:bg-darkLightGray p-[5px] rounded-lg w-fit flex flex-row">
-              {["report", "images"].map((viewType) => (
+              {(isSmallScreen
+                ? ["chat", "report", "images"]
+                : ["report", "images"]
+              ).map((viewType) => (
                 <div
                   key={viewType}
                   onClick={() => {
@@ -273,7 +278,33 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 </div>
               ))}
             </div>
-            <div className="mt-4 w-full   overflow-y-scroll no-scrollbar">
+            <div className="mt-4 w-full grow overflow-y-scroll no-scrollbar">
+              {selectedRightViewType === "chat" && (
+                <div className="flex h-full flex-col">
+                  <div
+                    className="grow overflow-y-scroll no-scrollbar"
+                    ref={chatContainerRef}
+                  >
+                    <Chat
+                      type="character"
+                      id={threadId}
+                      chatLog={chatLog}
+                      isChatLoading={chatState?.isLoading ?? false}
+                    />
+                  </div>
+                  <div className="justify-center flex w-full md:px-0 px-[30px]">
+                    <SendChatInput
+                      type="character"
+                      id={threadId}
+                      isChatInputAvailable={chatState?.isInputAvailable ?? true}
+                      canSendMessage={chatState?.canSendMessage ?? true}
+                      onSend={(message) =>
+                        sendMessageToCharacter(message, threadId)
+                      }
+                    />
+                  </div>
+                </div>
+              )}
               {selectedRightViewType === "report" && (
                 <div className="w-full">
                   <ReportView
