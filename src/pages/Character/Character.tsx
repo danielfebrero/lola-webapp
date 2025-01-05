@@ -324,7 +324,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 </div>
               )}
               {selectedRightViewType === "images" && (
-                <div className="w-full">
+                <div className="w-full flex justify-center">
                   <ImageView
                     type="character"
                     id={threadId}
