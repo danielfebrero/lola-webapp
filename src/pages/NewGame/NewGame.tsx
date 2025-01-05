@@ -236,7 +236,7 @@ const NewGamePage: React.FC = () => {
           <div className="font-semibold text-lg mb-[20px]">
             {t("Choose a hero")}
           </div>
-          <div className="grid grid-cols-5 md:w-[70%] w-full flex-wrap justify-center no-scrollbar">
+          <div className="grid md:grid-cols-5 grid-cols-3 md:w-[70%] w-full flex-wrap justify-center no-scrollbar">
             {characters.map((char) => (
               <div
                 className="flex flex-col items-center m-[10px] cursor-pointer"
