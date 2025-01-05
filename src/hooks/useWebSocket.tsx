@@ -76,6 +76,7 @@ export default function useWebSocket({
                         threadId: data.threadId,
                         isInputAvailable: true,
                         canSendMessage: true,
+                        state: data.status,
                       })
                     );
                     console.log("Chat generation complete");
@@ -106,6 +107,7 @@ export default function useWebSocket({
                         content: data.content,
                         type: data.feature_type,
                         role: "assistant",
+                        state: data.status,
                       })
                     );
                     break;
@@ -116,6 +118,7 @@ export default function useWebSocket({
                         threadId: data.threadId,
                         isInputAvailable: true,
                         canSendMessage: false,
+                        state: data.status,
                       })
                     );
                     break;

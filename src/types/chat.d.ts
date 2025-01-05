@@ -16,4 +16,5 @@ interface ChatLog {
   isBeingDeleted?: boolean;
   isInputAvailable?: boolean;
   canSendMessage?: boolean;
+  state?: string;
 }

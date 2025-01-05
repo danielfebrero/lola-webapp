@@ -85,18 +85,21 @@ const Storypage: React.FC = () => {
               isChatLoading={chatState?.isLoading ?? false}
             />
           </div>
-          {(chatState?.canSendMessage ?? true) && (
-            <div className="flex w-full justify-center">
-              <div className="flex w-full max-w-[715px] text-end px-[40px] pb-[20px] pt-[10px] justify-end">
-                <div
-                  onClick={() => sendMessage(t("Continue"), "story", threadId)}
-                  className="rounded-lg p-[15px] py-[7px] w-fit border border-borderColor dark:border-darkBorderColor hover:bg-lightGray dark:hover:bg-darkLightGray cursor-pointer"
-                >
-                  {t("Continue")}
+          {(chatState?.canSendMessage ?? true) &&
+            chatState?.state === "complete" && (
+              <div className="flex w-full justify-center">
+                <div className="flex w-full max-w-[715px] text-end px-[40px] pb-[20px] pt-[10px] justify-end">
+                  <div
+                    onClick={() =>
+                      sendMessage(t("Continue"), "story", threadId)
+                    }
+                    className="rounded-lg p-[15px] py-[7px] w-fit border border-borderColor dark:border-darkBorderColor hover:bg-lightGray dark:hover:bg-darkLightGray cursor-pointer"
+                  >
+                    {t("Continue")}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
 
           <div className="justify-center flex w-full">
             <div className="md:max-w-[715px] w-[100%] px-[30px]">
