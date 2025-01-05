@@ -22,13 +22,14 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
       props.imagesMultisize?.[0]?.original ?? props.images?.[0] ?? ""
     );
   }, [props.imagesMultisize, props.images]);
+
   return (
     <div>
       {props.isImageGenerating &&
       (!props.images || props.images?.length === 0) &&
       (!props.imagesMultisize || props.imagesMultisize?.length === 0) ? (
         <Loading />
-      ) : props.id === "new" ? (
+      ) : !props.id ? (
         <div className="text-center mt-[50px]">
           {t("Nothing to show here yet")}
         </div>
