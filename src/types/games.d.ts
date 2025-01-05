@@ -8,3 +8,11 @@ interface Games {
   heroActions: HeroActions[];
   heroActionsIsLoading?: boolean;
 }
+
+interface Scenario {
+  id: string;
+  image: string;
+  label: string;
+  adult: boolean;
+  context: string;
+}

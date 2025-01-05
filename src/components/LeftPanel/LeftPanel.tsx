@@ -27,6 +27,7 @@ const LeftPanel: React.FC = () => {
   const { isLeftPanelOpen, chatLogs, characters, isSmallScreen } =
     useAppSelector((state) => state.app);
   const { sendEvent } = useGA();
+  const games = useAppSelector((state) => state.games.scenarios);
 
   const outsideRef = useClickOutside(() =>
     isLeftPanelOpen && isSmallScreen ? dispatch(toggleLeftPanel()) : null
@@ -309,6 +310,18 @@ const LeftPanel: React.FC = () => {
                           : undefined
                       }
                     >
+                      {/* <div className={clsx("h-[24px] w-[24px]")}>
+                        <img
+                          src={
+                            games.find((g) => g.id === char.threadId)
+                              ?.imagesMultisize?.[0]?.small ??
+                            characters.find((c) => c.threadId === char.threadId)
+                              ?.images?.[0] ??
+                            imageDani
+                          }
+                          className="rounded-full h-[24px] w-[24px] object-cover"
+                        />
+                      </div> */}
                       <div className="truncate grow">{t(game.title ?? "")}</div>
                     </NavLink>
                     {game.isBeingDeleted ? (
