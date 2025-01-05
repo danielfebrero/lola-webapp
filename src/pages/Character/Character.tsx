@@ -15,8 +15,6 @@ import {
   setChatLog as setChatLogAction,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
-import ExploreIcon from "../../icons/explore";
-import ChatIcon from "../../icons/chat";
 import useGA from "../../hooks/useGA";
 import Meta from "../../components/Meta";
 
@@ -52,9 +50,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const chatState = useAppSelector((state) =>
     state.app.chatLogs.find((log) => log.threadId === params.characterId)
   );
-  const { isSmallScreen, isLeftPanelOpen } = useAppSelector(
-    (state) => state.app
-  );
+  const { isSmallScreen } = useAppSelector((state) => state.app);
   const character = useAppSelector(
     (state) =>
       state.app.characters.find(
@@ -65,11 +61,10 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const [chatLog, setChatLog] = useState<Message[]>([]);
   const dispatch = useAppDispatch();
   useState<boolean>(true);
-  const [mobileView, setMobileView] = useState<string>("chat");
 
   const [selectedRightViewType, setSelectedRightViewType] = useState<
     "report" | "json" | "images" | "chat"
-  >("report");
+  >(isSmallScreen ? "chat" : "report");
 
   const { sendMessage, getThreadChatLog, getCharacter, socketConnection } =
     useWebSocket({
@@ -247,7 +242,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
           </div>
         )}
 
-        {(!isSmallScreen || mobileView === "report") && (
+        {
           <div className="grow md:w-1/2 md:pl-5 flex items-center flex-col h-[calc(100vh-110px)]">
             <div className="bg-lightGray dark:bg-darkLightGray p-[5px] rounded-lg w-fit flex flex-row">
               {(isSmallScreen
@@ -341,7 +336,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
               )}
             </div>
           </div>
-        )}
+        }
       </div>
     </>
   );
