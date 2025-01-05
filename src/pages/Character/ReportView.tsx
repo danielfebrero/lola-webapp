@@ -34,7 +34,7 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
         </div>
       ) : (
         <div>
-          <div className="flex flex-row mb-[20px]">
+          <div className="flex flex-row mb-[20px] pt-[30px] md:px-[30px]">
             <div
               className={clsx(
                 {
@@ -58,11 +58,17 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
                 />
               ) : null}
             </div>
-            <span className="font-bold text-4xl ml-[10px] content-center">
+            <span className="font-bold text-4xl md:ml-[40px] ml-[20px] content-center">
               {props.json?.name}
             </span>
           </div>
-          {props.isProcessing ? <Loading /> : <JSONToText data={json} />}
+          {props.isProcessing ? (
+            <Loading />
+          ) : (
+            <div className="md:mt-[60px] mt-[40px] md:ml-[20px] pb-[40px]">
+              <JSONToText data={json} />
+            </div>
+          )}
         </div>
       )}
     </div>

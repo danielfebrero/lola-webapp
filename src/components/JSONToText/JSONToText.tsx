@@ -22,7 +22,7 @@ const JSONToText: React.FC<JSONToTextProps> = ({ data, title }) => {
     } else if (typeof value === "object" && value !== null) {
       // Render objects
       return (
-        <div className="ml-5 pl-3">
+        <div className="md:ml-5 pl-3">
           {Object.entries(value).map(([key, val]) => (
             <div key={key} className="mb-2">
               {val ? (
