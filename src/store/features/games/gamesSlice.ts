@@ -15,6 +15,8 @@ import imageAlienOdyssey from "../../../images/alienodyssey.webp";
 import imageEnchantedLibrary from "../../../images/enchantedlibrary.webp";
 import imageRobotRebellion from "../../../images/robotrebellion.webp";
 import imageMysticVoyage from "../../../images/mysticvoyage.webp";
+import { Scenario } from "../../../types/games";
+import { StaticImageData } from "next/image";
 
 // Define a type for the slice state
 interface AppState {
@@ -26,7 +28,7 @@ const initialState: AppState = {
   scenarios: [
     {
       id: "carnal_dungeon",
-      image: imageCarnalDuneon,
+      image: imageCarnalDuneon as unknown as StaticImageData,
       label: "Carnal Dungeon",
       adult: true,
       context:
@@ -34,7 +36,7 @@ const initialState: AppState = {
     },
     {
       id: "spy_seduction",
-      image: imageSpySeduction,
+      image: imageSpySeduction as unknown as StaticImageData,
       label: "Spy Seduction",
       adult: true,
       context:
@@ -42,7 +44,7 @@ const initialState: AppState = {
     },
     {
       id: "zombie_lust",
-      image: imageZombieLust,
+      image: imageZombieLust as unknown as StaticImageData,
       label: "Zombie Lust",
       adult: true,
       context:
@@ -50,7 +52,7 @@ const initialState: AppState = {
     },
     {
       id: "forest_of_desires",
-      image: imageForestOfDesires,
+      image: imageForestOfDesires as unknown as StaticImageData,
       label: "Forest of Desires",
       adult: true,
       context:
@@ -58,7 +60,7 @@ const initialState: AppState = {
     },
     {
       id: "time_of_pleasures",
-      image: imageTimeOfPleasures,
+      image: imageTimeOfPleasures as unknown as StaticImageData,
       label: "Time of Pleasures",
       adult: true,
       context:
@@ -66,7 +68,7 @@ const initialState: AppState = {
     },
     {
       id: "vampire_night",
-      image: imageVampireNight,
+      image: imageVampireNight as unknown as StaticImageData,
       label: "Vampire Night",
       adult: true,
       context:
@@ -74,7 +76,7 @@ const initialState: AppState = {
     },
     {
       id: "cyber_pleasures",
-      image: imageCyberPleasures,
+      image: imageCyberPleasures as unknown as StaticImageData,
       label: "Cyber Pleasures",
       adult: true,
       context:
@@ -82,7 +84,7 @@ const initialState: AppState = {
     },
     {
       id: "desert_temptation",
-      image: imageDesertTemptation,
+      image: imageDesertTemptation as unknown as StaticImageData,
       label: "Desert Temptation",
       adult: true,
       context:
@@ -90,7 +92,7 @@ const initialState: AppState = {
     },
     {
       id: "haunted_desires",
-      image: imageHauntedDesires,
+      image: imageHauntedDesires as unknown as StaticImageData,
       label: "Haunted Desires",
       adult: true,
       context:
@@ -98,7 +100,7 @@ const initialState: AppState = {
     },
     {
       id: "pirates_of_passion",
-      image: imagePiratesOfPassion,
+      image: imagePiratesOfPassion as unknown as StaticImageData,
       label: "Pirates of Passion",
       adult: true,
       context:
@@ -106,7 +108,7 @@ const initialState: AppState = {
     },
     {
       id: "treasure_hunt",
-      image: imageTreasureHunt,
+      image: imageTreasureHunt as unknown as StaticImageData,
       label: "Treasure Hunt",
       adult: false,
       context:
@@ -114,7 +116,7 @@ const initialState: AppState = {
     },
     {
       id: "alien_odyssey",
-      image: imageAlienOdyssey,
+      image: imageAlienOdyssey as unknown as StaticImageData,
       label: "Alien Odyssey",
       adult: false,
       context:
@@ -122,7 +124,7 @@ const initialState: AppState = {
     },
     {
       id: "enchanted_library",
-      image: imageEnchantedLibrary,
+      image: imageEnchantedLibrary as unknown as StaticImageData,
       label: "Enchanted Library",
       adult: false,
       context:
@@ -130,7 +132,7 @@ const initialState: AppState = {
     },
     {
       id: "robot_rebellion",
-      image: imageRobotRebellion,
+      image: imageRobotRebellion as unknown as StaticImageData,
       label: "Robot Rebellion",
       adult: false,
       context:
@@ -138,7 +140,7 @@ const initialState: AppState = {
     },
     {
       id: "mystic_voyage",
-      image: imageMysticVoyage,
+      image: imageMysticVoyage as unknown as StaticImageData,
       label: "Mystic Voyage",
       adult: false,
       context:
