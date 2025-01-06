@@ -2,7 +2,11 @@ import ChevronDown from "../../icons/chevronDown";
 import PanelIcon from "../../icons/panel";
 import NewChatIcon from "../../icons/newChat";
 
-const Header: React.FC = () => {
+interface HeaderLayoutProps {
+  dropdownLabel: string;
+}
+
+const HeaderLayout: React.FC<HeaderLayoutProps> = ({ dropdownLabel }) => {
   return (
     <div className="pl-[20px] pr-[20px] pt-[10px] flex flex-row justify-between items-center">
       <div className="w-auto h-auto">
@@ -16,7 +20,7 @@ const Header: React.FC = () => {
             </div>
           </div>
           <div className="h-[40px] items-center flex flex-row text-textSecondary dark:text-darkTextSecondary cursor-pointer">
-            <span className="font-bold">Character</span>
+            <span className="font-bold">{dropdownLabel}</span>
             <div className="h-[24px] w-[24px]">
               <ChevronDown />
             </div>
@@ -30,4 +34,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default HeaderLayout;
