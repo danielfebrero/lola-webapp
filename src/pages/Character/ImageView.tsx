@@ -24,7 +24,7 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
   }, [props.imagesMultisize, props.images]);
 
   return (
-    <div>
+    <div className="w-full">
       {props.isImageGenerating &&
       (!props.images || props.images?.length === 0) &&
       (!props.imagesMultisize || props.imagesMultisize?.length === 0) ? (
