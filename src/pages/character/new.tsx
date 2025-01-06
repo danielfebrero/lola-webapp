@@ -12,9 +12,9 @@ const NewCharacterPage: React.FC = () => {
   return (
     <div className="no-scrollbar overflow-hidden h-screen w-screen">
       <PageLayout>test</PageLayout>
-      {/* <div className="fixed w-screen h-screen top-0 left-0 z-1">
+      <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <App />
-      </div> */}
+      </div>
     </div>
   );
 };
