@@ -195,7 +195,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       }
     }, 0);
     return () => clearTimeout(timer);
-  }, [chatLog]);
+  }, [chatLog, selectedRightViewType]);
 
   return (
     <>
