@@ -11,14 +11,6 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ dropdownLabel }) => {
     <div className="pl-[20px] pr-[20px] pt-[10px] flex flex-row justify-between items-center">
       <div className="w-auto h-auto">
         <div className="flex flex-row items-center">
-          <div className="flex flex-row text-textSecondary dark:text-darkTextSecondary">
-            <div className="h-[24px] w-[24px] cursor-pointer mr-[10px]">
-              <PanelIcon />
-            </div>
-            <div className="h-[24px] w-[24px]  mr-[10px]">
-              <NewChatIcon />
-            </div>
-          </div>
           <div className="h-[40px] items-center flex flex-row text-textSecondary dark:text-darkTextSecondary cursor-pointer">
             <span className="font-bold">{dropdownLabel}</span>
             <div className="h-[24px] w-[24px]">
