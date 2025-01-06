@@ -11,7 +11,9 @@ const App = dynamic(() => import("../../../App"), {
 const GamePage: React.FC = () => {
   return (
     <div className="no-scrollbar overflow-hidden h-screen w-screen">
-      <PageLayout>{""}</PageLayout>
+      <PageLayout headerDropdownLabel={"Choose your own adventure"}>
+        {""}
+      </PageLayout>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <App />
       </div>
