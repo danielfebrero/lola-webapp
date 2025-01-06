@@ -1,20 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import imageCarnalDuneon from "../../../images/carnaldungeon.webp";
-import imageSpySeduction from "../../../images/spyseduction.webp";
-import imageZombieLust from "../../../images/zombielust.webp";
-import imageForestOfDesires from "../../../images/forestofdesires.webp";
-import imageTimeOfPleasures from "../../../images/timeofpleasures.webp";
-import imageVampireNight from "../../../images/vampirenight.webp";
-import imageCyberPleasures from "../../../images/cyberpleasures.webp";
-import imageDesertTemptation from "../../../images/deserttemptation.webp";
-import imageHauntedDesires from "../../../images/haunteddesires.webp";
-import imagePiratesOfPassion from "../../../images/piratesofpassion.webp";
-import imageTreasureHunt from "../../../images/treasurehunt.webp";
-import imageAlienOdyssey from "../../../images/alienodyssey.webp";
-import imageEnchantedLibrary from "../../../images/enchantedlibrary.webp";
-import imageRobotRebellion from "../../../images/robotrebellion.webp";
-import imageMysticVoyage from "../../../images/mysticvoyage.webp";
+import imageCarnalDuneon from "../../../public/images/carnaldungeon.webp";
+import imageSpySeduction from "../../../public/images/spyseduction.webp";
+import imageZombieLust from "../../../public/images/zombielust.webp";
+import imageForestOfDesires from "../../../public/images/forestofdesires.webp";
+import imageTimeOfPleasures from "../../../public/images/timeofpleasures.webp";
+import imageVampireNight from "../../../public/images/vampirenight.webp";
+import imageCyberPleasures from "../../../public/images/cyberpleasures.webp";
+import imageDesertTemptation from "../../../public/images/deserttemptation.webp";
+import imageHauntedDesires from "../../../public/images/haunteddesires.webp";
+import imagePiratesOfPassion from "../../../public/images/piratesofpassion.webp";
+import imageTreasureHunt from "../../../public/images/treasurehunt.webp";
+import imageAlienOdyssey from "../../../public/images/alienodyssey.webp";
+import imageEnchantedLibrary from "../../../public/images/enchantedlibrary.webp";
+import imageRobotRebellion from "../../../public/images/robotrebellion.webp";
+import imageMysticVoyage from "../../../public/images/mysticvoyage.webp";
 import { Scenario } from "../../../types/games";
 import { StaticImageData } from "next/image";
 
