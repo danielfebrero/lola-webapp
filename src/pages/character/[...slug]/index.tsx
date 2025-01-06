@@ -1,10 +1,10 @@
 import dynamic from "next/dynamic";
 
-import PageLayout from "../../components/Layouts/Page";
+import PageLayout from "../../../components/Layouts/Page";
 
-import "../../index.css";
+import "../../../index.css";
 
-const App = dynamic(() => import("../../App"), {
+const App = dynamic(() => import("../../../App"), {
   ssr: false,
 });
 
