@@ -1,13 +1,13 @@
 import { StaticImageData } from "next/image";
 
-interface HeroActions {
+interface HeroAction {
   action_title: string;
   action_description: string;
 }
 
 interface Games {
   threadId: string;
-  heroActions: HeroActions[];
+  heroActions: HeroAction[];
   heroActionsIsLoading?: boolean;
 }
 

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Games } from "../../../types/games";
 
 // Define a type for the slice state
 interface AppState {
