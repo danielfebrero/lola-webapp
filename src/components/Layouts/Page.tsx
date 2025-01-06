@@ -1,6 +1,6 @@
 import LeftPanelLayout from "./LeftPanel";
 import HeaderLayout from "./Header";
-import Footer from "../Footer";
+import Footer from "./Footer";
 
 import "../../index.css";
 
