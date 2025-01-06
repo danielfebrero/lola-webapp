@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useAppSelector } from "../../store/hooks";
+
 interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
   id?: string | null;
@@ -13,6 +15,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const [value, setValue] = useState<string>("");
   const { t } = useTranslation();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const isSmallScreen = useAppSelector((state) => state.app.isSmallScreen);
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = event.target;
@@ -35,8 +38,8 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   };
 
   useEffect(() => {
-    textAreaRef.current?.focus();
-  }, [props]);
+    if (!isSmallScreen) textAreaRef.current?.focus();
+  }, [isSmallScreen, props]);
 
   return (
     <div className="w-full h-auto flex justify-center items-center">
