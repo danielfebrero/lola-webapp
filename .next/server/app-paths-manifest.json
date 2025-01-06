@@ -1,7 +1,0 @@
-{
-  "/manifest.json/route": "app/manifest.json/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/robots.txt/route": "app/robots.txt/route.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/[[...slug]]/page": "app/[[...slug]]/page.js"
-}
