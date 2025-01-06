@@ -1,0 +1,11 @@
+{
+  "app/[[...slug]]/client.tsx -> ../../App": {
+    "id": 3511,
+    "files": [
+      "static/css/dc96a890732b0a43.css",
+      "static/chunks/26da4297.199e8a0b26943714.js",
+      "static/chunks/50.4aefc4f3e133c59e.js",
+      "static/chunks/511.8fb6d555d6bd4235.js"
+    ]
+  }
+}
