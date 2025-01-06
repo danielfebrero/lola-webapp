@@ -8,7 +8,7 @@ export function generateStaticParams() {
 export default function Page() {
   return (
     <div className="no-scrollbar overflow-hidden h-screen w-screen">
-      <PageLayout>test</PageLayout>
+      <PageLayout>{""}</PageLayout>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <ClientOnly />
       </div>
