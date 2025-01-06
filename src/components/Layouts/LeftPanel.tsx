@@ -27,34 +27,40 @@ const LeftPanelLayout: React.FC = () => {
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>Characters</div>
             </div>
-            <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-              <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
-                <PlusIcon />
+            <a href="/character/new">
+              <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
+                  <PlusIcon />
+                </div>
+                <span className="pl-[10px]">New character</span>
               </div>
-              <span className="pl-[10px]">New character</span>
-            </div>
+            </a>
           </div>
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div className="font-bold h-[40px] content-center">Games</div>
             </div>
-            <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-              <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
-                <PlusIcon />
+            <a href="/game/new">
+              <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
+                  <PlusIcon />
+                </div>
+                <span className="pl-[10px]">New game</span>
               </div>
-              <span className="pl-[10px]">New game</span>
-            </div>
+            </a>
           </div>
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div className="font-bold h-[40px] content-center">Stories</div>
             </div>
-            <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-              <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
-                <PlusIcon />
+            <a href="/story/new">
+              <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
+                  <PlusIcon />
+                </div>
+                <span className="pl-[10px]">New story</span>
               </div>
-              <span className="pl-[10px]">New story</span>
-            </div>
+            </a>
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ const App = dynamic(() => import("../../../App"), {
   ssr: false,
 });
 
-const NewCharacterPage: React.FC = () => {
+const StoryPage: React.FC = () => {
   return (
     <div className="no-scrollbar overflow-hidden h-screen w-screen">
       <PageLayout>{""}</PageLayout>
@@ -19,4 +19,4 @@ const NewCharacterPage: React.FC = () => {
   );
 };
 
-export default NewCharacterPage;
+export default StoryPage;

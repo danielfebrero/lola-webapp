@@ -1,14 +1,14 @@
 import dynamic from "next/dynamic";
 
-import PageLayout from "../../../components/Layouts/Page";
+import PageLayout from "../../components/Layouts/Page";
 
-import "../../../index.css";
+import "../../index.css";
 
-const App = dynamic(() => import("../../../App"), {
+const App = dynamic(() => import("../../App"), {
   ssr: false,
 });
 
-const GamePage: React.FC = () => {
+const NewStoryPage: React.FC = () => {
   return (
     <div className="no-scrollbar overflow-hidden h-screen w-screen">
       <PageLayout>{""}</PageLayout>
@@ -19,4 +19,4 @@ const GamePage: React.FC = () => {
   );
 };
 
-export default GamePage;
+export default NewStoryPage;
