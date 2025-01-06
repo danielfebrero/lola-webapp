@@ -13,14 +13,14 @@ import Settings from "./components/Settings";
 import Init from "./components/Init";
 import LoginModal from "./components/LoginModal";
 
-import CharacterPage from "./paths/Character";
-import GamePage from "./paths/Game";
-import StoryPage from "./paths/Story";
-import LolaPage from "./paths/Lola";
-import NewStoryPage from "./paths/NewStory";
-import NewGamePage from "./paths/NewGame";
-import LoginSuccess from "./paths/LoginSuccess";
-import SilentRenew from "./paths/SilentRenew";
+import CharacterPage from "./routes/Character";
+import GamePage from "./routes/Game";
+import StoryPage from "./routes/Story";
+import LolaPage from "./routes/Lola";
+import NewStoryPage from "./routes/NewStory";
+import NewGamePage from "./routes/NewGame";
+import LoginSuccess from "./routes/LoginSuccess";
+import SilentRenew from "./routes/SilentRenew";
 
 import { store } from "./store/store";
 
