@@ -68,7 +68,7 @@ const NewStoryPage: React.FC = () => {
     <>
       <Meta title={t("New story")} />
       <div className="flex flex-col h-full justify-center items-center overflow-y-scroll no-scrollbar pt-[30px] md:pt-0">
-        <div className="flex flex-col items-center w-full h-full justify-center">
+        <div className="flex flex-col items-center w-full h-full md:pt-[30px]">
           <div
             className={clsx(
               { hidden: !showAIInput },
