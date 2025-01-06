@@ -43,7 +43,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
         </div>
         <div className="ml-[10px]">Settings</div>
       </div> */}
-      {auth.isAuthenticated ? (
+      {auth?.isAuthenticated ? (
         <div
           className="rounded-lg cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
           onClick={signOutRedirect}
