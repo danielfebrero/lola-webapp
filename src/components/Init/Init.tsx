@@ -70,12 +70,12 @@ const Init: React.FC = () => {
   }, [socketConnection, isDataLoaded, dispatch]);
 
   useEffect(() => {
-    if (auth.isAuthenticated) dispatch(setIsDataLoaded(false));
-  }, [auth.isAuthenticated, dispatch]);
+    if (auth?.isAuthenticated) dispatch(setIsDataLoaded(false));
+  }, [auth?.isAuthenticated, dispatch]);
 
   useEffect(() => {
-    if (!auth.isAuthenticated) {
-      auth.signinSilent();
+    if (!auth?.isAuthenticated) {
+      auth?.signinSilent();
     }
   }, []);
 

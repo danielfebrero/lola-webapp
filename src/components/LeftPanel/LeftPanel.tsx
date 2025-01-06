@@ -8,7 +8,6 @@ import NewChatIcon from "../../icons/newChat";
 import OptionsIcon from "../../icons/options";
 import PlusIcon from "../../icons/plus";
 import LoadingIcon from "../../icons/loading";
-import imageDani from "../../images/dani.webp";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { toggleLeftPanel } from "../../store/features/app/appSlice";
 import useNewChatLocation from "../../hooks/useNewChatLocation";
@@ -27,7 +26,7 @@ const LeftPanel: React.FC = () => {
   const { isLeftPanelOpen, chatLogs, characters, isSmallScreen } =
     useAppSelector((state) => state.app);
   const { sendEvent } = useGA();
-  const games = useAppSelector((state) => state.games.scenarios);
+  // const games = useAppSelector((state) => state.games.scenarios);
 
   const outsideRef = useClickOutside(() =>
     isLeftPanelOpen && isSmallScreen ? dispatch(toggleLeftPanel()) : null
@@ -153,7 +152,10 @@ const LeftPanel: React.FC = () => {
               chatLogs
                 .filter((log) => log.type === "character")
                 .map((char) => (
-                  <div className="group flex flex-row items-center h-[40px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] justify-between">
+                  <div
+                    key={char.threadId}
+                    className="group flex flex-row items-center h-[40px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] justify-between"
+                  >
                     <NavLink
                       key={char.threadId}
                       className="h-full grow flex items-center w-[calc(100%-40px)]"
@@ -201,8 +203,7 @@ const LeftPanel: React.FC = () => {
                                 )?.imagesMultisize?.[0]?.small ??
                                 characters.find(
                                   (c) => c.threadId === char.threadId
-                                )?.images?.[0] ??
-                                imageDani
+                                )?.images?.[0]
                               }
                               className="rounded-full h-[24px] w-[24px] object-cover"
                             />
@@ -299,7 +300,10 @@ const LeftPanel: React.FC = () => {
               chatLogs
                 .filter((log) => log.type === "you_are_the_hero")
                 .map((game) => (
-                  <div className="group flex flex-row justify-between items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                  <div
+                    key={game.threadId}
+                    className="group flex flex-row justify-between items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]"
+                  >
                     <NavLink
                       to={`/game/${game.threadId}`}
                       key={game.threadId}
@@ -403,7 +407,10 @@ const LeftPanel: React.FC = () => {
               chatLogs
                 .filter((log) => log.type === "story")
                 .map((story) => (
-                  <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                  <div
+                    key={story.threadId}
+                    className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]"
+                  >
                     <NavLink
                       to={`/story/${story.threadId}`}
                       key={story.threadId}

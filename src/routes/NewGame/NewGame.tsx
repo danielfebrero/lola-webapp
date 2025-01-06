@@ -174,7 +174,7 @@ const NewGamePage: React.FC = () => {
               >
                 <div className="h-[64px] w-[64px] mb-[10px]">
                   <img
-                    src={game.image}
+                    src={game.image.src}
                     className={clsx(
                       { "border-4 border-green-700": selectedGame === game.id },
                       "rounded-full h-[64px] w-[64px] object-cover"

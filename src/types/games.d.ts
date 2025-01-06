@@ -1,17 +1,19 @@
-interface HeroActions {
+import { StaticImageData } from "next/image";
+
+interface HeroAction {
   action_title: string;
   action_description: string;
 }
 
 interface Games {
   threadId: string;
-  heroActions: HeroActions[];
+  heroActions: HeroAction[];
   heroActionsIsLoading?: boolean;
 }
 
 interface Scenario {
   id: string;
-  image: string;
+  image: StaticImageData;
   label: string;
   adult: boolean;
   context: string;

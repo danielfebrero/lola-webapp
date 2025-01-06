@@ -115,7 +115,7 @@ const Header: React.FC = () => {
           className="bg-sky-700 rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer"
           onClick={toggleProfileDropdown}
         >
-          {auth.isAuthenticated
+          {auth?.isAuthenticated
             ? auth.user?.profile.email?.substring(0, 1).toUpperCase()
             : null}
         </div>
