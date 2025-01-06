@@ -6,16 +6,20 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Exclude /character and its subpaths from the catch-all
+  // Allow /character and its subpaths to be handled normally (SSR)
   if (pathname.startsWith("/character")) {
     return NextResponse.next();
   }
 
-  // Apply catch-all behavior to other routes if necessary
-  // For example, redirect to a client-only app
-  // return NextResponse.rewrite(new URL('/[[...slug]]', request.url));
+  // Prevent rewriting if already in catch-all to avoid infinite loop
+  if (pathname.startsWith("/[[...slug]]")) {
+    return NextResponse.next();
+  }
 
-  return NextResponse.next();
+  // Rewrite all other routes to the catch-all [[...slug]] route
+  // Example: /about → /[[...slug]]/about
+  //          /blog/post-1 → /[[...slug]]/blog/post-1
+  return NextResponse.rewrite(new URL(`/[[...slug]]${pathname}`, request.url));
 }
 
 export const config = {
