@@ -1,3 +1,4 @@
+import PageLayout from "../components/Layouts/Page";
 import { ClientOnly } from "./client";
 
 export function generateStaticParams() {
@@ -5,5 +6,12 @@ export function generateStaticParams() {
 }
 
 export default function Page() {
-  return <ClientOnly />;
+  return (
+    <div className="no-scrollbar overflow-hidden h-screen w-screen">
+      <PageLayout>test</PageLayout>
+      <div className="fixed w-screen h-screen top-0 left-0 z-1">
+        <ClientOnly />
+      </div>
+    </div>
+  );
 }
