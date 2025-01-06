@@ -7,7 +7,7 @@ const LeftPanelLayout: React.FC = () => {
   return (
     <div
       className={clsx(
-        `min-w-[260px] w-[260px] transition-all duration-500 h-screen bg-lightGray dark:bg-darkLightGray`
+        `min-w-[260px] w-[260px] transition-all duration-500 h-screen bg-lightGray dark:bg-darkLightGray left-0 top-0`
       )}
     >
       <div className="h-screen w-[260px] flex flex-col pl-[20px] pr-[20px] pt-[10px]">

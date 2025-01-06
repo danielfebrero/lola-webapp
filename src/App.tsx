@@ -51,11 +51,11 @@ const App: React.FC = () => {
           <Analytics />
           <SpeedInsights />
           <Init />
-          <Overlay>
-            <Settings />
-            <LoginModal />
-          </Overlay>
           <div className="app text-textPrimary dark:text-darkTextPrimary flex flex-ro no-scrollbar overflow-hidden">
+            <Overlay>
+              <Settings />
+              <LoginModal />
+            </Overlay>
             <LeftPanel />
             <div className="flex flex-col h-screen overflow-y-scroll w-full z-10 bg-white dark:bg-darkMainSurfacePrimary no-scrollbar">
               <div className="flex flex-col grow overflow-y-scroll no-scrollbar">
