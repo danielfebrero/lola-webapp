@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "react-oidc-context";
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
+
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   setSocketConnection,
@@ -21,6 +25,11 @@ const Init: React.FC = () => {
   );
   const { initData } = useWebSocket({});
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
+
+  const { i18n } = useTranslation();
+  const navigate = useNavigate();
+  const router = useRouter();
+  const { locale, asPath } = router;
 
   const connectWebSocket = () => {
     const websocket = new WebSocket(WEBSOCKET_URL);
@@ -78,6 +87,13 @@ const Init: React.FC = () => {
       auth?.signinSilent();
     }
   }, []);
+
+  useEffect(() => {
+    if (locale) {
+      i18n.changeLanguage(locale);
+      navigate(asPath);
+    }
+  }, [locale]);
 
   window.addEventListener("resize", () =>
     dispatch(setIsSmallScreen(window.innerWidth < 768))

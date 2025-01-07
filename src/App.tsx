@@ -27,6 +27,7 @@ import SilentRenew from "./routes/SilentRenew";
 import { store } from "./store/store";
 
 import "./i18n";
+import { i } from "react-router/dist/development/route-data-DuV3tXo2";
 
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_GGRb4RlVb",
@@ -44,6 +45,7 @@ const App: React.FC = () => {
   useEffect(() => {
     ReactGA.initialize("G-43V6GGK855");
   }, []);
+
   return (
     <AuthProvider {...cognitoAuthConfig}>
       <Provider store={store}>
