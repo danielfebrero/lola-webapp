@@ -4,6 +4,7 @@ import clsx from "clsx";
 
 import JSONToText from "../../components/JSONToText";
 import Loading from "../../components/Loading";
+import LoadingIcon from "../../icons/loading";
 
 interface ReportViewProps {
   type: "character";
@@ -44,7 +45,10 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
             >
               {props.imagesMultisize && props.imagesMultisize.length > 0 ? (
                 <img
-                  className="rounded-full object-cover"
+                  className={clsx(
+                    { "animate-pulse": props.isImageGenerating },
+                    "rounded-full object-cover"
+                  )}
                   src={props.imagesMultisize[0].large}
                 />
               ) : null}
@@ -52,12 +56,20 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
               props.images.length > 0 &&
               (!props.imagesMultisize || props.imagesMultisize.length === 0) ? (
                 <img
-                  className="rounded-full object-cover"
+                  className={clsx(
+                    { "animate-pulse": props.isImageGenerating },
+                    "rounded-full object-cover"
+                  )}
                   src={props.images[0]}
                 />
               ) : null}
             </div>
-            <span className="font-bold text-4xl md:ml-[40px] ml-[20px] content-center">
+            <span
+              className={clsx(
+                { "animate-pulse": props.isProcessing },
+                "font-bold text-4xl md:ml-[40px] ml-[20px] content-center"
+              )}
+            >
               {props.json?.name}
             </span>
           </div>
