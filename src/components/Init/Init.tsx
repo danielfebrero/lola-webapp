@@ -91,7 +91,7 @@ const Init: React.FC = () => {
   useEffect(() => {
     if (locale) {
       i18n.changeLanguage(locale);
-      navigate(asPath);
+      navigate(asPath, { replace: true });
     }
   }, [locale]);
 
