@@ -1,6 +1,6 @@
 // src/pages/_app.tsx
 import { AppProps } from "next/app";
-import "../index.css"; // Adjust the path as necessary
+import "../index.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
