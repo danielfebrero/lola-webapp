@@ -4,7 +4,6 @@ import clsx from "clsx";
 
 import JSONToText from "../../components/JSONToText";
 import Loading from "../../components/Loading";
-import LoadingIcon from "../../icons/loading";
 
 interface ReportViewProps {
   type: "character";
