@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "react-oidc-context";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
@@ -30,6 +30,7 @@ const Init: React.FC = () => {
   const navigate = useNavigate();
   const router = useRouter();
   const { locale, asPath } = router;
+  const location = useLocation();
 
   const connectWebSocket = () => {
     const websocket = new WebSocket(WEBSOCKET_URL);
@@ -89,7 +90,7 @@ const Init: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (locale) {
+    if (locale && location.pathname !== asPath) {
       i18n.changeLanguage(locale);
       navigate(asPath, { replace: true });
     }
