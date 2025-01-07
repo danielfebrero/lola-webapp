@@ -39,3 +39,12 @@ h3 {
     scrollbar-width: none; /* Firefox */
   }
 }
+
+hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+ul {
+  margin-bottom: 10px;
+}

@@ -2,8 +2,6 @@ import LeftPanelLayout from "./LeftPanel";
 import HeaderLayout from "./Header";
 import Footer from "./Footer";
 
-import "../../index.css";
-
 interface PageLayoutProps {
   children: React.ReactNode;
   headerDropdownLabel: string;
