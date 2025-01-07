@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 
-import "./ReportView.css";
 import JSONToText from "../../components/JSONToText";
 import Loading from "../../components/Loading";
 

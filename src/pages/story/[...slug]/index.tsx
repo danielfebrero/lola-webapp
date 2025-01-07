@@ -2,8 +2,6 @@ import dynamic from "next/dynamic";
 
 import PageLayout from "../../../components/Layouts/Page";
 
-import "../../../index.css";
-
 const App = dynamic(() => import("../../../App"), {
   ssr: false,
 });
