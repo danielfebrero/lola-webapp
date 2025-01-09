@@ -100,7 +100,7 @@ const Init: React.FC = () => {
   useEffect(() => {
     if (messagesSent === 2 && !auth.isAuthenticated)
       dispatch(toggleLoginModal());
-  }, [dispatch, messagesSent]);
+  }, [auth.isAuthenticated, dispatch, messagesSent]);
 
   window.addEventListener("resize", () =>
     dispatch(setIsSmallScreen(window.innerWidth < 768))
