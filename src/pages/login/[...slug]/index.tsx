@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 
-import CharacterLayout from "../../../components/Layouts/Character";
 import PageLayout from "../../../components/Layouts/Page";
 
 const App = dynamic(() => import("../../../App"), {

@@ -112,12 +112,16 @@ const Header: React.FC = () => {
           </div>
         ) : null} */}
         <div
-          className="bg-sky-700 rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer"
+          className="bg-sky-700 rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer justify-center flex items-center"
           onClick={toggleProfileDropdown}
         >
-          {auth?.isAuthenticated
-            ? auth.user?.profile.email?.substring(0, 1).toUpperCase()
-            : null}
+          {auth?.isAuthenticated ? (
+            auth.user?.profile.email?.substring(0, 1).toUpperCase()
+          ) : (
+            <div className="w-[20px] h-[20px]">
+              <ChevronDown />
+            </div>
+          )}
         </div>
         <div className={clsx({ hidden: !profileDropdownOpen })}>
           <ProfileDropdown hide={() => setProfileDropdownOpen(false)} />
