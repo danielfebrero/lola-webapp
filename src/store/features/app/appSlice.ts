@@ -3,6 +3,7 @@ import { Games } from "../../../types/games";
 
 // Define a type for the slice state
 interface AppState {
+  messagesSent: number;
   isLeftPanelOpen: boolean;
   isSettingsOpen: boolean;
   isLoginModalOpen: boolean;
@@ -20,6 +21,7 @@ interface AppState {
 
 // Define the initial state using that type
 const initialState: AppState = {
+  messagesSent: 0,
   isSmallScreen: window.innerWidth < 768,
   isLeftPanelOpen: window.innerWidth >= 768,
   isSettingsOpen: false,
@@ -40,6 +42,9 @@ export const appSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    messageSentPlusOne: (state) => {
+      state.messagesSent++;
+    },
     setIsSmallScreen: (state, action) => {
       state.isSmallScreen = action.payload;
     },
@@ -256,6 +261,7 @@ export const {
   deleteChatLog,
   setGame,
   deleteGame,
+  messageSentPlusOne,
 } = appSlice.actions;
 
 export default appSlice.reducer;

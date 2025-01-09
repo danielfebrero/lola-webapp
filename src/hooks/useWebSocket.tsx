@@ -16,6 +16,7 @@ import {
   deleteCharacter as deleteCharacterAction,
   setGame,
   deleteGame,
+  messageSentPlusOne,
 } from "../store/features/app/appSlice";
 import useGA from "./useGA";
 import useNewChatLocation from "./useNewChatLocation";
@@ -280,6 +281,8 @@ export default function useWebSocket({
   ) => {
     track("sent_message");
     sendEvent("send_message_" + endpoint);
+
+    dispatch(messageSentPlusOne());
 
     // Add user's message to the chat log
     if (threadId) dispatch(setChatLog({ threadId, canSendMessage: false }));

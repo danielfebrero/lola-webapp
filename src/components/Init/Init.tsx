@@ -9,6 +9,7 @@ import {
   setSocketConnection,
   setIsDataLoaded,
   setIsSmallScreen,
+  toggleLoginModal,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
@@ -20,7 +21,7 @@ const RECONNECT_INTERVALS = [1000, 2000, 5000, 10000]; // Exponential backoff in
 const Init: React.FC = () => {
   const dispatch = useAppDispatch();
   const auth = useAuth();
-  const { socketConnection, isDataLoaded } = useAppSelector(
+  const { socketConnection, isDataLoaded, messagesSent } = useAppSelector(
     (state) => state.app
   );
   const { initData } = useWebSocket({});
@@ -95,6 +96,10 @@ const Init: React.FC = () => {
       navigate(asPath, { replace: true });
     }
   }, [locale]);
+
+  useEffect(() => {
+    if (messagesSent === 2) dispatch(toggleLoginModal());
+  }, [dispatch, messagesSent]);
 
   window.addEventListener("resize", () =>
     dispatch(setIsSmallScreen(window.innerWidth < 768))
