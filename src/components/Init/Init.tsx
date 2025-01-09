@@ -98,7 +98,8 @@ const Init: React.FC = () => {
   }, [locale]);
 
   useEffect(() => {
-    if (messagesSent === 2) dispatch(toggleLoginModal());
+    if (messagesSent === 2 && !auth.isAuthenticated)
+      dispatch(toggleLoginModal());
   }, [dispatch, messagesSent]);
 
   window.addEventListener("resize", () =>
