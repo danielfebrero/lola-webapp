@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import SendIcon from "../../icons/send";
 import PlusIcon from "../../icons/plus";
 import CloseIcon from "../../icons/close";
+import Adult16Icon from "../../icons/adult16";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
@@ -180,11 +181,11 @@ const NewGamePage: React.FC = () => {
                       "rounded-full h-[64px] w-[64px] object-cover"
                     )}
                   />
-                  {/* {game.adult && (
+                  {game.adult && (
                     <div className="w-[24px] h-[24px] mt-[-15px] ml-[50px] text-textSecondary dark:text-darkTextSecondary">
-                      <AdultIcon />
+                      <Adult16Icon />
                     </div>
-                  )} */}
+                  )}
                 </div>
                 <div className="text-textSecondary dark:text-darkTextSecondary text-center">
                   {t(game.label)}
