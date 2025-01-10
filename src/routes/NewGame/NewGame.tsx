@@ -221,7 +221,7 @@ const NewGamePage: React.FC = () => {
                     !selectedGame ||
                     hasSentMessage,
                 },
-                "ml-[20px] w-[32px] h-[32px] mt-[40px] text-white rounded-full flex justify-center items-center"
+                "md:ml-[20px] w-[32px] h-[32px] mt-[40px] text-white rounded-full flex justify-center items-center"
               )}
               onClick={
                 selectedCharacters.length > 0 && selectedGame && !hasSentMessage
