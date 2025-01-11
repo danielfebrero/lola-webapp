@@ -95,7 +95,6 @@ const Init: React.FC = () => {
 
   useEffect(() => {
     if (locale && location.pathname !== asPath) {
-      console.log({ locale, location });
       i18n.changeLanguage(locale);
       navigate(asPath, { replace: true });
     }
