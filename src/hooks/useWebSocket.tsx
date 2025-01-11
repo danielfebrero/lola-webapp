@@ -39,13 +39,14 @@ export default function useWebSocket({
     if (!socketConnection) return;
 
     socketConnection.onmessage = (event) => {
-      console.log("Incoming message:", { data: event.data });
       try {
         const data = JSON.parse(event.data);
-        console.log({ data });
         switch (data.action) {
           case "fetch":
             switch (data.type) {
+              case "image_search":
+                console.log("image_search", { data });
+                break;
               case "chat":
                 switch (data.status) {
                   case "complete":
@@ -80,7 +81,6 @@ export default function useWebSocket({
                         state: data.status,
                       })
                     );
-                    console.log("Chat generation complete");
                     break;
                   case "done":
                     // Handle logic for when chat generation is done
@@ -93,12 +93,8 @@ export default function useWebSocket({
                         })
                       );
                     }
-                    console.log("Chat generation done");
                     break;
                   case "partial":
-                    // Handle logic for when chat generation is partial
-                    console.log("Partial chat data received");
-
                     // Add assistant's message to the chat log
                     dispatch(
                       addChatLog({
@@ -189,7 +185,6 @@ export default function useWebSocket({
                 break;
 
               case "hero_actions":
-                console.log({ hero_actions: data.data });
                 if (data.status === "init") {
                   dispatch(
                     setGame({
@@ -271,6 +266,7 @@ export default function useWebSocket({
     currentlyViewing.objectType,
     currentlyViewing.objectId,
     navigate,
+    newChatLocation,
   ]);
 
   const sendMessage = (
@@ -412,17 +408,6 @@ export default function useWebSocket({
     );
   };
 
-  // const getGamesScenarios = () => {
-  //   console.log("Getting games scenarios.");
-  //   const msg: Record<string, any> = {
-  //     action: "generateText",
-  //     endpoint: "games_scenarios",
-  //     language: i18n.language,
-  //     token: auth.user?.id_token,
-  //   };
-  //   socketConnection?.send(JSON.stringify(msg));
-  // };
-
   return {
     sendMessage,
     initData,
@@ -433,7 +418,6 @@ export default function useWebSocket({
     getHeroActions,
     deleteHeroGame,
     deleteStory,
-    // getGamesScenarios,
     socketConnection,
   };
 }
