@@ -132,7 +132,7 @@ const Storypage: React.FC = () => {
           </div>
           <div
             ref={chatContainerRef}
-            className="grow overflow-y-scroll no-scrollbar justify-center flex"
+            className="grow overflow-y-scroll no-scrollbar justify-center flex mx-[10px]"
           >
             <Chat
               type="story"
