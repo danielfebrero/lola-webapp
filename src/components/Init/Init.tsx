@@ -10,7 +10,6 @@ import {
   setIsDataLoaded,
   setIsSmallScreen,
   toggleLoginModal,
-  setLocale,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
