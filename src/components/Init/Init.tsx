@@ -70,9 +70,9 @@ const Init: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+  // useEffect(() => {
+  //   i18n.changeLanguage(navigator.language);
+  // }, []);
 
   useEffect(() => {
     if (!socketConnection) {
@@ -99,12 +99,12 @@ const Init: React.FC = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (locale && location.pathname !== asPath) {
-      i18n.changeLanguage(locale);
-      navigate(asPath, { replace: true });
-    }
-  }, [locale]);
+  // useEffect(() => {
+  //   if (locale && location.pathname !== asPath) {
+  //     i18n.changeLanguage(locale);
+  //     navigate(asPath, { replace: true });
+  //   }
+  // }, [locale]);
 
   useEffect(() => {
     if (messagesSent === 2 && !auth.isAuthenticated)
