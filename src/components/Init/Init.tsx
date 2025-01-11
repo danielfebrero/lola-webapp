@@ -10,6 +10,7 @@ import {
   setIsDataLoaded,
   setIsSmallScreen,
   toggleLoginModal,
+  setLocale,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
@@ -28,6 +29,7 @@ const Init: React.FC = () => {
   const { socketConnection, isDataLoaded, messagesSent } = useAppSelector(
     (state) => state.app
   );
+  const appState = useAppSelector((state) => state.app);
   const { initData } = useWebSocket({});
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
 
@@ -68,6 +70,10 @@ const Init: React.FC = () => {
       console.error("Max reconnection attempts reached. Giving up.");
     }
   };
+
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language);
+  }, []);
 
   useEffect(() => {
     if (!socketConnection) {
