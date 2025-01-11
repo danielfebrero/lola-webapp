@@ -99,7 +99,7 @@ const Init: React.FC = () => {
       i18n.changeLanguage(locale);
       navigate(asPath, { replace: true });
     }
-  }, [locale]);
+  }, [asPath, i18n, locale, location.pathname, navigate]);
 
   useEffect(() => {
     if (messagesSent === 2 && !auth.isAuthenticated)
