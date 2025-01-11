@@ -48,3 +48,10 @@ hr {
 ul {
   margin-bottom: 10px;
 }
+
+.snap-x {
+  scroll-snap-type: x mandatory;
+}
+.snap-center {
+  scroll-snap-align: center;
+}

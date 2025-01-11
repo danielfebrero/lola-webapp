@@ -17,6 +17,7 @@ import {
   setGame,
   deleteGame,
   messageSentPlusOne,
+  setStory,
 } from "../store/features/app/appSlice";
 import useGA from "./useGA";
 import useNewChatLocation from "./useNewChatLocation";
@@ -44,8 +45,37 @@ export default function useWebSocket({
         switch (data.action) {
           case "fetch":
             switch (data.type) {
+              case "story":
+                console.log({ data });
+                dispatch(
+                  setStory({
+                    threadId: data.threadId,
+                    ...data.data,
+                  })
+                );
+                break;
+
               case "image_search":
-                console.log("image_search", { data });
+                switch (data.status) {
+                  case "init":
+                    dispatch(
+                      setStory({
+                        threadId: data.threadId,
+                        isImageSearchProcessing: true,
+                      })
+                    );
+                    break;
+
+                  case "done":
+                    dispatch(
+                      setStory({
+                        threadId: data.threadId,
+                        isImageSearchProcessing: false,
+                        image_search_results: data.data,
+                      })
+                    );
+                    break;
+                }
                 break;
               case "chat":
                 switch (data.status) {
@@ -408,6 +438,18 @@ export default function useWebSocket({
     );
   };
 
+  const getStory = (threadId: string) => {
+    console.log("Fetching Story for thread: ", threadId);
+    socketConnection?.send(
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "story",
+        threadId,
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
   return {
     sendMessage,
     initData,
@@ -418,6 +460,7 @@ export default function useWebSocket({
     getHeroActions,
     deleteHeroGame,
     deleteStory,
+    getStory,
     socketConnection,
   };
 }

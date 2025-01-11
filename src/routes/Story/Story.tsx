@@ -19,7 +19,8 @@ const Storypage: React.FC = () => {
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const { sendMessage, getThreadChatLog, socketConnection } = useWebSocket({});
+  const { sendMessage, getThreadChatLog, getStory, socketConnection } =
+    useWebSocket({});
 
   const chatLog = useAppSelector(
     (state) =>
@@ -29,6 +30,10 @@ const Storypage: React.FC = () => {
 
   const chatState = useAppSelector((state) =>
     state.app.chatLogs.find((log) => log.threadId === params.storyId)
+  );
+
+  const story = useAppSelector((state) =>
+    state.app.stories.find((sto) => sto.threadId === params.storyId)
   );
 
   useEffect(() => {
@@ -44,6 +49,7 @@ const Storypage: React.FC = () => {
       if (socketConnection?.readyState === WebSocket.OPEN) {
         console.log("get thread chat log");
         getThreadChatLog(params.storyId);
+        getStory(params.storyId);
       }
     }
   }, [params.storyId, socketConnection?.readyState]);
@@ -74,6 +80,28 @@ const Storypage: React.FC = () => {
       <Meta title={t(chatState?.title ?? "Story")} />
       <div className="flex justify-center h-full">
         <div className="grow pt-[10px] flex flex-col h-[calc(100vh-75px)]">
+          {story?.isImageSearchProcessing ? (
+            <div className="flex flex-row justify-center mb-[10px] h-[100px]">
+              <div className="bg-slate-200 animate-pulse max-w-[715px] w-full h-[100px]"></div>
+            </div>
+          ) : story?.imagesSearch && story?.imagesSearch.length > 0 ? (
+            <div className="mb-[10px] min-h-[100px] flex overflow-x-auto space-x-4 snap-x no-scrollbar">
+              {story.imagesSearch.map((img) => {
+                return (
+                  <div
+                    key={img.original}
+                    className="h-[100px] flex-shrink-0 snap-center cursor-pointer"
+                  >
+                    <img
+                      src={img.thumbnail}
+                      className="h-[100px] object-cover"
+                      alt={img.entity}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          ) : null}
           <div
             ref={chatContainerRef}
             className="grow overflow-y-scroll no-scrollbar justify-center flex"

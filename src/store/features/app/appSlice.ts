@@ -17,6 +17,7 @@ interface AppState {
   characters: Character[];
   isSmallScreen: boolean;
   games: Games[];
+  stories: Story[];
 }
 
 // Define the initial state using that type
@@ -35,6 +36,7 @@ const initialState: AppState = {
   isDataLoaded: false,
   characters: [],
   games: [],
+  stories: [],
 };
 
 export const appSlice = createSlice({
@@ -62,6 +64,29 @@ export const appSlice = createSlice({
     },
     setSocketConnection: (state, action) => {
       state.socketConnection = action.payload;
+    },
+    setStory: (state, action) => {
+      const currentStory = state.stories.find(
+        (story) => story.threadId === action.payload.threadId
+      );
+      if (currentStory) {
+        currentStory.imagesSearch =
+          action.payload.image_search_results ?? currentStory.imagesSearch;
+        currentStory.characters =
+          action.payload.characters ?? currentStory.characters;
+        currentStory.isImageSearchProcessing =
+          action.payload.isImageSearchProcessing ??
+          currentStory.isImageSearchProcessing;
+        currentStory.context = action.payload.context ?? currentStory.context;
+      } else {
+        state.stories.push({
+          threadId: action.payload.threadId,
+          imagesSearch: action.payload.image_search_results,
+          characters: action.payload.characters,
+          context: action.payload.context,
+          isImageSearchProcessing: action.payload.isImageSearchProcessing,
+        });
+      }
     },
     setGame: (state, action) => {
       const currentGame = state.games.find(
@@ -125,8 +150,9 @@ export const appSlice = createSlice({
           threadId: action.payload.threadId,
           chatLog: action.payload.chatLog,
           type: action.payload.type,
-          isInputAvailable: true,
-          isLoading: false,
+          isInputAvailable: action.payload.isInputAvailable,
+          canSendMessage: action.payload.canSendMessage,
+          isLoading: action.payload.isLoading,
           state: action.payload.state,
         });
       }
@@ -262,6 +288,7 @@ export const {
   setGame,
   deleteGame,
   messageSentPlusOne,
+  setStory,
 } = appSlice.actions;
 
 export default appSlice.reducer;
