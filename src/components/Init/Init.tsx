@@ -14,7 +14,8 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 
 const WEBSOCKET_URL =
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV === "development" ||
+  window.location.origin === "https://dev.lola.la"
     ? "wss://6nk800sp9d.execute-api.us-east-1.amazonaws.com/dev"
     : "wss://ktufwkytp1.execute-api.us-east-1.amazonaws.com/prod";
 
