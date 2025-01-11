@@ -13,8 +13,6 @@ import {
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
-console.log({ dev: process.env.NODE_ENV });
-
 const WEBSOCKET_URL =
   process.env.NODE_ENV === "development"
     ? "wss://6nk800sp9d.execute-api.us-east-1.amazonaws.com/dev"
@@ -96,10 +94,11 @@ const Init: React.FC = () => {
 
   useEffect(() => {
     if (locale && location.pathname !== asPath) {
+      console.log({ locale, location });
       i18n.changeLanguage(locale);
       navigate(asPath, { replace: true });
     }
-  }, [asPath, i18n, locale, location.pathname, navigate]);
+  }, [asPath, locale]);
 
   useEffect(() => {
     if (messagesSent === 2 && !auth.isAuthenticated)
