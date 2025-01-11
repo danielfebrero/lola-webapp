@@ -16,7 +16,7 @@ const nextConfig = {
       "uk",
     ],
     defaultLocale: "en",
-    localeDetection: true,
+    localeDetection: false,
   },
 };
 
