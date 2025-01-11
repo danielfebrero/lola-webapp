@@ -11,6 +11,8 @@ import {
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
+import clsx from "clsx";
+import CloseIcon from "../../icons/close";
 
 const Storypage: React.FC = () => {
   const [threadId, setThreadId] = useState<string | null>(null);
@@ -18,6 +20,7 @@ const Storypage: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const [imageViewing, setImageViewing] = useState<string | null>(null);
 
   const { sendMessage, getThreadChatLog, getStory, socketConnection } =
     useWebSocket({});
@@ -78,30 +81,55 @@ const Storypage: React.FC = () => {
   return (
     <>
       <Meta title={t(chatState?.title ?? "Story")} />
+      <div
+        className={clsx(
+          { hidden: !imageViewing },
+          "fixed h-[calc(100vh-60px)] w-[calc(100vw-60px)] top-[30px] left-[30px] bg-slate-200"
+        )}
+      >
+        <div
+          onClick={() => setImageViewing(null)}
+          className="fixed top-[40px] right-[40px] h-[48px] w-[48px] cursor-pointer text-textSecondary dark:text-darkTextSecondary"
+        >
+          <CloseIcon />
+        </div>
+        {imageViewing && (
+          <img
+            className="h-full w-full object-contain"
+            src={imageViewing}
+            alt={imageViewing}
+          />
+        )}
+      </div>
       <div className="flex justify-center h-full">
         <div className="grow pt-[10px] flex flex-col h-[calc(100vh-75px)]">
-          {story?.isImageSearchProcessing ? (
-            <div className="flex flex-row justify-center mb-[10px] h-[100px]">
-              <div className="bg-slate-200 animate-pulse max-w-[715px] w-full h-[100px]"></div>
-            </div>
-          ) : story?.imagesSearch && story?.imagesSearch.length > 0 ? (
-            <div className="mb-[10px] min-h-[100px] flex overflow-x-auto space-x-4 snap-x no-scrollbar">
-              {story.imagesSearch.map((img) => {
-                return (
-                  <div
-                    key={img.original}
-                    className="h-[100px] flex-shrink-0 snap-center cursor-pointer"
-                  >
-                    <img
-                      src={img.thumbnail}
-                      className="h-[100px] object-cover"
-                      alt={img.entity}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          ) : null}
+          <div
+            className={clsx(
+              {
+                "h-[100px] min-h-[100px]":
+                  story?.imagesSearch && story?.imagesSearch?.length > 0,
+                "h-0 min-h-0":
+                  !story?.imagesSearch || story?.imagesSearch?.length === 0,
+              },
+              "pl-[40px] pr-[40px] mb-[10px] duration-500 ease-in-out flex overflow-x-auto space-x-4 snap-x no-scrollbar"
+            )}
+          >
+            {story?.imagesSearch.map((img) => {
+              return (
+                <div
+                  onClick={() => setImageViewing(img.original)}
+                  key={img.original}
+                  className="h-[100px] flex-shrink-0 snap-center cursor-pointer"
+                >
+                  <img
+                    src={img.thumbnail}
+                    className="h-[100px] object-cover"
+                    alt={img.entity}
+                  />
+                </div>
+              );
+            })}
+          </div>
           <div
             ref={chatContainerRef}
             className="grow overflow-y-scroll no-scrollbar justify-center flex"
