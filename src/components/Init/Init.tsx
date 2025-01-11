@@ -13,8 +13,12 @@ import {
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
+console.log({ dev: process.env.NODE_ENV });
+
 const WEBSOCKET_URL =
-  "wss://rshu7p6m1f.execute-api.us-east-1.amazonaws.com/dev";
+  process.env.NODE_ENV === "development"
+    ? "wss://6nk800sp9d.execute-api.us-east-1.amazonaws.com/dev"
+    : "wss://ktufwkytp1.execute-api.us-east-1.amazonaws.com/prod";
 
 const RECONNECT_INTERVALS = [1000, 2000, 5000, 10000]; // Exponential backoff intervals (ms)
 
