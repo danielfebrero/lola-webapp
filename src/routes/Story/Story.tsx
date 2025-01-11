@@ -114,7 +114,7 @@ const Storypage: React.FC = () => {
               "pl-[40px] pr-[40px] mb-[10px] flex overflow-x-auto space-x-4 snap-x no-scrollbar"
             )}
           >
-            {story?.imagesSearch.map((img) => {
+            {story?.imagesSearch?.map((img) => {
               return (
                 <div
                   onClick={() => setImageViewing(img.original)}
