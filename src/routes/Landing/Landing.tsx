@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "react-oidc-context";
 
 import lolaPortrait from "../../../public/lola-portrait.jpg";
 
@@ -12,6 +13,7 @@ const LandingPage: React.FC = () => {
   const [canSendMessage, setCanSendMessage] = useState<boolean>(true);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const auth = useAuth();
 
   const { sendMessage } = useWebSocket({
     setThreadId,
@@ -27,6 +29,12 @@ const LandingPage: React.FC = () => {
       navigate("/character/" + threadId);
     }
   }, [threadId]);
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      navigate("/character/new");
+    }
+  }, [auth]);
 
   return (
     <div className="bg-white dark:bg-darkMainSurfacePrimary h-screen w-screen flex flex-col justify-center text-textPrimary dark:text-darkTextPrimary">
