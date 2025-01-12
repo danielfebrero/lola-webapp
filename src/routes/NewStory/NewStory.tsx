@@ -176,26 +176,29 @@ const NewStoryPage: React.FC = () => {
               {context}
             </textarea>
           </div>
-          <div
-            onClick={!hasSentMessage ? createStory : undefined}
-            className={clsx(
-              {
-                "cursor-pointer": !hasSentMessage,
-              },
-              "py-[5px] px-[10px] bg-lightGray dark:bg-darkLightGray rounded-lg flex flex-row mt-[40px] items-center border border-borderLight dark:border-darkBorderLight"
-            )}
-          >
-            <div className="mr-[10px]">{t("Start")}</div>
+          <div className="pb-[60px]">
             <div
+              onClick={!hasSentMessage ? createStory : undefined}
               className={clsx(
                 {
-                  "bg-black": !hasSentMessage,
-                  "bg-textSecondary dark:bg-darkTextSecondary": hasSentMessage,
+                  "cursor-pointer": !hasSentMessage,
                 },
-                "w-[32px] h-[32px]  text-white rounded-full flex justify-center items-center"
+                "py-[5px] px-[10px] bg-lightGray dark:bg-darkLightGray rounded-lg flex flex-row mt-[40px] items-center border border-borderLight dark:border-darkBorderLight"
               )}
             >
-              <SendIcon />
+              <div className="mr-[10px]">{t("Start")}</div>
+              <div
+                className={clsx(
+                  {
+                    "bg-black": !hasSentMessage,
+                    "bg-textSecondary dark:bg-darkTextSecondary":
+                      hasSentMessage,
+                  },
+                  "w-[32px] h-[32px]  text-white rounded-full flex justify-center items-center"
+                )}
+              >
+                <SendIcon />
+              </div>
             </div>
           </div>
         </div>
