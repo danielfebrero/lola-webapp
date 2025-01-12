@@ -206,30 +206,39 @@ const NewGamePage: React.FC = () => {
           )}
           <div className="pb-[60px]">
             <div
+              onClick={
+                selectedCharacters.length > 0 && selectedGame && !hasSentMessage
+                  ? createGame
+                  : undefined
+              }
               className={clsx(
                 {
                   "cursor-pointer":
                     selectedCharacters.length > 0 &&
                     selectedGame &&
                     !hasSentMessage,
-                  "bg-black":
-                    selectedCharacters.length > 0 &&
-                    selectedGame &&
-                    !hasSentMessage,
-                  "bg-slate-200 dark:bg-darkTextSecondary":
-                    !(selectedCharacters.length > 0) ||
-                    !selectedGame ||
-                    hasSentMessage,
                 },
-                "md:ml-[20px] w-[32px] h-[32px] mt-[40px] text-white rounded-full flex justify-center items-center"
+                "bg-lightGray dark:bg-darkLightGray rounded-lg flex flex-row mt-[40px] items-center"
               )}
-              onClick={
-                selectedCharacters.length > 0 && selectedGame && !hasSentMessage
-                  ? createGame
-                  : undefined
-              }
             >
-              <SendIcon />
+              <div className="mx-[10px]">{t("Start")}</div>
+              <div
+                className={clsx(
+                  {
+                    "bg-black":
+                      selectedCharacters.length > 0 &&
+                      selectedGame &&
+                      !hasSentMessage,
+                    "bg-textSecondary dark:bg-darkTextSecondary":
+                      !(selectedCharacters.length > 0) ||
+                      !selectedGame ||
+                      hasSentMessage,
+                  },
+                  "w-[32px] h-[32px]  text-white rounded-full flex justify-center items-center"
+                )}
+              >
+                <SendIcon />
+              </div>
             </div>
           </div>
         </div>
