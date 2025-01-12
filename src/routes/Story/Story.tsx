@@ -111,7 +111,7 @@ const Storypage: React.FC = () => {
                 "h-0 min-h-0":
                   !story?.imagesSearch || story?.imagesSearch?.length === 0,
               },
-              "pl-[40px] pr-[40px] mb-[10px] flex overflow-x-auto space-x-4 snap-x no-scrollbar"
+              "transition-all duration-500 pl-[40px] pr-[40px] mb-[10px] flex overflow-x-auto space-x-4 snap-x no-scrollbar"
             )}
           >
             {story?.imagesSearch?.map((img) => {
