@@ -7,6 +7,7 @@ interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
   id?: string | null;
   onSend?: (message: string) => void;
+  onChange?: (message: string) => void;
   isChatInputAvailable: boolean;
   canSendMessage: boolean;
 }
@@ -22,6 +23,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
     textarea.style.height = `auto`;
     textarea.style.height = `${Math.min(200, textarea.scrollHeight)}px`;
     setValue(textarea.value);
+    if (props.onChange) props.onChange(textarea.value);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
