@@ -182,10 +182,10 @@ const NewStoryPage: React.FC = () => {
               {
                 "cursor-pointer": !hasSentMessage,
               },
-              "bg-lightGray dark:bg-darkLightGray rounded-lg flex flex-row mt-[40px] items-center"
+              "py-[5px] px-[10px] bg-lightGray dark:bg-darkLightGray rounded-lg flex flex-row mt-[40px] items-center border border-borderLight dark:border-darkBorderLight"
             )}
           >
-            <div className="mx-[10px]">{t("Start")}</div>
+            <div className="mr-[10px]">{t("Start")}</div>
             <div
               className={clsx(
                 {
