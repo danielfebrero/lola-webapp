@@ -16,7 +16,7 @@ class MyDocument extends Document {
           <title>Lola</title>
           <meta
             name="description"
-            content="Choose your own adventure and storyteller."
+            content="A Choose Your Own Adventure book where you are the hero and storyteller."
           />
         </Head>
         <body>
