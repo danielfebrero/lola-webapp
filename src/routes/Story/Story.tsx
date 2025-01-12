@@ -101,7 +101,7 @@ const Storypage: React.FC = () => {
           />
         )}
       </div>
-      <div className="flex justify-center h-full  pl-5 pr-5">
+      <div className="flex justify-center h-full">
         <div className="grow pt-[10px] flex flex-col h-[calc(100vh-75px)]">
           <div
             className={clsx(
@@ -132,7 +132,7 @@ const Storypage: React.FC = () => {
           </div>
           <div
             ref={chatContainerRef}
-            className="grow overflow-y-scroll no-scrollbar justify-center flex"
+            className="grow overflow-y-scroll no-scrollbar justify-center flex px-5"
           >
             <Chat
               type="story"
