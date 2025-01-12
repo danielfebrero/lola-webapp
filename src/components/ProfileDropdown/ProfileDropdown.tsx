@@ -3,7 +3,10 @@ import { useTranslation } from "react-i18next";
 
 import useClickOutside from "../../hooks/useClickOutside";
 import LogoutIcon from "../../icons/logout";
+import SettingsIcon from "../../icons/setting";
 import useGA from "../../hooks/useGA";
+import { useAppDispatch } from "../../store/hooks";
+import { toggleSettings } from "../../store/features/app/appSlice";
 
 interface ProfileDropdownProps {
   hide: () => void;
@@ -16,6 +19,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
     props.hide();
   });
   const { sendEvent } = useGA();
+  const dispatch = useAppDispatch();
 
   const signOutRedirect = () => {
     sendEvent("click_signout");
@@ -34,15 +38,6 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
       ref={ref}
       className="rounded-lg border dark:border-darkBorderLight border-borderLight shadow pl-[5px] pr-[5px] pt-[5px] pb-[5px] w-fit absolute z-10 bg-white dark:bg-darkMainSurfaceSecondary min-w-[260px] right-[20px] mt-[40px]"
     >
-      {/* <div
-        className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
-        onClick={() => dispatch(toggleSettings())}
-      >
-        <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
-          <SettingsIcon />
-        </div>
-        <div className="ml-[10px]">Settings</div>
-      </div> */}
       {auth?.isAuthenticated ? (
         <div
           className="rounded-lg cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
@@ -67,6 +62,15 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
           <div className="ml-[10px]">{t("Signup or login")}</div>
         </div>
       )}
+      <div
+        className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
+        onClick={() => dispatch(toggleSettings())}
+      >
+        <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
+          <SettingsIcon />
+        </div>
+        <div className="ml-[10px]">Settings</div>
+      </div>
     </div>
   );
 };

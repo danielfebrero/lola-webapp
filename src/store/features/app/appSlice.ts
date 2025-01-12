@@ -18,6 +18,7 @@ interface AppState {
   isSmallScreen: boolean;
   games: Games[];
   stories: Story[];
+  languages: Record<string, string>;
 }
 
 // Define the initial state using that type
@@ -37,6 +38,20 @@ const initialState: AppState = {
   characters: [],
   games: [],
   stories: [],
+  languages: {
+    ar: "العربية",
+    de: "Deutsch",
+    en: "English",
+    es: "Español",
+    fr: "Français",
+    hi: "हिन्दी",
+    ja: "日本語",
+    pt: "Português",
+    ru: "Русский",
+    sv: "Svenska",
+    tr: "Türkçe",
+    uk: "Українська",
+  },
 };
 
 export const appSlice = createSlice({
