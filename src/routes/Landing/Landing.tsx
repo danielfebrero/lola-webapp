@@ -36,7 +36,7 @@ const LandingPage: React.FC = () => {
     if (auth.isAuthenticated) {
       navigate("/character/new");
     }
-  }, []);
+  }, [auth]);
 
   return (
     <div className="bg-white dark:bg-darkMainSurfacePrimary h-screen w-screen flex flex-col justify-center text-textPrimary dark:text-darkTextPrimary">
