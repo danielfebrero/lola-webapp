@@ -204,7 +204,7 @@ const NewGamePage: React.FC = () => {
               {t(games.filter((g) => g.id === selectedGame)[0].context)}
             </div>
           )}
-          <div className="pb-[40px]">
+          <div className="pb-[60px]">
             <div
               className={clsx(
                 {
