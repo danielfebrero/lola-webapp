@@ -450,6 +450,17 @@ export default function useWebSocket({
     );
   };
 
+  const setSettings = (settings: Record<string, any>) => {
+    socketConnection?.send(
+      JSON.stringify({
+        action: "setData",
+        endpoint: "settings",
+        ...settings,
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
   return {
     sendMessage,
     initData,
@@ -461,6 +472,7 @@ export default function useWebSocket({
     deleteHeroGame,
     deleteStory,
     getStory,
+    setSettings,
     socketConnection,
   };
 }
