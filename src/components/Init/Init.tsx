@@ -24,9 +24,8 @@ const RECONNECT_INTERVALS = [1000, 2000, 5000, 10000]; // Exponential backoff in
 const Init: React.FC = () => {
   const dispatch = useAppDispatch();
   const auth = useAuth();
-  const { socketConnection, isDataLoaded, messagesSent } = useAppSelector(
-    (state) => state.app
-  );
+  const { socketConnection, isDataLoaded, messagesSent, isSmallScreen } =
+    useAppSelector((state) => state.app);
   const { settings } = useAppSelector((state) => state.user);
   const { initData } = useWebSocket({});
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
@@ -114,7 +113,7 @@ const Init: React.FC = () => {
   }, [asPath, locale, settings.language]);
 
   useEffect(() => {
-    if (messagesSent === 2 && !auth.isAuthenticated)
+    if (messagesSent === 2 && !auth.isAuthenticated && !isSmallScreen)
       dispatch(toggleLoginModal());
   }, [auth.isAuthenticated, dispatch, messagesSent]);
 
