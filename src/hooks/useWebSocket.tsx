@@ -450,6 +450,16 @@ export default function useWebSocket({
     );
   };
 
+  const getSettings = () => {
+    socketConnection?.send(
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "settings",
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
   const setSettings = (settings: Record<string, any>) => {
     socketConnection?.send(
       JSON.stringify({
@@ -473,6 +483,7 @@ export default function useWebSocket({
     deleteStory,
     getStory,
     setSettings,
+    getSettings,
     socketConnection,
   };
 }
