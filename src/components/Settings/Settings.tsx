@@ -16,7 +16,7 @@ const Settings: React.FC = () => {
   const [selectedView, setSelectedView] = useState<
     "personalization" | "account" | "membership"
   >("personalization");
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { setSettings } = useWebSocket({});
 
   if (!isSettingsOpen) {
