@@ -26,7 +26,7 @@ const Settings: React.FC = () => {
   return (
     <div
       className={clsx(
-        "bg-white dark:bg-darkMainSurfaceSecondary rounded-lg py-5 w-[680px]"
+        "bg-white dark:bg-darkMainSurfaceSecondary rounded-lg py-5 md:w-[680px] w-[80%]"
       )}
     >
       <div className="flex justify-between items-center pb-5 px-5 border-b border-borderBlack">
@@ -39,7 +39,7 @@ const Settings: React.FC = () => {
         </div>
       </div>
       <div className="flex flex-row">
-        <div className="flex flex-col p-[10px]">
+        <div className="md:block hidden flex flex-col p-[10px]">
           <div
             className={clsx(
               {
