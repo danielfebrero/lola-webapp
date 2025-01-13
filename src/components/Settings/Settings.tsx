@@ -6,14 +6,18 @@ import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import CloseIcon from "../../icons/close";
 import PersonalizationIcon from "../../icons/personalization";
 import { toggleSettings } from "../../store/features/app/appSlice";
+import useWebSocket from "../../hooks/useWebSocket";
+import { setSettings as setSettingsAction } from "../../store/features/user/userSlice";
 
 const Settings: React.FC = () => {
   const { isSettingsOpen, languages } = useAppSelector((state) => state.app);
+  const { settings } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const [selectedView, setSelectedView] = useState<
     "personalization" | "account" | "membership"
   >("personalization");
   const { t, i18n } = useTranslation();
+  const { setSettings } = useWebSocket({});
 
   if (!isSettingsOpen) {
     return null;
@@ -60,11 +64,14 @@ const Settings: React.FC = () => {
                 <div>
                   <select
                     className="bg-white dark:bg-darkMainSurfaceSecondary"
-                    onChange={(e) => i18n.changeLanguage(e.target.value)}
+                    onChange={(e) => {
+                      setSettings({ language: e.target.value });
+                      dispatch(setSettingsAction({ language: e.target.value }));
+                    }}
                   >
                     <option value="auto">{t("Auto-detect")}</option>
                     {Object.keys(languages).map((l) => (
-                      <option value={l} selected={l === i18n.language}>
+                      <option value={l} selected={l === settings.language}>
                         {languages[l]}
                       </option>
                     ))}

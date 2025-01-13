@@ -19,6 +19,7 @@ import {
   messageSentPlusOne,
   setStory,
 } from "../store/features/app/appSlice";
+import { setSettings as setSettingsAction } from "../store/features/user/userSlice";
 import useGA from "./useGA";
 import useNewChatLocation from "./useNewChatLocation";
 
@@ -45,6 +46,9 @@ export default function useWebSocket({
         switch (data.action) {
           case "fetch":
             switch (data.type) {
+              case "settings":
+                dispatch(setSettingsAction(data.data));
+                break;
               case "story":
                 console.log({ data });
                 dispatch(
@@ -339,17 +343,16 @@ export default function useWebSocket({
 
   const initData = (websocket: WebSocket) => {
     console.log("Fetching initData");
-    websocket.send(
+    getThreads();
+    getCharacters();
+    getSettings();
+  };
+
+  const getThreads = () => {
+    socketConnection?.send(
       JSON.stringify({
         action: "fetchData",
         endpoint: "threads",
-        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
-      })
-    );
-    websocket.send(
-      JSON.stringify({
-        action: "fetchData",
-        endpoint: "characters",
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );

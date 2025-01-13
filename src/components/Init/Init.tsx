@@ -27,6 +27,7 @@ const Init: React.FC = () => {
   const { socketConnection, isDataLoaded, messagesSent } = useAppSelector(
     (state) => state.app
   );
+  const { settings } = useAppSelector((state) => state.user);
   const { initData } = useWebSocket({});
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
 
@@ -77,7 +78,11 @@ const Init: React.FC = () => {
   }, [socketConnection]);
 
   useEffect(() => {
-    if (!isDataLoaded && socketConnection) {
+    if (
+      !isDataLoaded &&
+      socketConnection &&
+      socketConnection.readyState === socketConnection.OPEN
+    ) {
       initData(socketConnection);
       dispatch(setIsDataLoaded(true));
     }
@@ -94,11 +99,19 @@ const Init: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (locale && location.pathname !== asPath) {
+    i18n.changeLanguage(settings.language);
+  }, [i18n, settings.language]);
+
+  useEffect(() => {
+    if (
+      locale &&
+      location.pathname !== asPath &&
+      settings.language === "auto"
+    ) {
       i18n.changeLanguage(locale);
       navigate(asPath, { replace: true });
     }
-  }, [asPath, locale]);
+  }, [asPath, locale, location.pathname, settings.language]);
 
   useEffect(() => {
     if (messagesSent === 2 && !auth.isAuthenticated)
