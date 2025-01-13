@@ -7,12 +7,10 @@ import lolaPortrait from "../../../public/lola-portrait.jpg";
 
 import SendChatInput from "../../components/SendChatInput";
 import useWebSocket from "../../hooks/useWebSocket";
-import SendIcon from "../../icons/send";
 
 const LandingPage: React.FC = () => {
   const [threadId, setThreadId] = useState<string | null>(null);
   const [canSendMessage, setCanSendMessage] = useState<boolean>(true);
-  const [message, setMessage] = useState<string>("");
   const navigate = useNavigate();
   const { t } = useTranslation();
   const auth = useAuth();
@@ -58,14 +56,7 @@ const LandingPage: React.FC = () => {
                 isChatInputAvailable={true}
                 canSendMessage={canSendMessage}
                 onSend={(m) => sendMessageToCharacter(m, null)}
-                onChange={(m) => setMessage(m)}
               />
-              <div
-                className="w-[48px] h-[48px] cursor-pointer"
-                onClick={() => sendMessageToCharacter(message, null)}
-              >
-                <SendIcon />
-              </div>
             </div>
             <div className="flex md:flex-row flex-col mt-[40px]">
               <Link to={"/character/new"}>

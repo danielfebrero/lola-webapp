@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../store/hooks";
+import SendIcon from "../../icons/send";
 
 interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
@@ -26,16 +27,20 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
     if (props.onChange) props.onChange(textarea.value);
   };
 
+  const handleSend = () => {
+    if (props.onSend && value.trim() !== "" && props.canSendMessage) {
+      props.onSend(value.trim());
+      setValue("");
+      if (textAreaRef.current) {
+        textAreaRef.current.style.height = "24px";
+      }
+    }
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      if (props.onSend && value.trim() !== "" && props.canSendMessage) {
-        props.onSend(value.trim());
-        setValue("");
-        if (textAreaRef.current) {
-          textAreaRef.current.style.height = "24px";
-        }
-      }
+      handleSend(value);
     }
   };
 
@@ -56,6 +61,9 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
           placeholder={t("Type a message and press Enter to send...")}
           rows={1}
         ></textarea>
+        <div className="w-[36px] h-[36px] cursor-pointer" onClick={handleSend}>
+          <SendIcon />
+        </div>
       </div>
     </div>
   );
