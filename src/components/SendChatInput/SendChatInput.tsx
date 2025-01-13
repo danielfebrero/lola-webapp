@@ -40,7 +40,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      handleSend(value);
+      handleSend();
     }
   };
 
