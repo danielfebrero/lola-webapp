@@ -42,7 +42,7 @@ const LandingPage: React.FC = () => {
     <div className="bg-white dark:bg-darkMainSurfacePrimary h-screen w-screen flex flex-col justify-center text-textPrimary dark:text-darkTextPrimary">
       <div className="flex flex-row items-center justify-betwween w-full h-full">
         <div className="flex-col flex w-full h-full">
-          <div className="flex flex-col ml-[20px] mt-[20px]">
+          <div className="flex flex-col ml-[40px] mt-[40px]">
             <div className="text-8xl">Lola</div>
             <div className="text-xl">
               {t("Choose your own adventure and storyteller.")}
@@ -52,7 +52,7 @@ const LandingPage: React.FC = () => {
             <div className="text-4xl text-center">
               {t("Describe a character")}
             </div>
-            <div className="mt-[20px] w-[60%] flex flex-row">
+            <div className="mt-[20px] md:w-[60%] w-[80%] flex flex-row">
               <SendChatInput
                 type="character"
                 isChatInputAvailable={true}
