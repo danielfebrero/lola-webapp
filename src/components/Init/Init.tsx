@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "react-oidc-context";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router";
-import LanguageDetector from "i18next-browser-languagedetector";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
@@ -69,19 +68,6 @@ const Init: React.FC = () => {
     }
   };
 
-  const forceRedetectLanguage = useCallback(() => {
-    const languageDetector = new LanguageDetector();
-    languageDetector.init(i18n.options.detection); // Use the existing detection configuration
-
-    // Detect the language
-    const detectedLanguage = languageDetector.detect();
-
-    // Change the language in i18next
-    i18n.changeLanguage(
-      Array.isArray(detectedLanguage) ? detectedLanguage[0] : detectedLanguage
-    );
-  }, [i18n]);
-
   useEffect(() => {
     if (!socketConnection) {
       connectWebSocket();
@@ -114,9 +100,14 @@ const Init: React.FC = () => {
   useEffect(() => {
     if (settings.language === "auto") return;
     else i18n.changeLanguage(settings.language);
-  }, [forceRedetectLanguage, i18n, settings.language]);
+  }, [settings.language]);
 
   useEffect(() => {
+    console.log({
+      locale,
+      asPath,
+      path: location.pathname,
+    });
     if (
       locale &&
       location.pathname !== asPath &&
@@ -125,7 +116,7 @@ const Init: React.FC = () => {
       i18n.changeLanguage(locale);
       navigate(asPath, { replace: true });
     }
-  }, [asPath, locale, settings.language]);
+  }, []);
 
   useEffect(() => {
     if (messagesSent === 2 && !auth.isAuthenticated && !isSmallScreen)
