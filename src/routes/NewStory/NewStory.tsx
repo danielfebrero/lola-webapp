@@ -60,9 +60,9 @@ const NewStoryPage: React.FC = () => {
     }
   }, [threadId]);
 
-  useEffect(() => {
-    textAreaRef.current?.focus();
-  }, []);
+  // useEffect(() => {
+  //   textAreaRef.current?.focus();
+  // }, []);
 
   return (
     <>
