@@ -98,6 +98,7 @@ const Init: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    if (settings.language === "auto") return;
     i18n.changeLanguage(settings.language);
   }, [i18n, settings.language]);
 
@@ -110,7 +111,7 @@ const Init: React.FC = () => {
       i18n.changeLanguage(locale);
       navigate(asPath, { replace: true });
     }
-  }, [asPath, locale, settings.language]);
+  }, [asPath, locale, settings.language, location.pathname]);
 
   useEffect(() => {
     if (messagesSent === 2 && !auth.isAuthenticated && !isSmallScreen)
