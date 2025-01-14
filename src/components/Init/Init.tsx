@@ -3,6 +3,7 @@ import { useAuth } from "react-oidc-context";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router";
+import { useUserLog } from "@userlog/next";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
@@ -36,6 +37,7 @@ const Init: React.FC = () => {
     prevMode,
     isDataLoading,
   } = useAppSelector((state) => state.app);
+  const { setUserId } = useUserLog();
   const { settings } = useAppSelector((state) => state.user);
   const { initData } = useWebSocket({});
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
@@ -116,7 +118,10 @@ const Init: React.FC = () => {
   }, [socketConnection, isDataLoaded, dispatch]);
 
   useEffect(() => {
-    if (auth?.isAuthenticated) dispatch(setIsDataLoaded(false));
+    if (auth?.isAuthenticated) {
+      dispatch(setIsDataLoaded(false));
+      setUserId(auth.user?.profile?.email ?? "auth_user_no_email");
+    }
   }, [auth?.isAuthenticated, dispatch]);
 
   useEffect(() => {

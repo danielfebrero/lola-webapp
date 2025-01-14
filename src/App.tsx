@@ -7,7 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import ReactGA from "react-ga4";
 import { AuthProvider } from "react-oidc-context";
 import { WebStorageStateStore } from "oidc-client-ts";
-import { UserLogProvider } from "@userlog/react";
+import { UserLogProvider } from "@userlog/next";
 
 import MainLayout from "./components/MainLayout";
 import Init from "./components/Init";

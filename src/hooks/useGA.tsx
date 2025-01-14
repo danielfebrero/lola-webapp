@@ -1,5 +1,5 @@
 import ReactGA from "react-ga4";
-import { useUserLog } from "@userlog/react";
+import { useUserLog } from "@userlog/next";
 
 ReactGA.initialize("G-43V6GGK855");
 

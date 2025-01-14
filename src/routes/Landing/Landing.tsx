@@ -6,7 +6,6 @@ import { useAuth } from "react-oidc-context";
 import lolaPortrait from "../../../public/lola-portrait.jpg";
 
 import SendChatInput from "../../components/SendChatInput";
-import Meta from "../../components/Meta";
 import useWebSocket from "../../hooks/useWebSocket";
 import useGA from "../../hooks/useGA";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
