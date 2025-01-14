@@ -2509,6 +2509,11 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.1.tgz#28fa185f67daaf7b7a1a8c1d445132c5d979f8bd"
   integrity sha512-fEzPV3hSkSMltkw152tJKNARhOupqbH96MZWyRjNaYZOMIzbrTeQDG+MTc6Mr2pgzFQzFxAfmhGDNP5QK++2ZA==
 
+"@userlog/react@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@userlog/react/-/react-1.0.2.tgz#b9f0f5200ea8bb00579a64b20d6bdfc31ad54d90"
+  integrity sha512-Q3Rd2LIQukPN061E6w2bVoMuIs9tkhdz4t0CiOrj3ziN0MBkgTjjOQZb/+qn4/9dVGHGTLCsr8O5t6tP8pwtXg==
+
 "@vercel/analytics@^1.4.1":
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/@vercel/analytics/-/analytics-1.4.1.tgz#a28a93133d68b6e3d86884a52fa7893f5ecaa381"

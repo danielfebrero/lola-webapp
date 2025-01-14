@@ -252,7 +252,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 <div
                   key={viewType}
                   onClick={() => {
-                    sendEvent("click_char_" + viewType);
+                    sendEvent("click_char_" + viewType, "character");
                     handleViewTypeChange(
                       viewType.toLowerCase() as "report" | "json" | "images"
                     );

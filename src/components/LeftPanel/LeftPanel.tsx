@@ -134,7 +134,7 @@ const LeftPanel: React.FC = () => {
                   onClick={() => {
                     if (isSmallScreen && isLeftPanelOpen)
                       dispatch(toggleLeftPanel());
-                    sendEvent("click_plus_char_from_left_panel");
+                    sendEvent("click_plus_char_from_left_panel", "character");
                   }}
                 >
                   <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
@@ -284,7 +284,10 @@ const LeftPanel: React.FC = () => {
                   onClick={() => {
                     if (isSmallScreen && isLeftPanelOpen)
                       dispatch(toggleLeftPanel());
-                    sendEvent("click_plus_game_from_left_panel");
+                    sendEvent(
+                      "click_plus_game_from_left_panel",
+                      "you_are_the_hero"
+                    );
                   }}
                 >
                   <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
@@ -394,7 +397,7 @@ const LeftPanel: React.FC = () => {
                   onClick={() => {
                     if (isSmallScreen && isLeftPanelOpen)
                       dispatch(toggleLeftPanel());
-                    sendEvent("click_plus_story_from_left_panel");
+                    sendEvent("click_plus_story_from_left_panel", "story");
                   }}
                 >
                   <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">

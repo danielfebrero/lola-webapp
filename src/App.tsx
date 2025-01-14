@@ -7,6 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import ReactGA from "react-ga4";
 import { AuthProvider } from "react-oidc-context";
 import { WebStorageStateStore } from "oidc-client-ts";
+import { UserLogProvider } from "@userlog/react";
 
 import MainLayout from "./components/MainLayout";
 import Init from "./components/Init";
@@ -45,40 +46,45 @@ const App: React.FC = () => {
   return (
     <AuthProvider {...cognitoAuthConfig}>
       <Provider store={store}>
-        <BrowserRouter>
-          <Analytics />
-          <SpeedInsights />
-          <Init />
-          <Routes>
-            {/* Landing Page without layout */}
-            <Route path="/" element={<LandingPage />} />
+        <UserLogProvider
+          api_key={"JwhVr4bpczMbGntosgQkjduKjQU37hYV"}
+          project={"Lola.la"}
+        >
+          <BrowserRouter>
+            <Analytics />
+            <SpeedInsights />
+            <Init />
+            <Routes>
+              {/* Landing Page without layout */}
+              <Route path="/" element={<LandingPage />} />
 
-            <Route path="/18" element={<LandingPage />} />
+              <Route path="/18" element={<LandingPage />} />
 
-            {/* All other routes with MainLayout */}
-            <Route element={<MainLayout />}>
-              <Route path="/login/silent-renew" element={<SilentRenew />} />
-              <Route path="/login/success" element={<LoginSuccess />} />
-              <Route
-                path="/character/main"
-                element={<CharacterPage selected={{ type: "main" }} />}
-              />
-              <Route
-                path="/character/:characterId"
-                element={<CharacterPage />}
-              />
-              <Route path="/game" element={<GamePage />} />
-              <Route path="/game/new" element={<NewGamePage />} />
-              <Route path="/game/:gameId" element={<GamePage />} />
-              <Route path="/story/:storyId" element={<StoryPage />} />
-              <Route path="/story/new" element={<NewStoryPage />} />
-              <Route path="/lola/:conversationId" element={<LolaPage />} />
-              <Route path="/lola/new" element={<LolaPage />} />
-            </Route>
+              {/* All other routes with MainLayout */}
+              <Route element={<MainLayout />}>
+                <Route path="/login/silent-renew" element={<SilentRenew />} />
+                <Route path="/login/success" element={<LoginSuccess />} />
+                <Route
+                  path="/character/main"
+                  element={<CharacterPage selected={{ type: "main" }} />}
+                />
+                <Route
+                  path="/character/:characterId"
+                  element={<CharacterPage />}
+                />
+                <Route path="/game" element={<GamePage />} />
+                <Route path="/game/new" element={<NewGamePage />} />
+                <Route path="/game/:gameId" element={<GamePage />} />
+                <Route path="/story/:storyId" element={<StoryPage />} />
+                <Route path="/story/new" element={<NewStoryPage />} />
+                <Route path="/lola/:conversationId" element={<LolaPage />} />
+                <Route path="/lola/new" element={<LolaPage />} />
+              </Route>
 
-            <Route path="*" element={<Navigate to="/" replace={true} />} />
-          </Routes>
-        </BrowserRouter>
+              <Route path="*" element={<Navigate to="/" replace={true} />} />
+            </Routes>
+          </BrowserRouter>
+        </UserLogProvider>
       </Provider>
     </AuthProvider>
   );

@@ -25,17 +25,17 @@ const OptionsDropdown: React.FC<OptionsDropdownProps> = (props) => {
   const clickOnDelete = () => {
     switch (props.type) {
       case "character":
-        sendEvent("click_delete_char_from_left_panel");
+        sendEvent("click_delete_char_from_left_panel", props.type);
         deleteCharacter(props.threadId);
         break;
 
       case "you_are_the_hero":
-        sendEvent("click_delete_game_from_left_panel");
+        sendEvent("click_delete_game_from_left_panel", props.type);
         deleteHeroGame(props.threadId);
         break;
 
       case "story":
-        sendEvent("click_delete_story_from_left_panel");
+        sendEvent("click_delete_story_from_left_panel", props.type);
         deleteStory(props.threadId);
         break;
 
