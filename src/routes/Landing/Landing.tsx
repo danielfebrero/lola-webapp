@@ -7,6 +7,7 @@ import lolaPortrait from "../../../public/lola-portrait.jpg";
 
 import SendChatInput from "../../components/SendChatInput";
 import useWebSocket from "../../hooks/useWebSocket";
+import useGA from "../../hooks/useGA";
 
 const LandingPage: React.FC = () => {
   const [threadId, setThreadId] = useState<string | null>(null);
@@ -14,6 +15,7 @@ const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const auth = useAuth();
+  const { sendEvent } = useGA();
 
   const { sendMessage } = useWebSocket({
     setThreadId,
@@ -59,17 +61,35 @@ const LandingPage: React.FC = () => {
               />
             </div>
             <div className="flex md:flex-row flex-col mt-[40px]">
-              <Link to={"/character/new"}>
+              <Link
+                to={"/character/new"}
+                onClick={() =>
+                  sendEvent("click_new_char_from_landing_page", "character")
+                }
+              >
                 <div className="bg-lightGray dark:bg-darkLightGray rounded-lg px-[10px] py-[5px] cursor-pointer border border-borderLight dark:border-darkBorderLight text-center">
                   {t("New character")}
                 </div>
               </Link>
-              <Link to={"/story/new"}>
+              <Link
+                to={"/story/new"}
+                onClick={() =>
+                  sendEvent("click_new_story_from_landing_page", "story")
+                }
+              >
                 <div className="bg-lightGray dark:bg-darkLightGray rounded-lg px-[10px] py-[5px] md:mx-[20px] my-[20px] md:my-0 cursor-pointer border border-borderLight dark:border-darkBorderLight text-center">
                   {t("New story")}
                 </div>
               </Link>
-              <Link to={"/game/new"}>
+              <Link
+                to={"/game/new"}
+                onClick={() =>
+                  sendEvent(
+                    "click_new_game_from_landing_page",
+                    "you_are_the_hero"
+                  )
+                }
+              >
                 <div className="bg-lightGray dark:bg-darkLightGray rounded-lg px-[10px] py-[5px] cursor-pointer border border-borderLight dark:border-darkBorderLight text-center">
                   {t("New game")}
                 </div>
