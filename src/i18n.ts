@@ -64,6 +64,10 @@ i18n
     interpolation: {
       escapeValue: false, // React se charge déjà de l'échappement
     },
+    detection: {
+      order: ["querystring", "cookie", "localStorage", "navigator"], // Detection order
+      caches: ["cookie"], // Cache the language in cookies
+    },
   });
 
 export default i18n;
