@@ -487,7 +487,7 @@ const LeftPanel: React.FC = () => {
         className="fixed bottom-[30px] left-[10px] pl-[10px] text-pink-200 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[230px] py-[10px] rounded-lg"
       >
         <div className="">
-          {t(mode === "adult" ? "Enter Lola" : "Exit Lola")}
+          {t(mode === "minor" ? "Enter Lola" : "Exit Lola")}
         </div>
         <div className="w-[24px] h-[24px] ml-[5px]">
           <AdultIcon />
