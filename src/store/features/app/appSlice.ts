@@ -234,6 +234,11 @@ export const appSlice = createSlice({
     setIsDataLoaded: (state, action) => {
       state.isDataLoaded = action.payload;
     },
+    removeIsFromDataLoading: (state, action) => {
+      state.isDataLoading = state.isDataLoading.filter(
+        (i) => i !== action.payload
+      );
+    },
     setIsDataLoading: (state, action) => {
       state.isDataLoading = action.payload;
     },
@@ -317,6 +322,7 @@ export const {
   addChatLog,
   setIsDataLoaded,
   setIsDataLoading,
+  removeIsFromDataLoading,
   setIsDataLoadingLeftPanel,
   setCharacter,
   setCharacters,

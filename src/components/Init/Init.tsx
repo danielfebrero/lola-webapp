@@ -85,7 +85,7 @@ const Init: React.FC = () => {
   }, [isDataLoading]);
 
   useEffect(() => {
-    if (prevMode !== mode) {
+    if (prevMode !== mode && location.pathname !== "/18") {
       dispatch(setPrevMode(mode));
       dispatch(setIsDataLoaded(false));
       dispatch(setIsDataLoading(["characters", "threads", "settings"]));
@@ -94,7 +94,7 @@ const Init: React.FC = () => {
       );
       navigate("/character/new");
     }
-  }, [mode, prevMode]);
+  }, [mode, prevMode, location.pathname]);
 
   useEffect(() => {
     if (!socketConnection) {

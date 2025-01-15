@@ -6,8 +6,11 @@ import { useAuth } from "react-oidc-context";
 import lolaPortrait from "../../../public/lola-portrait.jpg";
 
 import SendChatInput from "../../components/SendChatInput";
+import Meta from "../../components/Meta";
 import useWebSocket from "../../hooks/useWebSocket";
 import useGA from "../../hooks/useGA";
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import { setMode } from "../../store/features/app/appSlice";
 
 const LandingPage: React.FC = () => {
   const [threadId, setThreadId] = useState<string | null>(null);
@@ -16,7 +19,8 @@ const LandingPage: React.FC = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const { sendEvent } = useGA();
-
+  const { mode } = useAppSelector((state) => state.app);
+  const dispatch = useAppDispatch();
   const { sendMessage } = useWebSocket({
     setThreadId,
   });
@@ -25,6 +29,10 @@ const LandingPage: React.FC = () => {
     sendMessage(content, "character", threadId);
     setCanSendMessage(false);
   };
+
+  useEffect(() => {
+    if (window.location.pathname === "/18") dispatch(setMode("adult"));
+  }, [window.location.pathname]);
 
   useEffect(() => {
     if (threadId) {
