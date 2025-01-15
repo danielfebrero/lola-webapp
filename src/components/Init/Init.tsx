@@ -10,6 +10,9 @@ import {
   setIsDataLoaded,
   setIsSmallScreen,
   toggleLoginModal,
+  setPrevMode,
+  setIsDataLoading,
+  setIsDataLoadingLeftPanel,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
@@ -24,8 +27,15 @@ const RECONNECT_INTERVALS = [1000, 2000, 5000, 10000]; // Exponential backoff in
 const Init: React.FC = () => {
   const dispatch = useAppDispatch();
   const auth = useAuth();
-  const { socketConnection, isDataLoaded, messagesSent, isSmallScreen } =
-    useAppSelector((state) => state.app);
+  const {
+    socketConnection,
+    isDataLoaded,
+    messagesSent,
+    isSmallScreen,
+    mode,
+    prevMode,
+    isDataLoading,
+  } = useAppSelector((state) => state.app);
   const { settings } = useAppSelector((state) => state.user);
   const { initData } = useWebSocket({});
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
@@ -67,6 +77,24 @@ const Init: React.FC = () => {
       console.error("Max reconnection attempts reached. Giving up.");
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(setIsDataLoadingLeftPanel(isDataLoading));
+    }, 600);
+  }, [isDataLoading]);
+
+  useEffect(() => {
+    if (prevMode !== mode) {
+      dispatch(setPrevMode(mode));
+      dispatch(setIsDataLoaded(false));
+      dispatch(setIsDataLoading(["characters", "threads", "settings"]));
+      dispatch(
+        setIsDataLoadingLeftPanel(["characters", "threads", "settings"])
+      );
+      navigate("/character/new");
+    }
+  }, [mode, prevMode]);
 
   useEffect(() => {
     if (!socketConnection) {

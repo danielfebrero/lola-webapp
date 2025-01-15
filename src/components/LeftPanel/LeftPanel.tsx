@@ -15,6 +15,7 @@ import OptionsDropdown from "../OptionsDropdown";
 import useClickOutside from "../../hooks/useClickOutside";
 import useGA from "../../hooks/useGA";
 import AdultIcon from "../../icons/adult";
+import Loading from "../Loading";
 
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -24,8 +25,14 @@ const LeftPanel: React.FC = () => {
   >(null);
   const [clickedElement, setClickedElement] = useState<DOMRect | null>(null);
   const newChatLocation = useNewChatLocation();
-  const { isLeftPanelOpen, chatLogs, characters, isSmallScreen, mode } =
-    useAppSelector((state) => state.app);
+  const {
+    isLeftPanelOpen,
+    chatLogs,
+    characters,
+    isSmallScreen,
+    mode,
+    isDataLoadingLeftPanel,
+  } = useAppSelector((state) => state.app);
   const { sendEvent } = useGA();
   // const games = useAppSelector((state) => state.games.scenarios);
 
@@ -120,6 +127,7 @@ const LeftPanel: React.FC = () => {
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>{t("Characters")}</div>
+
               {chatLogs.filter((log) => log.type === "character").length > 0 ? (
                 <NavLink
                   to="/character/new"
@@ -135,7 +143,10 @@ const LeftPanel: React.FC = () => {
                 </NavLink>
               ) : null}
             </div>
-            {chatLogs.filter((log) => log.type === "character").length === 0 ? (
+            {isDataLoadingLeftPanel.includes("threads") ? (
+              <Loading />
+            ) : chatLogs.filter((log) => log.type === "character").length ===
+              0 ? (
               <NavLink
                 to="/character/new"
                 onClick={
@@ -282,8 +293,10 @@ const LeftPanel: React.FC = () => {
                 </NavLink>
               ) : null}
             </div>
-            {chatLogs.filter((log) => log.type === "you_are_the_hero")
-              .length === 0 ? (
+            {isDataLoadingLeftPanel.includes("threads") ? (
+              <Loading />
+            ) : chatLogs.filter((log) => log.type === "you_are_the_hero")
+                .length === 0 ? (
               <NavLink
                 to="/game/new"
                 onClick={
@@ -390,7 +403,9 @@ const LeftPanel: React.FC = () => {
                 </NavLink>
               ) : null}
             </div>
-            {chatLogs.filter((log) => log.type === "story").length === 0 ? (
+            {isDataLoadingLeftPanel.includes("threads") ? (
+              <Loading />
+            ) : chatLogs.filter((log) => log.type === "story").length === 0 ? (
               <NavLink
                 to="/story/new"
                 onClick={

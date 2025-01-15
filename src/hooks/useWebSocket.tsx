@@ -18,6 +18,7 @@ import {
   deleteGame,
   messageSentPlusOne,
   setStory,
+  setIsDataLoading,
 } from "../store/features/app/appSlice";
 import { setSettings as setSettingsAction } from "../store/features/user/userSlice";
 import useGA from "./useGA";
@@ -30,9 +31,8 @@ export default function useWebSocket({
 }) {
   const auth = useAuth();
   const newChatLocation = useNewChatLocation();
-  const { socketConnection, currentlyViewing, mode } = useAppSelector(
-    (state) => state.app
-  );
+  const { socketConnection, currentlyViewing, mode, isDataLoading } =
+    useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { sendEvent } = useGA();
@@ -47,6 +47,11 @@ export default function useWebSocket({
           case "fetch":
             switch (data.type) {
               case "settings":
+                dispatch(
+                  setIsDataLoading(
+                    isDataLoading.filter((i) => i !== "settings")
+                  )
+                );
                 dispatch(setSettingsAction(data.data));
                 break;
               case "story":
@@ -159,6 +164,9 @@ export default function useWebSocket({
                 break;
 
               case "threads":
+                dispatch(
+                  setIsDataLoading(isDataLoading.filter((i) => i !== "threads"))
+                );
                 dispatch(setChatLogs(data.data));
                 break;
 
@@ -185,6 +193,11 @@ export default function useWebSocket({
                 break;
 
               case "characters":
+                dispatch(
+                  setIsDataLoading(
+                    isDataLoading.filter((i) => i !== "characters")
+                  )
+                );
                 dispatch(setCharacters(data.data));
                 break;
 

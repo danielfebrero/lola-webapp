@@ -4,6 +4,7 @@ import { Games } from "../../../types/games";
 // Define a type for the slice state
 interface AppState {
   mode: "adult" | "minor";
+  prevMode: "adult" | "minor";
   messagesSent: number;
   isLeftPanelOpen: boolean;
   isSettingsOpen: boolean;
@@ -15,6 +16,8 @@ interface AppState {
   socketConnection: WebSocket | null;
   chatLogs: ChatLog[];
   isDataLoaded: boolean;
+  isDataLoading: string[];
+  isDataLoadingLeftPanel: string[];
   characters: Character[];
   isSmallScreen: boolean;
   games: Games[];
@@ -25,6 +28,7 @@ interface AppState {
 // Define the initial state using that type
 const initialState: AppState = {
   mode: "minor",
+  prevMode: "minor",
   messagesSent: 0,
   isSmallScreen: window.innerWidth < 768,
   isLeftPanelOpen: window.innerWidth >= 768,
@@ -37,6 +41,8 @@ const initialState: AppState = {
   socketConnection: null,
   chatLogs: [],
   isDataLoaded: false,
+  isDataLoading: [],
+  isDataLoadingLeftPanel: [],
   characters: [],
   games: [],
   stories: [],
@@ -63,6 +69,9 @@ export const appSlice = createSlice({
   reducers: {
     setMode: (state, action) => {
       state.mode = action.payload;
+    },
+    setPrevMode: (state, action) => {
+      state.prevMode = action.payload;
     },
     messageSentPlusOne: (state) => {
       state.messagesSent++;
@@ -225,6 +234,12 @@ export const appSlice = createSlice({
     setIsDataLoaded: (state, action) => {
       state.isDataLoaded = action.payload;
     },
+    setIsDataLoading: (state, action) => {
+      state.isDataLoading = action.payload;
+    },
+    setIsDataLoadingLeftPanel: (state, action) => {
+      state.isDataLoadingLeftPanel = action.payload;
+    },
     setCharacters: (state, action) => {
       state.characters = action.payload;
     },
@@ -301,6 +316,8 @@ export const {
   setChatLog,
   addChatLog,
   setIsDataLoaded,
+  setIsDataLoading,
+  setIsDataLoadingLeftPanel,
   setCharacter,
   setCharacters,
   deleteCharacter,
@@ -310,6 +327,7 @@ export const {
   messageSentPlusOne,
   setStory,
   setMode,
+  setPrevMode,
 } = appSlice.actions;
 
 export default appSlice.reducer;
