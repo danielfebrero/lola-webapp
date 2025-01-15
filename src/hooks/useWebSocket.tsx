@@ -474,7 +474,6 @@ export default function useWebSocket({
       JSON.stringify({
         action: "fetchData",
         endpoint: "settings",
-        mode,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
