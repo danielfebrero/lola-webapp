@@ -3,6 +3,7 @@ import { Games } from "../../../types/games";
 
 // Define a type for the slice state
 interface AppState {
+  mode: "adult" | "minor";
   messagesSent: number;
   isLeftPanelOpen: boolean;
   isSettingsOpen: boolean;
@@ -23,6 +24,7 @@ interface AppState {
 
 // Define the initial state using that type
 const initialState: AppState = {
+  mode: "minor",
   messagesSent: 0,
   isSmallScreen: window.innerWidth < 768,
   isLeftPanelOpen: window.innerWidth >= 768,
@@ -59,6 +61,9 @@ export const appSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    setMode: (state, action) => {
+      state.mode = action.payload;
+    },
     messageSentPlusOne: (state) => {
       state.messagesSent++;
     },
@@ -304,6 +309,7 @@ export const {
   deleteGame,
   messageSentPlusOne,
   setStory,
+  setMode,
 } = appSlice.actions;
 
 export default appSlice.reducer;

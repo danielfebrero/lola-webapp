@@ -9,11 +9,12 @@ import OptionsIcon from "../../icons/options";
 import PlusIcon from "../../icons/plus";
 import LoadingIcon from "../../icons/loading";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { toggleLeftPanel } from "../../store/features/app/appSlice";
+import { toggleLeftPanel, setMode } from "../../store/features/app/appSlice";
 import useNewChatLocation from "../../hooks/useNewChatLocation";
 import OptionsDropdown from "../OptionsDropdown";
 import useClickOutside from "../../hooks/useClickOutside";
 import useGA from "../../hooks/useGA";
+import AdultIcon from "../../icons/adult";
 
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +24,7 @@ const LeftPanel: React.FC = () => {
   >(null);
   const [clickedElement, setClickedElement] = useState<DOMRect | null>(null);
   const newChatLocation = useNewChatLocation();
-  const { isLeftPanelOpen, chatLogs, characters, isSmallScreen } =
+  const { isLeftPanelOpen, chatLogs, characters, isSmallScreen, mode } =
     useAppSelector((state) => state.app);
   const { sendEvent } = useGA();
   // const games = useAppSelector((state) => state.games.scenarios);
@@ -114,7 +115,7 @@ const LeftPanel: React.FC = () => {
         </div>
         <div
           ref={scrollRef}
-          className="h-auto w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-clip pb-[20px] ml-[-10px] mr-[-10px] no-scrollbar"
+          className="h-auto w-[calc(100%+20px)] mb-[60px] flex flex-col overflow-y-scroll overflow-x-clip pb-[20px] ml-[-10px] mr-[-10px] no-scrollbar"
         >
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
@@ -464,6 +465,17 @@ const LeftPanel: React.FC = () => {
                 ))
             )}
           </div>
+        </div>
+      </div>
+      <div
+        onClick={() => dispatch(setMode(mode === "adult" ? "minor" : "adult"))}
+        className="fixed bottom-[30px] left-[10px] pl-[10px] text-pink-200 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[230px] py-[10px] rounded-lg"
+      >
+        <div className="">
+          {t(mode === "adult" ? "Enter Lola" : "Exit Lola")}
+        </div>
+        <div className="w-[24px] h-[24px] ml-[5px]">
+          <AdultIcon />
         </div>
       </div>
     </div>

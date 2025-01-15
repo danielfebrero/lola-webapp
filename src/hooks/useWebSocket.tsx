@@ -30,7 +30,7 @@ export default function useWebSocket({
 }) {
   const auth = useAuth();
   const newChatLocation = useNewChatLocation();
-  const { socketConnection, currentlyViewing } = useAppSelector(
+  const { socketConnection, currentlyViewing, mode } = useAppSelector(
     (state) => state.app
   );
   const dispatch = useAppDispatch();
@@ -332,6 +332,7 @@ export default function useWebSocket({
       endpoint: endpoint,
       input_text: message,
       language: i18n.language,
+      mode,
       token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       ...extraFields,
     };
@@ -353,6 +354,7 @@ export default function useWebSocket({
       JSON.stringify({
         action: "fetchData",
         endpoint: "threads",
+        mode,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -388,6 +390,7 @@ export default function useWebSocket({
       JSON.stringify({
         action: "fetchData",
         endpoint: "characters",
+        mode,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -458,6 +461,7 @@ export default function useWebSocket({
       JSON.stringify({
         action: "fetchData",
         endpoint: "settings",
+        mode,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
