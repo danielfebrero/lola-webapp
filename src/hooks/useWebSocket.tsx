@@ -315,7 +315,7 @@ export default function useWebSocket({
     extraFields?: Record<string, any>
   ) => {
     track("sent_message");
-    sendEvent("send_message_" + endpoint, "endpoint");
+    sendEvent("send_message_" + endpoint, endpoint);
 
     dispatch(messageSentPlusOne());
 
