@@ -149,9 +149,10 @@ const LeftPanel: React.FC = () => {
               0 ? (
               <NavLink
                 to="/character/new"
-                onClick={
-                  isSmallScreen ? () => dispatch(toggleLeftPanel()) : undefined
-                }
+                onClick={() => {
+                  if (isSmallScreen) dispatch(toggleLeftPanel());
+                  sendEvent("click_plus_char_from_left_panel", "character");
+                }}
               >
                 <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                   <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
@@ -302,9 +303,13 @@ const LeftPanel: React.FC = () => {
                 .length === 0 ? (
               <NavLink
                 to="/game/new"
-                onClick={
-                  isSmallScreen ? () => dispatch(toggleLeftPanel()) : undefined
-                }
+                onClick={() => {
+                  if (isSmallScreen) dispatch(toggleLeftPanel());
+                  sendEvent(
+                    "click_plus_game_from_left_panel",
+                    "you_are_the_hero"
+                  );
+                }}
               >
                 <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                   <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
@@ -411,9 +416,10 @@ const LeftPanel: React.FC = () => {
             ) : chatLogs.filter((log) => log.type === "story").length === 0 ? (
               <NavLink
                 to="/story/new"
-                onClick={
-                  isSmallScreen ? () => dispatch(toggleLeftPanel()) : undefined
-                }
+                onClick={() => {
+                  if (isSmallScreen) dispatch(toggleLeftPanel());
+                  sendEvent("click_plus_story_from_left_panel", "story");
+                }}
               >
                 <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                   <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
