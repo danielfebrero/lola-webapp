@@ -25,6 +25,21 @@ const LeftPanelLayout: React.FC = () => {
         <div className="h-auto w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-clip pb-[20px] ml-[-10px] mr-[-10px] no-scrollbar">
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
+              <div>Explore</div>
+            </div>
+            <a href="/explore/latest">
+              <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                <span className="">Latest</span>
+              </div>
+            </a>
+            <a href="/explore/best">
+              <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                <span className="">Best content</span>
+              </div>
+            </a>
+          </div>
+          <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
+            <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>Characters</div>
             </div>
             <a href="/character/new">

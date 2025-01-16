@@ -4,7 +4,7 @@ import Footer from "./Footer";
 
 interface PageLayoutProps {
   children: React.ReactNode;
-  headerDropdownLabel: string;
+  headerDropdownLabel?: string;
 }
 
 const PageLayout: React.FC<PageLayoutProps> = ({
@@ -16,7 +16,9 @@ const PageLayout: React.FC<PageLayoutProps> = ({
       <LeftPanelLayout />
       <div className="flex flex-col h-screen overflow-y-scroll w-full bg-white dark:bg-darkMainSurfacePrimary no-scrollbar w-full">
         <div className="flex flex-col grow overflow-y-scroll no-scrollbar">
-          <HeaderLayout dropdownLabel={headerDropdownLabel} />
+          {headerDropdownLabel && (
+            <HeaderLayout dropdownLabel={headerDropdownLabel} />
+          )}
           {children}
         </div>
         <div className="flex w-full">
