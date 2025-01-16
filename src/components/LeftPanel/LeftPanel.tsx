@@ -16,7 +16,7 @@ import useClickOutside from "../../hooks/useClickOutside";
 import useGA from "../../hooks/useGA";
 import AdultIcon from "../../icons/adult";
 import Loading from "../Loading";
-import HomeIcon from "../../icons/home";
+import HomeEmptyIcon from "../../icons/homeEmpty";
 
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -133,153 +133,29 @@ const LeftPanel: React.FC = () => {
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>{t("Explore")}</div>
-
-              {chatLogs.filter((log) => log.type === "character").length > 0 ? (
-                <NavLink
-                  to="/explore"
-                  onClick={() => {
-                    if (isSmallScreen && isLeftPanelOpen)
-                      dispatch(toggleLeftPanel());
-                    sendEvent("click_home_explore_from_left_panel", "explore");
-                  }}
-                >
-                  <div className="mr-[-5px]  hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
-                    <div className="w-[24px] h-[24px] text-textSecondary dark:text-darkTextSecondary">
-                      <HomeIcon />
-                    </div>
-                  </div>
-                </NavLink>
-              ) : null}
             </div>
-            {isDataLoadingLeftPanel.includes("threads") ? (
-              <Loading />
-            ) : chatLogs.filter((log) => log.type === "character").length ===
-              0 ? (
+            <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
               <NavLink
-                to="/character/new"
-                onClick={() => {
-                  if (isSmallScreen) dispatch(toggleLeftPanel());
-                  sendEvent("click_plus_char_from_left_panel", "character");
-                }}
+                to={`/explore/latest`}
+                className="h-full grow flex items-center w-[calc(100%-40px)]"
+                onClick={
+                  isSmallScreen ? () => dispatch(toggleLeftPanel()) : undefined
+                }
               >
-                <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                  <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
-                    <PlusIcon />
-                  </div>
-                  <span className="pl-[10px]">{t("New character")}</span>
-                </div>
+                <div className="truncate">{t("Latest")}</div>
               </NavLink>
-            ) : (
-              chatLogs
-                .filter((log) => log.type === "character")
-                .map((char) => (
-                  <div
-                    key={char.threadId}
-                    className="group flex flex-row items-center h-[40px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] justify-between"
-                  >
-                    <NavLink
-                      key={char.threadId}
-                      className="h-full grow flex items-center w-[calc(100%-40px)]"
-                      onClick={
-                        isSmallScreen
-                          ? () => dispatch(toggleLeftPanel())
-                          : undefined
-                      }
-                      to={
-                        char.type === "main"
-                          ? "/character/main"
-                          : `/character/${char.threadId}`
-                      }
-                    >
-                      <div className="flex flex-row">
-                        <div
-                          className={clsx(
-                            {
-                              "bg-gray-200 rounded-full":
-                                characters.find(
-                                  (c) => c.threadId === char.threadId
-                                )?.images?.[0] === undefined,
-                            },
-                            "h-[24px] w-[24px]"
-                          )}
-                        >
-                          {" "}
-                          {characters.find((c) => c.threadId === char.threadId)
-                            ?.imagesMultisize?.[0] ? (
-                            <img
-                              src={
-                                characters.find(
-                                  (c) => c.threadId === char.threadId
-                                )?.imagesMultisize?.[0]?.small
-                              }
-                              className="rounded-full h-[24px] w-[24px] object-cover"
-                            />
-                          ) : characters.find(
-                              (c) => c.threadId === char.threadId
-                            )?.images?.[0] ? (
-                            <img
-                              src={
-                                characters.find(
-                                  (c) => c.threadId === char.threadId
-                                )?.imagesMultisize?.[0]?.small ??
-                                characters.find(
-                                  (c) => c.threadId === char.threadId
-                                )?.images?.[0]
-                              }
-                              className="rounded-full h-[24px] w-[24px] object-cover"
-                            />
-                          ) : null}
-                        </div>
-                        <span className="pl-[10px] truncate">
-                          {t(
-                            characters.find((c) => c.threadId === char.threadId)
-                              ?.json?.name ??
-                              char.title ??
-                              ""
-                          )}
-                        </span>
-                      </div>
-                    </NavLink>
-                    {char.isBeingDeleted ? (
-                      <div className="h-[24px] w-[24px] text-textSecondar dark:text-darkTextSecondary">
-                        <LoadingIcon />
-                      </div>
-                    ) : (
-                      <div
-                        className={clsx(
-                          {
-                            hidden: displayOptionDropdownId !== char.threadId,
-                          },
-                          "group-hover:block cursor-pointer ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
-                        )}
-                        onClick={(event) =>
-                          handleDropdownClick(event, char.threadId)
-                        }
-                      >
-                        <OptionsIcon />
-                      </div>
-                    )}
-
-                    {displayOptionDropdownId === char.threadId &&
-                      dropdownPosition && (
-                        <div
-                          style={{
-                            // position: "fixed",
-                            top: dropdownPosition.top,
-                            left: dropdownPosition.left,
-                          }}
-                          className="z-20 absolute"
-                        >
-                          <OptionsDropdown
-                            type="character"
-                            threadId={char.threadId}
-                            hide={() => setDisplayOptionDropdownId(null)}
-                          />
-                        </div>
-                      )}
-                  </div>
-                ))
-            )}
+            </div>
+            <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+              <NavLink
+                to={`/explore/best`}
+                className="h-full grow flex items-center w-[calc(100%-40px)]"
+                onClick={
+                  isSmallScreen ? () => dispatch(toggleLeftPanel()) : undefined
+                }
+              >
+                <div className="truncate">{t("Best content")}</div>
+              </NavLink>
+            </div>
           </div>
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
