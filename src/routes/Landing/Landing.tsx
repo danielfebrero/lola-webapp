@@ -60,7 +60,7 @@ const LandingPage: React.FC = () => {
             </div>
           </div>
         </div>
-        <div>
+        <div className="p-[10px] flex flex-col">
           <div className="text-4xl text-center mt-[40px]">
             {t("Describe a character")}
           </div>
