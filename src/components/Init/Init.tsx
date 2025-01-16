@@ -110,7 +110,7 @@ const Init: React.FC = () => {
       socketConnection &&
       socketConnection.readyState === socketConnection.OPEN
     ) {
-      initData(socketConnection);
+      initData();
       dispatch(setIsDataLoaded(true));
     }
   }, [socketConnection, isDataLoaded, dispatch]);
