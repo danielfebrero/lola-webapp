@@ -15,7 +15,7 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" sizes="512x512" href="/logo512.png" />
           <meta
             name="description"
-            content="A Choose Your Own Adventure book where you are the hero and storyteller."
+            content="A Choose Your Own Adventure AI game where you are the hero and storyteller."
           />
         </Head>
         <body>
