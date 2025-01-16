@@ -7,7 +7,7 @@ const App = dynamic(() => import("../../App"), {
   ssr: false,
 });
 
-const CharacterPage: React.FC = () => {
+const EighteenPage: React.FC = () => {
   return (
     <>
       <Head>
@@ -23,4 +23,4 @@ const CharacterPage: React.FC = () => {
   );
 };
 
-export default CharacterPage;
+export default EighteenPage;
