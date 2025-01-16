@@ -22,7 +22,7 @@ const NewGamePage: React.FC = () => {
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const dispatch = useAppDispatch();
-  const { characters } = useAppSelector((state) => state.app);
+  const { characters, mode } = useAppSelector((state) => state.app);
   const [hasSentMessage, setHasSentMessage] = useState<boolean>(false);
   const [threadId, setThreadId] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
@@ -112,6 +112,7 @@ const NewGamePage: React.FC = () => {
                   ?.imagesMultisize?.[0] ? (
                   <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200">
                     <img
+                      alt={char.name}
                       src={
                         characters.find((c) => c.threadId === char.threadId)
                           ?.imagesMultisize?.[0].medium
@@ -129,6 +130,7 @@ const NewGamePage: React.FC = () => {
                     ?.images?.[0] ? (
                   <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200">
                     <img
+                      alt={char.name}
                       src={
                         characters.find((c) => c.threadId === char.threadId)
                           ?.images?.[0]
@@ -143,7 +145,15 @@ const NewGamePage: React.FC = () => {
                     />
                   </div>
                 ) : (
-                  <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200 animate-pulse"></div>
+                  <div
+                    className={clsx(
+                      {
+                        "border-4 border-green-700":
+                          selectedCharacters.includes(char.threadId),
+                      },
+                      "h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200 animate-pulse"
+                    )}
+                  ></div>
                 )}
 
                 <div className="text-textSecondary dark:text-darkTextSecondary">
@@ -164,40 +174,36 @@ const NewGamePage: React.FC = () => {
             {t("Choose a game")}
           </div>
           <div className="grid gap-4 md:grid-cols-5 grid-cols-3 px-[30px]">
-            {games.map((game) => (
-              <div
-                className="flex flex-col items-center mx-[10px] cursor-pointer w-auto"
-                onClick={() => {
-                  setSelectedGame((prev) =>
-                    prev === game.id ? null : game.id
-                  );
-                }}
-              >
-                <div className="h-[64px] w-[64px] mb-[10px]">
-                  <img
-                    src={game.image.src}
-                    className={clsx(
-                      { "border-4 border-green-700": selectedGame === game.id },
-                      "rounded-full h-[64px] w-[64px] object-cover"
-                    )}
-                  />
-                  {game.adult && (
-                    <div className="w-[24px] h-[24px] mt-[-15px] ml-[50px] text-textSecondary dark:text-darkTextSecondary">
-                      <Adult16Icon />
-                    </div>
-                  )}
+            {games
+              .filter((g) =>
+                mode === "adult" ? g.adult === true : g.adult === false
+              )
+              .map((game) => (
+                <div
+                  className="flex flex-col items-center mx-[10px] cursor-pointer w-auto"
+                  onClick={() => {
+                    setSelectedGame((prev) =>
+                      prev === game.id ? null : game.id
+                    );
+                  }}
+                >
+                  <div className="h-[64px] w-[64px] mb-[10px]">
+                    <img
+                      src={game.image.src}
+                      alt={game.label}
+                      className={clsx(
+                        {
+                          "border-4 border-green-700": selectedGame === game.id,
+                        },
+                        "rounded-full h-[64px] w-[64px] object-cover"
+                      )}
+                    />
+                  </div>
+                  <div className="text-textSecondary dark:text-darkTextSecondary text-center">
+                    {t(game.label)}
+                  </div>
                 </div>
-                <div className="text-textSecondary dark:text-darkTextSecondary text-center">
-                  {t(game.label)}
-                </div>
-              </div>
-            ))}
-            {/* <div
-            className="h-[64px] w-[64px] ml-[10px] mb-[10px] text-textSecondary dark:darkTextSecondary cursor-pointer self-center justify-self-center"
-            onClick={() => setShowAIInput(true)}
-          >
-            <PlusIcon />
-          </div> */}
+              ))}
           </div>
           {selectedGame && (
             <div className="text-textSecondary dark:text-darkTextSecondary text-center mt-[40px] md:w-[70%] w-full self-center justify-self-center rounded-lg bg-lightGray dark:bg-darkLightGray p-[20px]">

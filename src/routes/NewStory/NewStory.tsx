@@ -114,6 +114,7 @@ const NewStoryPage: React.FC = () => {
                   ?.imagesMultisize?.[0] ? (
                   <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200">
                     <img
+                      alt={char.name}
                       src={
                         characters.find((c) => c.threadId === char.threadId)
                           ?.imagesMultisize?.[0].medium
@@ -131,6 +132,7 @@ const NewStoryPage: React.FC = () => {
                     ?.images?.[0] ? (
                   <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200">
                     <img
+                      alt={char.name}
                       src={
                         characters.find((c) => c.threadId === char.threadId)
                           ?.images?.[0]
