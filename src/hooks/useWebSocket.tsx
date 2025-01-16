@@ -409,6 +409,7 @@ export default function useWebSocket({
         action: "deleteData",
         endpoint: "character",
         threadId,
+        admin: searchParams.get("admin"),
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );

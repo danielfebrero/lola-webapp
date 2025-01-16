@@ -1,9 +1,18 @@
 // src/pages/_app.tsx
 import { AppProps } from "next/app";
+import Head from "next/head";
+
 import "../index.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Head>
+        <title>Lola</title>
+      </Head>
+      <Component {...pageProps} />
+    </>
+  );
 }
 
 export default MyApp;
