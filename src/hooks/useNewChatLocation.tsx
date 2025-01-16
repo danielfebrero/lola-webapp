@@ -14,6 +14,8 @@ const useNewChatLocation = (): string => {
       setNewChatLocation("/story/new");
     } else if (location.pathname.indexOf("/lola") === 0) {
       setNewChatLocation("/lola/new");
+    } else if (location.pathname.indexOf("/explore") === 0) {
+      setNewChatLocation("/lola/new");
     } else {
       setNewChatLocation("/story/new");
     }

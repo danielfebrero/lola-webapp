@@ -20,11 +20,12 @@ import NewStoryPage from "./routes/NewStory";
 import NewGamePage from "./routes/NewGame";
 import LoginSuccess from "./routes/LoginSuccess";
 import SilentRenew from "./routes/SilentRenew";
+import LandingPage from "./routes/Landing";
+import ExplorePage from "./routes/Explore";
 
 import { store } from "./store/store";
 
 import "./i18n";
-import LandingPage from "./routes/Landing";
 
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_GGRb4RlVb",
@@ -64,6 +65,14 @@ const App: React.FC = () => {
               <Route element={<MainLayout />}>
                 <Route path="/login/silent-renew" element={<SilentRenew />} />
                 <Route path="/login/success" element={<LoginSuccess />} />
+                <Route
+                  path="/explore/latest"
+                  element={<ExplorePage type="latest" />}
+                />
+                <Route
+                  path="/explore/best"
+                  element={<ExplorePage type="best" />}
+                />
                 <Route
                   path="/character/main"
                   element={<CharacterPage selected={{ type: "main" }} />}
