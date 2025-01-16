@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import clsx from "clsx";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import Chat from "../../components/Chat";
@@ -26,6 +26,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const { t } = useTranslation();
   const params = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { sendEvent } = useGA();
 
@@ -135,7 +136,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [socketConnection?.readyState]);
 
   useEffect(() => {
-    if (threadId) {
+    if (threadId && location.pathname !== "/character/" + threadId) {
       navigate("/character/" + threadId);
     }
   }, [threadId]);

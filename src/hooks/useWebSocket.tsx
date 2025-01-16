@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import i18n from "i18next";
 import { useAuth } from "react-oidc-context";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { track } from "@vercel/analytics/react";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
@@ -37,6 +37,7 @@ export default function useWebSocket({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { sendEvent } = useGA();
+  let [searchParams] = useSearchParams();
 
   useEffect(() => {
     if (!socketConnection) return;
@@ -337,6 +338,7 @@ export default function useWebSocket({
       input_text: message,
       language: i18n.language,
       mode,
+      admin: searchParams.get("admin"),
       token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       ...extraFields,
     };
@@ -346,7 +348,7 @@ export default function useWebSocket({
     socketConnection?.send(JSON.stringify(msg));
   };
 
-  const initData = (websocket: WebSocket) => {
+  const initData = () => {
     console.log("Fetching initData");
     getThreads();
     getCharacters();
