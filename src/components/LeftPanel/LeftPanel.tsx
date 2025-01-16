@@ -483,7 +483,16 @@ const LeftPanel: React.FC = () => {
         </div>
       </div>
       <div
-        onClick={() => dispatch(setMode(mode === "adult" ? "minor" : "adult"))}
+        onClick={() => {
+          dispatch(setMode(mode === "adult" ? "minor" : "adult"));
+          sendEvent(
+            mode === "adult"
+              ? "click_exit_lola18_from_left_panel"
+              : "click_enter_lola18_from_left_panel"
+          );
+
+          if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
+        }}
         className="fixed bottom-[30px] left-[10px] pl-[10px] dark:text-pink-200 text-rose-600 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[230px] py-[10px] rounded-lg"
       >
         <div className="">
