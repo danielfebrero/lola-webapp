@@ -16,7 +16,7 @@ const MainLayout: React.FC = () => {
         <LoginModal />
       </Overlay>
       <LeftPanel />
-      <div className="flex flex-col h-screen overflow-y-scroll md:min-w-full min-w-[100%] z-10 bg-white dark:bg-darkMainSurfacePrimary no-scrollbar">
+      <div className="flex flex-col h-screen overflow-y-scroll w-full md:min-w-0 min-w-[100%] z-10 bg-white dark:bg-darkMainSurfacePrimary no-scrollbar">
         <Header />
         <Outlet /> {/* This will render the nested routes */}
         <Footer />
