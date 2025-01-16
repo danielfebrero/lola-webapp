@@ -484,7 +484,7 @@ const LeftPanel: React.FC = () => {
       </div>
       <div
         onClick={() => dispatch(setMode(mode === "adult" ? "minor" : "adult"))}
-        className="fixed bottom-[30px] left-[10px] pl-[10px] text-pink-200 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[230px] py-[10px] rounded-lg"
+        className="fixed bottom-[30px] left-[10px] pl-[10px] dark:text-pink-200 text-rose-600 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[230px] py-[10px] rounded-lg"
       >
         <div className="">
           {t(mode === "minor" ? "Enter Lola" : "Exit Lola")}

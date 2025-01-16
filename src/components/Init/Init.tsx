@@ -140,7 +140,8 @@ const Init: React.FC = () => {
       locale &&
       location.pathname !== asPath &&
       settings.language === "auto" &&
-      location.pathname !== "/login/success"
+      location.pathname !== "/login/success" &&
+      location.pathname.substring(1, 3) === locale
     ) {
       i18n.changeLanguage(locale);
       navigate(asPath, { replace: true });
