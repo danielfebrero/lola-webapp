@@ -145,7 +145,15 @@ const NewStoryPage: React.FC = () => {
                     />
                   </div>
                 ) : (
-                  <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200 animate-pulse"></div>
+                  <div
+                    className={clsx(
+                      {
+                        "border-4 border-green-700":
+                          selectedCharacters.includes(char.threadId),
+                      },
+                      "h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200 animate-pulse"
+                    )}
+                  ></div>
                 )}
                 <div className="text-textSecondary dark:text-darkTextSecondary">
                   {char.json?.name}
