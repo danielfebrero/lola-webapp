@@ -19,6 +19,8 @@ import {
   messageSentPlusOne,
   setStory,
   removeIsFromDataLoading,
+  setExploreLatest,
+  setExploreBest,
 } from "../store/features/app/appSlice";
 import { setSettings as setSettingsAction } from "../store/features/user/userSlice";
 import useGA from "./useGA";
@@ -48,6 +50,12 @@ export default function useWebSocket({
         switch (data.action) {
           case "fetch":
             switch (data.type) {
+              case "exploreLatest":
+                dispatch(setExploreLatest(data.data));
+                break;
+              case "exploreBest":
+                dispatch(setExploreBest(data.data));
+                break;
               case "settings":
                 dispatch(removeIsFromDataLoading("settings"));
                 dispatch(setSettingsAction(data.data));

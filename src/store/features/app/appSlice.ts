@@ -23,6 +23,10 @@ interface AppState {
   games: Games[];
   stories: Story[];
   languages: Record<string, string>;
+  explore: {
+    latest: { chatLog: ChatLog; character?: Character }[];
+    best: { chatLog: ChatLog; character?: Character }[];
+  };
 }
 
 // Define the initial state using that type
@@ -60,13 +64,22 @@ const initialState: AppState = {
     tr: "Türkçe",
     uk: "Українська",
   },
+  explore: {
+    latest: [],
+    best: [],
+  },
 };
 
 export const appSlice = createSlice({
   name: "app",
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    setExploreLatest: (state, action) => {
+      state.explore.latest = action.payload;
+    },
+    setExploreBest: (state, action) => {
+      state.explore.best = action.payload;
+    },
     setMode: (state, action) => {
       state.mode = action.payload;
     },
@@ -334,6 +347,8 @@ export const {
   setStory,
   setMode,
   setPrevMode,
+  setExploreBest,
+  setExploreLatest,
 } = appSlice.actions;
 
 export default appSlice.reducer;
