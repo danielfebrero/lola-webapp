@@ -497,6 +497,7 @@ export default function useWebSocket({
       JSON.stringify({
         action: "fetchData",
         endpoint: "explore_latest",
+        mode,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -507,6 +508,7 @@ export default function useWebSocket({
       JSON.stringify({
         action: "fetchData",
         endpoint: "explore_best",
+        mode,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
