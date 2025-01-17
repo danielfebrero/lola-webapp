@@ -21,10 +21,17 @@ interface ExplorePageProps {
 
 const ExplorePage: React.FC<ExplorePageProps> = (props) => {
   const { t } = useTranslation();
-  const { getExploreBest, getExploreLatest } = useWebSocket({});
+  const { getExploreBest, getExploreLatest, upvote, downvote } = useWebSocket(
+    {}
+  );
   const { explore, socketConnection } = useAppSelector((state) => state.app);
-  const [clickedUpvotes, setClickedUpvotes] = useState<string[]>([]);
-  const [clickedDownvotes, setClickedDownvotes] = useState<string[]>([]);
+  const { clickedUpvotes, clickedDownvotes } = useAppSelector(
+    (state) => state.user
+  );
+  const [stateClickedUpvotes, setStateClickedUpvotes] = useState<string[]>([]);
+  const [stateClickedDownvotes, setStateClickedDownvotes] = useState<string[]>(
+    []
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -32,6 +39,14 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
       props.type === "best" ? getExploreBest() : getExploreLatest();
     }
   }, [socketConnection]);
+
+  useEffect(() => {
+    setStateClickedDownvotes(clickedDownvotes);
+  }, [clickedDownvotes]);
+
+  useEffect(() => {
+    setStateClickedUpvotes(clickedUpvotes);
+  }, [clickedUpvotes]);
 
   return (
     <>
@@ -117,15 +132,20 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                     <div className="flex flex-row rounded-lg dark:bg-darkMainSurcaceTertiary bg-gray-200 items-center">
                       <div
                         onClick={() => {
-                          if (!clickedUpvotes.includes(c.thread.threadId)) {
+                          if (
+                            !stateClickedUpvotes.includes(c.thread.threadId)
+                          ) {
+                            upvote(c.thread.threadId);
                             dispatch(upvoteExplore(c.thread.threadId));
-                            setClickedUpvotes((prev) => [
+                            setStateClickedUpvotes((prev) => [
                               ...prev,
                               c.thread.threadId,
                             ]);
-                            if (clickedDownvotes.includes(c.thread.threadId)) {
+                            if (
+                              stateClickedDownvotes.includes(c.thread.threadId)
+                            ) {
                               dispatch(upvoteExplore(c.thread.threadId));
-                              setClickedDownvotes((prev) =>
+                              setStateClickedDownvotes((prev) =>
                                 prev.filter((t) => t !== c.thread.threadId)
                               );
                             }
@@ -141,20 +161,23 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                       >
                         <UpvoteIcon />
                       </div>
-                      <span className="mx-[5px]">
-                        {(c.thread.upvotes ?? 0) - (c.thread.downvotes ?? 0)}
-                      </span>
+                      <span className="mx-[5px]">{c.thread.votes ?? 0}</span>
                       <div
                         onClick={() => {
-                          if (!clickedDownvotes.includes(c.thread.threadId)) {
+                          if (
+                            !stateClickedDownvotes.includes(c.thread.threadId)
+                          ) {
+                            downvote(c.thread.threadId);
                             dispatch(downvoteExplore(c.thread.threadId));
-                            setClickedDownvotes((prev) => [
+                            setStateClickedDownvotes((prev) => [
                               ...prev,
                               c.thread.threadId,
                             ]);
-                            if (clickedUpvotes.includes(c.thread.threadId)) {
+                            if (
+                              stateClickedUpvotes.includes(c.thread.threadId)
+                            ) {
                               dispatch(downvoteExplore(c.thread.threadId));
-                              setClickedUpvotes((prev) =>
+                              setStateClickedUpvotes((prev) =>
                                 prev.filter((t) => t !== c.thread.threadId)
                               );
                             }

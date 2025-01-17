@@ -17,6 +17,5 @@ interface ChatLog {
   isInputAvailable?: boolean;
   canSendMessage?: boolean;
   state?: string;
-  upvotes: number;
-  downvotes: number;
+  votes: number;
 }

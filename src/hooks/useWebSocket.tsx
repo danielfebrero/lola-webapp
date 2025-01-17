@@ -514,6 +514,28 @@ export default function useWebSocket({
     );
   };
 
+  const upvote = (threadId: string) => {
+    socketConnection?.send(
+      JSON.stringify({
+        action: "setData",
+        endpoint: "upvote",
+        threadId,
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
+  const downvote = (threadId: string) => {
+    socketConnection?.send(
+      JSON.stringify({
+        action: "setData",
+        endpoint: "downvote",
+        threadId,
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
   return {
     sendMessage,
     initData,
@@ -529,6 +551,8 @@ export default function useWebSocket({
     getSettings,
     getExploreBest,
     getExploreLatest,
+    upvote,
+    downvote,
     socketConnection,
   };
 }

@@ -88,9 +88,9 @@ export const appSlice = createSlice({
         (t) => t.thread.threadId === action.payload
       );
       if (threadBest)
-        threadBest.thread.upvotes = (threadBest?.thread.upvotes ?? 0) + 1;
+        threadBest.thread.votes = (threadBest?.thread.votes ?? 0) + 1;
       if (threadLatest)
-        threadLatest.thread.upvotes = (threadLatest?.thread.upvotes ?? 0) + 1;
+        threadLatest.thread.votes = (threadLatest?.thread.votes ?? 0) + 1;
     },
     downvoteExplore: (state, action) => {
       const threadBest = state.explore.best.find(
@@ -100,9 +100,9 @@ export const appSlice = createSlice({
         (t) => t.thread.threadId === action.payload
       );
       if (threadBest)
-        threadBest.thread.upvotes = (threadBest?.thread.upvotes ?? 0) - 1;
+        threadBest.thread.votes = (threadBest?.thread.votes ?? 0) - 1;
       if (threadLatest)
-        threadLatest.thread.upvotes = (threadLatest?.thread.upvotes ?? 0) - 1;
+        threadLatest.thread.votes = (threadLatest?.thread.votes ?? 0) - 1;
     },
     setMode: (state, action) => {
       state.mode = action.payload;
@@ -220,8 +220,7 @@ export const appSlice = createSlice({
           canSendMessage: action.payload.canSendMessage,
           isLoading: action.payload.isLoading,
           state: action.payload.state,
-          upvotes: 0,
-          downvotes: 0,
+          votes: 0,
         });
       }
     },
@@ -267,8 +266,7 @@ export const appSlice = createSlice({
           ],
           type: action.payload.type,
           title: `New ${action.payload.type}`,
-          upvotes: 0,
-          downvotes: 0,
+          votes: 0,
         });
       }
     },
