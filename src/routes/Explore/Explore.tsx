@@ -4,6 +4,8 @@ import Meta from "../../components/Meta";
 import clsx from "clsx";
 import Markdown from "markdown-to-jsx";
 import { Link } from "react-router";
+import UpvoteIcon from "../../icons/upvote";
+import DownvoteIcon from "../../icons/downvote";
 
 interface ExplorePageProps {
   type: string;
@@ -22,7 +24,7 @@ const content = [
       {
         role: "assistant",
         content:
-          "Chapitre 1 : Un départ inattendu\n\nLola se sentait nerveuse au bord du trottoir, son sac à dos pesant sur ses épaules. Elle regarda autour d'elle, cherchant Flora qui devait arriver d'une minute à peine. La gare routière de Port Authority était en effervescence, les gens déchargeant leurs bagages et les porteurs de valises s'éloignant en courant vers les taxis. Elle espérait que Flora n'avait pas oublié leur rendez-vous.\n\nEnfin, elle aperçut sa meilleure amie, vêtue d'un manteau bleu marine et coiffée d'un chapeau aux plumes, qui marchait vers elle avec un large sourire. \"Hey, Lola! Je suis désolée pour la retard!\" s'exclama-t-elle en embrassant Lola sur les deux joues.\n\n— \"Pas de problème, je me disais que tu avais peut-être pris un taxi\", répondit Lola en prenant son sac et en l'accrochant à son épaule.\n\nFlora jeta un coup d'œil alentour, comme si elle cherchait quelque chose. — \"Alors, où allons-nous loger? J'ai réservé un hôtel dans Greenwich Village.\"\n\nLola consulta son téléphone. — \"Oui, je vois bien. L'hôtel Lafayette, c'est pas loin d'ici. On peut y aller à pied.\" Elles traversèrent la rue ensemble, entourées par les sirènes des voitures et les klaxons des taxis.\n\nAu bout de quelques minutes, elles arrivèrent devant un petit immeuble de six étages, orné d'une enseigne lumineuse. Lola sentit un peu d'inquiétude monter en elle ; cet hôtel avait l'air un peu trop discret pour son goût. Mais Flora, toujours optimiste, entra directement dans l'entrée, prête à découvrir les secrets de ce charmant quartier new-yorkais.\n\nLe réceptionniste, un homme aux cheveux grisonnants, les accueillit avec un grand sourire. — \"Bienvenue au Lafayette Hotel, mesdames. Je vais vous donner vos clés. Vous avez réservé une chambre double avec vue sur la ville.\"\n\nLola accepta les clés sans poser de questions, mais elle se demandait bien pourquoi Flora avait choisi cet endroit si exigu et si tranquille. Pourtant, Flora semblait ravie de cette découverte, et Lola ne voulait pas gâcher son séjour à New York en la décevant. Alors, elle sourit et suivit Flora jusqu'à l'ascenseur, prête à explorer la ville avec son amie.",
+          "Chapitre 1 : Un départ inattendu\n\nLola se sentait nerveuse au bord du trottoir, son sac à dos pesant sur ses épaules. Elle regarda autour d'elle, cherchant Flora qui devait arriver d'une minute à peine. La gare routière de Port Authority était en effervescence, les gens déchargeant leurs bagages et les porteurs de valises s'éloignant en courant vers les taxis. Elle espérait que Flora n'avait pas oublié leur rendez-vous.",
       },
     ],
   },
@@ -102,9 +104,9 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
         <div className="grow flex flex-col h-[calc(100vh-110px)] items-center">
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col">
             {content.map((c) => (
-              <Link to={"/" + c.type + "/" + c.threadId}>
-                <div className="p-[10px] cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary border-b border-borderColor dark:border-darkBorderColor">
-                  <div className="flex flex-col max-w-[715px] min-h-[300px] max-h-[300px] overflow-hidden">
+              <div className="p-[10px] cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary border-b border-borderColor dark:border-darkBorderColor">
+                <Link to={"/" + c.type + "/" + c.threadId}>
+                  <div className="flex flex-col max-w-[715px] max-h-[300px] h-auto overflow-hidden">
                     <div className="font-bold mb-[20px]">{c.title}</div>
                     {c.messages?.map((message, idx) =>
                       message.role === "user" ? (
@@ -127,8 +129,19 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                       )
                     )}
                   </div>
-                </div>
-              </Link>
+                  <div className="flex flex-row mt-[10px]">
+                    <div className="flex flex-row rounded-lg dark:bg-darkMainSurcaceTertiary bg-lightGray items-center">
+                      <div className="w-[30px] h-[30px] hover:dark:bg-darkMainSurfacePrimary hover:bg-white p-[5px] rounded-full">
+                        <UpvoteIcon />
+                      </div>
+                      <span className="mx-[5px]">0</span>
+                      <div className="w-[30px] h-[30px] hover:dark:bg-darkMainSurfacePrimary hover:bg-white p-[5px] rounded-full">
+                        <DownvoteIcon />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
             ))}
           </div>
         </div>
