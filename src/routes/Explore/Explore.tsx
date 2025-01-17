@@ -18,10 +18,12 @@ const content = [
     type: "character",
     messages: [
       {
+        id: "wsdf",
         role: "user",
         content: "Lola visits New York with her friend Flora.",
       },
       {
+        id: "wsdf",
         role: "assistant",
         content:
           "Chapitre 1 : Un départ inattendu\n\nLola se sentait nerveuse au bord du trottoir, son sac à dos pesant sur ses épaules. Elle regarda autour d'elle, cherchant Flora qui devait arriver d'une minute à peine. La gare routière de Port Authority était en effervescence, les gens déchargeant leurs bagages et les porteurs de valises s'éloignant en courant vers les taxis. Elle espérait que Flora n'avait pas oublié leur rendez-vous.",
@@ -64,10 +66,12 @@ const content = [
     title: "Visiting New-York",
     messages: [
       {
+        id: "wsdf",
         role: "user",
         content: "Lola visits New York with her friend Flora.",
       },
       {
+        id: "wsdf",
         role: "assistant",
         content:
           "Chapitre 1 : Un départ inattendu\n\nLola se sentait nerveuse au bord du trottoir, son sac à dos pesant sur ses épaules. Elle regarda autour d'elle, cherchant Flora qui devait arriver d'une minute à peine. La gare routière de Port Authority était en effervescence, les gens déchargeant leurs bagages et les porteurs de valises s'éloignant en courant vers les taxis. Elle espérait que Flora n'avait pas oublié leur rendez-vous.",
@@ -79,10 +83,12 @@ const content = [
     threadId: "2fa66f27-253b-4bb0-9ceb-5ead473f5186",
     messages: [
       {
+        id: "wsdf",
         role: "user",
         content: "Lola visits New York with her friend Flora.",
       },
       {
+        id: "wsdf",
         role: "assistant",
         content:
           "Chapitre 1 : Un départ inattendu\n\nLola se sentait nerveuse au bord du trottoir, son sac à dos pesant sur ses épaules. Elle regarda autour d'elle, cherchant Flora qui devait arriver d'une minute à peine. La gare routière de Port Authority était en effervescence, les gens déchargeant leurs bagages et les porteurs de valises s'éloignant en courant vers les taxis. Elle espérait que Flora n'avait pas oublié leur rendez-vous.",
@@ -126,10 +132,12 @@ const content = [
     title: "A Day at the Beach",
     messages: [
       {
+        id: "wsdf",
         role: "user",
         content: "Alex and Jamie plan a surprise picnic on the beach.",
       },
       {
+        id: "wsdf",
         role: "assistant",
         content:
           "It was an unexpectedly sunny day as Alex drove along the coast, the sparkling ocean stretching out on one side and the rugged cliffs on the other. Jamie had already set up a cozy spot on the soft sands, with a colorful blanket spread and a wicker basket filled with delicious treats. The sound of crashing waves mingled with their laughter, making it a memory to treasure for a long time.",
@@ -141,11 +149,13 @@ const content = [
     threadId: "22755b03-bfae-4556-8448-888044a5195d",
     messages: [
       {
+        id: "wsdf",
         role: "user",
         content: "Lola visits New York with her friend Flora.",
       },
       {
         role: "assistant",
+        id: "wsdf",
         content:
           "Chapitre 1 : Un départ inattendu\n\nLola se sentait nerveuse au bord du trottoir, son sac à dos pesant sur ses épaules. Elle regarda autour d'elle, cherchant Flora qui devait arriver d'une minute à peine. La gare routière de Port Authority était en effervescence, les gens déchargeant leurs bagages et les porteurs de valises s'éloignant en courant vers les taxis. Elle espérait que Flora n'avait pas oublié leur rendez-vous.",
       },
@@ -196,10 +206,12 @@ const content = [
     title: "Midnight Coding",
     messages: [
       {
+        id: "wsdf",
         role: "user",
         content: "Sam is burning the midnight oil to fix a critical bug.",
       },
       {
+        id: "wsdf",
         role: "assistant",
         content:
           "Under the dim glow of a single desk lamp, Sam typed furiously at the keyboard. The error logs scrolled endlessly as the codebase revealed yet another elusive bug. Determined to solve the issue before sunrise, Sam methodically traced each function, feeling both the pressure of the deadline and a surge of determination. Every resolved line of code felt like a small victory against the relentless tide of technical challenges.",
@@ -212,10 +224,12 @@ const content = [
     title: "Mountain Retreat",
     messages: [
       {
+        id: "wsdf",
         role: "user",
         content: "Jordan escapes to the mountains to find peace.",
       },
       {
+        id: "wsdf",
         role: "assistant",
         content:
           "In the crisp mountain air, Jordan set off along a rugged trail, the peaks standing sentinel against the vast, blue sky. With each step, a sense of freedom replaced the urban chaos left behind. The rustle of pine needles and distant bird calls provided a natural symphony, and by the time the sun began to set, painting the landscape in hues of gold and crimson, Jordan felt completely at home in nature.",
@@ -228,10 +242,12 @@ const content = [
     title: "Urban Exploration",
     messages: [
       {
+        id: "wsdf",
         role: "user",
         content: "Riley discovers hidden gems in the heart of the city.",
       },
       {
+        id: "wsdf",
         role: "assistant",
         content:
           "Riley wandered through narrow alleys lined with graffiti and murals that told stories of the city's vibrant culture. Each turn revealed a new secret—a tucked-away café, a rooftop garden bursting with life, and whispers of history echoing off old brick walls. The urban labyrinth offered surprises at every corner, turning a simple walk into an adventure of discovery and wonder.",
@@ -251,7 +267,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col  max-w-[715px] w-screen">
             {content.map((c) => (
               <div className="p-[10px] hover:bg-lightGray rounded-lg dark:hover:bg-darkMainSurfaceSecondary border-b border-borderColor dark:border-darkBorderColor">
-                <div className="flex flex-col h-auto overflow-hidden cursor-pointer">
+                <div className="flex flex-col h-auto overflow-y-hidden cursor-pointer">
                   <Link to={"/" + c.type + "/" + c.threadId}>
                     <div className="font-bold mb-[10px] text-lg">{c.title}</div>
                     {c.type === "story" &&
@@ -259,7 +275,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                         message.role === "user" ? (
                           <div
                             className="flex flex-row justify-end mb-[10px]"
-                            key={message.content ?? idx}
+                            key={message.id}
                           >
                             <div
                               className={clsx(
@@ -270,7 +286,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                             </div>
                           </div>
                         ) : (
-                          <div className="" key={message.content}>
+                          <div className="" key={message.id}>
                             <Markdown>{message.content}</Markdown>
                           </div>
                         )
@@ -309,7 +325,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                             message.role === "user" ? (
                               <div
                                 className="flex flex-row justify-end mb-[10px]"
-                                key={message.content ?? idx}
+                                key={message.id}
                               >
                                 <div
                                   className={clsx(
@@ -320,7 +336,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                                 </div>
                               </div>
                             ) : (
-                              <div className="" key={message.content}>
+                              <div className="" key={message.id}>
                                 <Markdown>{message.content}</Markdown>
                               </div>
                             )
