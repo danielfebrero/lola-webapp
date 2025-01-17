@@ -5,7 +5,7 @@ import clsx from "clsx";
 import Loading from "../Loading";
 
 interface ChatProps {
-  type: "character" | "story" | "game" | "lola";
+  type?: "character" | "story" | "game" | "lola";
   id?: string | null;
   chatLog?: Message[];
   isChatLoading: boolean;

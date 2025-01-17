@@ -57,12 +57,20 @@ const App: React.FC = () => {
             <Init />
             <Routes>
               {/* Landing Page without layout */}
-              <Route path="/" element={<LandingPage />} />
 
-              <Route path="/18" element={<LandingPage />} />
+              {/* <Route path="/" element={<LandingPage />} /> */}
+              {/* <Route path="/18" element={<LandingPage />} /> */}
 
               {/* All other routes with MainLayout */}
               <Route element={<MainLayout />}>
+                <Route
+                  path="/"
+                  element={<Navigate to="/explore/latest" replace={true} />}
+                />
+                <Route
+                  path="/18"
+                  element={<Navigate to="/explore/latest" replace={true} />}
+                />
                 <Route path="/login/silent-renew" element={<SilentRenew />} />
                 <Route path="/login/success" element={<LoginSuccess />} />
                 <Route
