@@ -484,6 +484,26 @@ export default function useWebSocket({
     );
   };
 
+  const getExploreLatest = () => {
+    socketConnection?.send(
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "exploreLatest",
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
+  const getExploreBest = () => {
+    socketConnection?.send(
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "exploreBest",
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
   return {
     sendMessage,
     initData,
@@ -497,6 +517,8 @@ export default function useWebSocket({
     getStory,
     setSettings,
     getSettings,
+    getExploreBest,
+    getExploreLatest,
     socketConnection,
   };
 }

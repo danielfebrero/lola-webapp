@@ -60,8 +60,10 @@ const Header: React.FC = () => {
       ? setHeaderLabel("Story")
       : location.pathname.indexOf("/lola") === 0
       ? setHeaderLabel("Lola")
-      : location.pathname.indexOf("/explore") === 0
-      ? setHeaderLabel("Explore")
+      : location.pathname.indexOf("/explore/best") === 0
+      ? setHeaderLabel(t("Best content"))
+      : location.pathname.indexOf("/explore/latest") === 0
+      ? setHeaderLabel(t("Latest"))
       : setHeaderLabel("Story");
     setModeDropdownOpen(false);
   }, [location]);

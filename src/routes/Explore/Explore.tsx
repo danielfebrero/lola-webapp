@@ -7,6 +7,8 @@ import JSONToText from "../../components/JSONToText";
 import Meta from "../../components/Meta";
 import UpvoteIcon from "../../icons/upvote";
 import DownvoteIcon from "../../icons/downvote";
+import useWebSocket from "../../hooks/useWebSocket";
+import { useEffect } from "react";
 
 interface ExplorePageProps {
   type: string;
@@ -258,6 +260,11 @@ const content = [
 
 const ExplorePage: React.FC<ExplorePageProps> = (props) => {
   const { t } = useTranslation();
+  const { getExploreBest, getExploreLatest } = useWebSocket({});
+
+  useEffect(() => {
+    props.type === "best" ? getExploreBest() : getExploreLatest();
+  }, [getExploreBest, getExploreLatest, props.type]);
 
   return (
     <>
@@ -271,7 +278,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                   <Link to={"/" + c.type + "/" + c.threadId}>
                     <div className="font-bold mb-[10px] text-lg">{c.title}</div>
                     {c.type === "story" &&
-                      c.messages?.map((message, idx) =>
+                      c.messages?.map((message) =>
                         message.role === "user" ? (
                           <div
                             className="flex flex-row justify-end mb-[10px]"
@@ -304,16 +311,6 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                               alt={c.character?.json.name}
                               className={clsx("rounded-full object-cover")}
                               src={c.character?.imagesMultisize[0].large}
-                            />
-                          ) : null}
-                          {c.character?.images &&
-                          c.character?.images.length > 0 &&
-                          (!c.character?.imagesMultisize ||
-                            c.character?.imagesMultisize.length === 0) ? (
-                            <img
-                              alt={c.character?.json.name}
-                              className={clsx("rounded-full object-cover")}
-                              src={c.character?.images[0]}
                             />
                           ) : null}
                         </div>
