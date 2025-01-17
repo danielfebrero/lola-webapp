@@ -50,10 +50,10 @@ export default function useWebSocket({
         switch (data.action) {
           case "fetch":
             switch (data.type) {
-              case "exploreLatest":
+              case "explore_latest":
                 dispatch(setExploreLatest(data.data));
                 break;
-              case "exploreBest":
+              case "explore_best":
                 dispatch(setExploreBest(data.data));
                 break;
               case "settings":
@@ -496,7 +496,7 @@ export default function useWebSocket({
     socketConnection?.send(
       JSON.stringify({
         action: "fetchData",
-        endpoint: "exploreLatest",
+        endpoint: "explore_latest",
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -506,7 +506,7 @@ export default function useWebSocket({
     socketConnection?.send(
       JSON.stringify({
         action: "fetchData",
-        endpoint: "exploreBest",
+        endpoint: "explore_best",
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );

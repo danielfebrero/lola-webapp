@@ -24,8 +24,8 @@ interface AppState {
   stories: Story[];
   languages: Record<string, string>;
   explore: {
-    latest: { chatLog: ChatLog; character?: Character }[];
-    best: { chatLog: ChatLog; character?: Character }[];
+    latest: { thread: ChatLog; character?: Character }[];
+    best: { thread: ChatLog; character?: Character }[];
   };
 }
 

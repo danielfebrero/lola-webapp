@@ -18,11 +18,13 @@ interface ExplorePageProps {
 const ExplorePage: React.FC<ExplorePageProps> = (props) => {
   const { t } = useTranslation();
   const { getExploreBest, getExploreLatest } = useWebSocket({});
-  const { explore } = useAppSelector((state) => state.app);
+  const { explore, socketConnection } = useAppSelector((state) => state.app);
 
   useEffect(() => {
-    props.type === "best" ? getExploreBest() : getExploreLatest();
-  }, [getExploreBest, getExploreLatest, props.type]);
+    if (socketConnection?.readyState === socketConnection?.OPEN) {
+      props.type === "best" ? getExploreBest() : getExploreLatest();
+    }
+  }, [socketConnection]);
 
   return (
     <>
@@ -34,12 +36,12 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
               (c) => (
                 <div className="p-[10px] hover:bg-lightGray rounded-lg dark:hover:bg-darkMainSurfaceSecondary border-b border-borderColor dark:border-darkBorderColor">
                   <div className="flex flex-col h-auto overflow-y-hidden cursor-pointer">
-                    <Link to={"/" + c.chatLog.type + "/" + c.chatLog.threadId}>
+                    <Link to={"/" + c.thread.type + "/" + c.thread.threadId}>
                       <div className="font-bold mb-[10px] text-lg">
-                        {c.chatLog.title}
+                        {c.thread.title}
                       </div>
-                      {c.chatLog.type === "story" &&
-                        c.chatLog.chatLog?.map((message) =>
+                      {c.thread.type === "story" &&
+                        c.thread.chatLog?.map((message) =>
                           message.role === "user" ? (
                             <div
                               className="flex flex-row justify-end mb-[10px]"
@@ -59,7 +61,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                             </div>
                           )
                         )}
-                      {c.chatLog.type === "character" && (
+                      {c.thread.type === "character" && (
                         <div className="flex flex-row">
                           <div
                             className={clsx(
@@ -79,7 +81,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                             <JSONToText data={c.character?.json ?? {}} />
                           </div>
                           <div className="hidden md:block">
-                            {c.chatLog.chatLog?.map((message, idx) =>
+                            {c.thread.chatLog?.map((message, idx) =>
                               message.role === "user" ? (
                                 <div
                                   className="flex flex-row justify-end mb-[10px]"
