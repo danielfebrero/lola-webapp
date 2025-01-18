@@ -131,7 +131,7 @@ const LeftPanel: React.FC = () => {
           className="h-auto w-[calc(100%+20px)] mb-[60px] flex flex-col overflow-y-scroll overflow-x-clip pb-[20px] ml-[-10px] mr-[-10px] no-scrollbar"
         >
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
-            <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
+            {/* <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>{t("Explore")}</div>
             </div>
             <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
@@ -144,7 +144,7 @@ const LeftPanel: React.FC = () => {
               >
                 <div className="truncate">{t("Latest")}</div>
               </NavLink>
-            </div>
+            </div> */}
             {/* <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
               <NavLink
                 to={`/explore/best`}
