@@ -58,8 +58,8 @@ const App: React.FC = () => {
             <Routes>
               {/* Landing Page without layout */}
 
-              <Route path="/" element={<LandingPage />} /> */}
-              {/* <Route path="/18" element={<LandingPage />} />
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/18" element={<LandingPage />} />
 
               {/* All other routes with MainLayout */}
               <Route element={<MainLayout />}>
