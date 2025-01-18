@@ -22,9 +22,14 @@ import {
   setExploreLatest,
   setExploreBest,
 } from "../store/features/app/appSlice";
-import { setSettings as setSettingsAction } from "../store/features/user/userSlice";
+import {
+  setClickedDownvotes,
+  setClickedUpvotes,
+  setSettings as setSettingsAction,
+} from "../store/features/user/userSlice";
 import useGA from "./useGA";
 import useNewChatLocation from "./useNewChatLocation";
+import { set } from "lodash";
 
 export default function useWebSocket({
   setThreadId,
@@ -50,6 +55,10 @@ export default function useWebSocket({
         switch (data.action) {
           case "fetch":
             switch (data.type) {
+              case "clicked_votes":
+                dispatch(setClickedUpvotes(data.data.upvotes));
+                dispatch(setClickedDownvotes(data.data.downvotes));
+                break;
               case "explore_latest":
                 dispatch(setExploreLatest(data.data));
                 break;
@@ -536,6 +545,16 @@ export default function useWebSocket({
     );
   };
 
+  const getClickedVotes = () => {
+    socketConnection?.send(
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "clicked_votes",
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
   return {
     sendMessage,
     initData,
@@ -553,6 +572,7 @@ export default function useWebSocket({
     getExploreLatest,
     upvote,
     downvote,
+    getClickedVotes,
     socketConnection,
   };
 }

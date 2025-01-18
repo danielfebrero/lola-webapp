@@ -21,9 +21,13 @@ interface ExplorePageProps {
 
 const ExplorePage: React.FC<ExplorePageProps> = (props) => {
   const { t } = useTranslation();
-  const { getExploreBest, getExploreLatest, upvote, downvote } = useWebSocket(
-    {}
-  );
+  const {
+    getExploreBest,
+    getExploreLatest,
+    upvote,
+    downvote,
+    getClickedVotes,
+  } = useWebSocket({});
   const { explore, socketConnection } = useAppSelector((state) => state.app);
   const { clickedUpvotes, clickedDownvotes } = useAppSelector(
     (state) => state.user
@@ -37,6 +41,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
   useEffect(() => {
     if (socketConnection?.readyState === socketConnection?.OPEN) {
       props.type === "best" ? getExploreBest() : getExploreLatest();
+      getClickedVotes();
     }
   }, [socketConnection]);
 
@@ -154,7 +159,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                         className={clsx(
                           {
                             "dark:bg-darkMainSurfacePrimary bg-white":
-                              clickedUpvotes.includes(c.thread.threadId),
+                              stateClickedUpvotes.includes(c.thread.threadId),
                           },
                           "cursor-pointer w-[30px] h-[30px] hover:dark:bg-darkMainSurfacePrimary hover:bg-white p-[5px] rounded-full"
                         )}
@@ -186,7 +191,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                         className={clsx(
                           {
                             "dark:bg-darkMainSurfacePrimary bg-white":
-                              clickedDownvotes.includes(c.thread.threadId),
+                              stateClickedDownvotes.includes(c.thread.threadId),
                           },
                           "cursor-pointer w-[30px] h-[30px] hover:dark:bg-darkMainSurfacePrimary hover:bg-white p-[5px] rounded-full"
                         )}
