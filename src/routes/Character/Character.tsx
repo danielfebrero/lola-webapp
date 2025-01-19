@@ -84,8 +84,6 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     setSelectedRightViewType(viewType);
   };
 
-  useEffect(() => {}, [chatState]);
-
   useEffect(() => {
     if (
       params.characterId &&
@@ -209,12 +207,14 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 type="character"
                 id={threadId}
                 isChatInputAvailable={
-                  chatState?.isOwner
-                    ? chatState?.isInputAvailable ?? true
-                    : false
+                  chatState && !chatState?.isOwner
+                    ? false
+                    : chatState?.isInputAvailable ?? true
                 }
                 canSendMessage={
-                  chatState?.isOwner ? chatState?.canSendMessage ?? true : false
+                  chatState && !chatState?.isOwner
+                    ? false
+                    : chatState?.canSendMessage ?? true
                 }
                 onSend={(message) => sendMessageToCharacter(message, threadId)}
               />
@@ -272,14 +272,14 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                       type="character"
                       id={threadId}
                       isChatInputAvailable={
-                        chatState?.isOwner
-                          ? chatState?.isInputAvailable ?? true
-                          : false
+                        chatState && !chatState?.isOwner
+                          ? false
+                          : chatState?.isInputAvailable ?? true
                       }
                       canSendMessage={
-                        chatState?.isOwner
-                          ? chatState?.canSendMessage ?? true
-                          : false
+                        chatState && !chatState?.isOwner
+                          ? false
+                          : chatState?.canSendMessage ?? true
                       }
                       onSend={(message) =>
                         sendMessageToCharacter(message, threadId)
