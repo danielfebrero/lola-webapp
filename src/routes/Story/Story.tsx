@@ -141,7 +141,8 @@ const Storypage: React.FC = () => {
               isChatLoading={chatState?.isLoading ?? false}
             />
           </div>
-          {(chatState?.canSendMessage ?? true) &&
+          {chatState?.isOwner &&
+            (chatState?.canSendMessage ?? true) &&
             chatState?.state !== "partial" &&
             chatState?.state !== "init" && (
               <div className="flex w-full justify-center">
