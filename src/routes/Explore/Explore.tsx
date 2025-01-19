@@ -31,9 +31,10 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
     upvote,
     downvote,
     getClickedVotes,
+    socketConnection,
   } = useWebSocket({});
   const [searchParams] = useSearchParams();
-  const { explore, socketConnection } = useAppSelector((state) => state.app);
+  const { explore } = useAppSelector((state) => state.app);
   const { clickedUpvotes, clickedDownvotes } = useAppSelector(
     (state) => state.user
   );
