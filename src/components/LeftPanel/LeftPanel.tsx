@@ -131,7 +131,7 @@ const LeftPanel: React.FC = () => {
           className="h-auto w-[calc(100%+20px)] mb-[60px] flex flex-col overflow-y-scroll overflow-x-clip pb-[20px] ml-[-10px] mr-[-10px] no-scrollbar"
         >
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
-            {/* <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
+            <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>{t("Explore")}</div>
             </div>
             <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
@@ -144,7 +144,7 @@ const LeftPanel: React.FC = () => {
               >
                 <div className="truncate">{t("Latest")}</div>
               </NavLink>
-            </div> */}
+            </div>
             {/* <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
               <NavLink
                 to={`/explore/best`}
@@ -161,7 +161,8 @@ const LeftPanel: React.FC = () => {
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>{t("Characters")}</div>
 
-              {chatLogs.filter((log) => log.type === "character").length > 0 ? (
+              {chatLogs.filter((log) => log.type === "character" && log.isOwner)
+                .length > 0 ? (
                 <NavLink
                   to="/character/new"
                   onClick={() => {
@@ -178,8 +179,9 @@ const LeftPanel: React.FC = () => {
             </div>
             {isDataLoadingLeftPanel.includes("threads") ? (
               <Loading />
-            ) : chatLogs.filter((log) => log.type === "character").length ===
-              0 ? (
+            ) : chatLogs.filter(
+                (log) => log.type === "character" && log.isOwner
+              ).length === 0 ? (
               <NavLink
                 to="/character/new"
                 onClick={() => {
@@ -196,7 +198,7 @@ const LeftPanel: React.FC = () => {
               </NavLink>
             ) : (
               chatLogs
-                .filter((log) => log.type === "character")
+                .filter((log) => log.type === "character" && log.isOwner)
                 .map((char) => (
                   <div
                     key={char.threadId}
@@ -429,7 +431,8 @@ const LeftPanel: React.FC = () => {
               <div className="font-bold h-[40px] content-center">
                 {t("Stories")}
               </div>
-              {chatLogs.filter((log) => log.type === "story").length > 0 ? (
+              {chatLogs.filter((log) => log.type === "story" && log.isOwner)
+                .length > 0 ? (
                 <NavLink
                   to="/story/new"
                   onClick={() => {
@@ -446,7 +449,8 @@ const LeftPanel: React.FC = () => {
             </div>
             {isDataLoadingLeftPanel.includes("threads") ? (
               <Loading />
-            ) : chatLogs.filter((log) => log.type === "story").length === 0 ? (
+            ) : chatLogs.filter((log) => log.type === "story" && log.isOwner)
+                .length === 0 ? (
               <NavLink
                 to="/story/new"
                 onClick={() => {
@@ -463,7 +467,7 @@ const LeftPanel: React.FC = () => {
               </NavLink>
             ) : (
               chatLogs
-                .filter((log) => log.type === "story")
+                .filter((log) => log.type === "story" && log.isOwner)
                 .map((story) => (
                   <div
                     key={story.threadId}

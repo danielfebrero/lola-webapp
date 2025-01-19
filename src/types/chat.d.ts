@@ -18,4 +18,5 @@ interface ChatLog {
   canSendMessage?: boolean;
   state?: string;
   votes: number;
+  isOwner: boolean;
 }

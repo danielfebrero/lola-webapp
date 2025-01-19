@@ -236,6 +236,7 @@ export default function useWebSocket({
                     isInputAvailable: true,
                     isLoading: false,
                     type: data.feature_type,
+                    isOwner: data.isOwner,
                   })
                 );
                 break;

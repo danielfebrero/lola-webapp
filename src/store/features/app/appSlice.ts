@@ -211,6 +211,7 @@ export const appSlice = createSlice({
         currentLog.isBeingDeleted =
           action.payload.isBeingDeleted ?? currentLog.isBeingDeleted;
         currentLog.state = action.payload.state ?? currentLog.state;
+        currentLog.isOwner = action.payload.isOwner ?? currentLog.isOwner;
       } else {
         state.chatLogs.unshift({
           threadId: action.payload.threadId,
@@ -221,6 +222,7 @@ export const appSlice = createSlice({
           isLoading: action.payload.isLoading,
           state: action.payload.state,
           votes: 0,
+          isOwner: action.payload.isOwner ?? true,
         });
       }
     },
