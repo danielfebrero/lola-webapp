@@ -69,7 +69,9 @@ const App: React.FC = () => {
                 />
                 <Route
                   path="/18"
-                  element={<Navigate to="/explore/latest" replace={true} />}
+                  element={
+                    <Navigate to="/explore/latest?adult=1" replace={true} />
+                  }
                 />
                 <Route path="/login/silent-renew" element={<SilentRenew />} />
                 <Route path="/login/success" element={<LoginSuccess />} />

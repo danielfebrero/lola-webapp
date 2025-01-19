@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import Markdown from "markdown-to-jsx";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 
 import JSONToText from "../../components/JSONToText";
 import Meta from "../../components/Meta";
@@ -12,6 +12,7 @@ import useWebSocket from "../../hooks/useWebSocket";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import {
   downvoteExplore,
+  setMode,
   upvoteExplore,
 } from "../../store/features/app/appSlice";
 import useGA from "../../hooks/useGA";
@@ -31,6 +32,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
     downvote,
     getClickedVotes,
   } = useWebSocket({});
+  const [searchParams] = useSearchParams();
   const { explore, socketConnection } = useAppSelector((state) => state.app);
   const { clickedUpvotes, clickedDownvotes } = useAppSelector(
     (state) => state.user
@@ -40,6 +42,10 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
     []
   );
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (searchParams.get("adult") === "1") dispatch(setMode("adult"));
+  }, [searchParams]);
 
   useEffect(() => {
     if (socketConnection?.readyState === socketConnection?.OPEN) {
