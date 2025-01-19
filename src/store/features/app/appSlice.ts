@@ -24,8 +24,8 @@ interface AppState {
   stories: Story[];
   languages: Record<string, string>;
   explore: {
-    latest: { thread: ChatLog; character?: Character }[];
-    best: { thread: ChatLog; character?: Character }[];
+    latest: { thread: ChatLog; character?: Character; story?: Story }[];
+    best: { thread: ChatLog; character?: Character; story?: Story }[];
   };
 }
 
@@ -136,8 +136,9 @@ export const appSlice = createSlice({
         (story) => story.threadId === action.payload.threadId
       );
       if (currentStory) {
-        currentStory.imagesSearch =
-          action.payload.image_search_results ?? currentStory.imagesSearch;
+        currentStory.image_search_results =
+          action.payload.image_search_results ??
+          currentStory.image_search_results;
         currentStory.characters =
           action.payload.characters ?? currentStory.characters;
         currentStory.isImageSearchProcessing =
@@ -147,7 +148,7 @@ export const appSlice = createSlice({
       } else {
         state.stories.push({
           threadId: action.payload.threadId,
-          imagesSearch: action.payload.image_search_results,
+          image_search_results: action.payload.image_search_results,
           characters: action.payload.characters,
           context: action.payload.context,
           isImageSearchProcessing: action.payload.isImageSearchProcessing,

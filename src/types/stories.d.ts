@@ -6,7 +6,7 @@ interface ImageSearch {
 
 interface Story {
   threadId: string;
-  imagesSearch: ImageSearch[];
+  image_search_results: ImageSearch[];
   characters: string[];
   context: string;
   isImageSearchProcessing?: boolean;

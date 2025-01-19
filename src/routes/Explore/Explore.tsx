@@ -15,6 +15,7 @@ import {
   upvoteExplore,
 } from "../../store/features/app/appSlice";
 import useGA from "../../hooks/useGA";
+import ImageViewer from "../../components/ImageViewer/ImageViewer";
 
 interface ExplorePageProps {
   type: string;
@@ -69,6 +70,15 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                       <div className="font-bold mb-[10px] text-lg">
                         {c.thread.title}
                       </div>
+                    </Link>
+                    {c.thread.type === "story" &&
+                      c.story?.image_search_results &&
+                      c.story.image_search_results.length > 0 && (
+                        <div className="flex flex-row overflow-y-scroll">
+                          <ImageViewer images={c.story.image_search_results} />
+                        </div>
+                      )}
+                    <Link to={"/" + c.thread.type + "/" + c.thread.threadId}>
                       {c.thread.type === "story" &&
                         c.thread.chatLog?.slice(0, 2).map((message) =>
                           message.role === "user" ? (
