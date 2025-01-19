@@ -191,22 +191,6 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     <>
       <Meta title={character.json?.name ?? t("Character")} />
       <div className="grow pl-5 pr-5 pt-2.5 md:pb-5 pb-[10px] flex flex-row overflow-y-scroll no-scrollbar">
-        {/* {isSmallScreen && !isLeftPanelOpen && (
-          <div className="fixed grid grid-cols-2 items-center text-textSecondary dark:text-darkTextSecondary w-full justify-center">
-            <div
-              className="h-[24px] w-[24px]"
-              onClick={() => setMobileView("chat")}
-            >
-              <ChatIcon />
-            </div>
-            <div
-              className="h-[24px] w-[24px] "
-              onClick={() => setMobileView("report")}
-            >
-              <ExploreIcon />
-            </div>
-          </div>
-        )} */}
         {!isSmallScreen && (
           <div className="grow md:border-r-2 md:border-borderColor dark:md:border-darkBorderColor md:w-1/2 md:pr-5 flex flex-col h-full overflow-y-scroll no-scrollbar">
             <div
@@ -224,8 +208,14 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
               <SendChatInput
                 type="character"
                 id={threadId}
-                isChatInputAvailable={chatState?.isInputAvailable ?? true}
-                canSendMessage={chatState?.canSendMessage ?? true}
+                isChatInputAvailable={
+                  chatState?.isOwner
+                    ? chatState?.isInputAvailable ?? true
+                    : false
+                }
+                canSendMessage={
+                  chatState?.isOwner ? chatState?.canSendMessage ?? true : false
+                }
                 onSend={(message) => sendMessageToCharacter(message, threadId)}
               />
             </div>
