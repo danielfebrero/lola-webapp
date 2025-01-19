@@ -94,7 +94,7 @@ const Init: React.FC = () => {
       dispatch(
         setIsDataLoadingLeftPanel(["characters", "threads", "settings"])
       );
-      if (location.pathname !== "/character/new") navigate("/character/new");
+      navigate("/");
     }
   }, [mode, prevMode, location.pathname]);
 
