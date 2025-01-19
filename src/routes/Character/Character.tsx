@@ -84,6 +84,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     setSelectedRightViewType(viewType);
   };
 
+  useEffect(() => {}, [chatState]);
+
   useEffect(() => {
     if (
       params.characterId &&
@@ -166,18 +168,6 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       setThreadId(null);
     };
   }, []);
-
-  // useEffect(() => {
-  //   // const mainId =
-  //   //   chatLogs.filter((log) => log.type === "character")[0]?.threadId ?? null;
-  //   // if (props.selected?.type === "main" && mainId && threadId !== mainId) {
-  //   //   navigate("/character/" + mainId);
-  //   // }
-
-  //   if (props.selected?.type === "main") {
-  //     navigate("/character/new");
-  //   }
-  // }, [props.selected, chatLogs]);
 
   useEffect(() => {
     dispatch(
