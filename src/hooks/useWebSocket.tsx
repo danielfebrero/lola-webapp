@@ -38,9 +38,9 @@ export default function useWebSocket({
 }) {
   const auth = useAuth();
   const newChatLocation = useNewChatLocation();
-  const { socketConnection, currentlyViewing, mode } = useAppSelector(
-    (state) => state.app
-  );
+  const { currentlyViewing, mode } = useAppSelector((state) => state.app);
+  const { socketConnection } = useAppSelector((state) => state.socket);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { sendEvent } = useGA();

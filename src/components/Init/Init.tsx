@@ -7,7 +7,6 @@ import { useUserLog } from "@userlog/next";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
-  setSocketConnection,
   setIsDataLoaded,
   setIsSmallScreen,
   toggleLoginModal,
@@ -15,6 +14,7 @@ import {
   setIsDataLoading,
   setIsDataLoadingLeftPanel,
 } from "../../store/features/app/appSlice";
+import { setSocketConnection } from "../../store/features/socket/socketSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 
 const WEBSOCKET_URL =
@@ -29,7 +29,6 @@ const Init: React.FC = () => {
   const dispatch = useAppDispatch();
   const auth = useAuth();
   const {
-    socketConnection,
     isDataLoaded,
     messagesSent,
     isSmallScreen,
@@ -37,6 +36,7 @@ const Init: React.FC = () => {
     prevMode,
     isDataLoading,
   } = useAppSelector((state) => state.app);
+  const { socketConnection } = useAppSelector((state) => state.socket);
   const { setUserId } = useUserLog();
   const { settings } = useAppSelector((state) => state.user);
   const { initData } = useWebSocket({});

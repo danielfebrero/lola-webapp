@@ -13,7 +13,6 @@ interface AppState {
     objectType: string;
     objectId: string | null;
   };
-  socketConnection: WebSocket | null;
   chatLogs: ChatLog[];
   isDataLoaded: boolean;
   isDataLoading: string[];
@@ -42,7 +41,6 @@ const initialState: AppState = {
     objectType: "",
     objectId: "",
   },
-  socketConnection: null,
   chatLogs: [],
   isDataLoaded: false,
   isDataLoading: [],
@@ -127,9 +125,6 @@ export const appSlice = createSlice({
     },
     setCurrentlyViewing: (state, action) => {
       state.currentlyViewing = action.payload;
-    },
-    setSocketConnection: (state, action) => {
-      state.socketConnection = action.payload;
     },
     setStory: (state, action) => {
       const currentStory = state.stories.find(
@@ -358,7 +353,6 @@ export const {
   toggleSettings,
   toggleLoginModal,
   setCurrentlyViewing,
-  setSocketConnection,
   setThreadTitle,
   setChatLogs,
   setChatLog,
