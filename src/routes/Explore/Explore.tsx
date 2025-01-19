@@ -43,7 +43,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
       props.type === "best" ? getExploreBest() : getExploreLatest();
       getClickedVotes();
     }
-  }, [socketConnection]);
+  }, [socketConnection, props.type]);
 
   useEffect(() => {
     setStateClickedDownvotes(clickedDownvotes);

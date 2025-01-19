@@ -16,7 +16,6 @@ import useClickOutside from "../../hooks/useClickOutside";
 import useGA from "../../hooks/useGA";
 import AdultIcon from "../../icons/adult";
 import Loading from "../Loading";
-import HomeEmptyIcon from "../../icons/homeEmpty";
 
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -145,7 +144,7 @@ const LeftPanel: React.FC = () => {
                 <div className="truncate">{t("Latest")}</div>
               </NavLink>
             </div>
-            {/* <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+            <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
               <NavLink
                 to={`/explore/best`}
                 className="h-full grow flex items-center w-[calc(100%-40px)]"
@@ -155,7 +154,7 @@ const LeftPanel: React.FC = () => {
               >
                 <div className="truncate">{t("Best content")}</div>
               </NavLink>
-            </div> */}
+            </div>
           </div>
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
