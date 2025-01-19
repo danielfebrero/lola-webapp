@@ -291,8 +291,16 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                     <SendChatInput
                       type="character"
                       id={threadId}
-                      isChatInputAvailable={chatState?.isInputAvailable ?? true}
-                      canSendMessage={chatState?.canSendMessage ?? true}
+                      isChatInputAvailable={
+                        chatState?.isOwner
+                          ? chatState?.isInputAvailable ?? true
+                          : false
+                      }
+                      canSendMessage={
+                        chatState?.isOwner
+                          ? chatState?.canSendMessage ?? true
+                          : false
+                      }
                       onSend={(message) =>
                         sendMessageToCharacter(message, threadId)
                       }

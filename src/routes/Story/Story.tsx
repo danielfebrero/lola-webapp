@@ -163,8 +163,14 @@ const Storypage: React.FC = () => {
               <SendChatInput
                 type="story"
                 onSend={(message) => sendMessage(message, "story", threadId)}
-                canSendMessage={chatState?.canSendMessage ?? true}
-                isChatInputAvailable={chatState?.isInputAvailable ?? true}
+                canSendMessage={
+                  chatState?.isOwner ? chatState?.canSendMessage ?? true : false
+                }
+                isChatInputAvailable={
+                  chatState?.isOwner
+                    ? chatState?.isInputAvailable ?? true
+                    : false
+                }
               />
             </div>
           </div>
