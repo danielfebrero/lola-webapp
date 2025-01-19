@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import CheckIcon from "../../icons/check";
 import useClickOutside from "../../hooks/useClickOutside";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setExploreLanguage } from "../../store/features/app/appSlice";
 
 interface ExploreLanguageDropdownProps {
@@ -29,7 +29,7 @@ const languages = {
 const ExploreLanguageDropdown: React.FC<ExploreLanguageDropdownProps> = (
   props
 ) => {
-  const location = useLocation();
+  const { exploreLanguage } = useAppSelector((state) => state.app);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -53,7 +53,7 @@ const ExploreLanguageDropdown: React.FC<ExploreLanguageDropdownProps> = (
           <div>
             <div>{t(languages[ln as "fr"])}</div>
           </div>
-          {location.pathname.indexOf("/character") === 0 && (
+          {exploreLanguage === ln && (
             <div className="h-[20px] w-[20px]">
               <CheckIcon />
             </div>
