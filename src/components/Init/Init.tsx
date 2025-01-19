@@ -136,11 +136,6 @@ const Init: React.FC = () => {
   }, [settings.language]);
 
   useEffect(() => {
-    console.log({
-      locale,
-      asPath,
-      path: location.pathname,
-    });
     if (
       locale &&
       location.pathname !== asPath &&

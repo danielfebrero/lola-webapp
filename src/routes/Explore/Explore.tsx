@@ -14,12 +14,14 @@ import {
   downvoteExplore,
   upvoteExplore,
 } from "../../store/features/app/appSlice";
+import useGA from "../../hooks/useGA";
 
 interface ExplorePageProps {
   type: string;
 }
 
 const ExplorePage: React.FC<ExplorePageProps> = (props) => {
+  const { sendEvent } = useGA();
   const { t } = useTranslation();
   const {
     getExploreBest,
@@ -141,6 +143,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                             !stateClickedUpvotes.includes(c.thread.threadId)
                           ) {
                             upvote(c.thread.threadId);
+                            sendEvent("upvote", "explore");
                             dispatch(upvoteExplore(c.thread.threadId));
                             setStateClickedUpvotes((prev) => [
                               ...prev,
@@ -173,6 +176,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                             !stateClickedDownvotes.includes(c.thread.threadId)
                           ) {
                             downvote(c.thread.threadId);
+                            sendEvent("downvote", "explore");
                             dispatch(downvoteExplore(c.thread.threadId));
                             setStateClickedDownvotes((prev) => [
                               ...prev,

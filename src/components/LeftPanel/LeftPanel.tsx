@@ -137,9 +137,11 @@ const LeftPanel: React.FC = () => {
               <NavLink
                 to={`/explore/latest`}
                 className="h-full grow flex items-center w-[calc(100%-40px)]"
-                onClick={
-                  isSmallScreen ? () => dispatch(toggleLeftPanel()) : undefined
-                }
+                onClick={() => {
+                  if (isSmallScreen && isLeftPanelOpen)
+                    dispatch(toggleLeftPanel());
+                  sendEvent("click_latest_from_left_panel");
+                }}
               >
                 <div className="truncate">{t("Latest")}</div>
               </NavLink>
@@ -148,9 +150,11 @@ const LeftPanel: React.FC = () => {
               <NavLink
                 to={`/explore/best`}
                 className="h-full grow flex items-center w-[calc(100%-40px)]"
-                onClick={
-                  isSmallScreen ? () => dispatch(toggleLeftPanel()) : undefined
-                }
+                onClick={() => {
+                  if (isSmallScreen && isLeftPanelOpen)
+                    dispatch(toggleLeftPanel());
+                  sendEvent("click_best_from_left_panel");
+                }}
               >
                 <div className="truncate">{t("Best content")}</div>
               </NavLink>

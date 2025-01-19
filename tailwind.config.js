@@ -4,6 +4,9 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      transitionProperty: {
+        left: "left",
+      },
       colors: {
         lightGray: "#f9f9f9",
         textPrimary: "#0d0d0d",
