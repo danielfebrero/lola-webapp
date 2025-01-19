@@ -156,7 +156,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
                                 </div>
                               </div>
                               <div className="max-w-[715px] flex flex-row">
-                                <div className="flex-shrink-0 mr-[20px]">
+                                <div className="flex-shrink-0 mr-[20px] max-w-[300px]">
                                   <JSONToText data={c.character?.json ?? {}} />
                                 </div>
                                 <div className="hidden md:block max-w-[715px]">
