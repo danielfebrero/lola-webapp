@@ -269,6 +269,7 @@ export const appSlice = createSlice({
           type: action.payload.type,
           title: `New ${action.payload.type}`,
           votes: 0,
+          isOwner: true,
         });
       }
     },
