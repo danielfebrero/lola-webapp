@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import ReactGA from "react-ga4";
@@ -20,10 +21,10 @@ import NewStoryPage from "./routes/NewStory";
 import NewGamePage from "./routes/NewGame";
 import LoginSuccess from "./routes/LoginSuccess";
 import SilentRenew from "./routes/SilentRenew";
-import LandingPage from "./routes/Landing";
+// import LandingPage from "./routes/Landing";
 import ExplorePage from "./routes/Explore";
 
-import { store } from "./store/store";
+import { store, persistor } from "./store/store";
 
 import "./i18n";
 
@@ -47,63 +48,65 @@ const App: React.FC = () => {
   return (
     <AuthProvider {...cognitoAuthConfig}>
       <Provider store={store}>
-        <UserLogProvider
-          api_key={"JwhVr4bpczMbGntosgQkjduKjQU37hYV"}
-          project={"Lola.la"}
-        >
-          <BrowserRouter>
-            <Analytics />
-            <SpeedInsights />
-            <Init />
-            <Routes>
-              {/* Landing Page without layout */}
+        <PersistGate loading={null} persistor={persistor}>
+          <UserLogProvider
+            api_key={"JwhVr4bpczMbGntosgQkjduKjQU37hYV"}
+            project={"Lola.la"}
+          >
+            <BrowserRouter>
+              <Analytics />
+              <SpeedInsights />
+              <Init />
+              <Routes>
+                {/* Landing Page without layout */}
 
-              {/* <Route path="/" element={<LandingPage />} />
+                {/* <Route path="/" element={<LandingPage />} />
               <Route path="/18" element={<LandingPage />} /> */}
 
-              {/* All other routes with MainLayout */}
-              <Route element={<MainLayout />}>
-                <Route
-                  path="/"
-                  element={<Navigate to="/explore/latest" replace={true} />}
-                />
-                <Route
-                  path="/18"
-                  element={
-                    <Navigate to="/explore/latest?adult=1" replace={true} />
-                  }
-                />
-                <Route path="/login/silent-renew" element={<SilentRenew />} />
-                <Route path="/login/success" element={<LoginSuccess />} />
-                <Route
-                  path="/explore/latest"
-                  element={<ExplorePage type="latest" />}
-                />
-                <Route
-                  path="/explore/best"
-                  element={<ExplorePage type="best" />}
-                />
-                <Route
-                  path="/character/main"
-                  element={<CharacterPage selected={{ type: "main" }} />}
-                />
-                <Route
-                  path="/character/:characterId"
-                  element={<CharacterPage />}
-                />
-                <Route path="/game" element={<GamePage />} />
-                <Route path="/game/new" element={<NewGamePage />} />
-                <Route path="/game/:gameId" element={<GamePage />} />
-                <Route path="/story/:storyId" element={<StoryPage />} />
-                <Route path="/story/new" element={<NewStoryPage />} />
-                <Route path="/lola/:conversationId" element={<LolaPage />} />
-                <Route path="/lola/new" element={<LolaPage />} />
-              </Route>
+                {/* All other routes with MainLayout */}
+                <Route element={<MainLayout />}>
+                  <Route
+                    path="/"
+                    element={<Navigate to="/explore/latest" replace={true} />}
+                  />
+                  <Route
+                    path="/18"
+                    element={
+                      <Navigate to="/explore/latest?adult=1" replace={true} />
+                    }
+                  />
+                  <Route path="/login/silent-renew" element={<SilentRenew />} />
+                  <Route path="/login/success" element={<LoginSuccess />} />
+                  <Route
+                    path="/explore/latest"
+                    element={<ExplorePage type="latest" />}
+                  />
+                  <Route
+                    path="/explore/best"
+                    element={<ExplorePage type="best" />}
+                  />
+                  <Route
+                    path="/character/main"
+                    element={<CharacterPage selected={{ type: "main" }} />}
+                  />
+                  <Route
+                    path="/character/:characterId"
+                    element={<CharacterPage />}
+                  />
+                  <Route path="/game" element={<GamePage />} />
+                  <Route path="/game/new" element={<NewGamePage />} />
+                  <Route path="/game/:gameId" element={<GamePage />} />
+                  <Route path="/story/:storyId" element={<StoryPage />} />
+                  <Route path="/story/new" element={<NewStoryPage />} />
+                  <Route path="/lola/:conversationId" element={<LolaPage />} />
+                  <Route path="/lola/new" element={<LolaPage />} />
+                </Route>
 
-              <Route path="*" element={<Navigate to="/" replace={true} />} />
-            </Routes>
-          </BrowserRouter>
-        </UserLogProvider>
+                <Route path="*" element={<Navigate to="/" replace={true} />} />
+              </Routes>
+            </BrowserRouter>
+          </UserLogProvider>
+        </PersistGate>
       </Provider>
     </AuthProvider>
   );
