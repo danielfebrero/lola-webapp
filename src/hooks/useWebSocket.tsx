@@ -29,7 +29,6 @@ import {
 } from "../store/features/user/userSlice";
 import useGA from "./useGA";
 import useNewChatLocation from "./useNewChatLocation";
-import { set } from "lodash";
 
 export default function useWebSocket({
   setThreadId,
@@ -38,7 +37,9 @@ export default function useWebSocket({
 }) {
   const auth = useAuth();
   const newChatLocation = useNewChatLocation();
-  const { currentlyViewing, mode } = useAppSelector((state) => state.app);
+  const { currentlyViewing, mode, exploreLanguage } = useAppSelector(
+    (state) => state.app
+  );
   const { socketConnection } = useAppSelector((state) => state.socket);
 
   const dispatch = useAppDispatch();
@@ -508,6 +509,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "explore_latest",
         mode,
+        language: exploreLanguage,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -519,6 +521,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "explore_best",
         mode,
+        language: exploreLanguage,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );

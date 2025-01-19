@@ -26,6 +26,7 @@ interface AppState {
     latest: { thread: ChatLog; character?: Character; story?: Story }[];
     best: { thread: ChatLog; character?: Character; story?: Story }[];
   };
+  exploreLanguage: string;
 }
 
 // Define the initial state using that type
@@ -66,12 +67,16 @@ const initialState: AppState = {
     latest: [],
     best: [],
   },
+  exploreLanguage: "all",
 };
 
 export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    setExploreLanguage: (state, action) => {
+      state.exploreLanguage = action.payload;
+    },
     setExploreLatest: (state, action) => {
       state.explore.latest = action.payload;
     },
@@ -375,6 +380,7 @@ export const {
   setExploreLatest,
   upvoteExplore,
   downvoteExplore,
+  setExploreLanguage,
 } = appSlice.actions;
 
 export default appSlice.reducer;

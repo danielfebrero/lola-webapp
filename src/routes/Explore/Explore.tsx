@@ -34,7 +34,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
     socketConnection,
   } = useWebSocket({});
   const [searchParams] = useSearchParams();
-  const { explore } = useAppSelector((state) => state.app);
+  const { explore, exploreLanguage } = useAppSelector((state) => state.app);
   const { clickedUpvotes, clickedDownvotes } = useAppSelector(
     (state) => state.user
   );
@@ -53,7 +53,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
       props.type === "best" ? getExploreBest() : getExploreLatest();
       getClickedVotes();
     }
-  }, [socketConnection, props.type]);
+  }, [socketConnection, props.type, exploreLanguage]);
 
   useEffect(() => {
     setStateClickedDownvotes(clickedDownvotes);

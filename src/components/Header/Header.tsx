@@ -13,19 +13,45 @@ import NewChatIcon from "../../icons/newChat";
 import { toggleLeftPanel } from "../../store/features/app/appSlice";
 import useNewChatLocation from "../../hooks/useNewChatLocation";
 import useGA from "../../hooks/useGA";
+import ExploreLanguageDropdown from "../ExploreLanguageDropdown";
+import { l } from "react-router/dist/development/fog-of-war-DU_DzpDb";
 // import ShareIcon from "../../icons/share";
+
+const languages = {
+  all: "all languages",
+  ar: "in Arabic",
+  de: "in German",
+  en: "in English",
+  es: "in Spanish",
+  fr: "in French",
+  hi: "in Hindi",
+  ja: "in Japanese",
+  pt: "in Portuguese",
+  ru: "in Russian",
+  sv: "in Swedish",
+  tr: "in Turkish",
+  uk: "in Ukrainian",
+};
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const [modeDropdownOpen, setModeDropdownOpen] = useState(false);
+  const [exploreLanguageDropdownOpen, setExploreLanguageDropdownOpen] =
+    useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [headerLabel, setHeaderLabel] = useState("Main character");
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const isLeftPanelOpen = useAppSelector((state) => state.app.isLeftPanelOpen);
+  const { isLeftPanelOpen, exploreLanguage } = useAppSelector(
+    (state) => state.app
+  );
   const newChatLocation = useNewChatLocation();
   const { sendEvent } = useGA();
+
+  const toggleExploreLanguageDropdown = () => {
+    setExploreLanguageDropdownOpen((prev) => !prev);
+  };
 
   const toggleModeDropdown = () => {
     setModeDropdownOpen((prev) => !prev);
@@ -96,9 +122,27 @@ const Header: React.FC = () => {
               <ChevronDown />
             </div>
           </div>
+          {location.pathname.indexOf("/explore") === 0 && (
+            <div
+              className="h-[40px] items-center flex flex-row cursor-pointer ml-[10px]"
+              onClick={toggleExploreLanguageDropdown}
+            >
+              <span className="font-bold">
+                {t(languages[exploreLanguage as "fr"])}
+              </span>
+              <div className="h-[24px] w-[24px]">
+                <ChevronDown />
+              </div>
+            </div>
+          )}
         </div>
         <div className={clsx({ hidden: !modeDropdownOpen })}>
           <ModeDropdown hide={() => setModeDropdownOpen(false)} />
+        </div>
+        <div className={clsx({ hidden: !exploreLanguageDropdownOpen })}>
+          <ExploreLanguageDropdown
+            hide={() => setExploreLanguageDropdownOpen(false)}
+          />
         </div>
       </div>
       <div className="flex flex-row">

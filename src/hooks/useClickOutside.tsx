@@ -9,7 +9,7 @@ function useClickOutside<T extends HTMLDivElement>(
     function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
         callback();
-        event.stopImmediatePropagation();
+        // event.stopImmediatePropagation();
       }
     }
 
