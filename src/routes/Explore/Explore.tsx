@@ -68,89 +68,102 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
       <Meta title={t(props.type === "best" ? "Best content" : "Latest")} />
       <div className="grow pt-2.5 pb-5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-110px)] items-center">
-          <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col  max-w-[715px] w-screen">
+          <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col w-full items-center">
             {(props.type === "best" ? explore.best : explore.latest).map(
               (c) => (
-                <div className="p-[10px] hover:bg-lightGray rounded-lg dark:hover:bg-darkMainSurfaceSecondary border-b border-borderColor dark:border-darkBorderColor">
+                <div
+                  className={clsx(
+                    "p-[10px] hover:bg-lightGray rounded-lg dark:hover:bg-darkMainSurfaceSecondary border-b border-borderColor dark:border-darkBorderColor"
+                  )}
+                >
                   <div className="flex flex-col h-auto overflow-y-hidden cursor-pointer">
                     <Link to={"/" + c.thread.type + "/" + c.thread.threadId}>
                       <div className="font-bold mb-[10px] text-lg">
                         {c.thread.title}
                       </div>
                     </Link>
-                    {c.thread.type === "story" &&
-                      c.story?.image_search_results &&
-                      c.story.image_search_results.length > 0 && (
-                        <div className="flex flex-row overflow-y-scroll mb-[10px]">
-                          <ImageViewer images={c.story.image_search_results} />
-                        </div>
-                      )}
-                    <Link to={"/" + c.thread.type + "/" + c.thread.threadId}>
+                    ,
+                    <div
+                      className={clsx({
+                        "max-w-[715px]": c.thread.type === "story",
+                      })}
+                    >
                       {c.thread.type === "story" &&
-                        c.thread.chatLog?.slice(0, 2).map((message) =>
-                          message.role === "user" ? (
-                            <div
-                              className="flex flex-row justify-end mb-[10px]"
-                              key={message.id}
-                            >
-                              <div
-                                className={clsx(
-                                  "bg-messageBackground dark:bg-darkMessageBackground rounded-lg p-[10px]"
-                                )}
-                              >
-                                <Markdown>{message.content}</Markdown>
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="" key={message.id}>
-                              <Markdown>{message.content}</Markdown>
-                            </div>
-                          )
+                        c.story?.image_search_results &&
+                        c.story.image_search_results.length > 0 && (
+                          <div className="flex flex-row overflow-y-scroll mb-[10px]">
+                            <ImageViewer
+                              images={c.story.image_search_results}
+                            />
+                          </div>
                         )}
-                      {c.thread.type === "character" && (
-                        <div className="flex flex-row">
-                          <div
-                            className={clsx(
-                              "h-[120px] w-[120px] rounded-full bg-slate-200 items-center flex flex-shrink-0"
-                            )}
-                          >
-                            {c.character?.imagesMultisize &&
-                            c.character?.imagesMultisize.length > 0 ? (
-                              <img
-                                alt={c.character?.json?.name}
-                                className={clsx("rounded-full object-cover")}
-                                src={c.character?.imagesMultisize[0].large}
-                              />
-                            ) : null}
-                          </div>
-                          <div className="flex-shrink-0 mr-[20px] md:max-w-[200px]">
-                            <JSONToText data={c.character?.json ?? {}} />
-                          </div>
-                          <div className="hidden md:block">
-                            {c.thread.chatLog?.slice(-2).map((message, idx) =>
-                              message.role === "user" ? (
+                      <Link to={"/" + c.thread.type + "/" + c.thread.threadId}>
+                        {c.thread.type === "story" &&
+                          c.thread.chatLog?.slice(0, 2).map((message) =>
+                            message.role === "user" ? (
+                              <div
+                                className="flex flex-row justify-end mb-[10px]"
+                                key={message.id}
+                              >
                                 <div
-                                  className="flex flex-row justify-end mb-[10px]"
-                                  key={message.id}
+                                  className={clsx(
+                                    "bg-messageBackground dark:bg-darkMessageBackground rounded-lg p-[10px]"
+                                  )}
                                 >
-                                  <div
-                                    className={clsx(
-                                      "bg-messageBackground dark:bg-darkMessageBackground rounded-lg p-[10px]"
-                                    )}
-                                  >
-                                    <Markdown>{message.content}</Markdown>
-                                  </div>
-                                </div>
-                              ) : (
-                                <div className="" key={message.id}>
                                   <Markdown>{message.content}</Markdown>
                                 </div>
-                              )
-                            )}
+                              </div>
+                            ) : (
+                              <div className="" key={message.id}>
+                                <Markdown>{message.content}</Markdown>
+                              </div>
+                            )
+                          )}
+                        {c.thread.type === "character" && (
+                          <div className="flex flex-row">
+                            <div
+                              className={clsx(
+                                "h-[120px] w-[120px] rounded-full bg-slate-200 items-center flex flex-shrink-0"
+                              )}
+                            >
+                              {c.character?.imagesMultisize &&
+                              c.character?.imagesMultisize.length > 0 ? (
+                                <img
+                                  alt={c.character?.json?.name}
+                                  className={clsx("rounded-full object-cover")}
+                                  src={c.character?.imagesMultisize[0].large}
+                                />
+                              ) : null}
+                            </div>
+                            <div className="flex-shrink-0 mr-[20px] md:max-w-[200px]">
+                              <JSONToText data={c.character?.json ?? {}} />
+                            </div>
+                            <div className="hidden md:block">
+                              {c.thread.chatLog?.slice(-2).map((message, idx) =>
+                                message.role === "user" ? (
+                                  <div
+                                    className="flex flex-row justify-end mb-[10px]"
+                                    key={message.id}
+                                  >
+                                    <div
+                                      className={clsx(
+                                        "bg-messageBackground dark:bg-darkMessageBackground rounded-lg p-[10px]"
+                                      )}
+                                    >
+                                      <Markdown>{message.content}</Markdown>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="" key={message.id}>
+                                    <Markdown>{message.content}</Markdown>
+                                  </div>
+                                )
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </Link>
+                        )}
+                      </Link>
+                    </div>
                   </div>
                   <div className="flex flex-row mt-[10px]">
                     <div className="flex flex-row rounded-lg dark:bg-darkMainSurcaceTertiary bg-gray-200 items-center">
