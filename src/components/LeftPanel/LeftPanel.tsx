@@ -542,7 +542,7 @@ const LeftPanel: React.FC = () => {
 
           if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
         }}
-        className="fixed bottom-[30px] left-[10px] pl-[10px] dark:text-pink-200 text-rose-600 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[230px] py-[10px] rounded-lg"
+        className="fixed bottom-[10px] left-[10px] pl-[10px] dark:text-pink-200 text-rose-600 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[230px] py-[10px] rounded-lg"
       >
         <div className="">
           {t(mode === "minor" ? "Enter Lola" : "Exit Lola")}
