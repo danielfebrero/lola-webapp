@@ -41,7 +41,7 @@ const ExploreLanguageDropdown: React.FC<ExploreLanguageDropdownProps> = (
   return (
     <div
       ref={ref}
-      className="max-h-[calc(100%-100px)] overflow-y-scroll noscrollbar rounded-lg border dark:border-darkBorderLight border-borderLight shadow pl-[5px] pr-[5px] pt-[5px] pb-[5px] w-fit absolute z-10 bg-white dark:bg-darkMainSurfaceSecondary min-w-[320px]"
+      className="max-h-[calc(100%-100px)] overflow-y-scroll no-scrollbar rounded-lg border dark:border-darkBorderLight border-borderLight shadow pl-[5px] pr-[5px] pt-[5px] pb-[5px] w-fit absolute z-10 bg-white dark:bg-darkMainSurfaceSecondary min-w-[320px]"
     >
       {Object.keys(languages).map((ln) => (
         <div
