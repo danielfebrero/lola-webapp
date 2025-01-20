@@ -8,15 +8,17 @@ import JSONToText from "../../components/JSONToText";
 const AnalyticsPage: React.FC = () => {
   const params = useParams();
 
-  const { getAdminAnalytics } = useWebSocket({});
+  const { getAdminAnalytics, socketConnection } = useWebSocket({});
 
   const analytics = useAppSelector((state) => state.analytics);
 
   useEffect(() => {
-    if (params.type === "admin") {
-      getAdminAnalytics();
+    if (socketConnection?.readyState === socketConnection?.OPEN) {
+      if (params.type === "admin") {
+        getAdminAnalytics();
+      }
     }
-  }, [params.type]);
+  }, [params.type, socketConnection]);
   return (
     <>
       <JSONToText data={analytics} />
