@@ -6,21 +6,16 @@ interface OverlayProps {
 }
 
 const Overlay: React.FC<OverlayProps> = (props) => {
-  const { isSettingsOpen, isLoginModalOpen, isSmallScreen, isLeftPanelOpen } =
-    useAppSelector((state) => state.app);
+  const { isSettingsOpen, isSmallScreen, isLeftPanelOpen } = useAppSelector(
+    (state) => state.app
+  );
 
   return (
     <div
       className={clsx(
         {
-          "w-0":
-            !isSettingsOpen &&
-            !isLoginModalOpen &&
-            !(isSmallScreen && isLeftPanelOpen),
-          "w-screen":
-            isSettingsOpen ||
-            isLoginModalOpen ||
-            (isSmallScreen && isLeftPanelOpen),
+          "w-0": !isSettingsOpen && !(isSmallScreen && isLeftPanelOpen),
+          "w-screen": isSettingsOpen || (isSmallScreen && isLeftPanelOpen),
           "left-[260px]": isSmallScreen && isLeftPanelOpen,
           "left-0": !(isSmallScreen && isLeftPanelOpen),
         },
