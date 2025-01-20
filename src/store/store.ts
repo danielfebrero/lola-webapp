@@ -6,6 +6,7 @@ import appReducer from "./features/app/appSlice";
 import gamesReducer from "./features/games/gamesSlice";
 import userReducer from "./features/user/userSlice";
 import socketReducer from "./features/socket/socketSlice";
+import analyticsReducer from "./features/analytics/analyticsSlice";
 
 // Create the root reducer
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   games: gamesReducer,
   user: userReducer,
   socket: socketReducer,
+  analytics: analyticsReducer,
 });
 
 // Configure persistence options

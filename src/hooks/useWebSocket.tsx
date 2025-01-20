@@ -27,6 +27,7 @@ import {
   setClickedUpvotes,
   setSettings as setSettingsAction,
 } from "../store/features/user/userSlice";
+import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
 import useGA from "./useGA";
 import useNewChatLocation from "./useNewChatLocation";
 
@@ -56,6 +57,9 @@ export default function useWebSocket({
         switch (data.action) {
           case "fetch":
             switch (data.type) {
+              case "analytics_admin":
+                dispatch(setAdminAnalytics(data.data));
+                break;
               case "clicked_votes":
                 dispatch(setClickedUpvotes(data.data.upvotes));
                 dispatch(setClickedDownvotes(data.data.downvotes));
@@ -559,6 +563,16 @@ export default function useWebSocket({
     );
   };
 
+  const getAdminAnalytics = () => {
+    socketConnection?.send(
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "analytics_admin",
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
   return {
     sendMessage,
     initData,
@@ -577,6 +591,7 @@ export default function useWebSocket({
     upvote,
     downvote,
     getClickedVotes,
+    getAdminAnalytics,
     socketConnection,
   };
 }

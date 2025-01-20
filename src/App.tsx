@@ -22,6 +22,7 @@ import NewGamePage from "./routes/NewGame";
 import LoginSuccess from "./routes/LoginSuccess";
 import SilentRenew from "./routes/SilentRenew";
 // import LandingPage from "./routes/Landing";
+import AnalyticsPage from "./routes/Analytics";
 import ExplorePage from "./routes/Explore";
 
 import { store, persistor } from "./store/store";
@@ -77,14 +78,7 @@ const App: React.FC = () => {
                   />
                   <Route path="/login/silent-renew" element={<SilentRenew />} />
                   <Route path="/login/success" element={<LoginSuccess />} />
-                  <Route
-                    path="/explore/latest"
-                    element={<ExplorePage type="latest" />}
-                  />
-                  <Route
-                    path="/explore/best"
-                    element={<ExplorePage type="best" />}
-                  />
+                  <Route path="/explore/:type" element={<ExplorePage />} />
                   <Route
                     path="/character/main"
                     element={<CharacterPage selected={{ type: "main" }} />}
@@ -100,6 +94,7 @@ const App: React.FC = () => {
                   <Route path="/story/new" element={<NewStoryPage />} />
                   <Route path="/lola/:conversationId" element={<LolaPage />} />
                   <Route path="/lola/new" element={<LolaPage />} />
+                  <Route path="/analytics/:type" element={<AnalyticsPage />} />
                 </Route>
 
                 <Route path="*" element={<Navigate to="/" replace={true} />} />

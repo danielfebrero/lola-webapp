@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import Markdown from "markdown-to-jsx";
-import { Link, useSearchParams } from "react-router";
+import { Link, useSearchParams, useParams } from "react-router";
 
 import JSONToText from "../../components/JSONToText";
 import Meta from "../../components/Meta";
@@ -18,11 +18,7 @@ import {
 import useGA from "../../hooks/useGA";
 import ImageViewer from "../../components/ImageViewer/ImageViewer";
 
-interface ExplorePageProps {
-  type: string;
-}
-
-const ExplorePage: React.FC<ExplorePageProps> = (props) => {
+const ExplorePage: React.FC = (props) => {
   const { sendEvent } = useGA();
   const { t } = useTranslation();
   const {
@@ -34,6 +30,7 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
     socketConnection,
   } = useWebSocket({});
   const [searchParams] = useSearchParams();
+  const params = useParams();
   const { explore, exploreLanguage, isLeftPanelOpen } = useAppSelector(
     (state) => state.app
   );
@@ -67,11 +64,11 @@ const ExplorePage: React.FC<ExplorePageProps> = (props) => {
 
   return (
     <>
-      <Meta title={t(props.type === "best" ? "Best content" : "Latest")} />
+      <Meta title={t(params.type === "best" ? "Best content" : "Latest")} />
       <div className="grow pt-2.5 pb-5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-110px)] items-center">
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col w-full items-center">
-            {(props.type === "best" ? explore.best : explore.latest).map(
+            {(params.type === "best" ? explore.best : explore.latest).map(
               (c) => (
                 <div
                   className={clsx(
