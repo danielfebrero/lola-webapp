@@ -49,20 +49,7 @@ const initialState: AppState = {
   characters: [],
   games: [],
   stories: [],
-  languages: {
-    ar: "العربية",
-    de: "Deutsch",
-    en: "English",
-    es: "Español",
-    fr: "Français",
-    hi: "हिन्दी",
-    ja: "日本語",
-    pt: "Português",
-    ru: "Русский",
-    sv: "Svenska",
-    tr: "Türkçe",
-    uk: "Українська",
-  },
+  languages: {},
   explore: {
     latest: [],
     best: [],
@@ -74,6 +61,9 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    setLanguages: (state, action) => {
+      state.languages = action.payload;
+    },
     setExploreLanguage: (state, action) => {
       state.exploreLanguage = action.payload;
     },
@@ -381,6 +371,7 @@ export const {
   upvoteExplore,
   downvoteExplore,
   setExploreLanguage,
+  setLanguages,
 } = appSlice.actions;
 
 export default appSlice.reducer;

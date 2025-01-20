@@ -13,6 +13,7 @@ import {
   setPrevMode,
   setIsDataLoading,
   setIsDataLoadingLeftPanel,
+  setLanguages,
 } from "../../store/features/app/appSlice";
 import { setSocketConnection } from "../../store/features/socket/socketSlice";
 import useWebSocket from "../../hooks/useWebSocket";
@@ -79,6 +80,26 @@ const Init: React.FC = () => {
       console.error("Max reconnection attempts reached. Giving up.");
     }
   };
+
+  useEffect(() => {
+    dispatch(
+      setLanguages({
+        ar: "العربية",
+        de: "Deutsch",
+        en: "English",
+        es: "Español",
+        fr: "Français",
+        hi: "हिन्दी",
+        it: "Italiano",
+        ja: "日本語",
+        pt: "Português",
+        ru: "Русский",
+        sv: "Svenska",
+        tr: "Türkçe",
+        uk: "Українська",
+      })
+    );
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {

@@ -31,6 +31,7 @@ const languages = {
   sv: "in Swedish",
   tr: "in Turkish",
   uk: "in Ukrainian",
+  it: "in Italian",
 };
 
 const Header: React.FC = () => {

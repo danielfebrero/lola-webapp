@@ -23,6 +23,8 @@ const Settings: React.FC = () => {
     return null;
   }
 
+  console.log({ languages });
+
   return (
     <div
       className={clsx(
