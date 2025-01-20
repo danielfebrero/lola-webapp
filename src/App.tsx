@@ -24,6 +24,7 @@ import SilentRenew from "./routes/SilentRenew";
 // import LandingPage from "./routes/Landing";
 import AnalyticsPage from "./routes/Analytics";
 import ExplorePage from "./routes/Explore";
+import ExploreImagesPage from "./routes/ExploreImages";
 
 import { store, persistor } from "./store/store";
 
@@ -78,6 +79,10 @@ const App: React.FC = () => {
                   />
                   <Route path="/login/silent-renew" element={<SilentRenew />} />
                   <Route path="/login/success" element={<LoginSuccess />} />
+                  <Route
+                    path="/explore/images"
+                    element={<ExploreImagesPage />}
+                  />
                   <Route path="/explore/:type" element={<ExplorePage />} />
                   <Route
                     path="/character/main"

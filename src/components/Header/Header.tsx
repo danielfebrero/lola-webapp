@@ -91,6 +91,8 @@ const Header: React.FC = () => {
       ? setHeaderLabel(t("Best content"))
       : location.pathname.indexOf("/explore/latest") === 0
       ? setHeaderLabel(t("Latest"))
+      : location.pathname.indexOf("/explore/images") === 0
+      ? setHeaderLabel(t("Images"))
       : setHeaderLabel("Story");
     setModeDropdownOpen(false);
   }, [location]);
@@ -123,7 +125,8 @@ const Header: React.FC = () => {
               <ChevronDown />
             </div>
           </div>
-          {location.pathname.indexOf("/explore") === 0 && (
+          {(location.pathname.indexOf("/explore/best") === 0 ||
+            location.pathname.indexOf("/explore/latest") === 0) && (
             <div
               className="h-[40px] items-center flex flex-row cursor-pointer ml-[10px]"
               onClick={toggleExploreLanguageDropdown}
@@ -147,19 +150,6 @@ const Header: React.FC = () => {
         </div>
       </div>
       <div className="flex flex-row">
-        {/* {currentlyViewing.objectId &&
-        currentlyViewing.objectType === "story" ? (
-          <div>
-            <button className="pl-[10px] pr-[10px] p-[5px] border border-borderColor rounded-full mr-[20px] hover:bg-lightGray">
-              <div className="flex flex-row items-center">
-                <div className="h-[20px] w-[20px] mr-[10px]">
-                  <ShareIcon />
-                </div>
-                <span>{t("Share")}</span>
-              </div>
-            </button>
-          </div>
-        ) : null} */}
         <div
           className="bg-sky-700 rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer justify-center flex items-center"
           onClick={toggleProfileDropdown}
