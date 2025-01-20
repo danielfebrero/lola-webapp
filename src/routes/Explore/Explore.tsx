@@ -49,10 +49,10 @@ const ExplorePage: React.FC = (props) => {
 
   useEffect(() => {
     if (socketConnection?.readyState === socketConnection?.OPEN) {
-      props.type === "best" ? getExploreBest() : getExploreLatest();
+      params.type === "best" ? getExploreBest() : getExploreLatest();
       getClickedVotes();
     }
-  }, [socketConnection, props.type, exploreLanguage]);
+  }, [socketConnection, params.type, exploreLanguage]);
 
   useEffect(() => {
     setStateClickedDownvotes(clickedDownvotes);
