@@ -135,6 +135,19 @@ const LeftPanel: React.FC = () => {
             </div>
             <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
               <NavLink
+                to={`/explore/images`}
+                className="h-full grow flex items-center w-[calc(100%-40px)]"
+                onClick={() => {
+                  if (isSmallScreen && isLeftPanelOpen)
+                    dispatch(toggleLeftPanel());
+                  sendEvent("click_images_from_left_panel");
+                }}
+              >
+                <div className="truncate">{t("Images")}</div>
+              </NavLink>
+            </div>
+            <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+              <NavLink
                 to={`/explore/latest`}
                 className="h-full grow flex items-center w-[calc(100%-40px)]"
                 onClick={() => {
