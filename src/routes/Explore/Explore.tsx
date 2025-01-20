@@ -199,7 +199,7 @@ const ExplorePage: React.FC = (props) => {
                                 !stateClickedUpvotes.includes(c.thread.threadId)
                               ) {
                                 upvote(c.thread.threadId);
-                                sendEvent("upvote", "explore");
+                                sendEvent("add_upvote", "explore");
                                 dispatch(upvoteExplore(c.thread.threadId));
                                 setStateClickedUpvotes((prev) => [
                                   ...prev,
@@ -240,7 +240,7 @@ const ExplorePage: React.FC = (props) => {
                                 )
                               ) {
                                 downvote(c.thread.threadId);
-                                sendEvent("downvote", "explore");
+                                sendEvent("add_downvote", "explore");
                                 dispatch(downvoteExplore(c.thread.threadId));
                                 setStateClickedDownvotes((prev) => [
                                   ...prev,
