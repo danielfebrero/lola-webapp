@@ -94,7 +94,7 @@ const Storypage: React.FC = () => {
                   !story?.image_search_results ||
                   story?.image_search_results?.length === 0,
               },
-              "transition-all duration-500 pl-[40px] pr-[40px] mb-[10px] flex overflow-x-auto space-x-4 snap-x no-scrollbar"
+              "transition-all duration-500 pl-[40px] pr-[40px] mb-[10px]"
             )}
           >
             {story?.image_search_results && (

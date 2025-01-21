@@ -93,11 +93,7 @@ const ExplorePage: React.FC = (props) => {
                       {c.thread.type === "story" &&
                         c.story?.image_search_results &&
                         c.story.image_search_results.length > 0 && (
-                          <div className="flex flex-row overflow-y-scroll mb-[10px]">
-                            <ImageViewer
-                              images={c.story.image_search_results}
-                            />
-                          </div>
+                          <ImageViewer images={c.story.image_search_results} />
                         )}
                       <Link to={"/" + c.thread.type + "/" + c.thread.threadId}>
                         {c.thread.type === "story" &&
