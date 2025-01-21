@@ -21,6 +21,7 @@ import {
   removeIsFromDataLoading,
   setExploreLatest,
   setExploreBest,
+  setExploreImages,
 } from "../store/features/app/appSlice";
 import {
   setClickedDownvotes,
@@ -63,6 +64,9 @@ export default function useWebSocket({
               case "clicked_votes":
                 dispatch(setClickedUpvotes(data.data.upvotes));
                 dispatch(setClickedDownvotes(data.data.downvotes));
+                break;
+              case "explore_images":
+                dispatch(setExploreImages(data.data));
                 break;
               case "explore_latest":
                 dispatch(setExploreLatest(data.data));
@@ -531,6 +535,17 @@ export default function useWebSocket({
     );
   };
 
+  const getExploreImages = () => {
+    socketConnection?.send(
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "explore_images",
+        mode,
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
   const upvote = (threadId: string) => {
     socketConnection?.send(
       JSON.stringify({
@@ -588,6 +603,7 @@ export default function useWebSocket({
     getSettings,
     getExploreBest,
     getExploreLatest,
+    getExploreImages,
     upvote,
     downvote,
     getClickedVotes,

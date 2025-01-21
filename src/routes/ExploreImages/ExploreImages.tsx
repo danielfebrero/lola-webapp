@@ -1,30 +1,24 @@
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import clsx from "clsx";
 
 import CloseIcon from "../../icons/close";
 import Meta from "../../components/Meta";
-import clsx from "clsx";
-
-const images = () => {
-  let res = [];
-  for (let i = 0; i < 100; i++)
-    res.push({
-      original:
-        "https://lola-ai-generated-images-prod.s3.amazonaws.com/images/4caa45c1-91b3-45d2-9e11-e634aaa3d4ff.png",
-      large:
-        "https://lola-ai-generated-images-prod.s3.amazonaws.com/images/f71efee2-e0e7-41fa-8831-625c986ad4a0.png",
-      medium:
-        "https://lola-ai-generated-images-prod.s3.amazonaws.com/images/3f6cc54f-00db-4962-9052-114d468314ea.png",
-      small:
-        "https://lola-ai-generated-images-prod.s3.amazonaws.com/images/6eb4beb1-5bbf-46e6-99d1-c90cf0c6557f.png",
-    });
-
-  return res;
-};
+import useWebSocket from "../../hooks/useWebSocket";
+import { useAppSelector } from "../../store/hooks";
 
 const ExploreImagesPage: React.FC = (props) => {
   const { t } = useTranslation();
   const [imageViewing, setImageViewing] = useState<string | null>(null);
+  const { explore } = useAppSelector((state) => state.app);
+
+  const { getExploreImages, socketConnection } = useWebSocket({});
+
+  useEffect(() => {
+    if (socketConnection?.readyState === socketConnection?.OPEN) {
+      getExploreImages();
+    }
+  }, [socketConnection?.readyState]);
 
   return (
     <>
@@ -53,7 +47,7 @@ const ExploreImagesPage: React.FC = (props) => {
         <div className="grow flex flex-col h-[calc(100vh-110px)] items-center">
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col w-full items-center">
             <div className="grid md:grid-cols-5 grid grid-cols-3 gap-4">
-              {images().map((i) => (
+              {explore.images?.map((i) => (
                 <div
                   className="w-full cursor-pointer"
                   onClick={() => setImageViewing(i.original)}

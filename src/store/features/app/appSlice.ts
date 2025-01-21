@@ -25,6 +25,7 @@ interface AppState {
   explore: {
     latest: { thread: ChatLog; character?: Character; story?: Story }[];
     best: { thread: ChatLog; character?: Character; story?: Story }[];
+    images: ImagesMultisize[];
   };
   exploreLanguage: string;
 }
@@ -53,6 +54,7 @@ const initialState: AppState = {
   explore: {
     latest: [],
     best: [],
+    images: [],
   },
   exploreLanguage: "all",
 };
@@ -63,6 +65,9 @@ export const appSlice = createSlice({
   reducers: {
     setLanguages: (state, action) => {
       state.languages = action.payload;
+    },
+    setExploreImages: (state, action) => {
+      state.explore.images = action.payload;
     },
     setExploreLanguage: (state, action) => {
       state.exploreLanguage = action.payload;
@@ -368,6 +373,7 @@ export const {
   setPrevMode,
   setExploreBest,
   setExploreLatest,
+  setExploreImages,
   upvoteExplore,
   downvoteExplore,
   setExploreLanguage,
