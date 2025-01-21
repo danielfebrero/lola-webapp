@@ -28,9 +28,25 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   };
 
   const handleSend = () => {
-    if (props.onSend && value.trim() !== "" && props.canSendMessage) {
-      props.onSend(value.trim());
+    const trimmedValue = value.trim();
+
+    if (props.onSend && trimmedValue !== "" && props.canSendMessage) {
+      // Use TextEncoder to compute the byte length of the message
+      const encoder = new TextEncoder();
+      const encodedMessage = encoder.encode(trimmedValue);
+
+      console.log({ length: encodedMessage.length, message: trimmedValue });
+
+      if (encodedMessage.length > 16384 / 2) {
+        // 16KB limit: 16384 bytes
+        console.error("Message exceeds the maximum size of 8KB.");
+        return;
+      }
+
+      // If within limit, send the message
+      props.onSend(trimmedValue);
       setValue("");
+
       if (textAreaRef.current) {
         textAreaRef.current.style.height = "24px";
       }

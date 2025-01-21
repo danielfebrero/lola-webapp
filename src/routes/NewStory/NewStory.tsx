@@ -32,6 +32,16 @@ const NewStoryPage: React.FC = () => {
   const { characters } = useAppSelector((state) => state.app);
 
   const createStory = () => {
+    const encoder = new TextEncoder();
+    const encodedMessage = encoder.encode(context);
+
+    console.log({ length: encodedMessage.length, message: context });
+
+    if (encodedMessage.length > 16384 / 2) {
+      // 16KB limit: 16384 bytes
+      console.error("Message exceeds the maximum size of 8KB.");
+      return;
+    }
     sendMessage(context, "story", null, { characters: selectedCharacters });
     setHasSentMessage(true);
   };
