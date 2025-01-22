@@ -139,8 +139,8 @@ const Init: React.FC = () => {
   }, [socketConnection, isDataLoaded, dispatch]);
 
   useEffect(() => {
+    dispatch(setIsDataLoaded(false));
     if (auth?.isAuthenticated) {
-      dispatch(setIsDataLoaded(false));
       setUserId(auth.user?.profile?.email ?? "auth_user_no_email");
     }
   }, [auth?.isAuthenticated, dispatch]);
