@@ -31,6 +31,7 @@ import {
 import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
 import useGA from "./useGA";
 import useNewChatLocation from "./useNewChatLocation";
+import useCookie from "./useCookie";
 
 export default function useWebSocket({
   setThreadId,
@@ -48,6 +49,7 @@ export default function useWebSocket({
   const navigate = useNavigate();
   const { sendEvent } = useGA();
   let [searchParams] = useSearchParams();
+  const cookie = useCookie();
 
   useEffect(() => {
     if (!socketConnection) return;
@@ -388,6 +390,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "threads",
         mode,
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -400,6 +403,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "messages",
         threadId,
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -412,6 +416,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "character",
         threadId,
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -424,6 +429,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "characters",
         mode,
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -436,6 +442,7 @@ export default function useWebSocket({
         action: "deleteData",
         endpoint: "character",
         threadId,
+        cookie,
         admin: searchParams.get("admin"),
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
@@ -449,6 +456,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "hero_actions",
         threadId,
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -461,6 +469,7 @@ export default function useWebSocket({
         action: "deleteData",
         endpoint: "you_are_the_hero",
         threadId,
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -473,6 +482,7 @@ export default function useWebSocket({
         action: "deleteData",
         endpoint: "story",
         threadId,
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -485,6 +495,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "story",
         threadId,
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -495,6 +506,7 @@ export default function useWebSocket({
       JSON.stringify({
         action: "fetchData",
         endpoint: "settings",
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -505,6 +517,7 @@ export default function useWebSocket({
       JSON.stringify({
         action: "setData",
         endpoint: "settings",
+        cookie,
         ...settings,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
@@ -517,6 +530,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "explore_latest",
         mode,
+        cookie,
         language: exploreLanguage,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
@@ -529,6 +543,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "explore_best",
         mode,
+        cookie,
         language: exploreLanguage,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
@@ -541,6 +556,7 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "explore_images",
         mode,
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -552,6 +568,7 @@ export default function useWebSocket({
         action: "setData",
         endpoint: "upvote",
         threadId,
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -563,6 +580,7 @@ export default function useWebSocket({
         action: "setData",
         endpoint: "downvote",
         threadId,
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -573,6 +591,7 @@ export default function useWebSocket({
       JSON.stringify({
         action: "fetchData",
         endpoint: "clicked_votes",
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
@@ -583,6 +602,7 @@ export default function useWebSocket({
       JSON.stringify({
         action: "fetchData",
         endpoint: "analytics_admin",
+        cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
     );
