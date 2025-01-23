@@ -1,6 +1,4 @@
-// src/hooks/useUserId.js
-
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Cookies from "js-cookie";
 import { v4 as uuidv4 } from "uuid";
 
@@ -12,9 +10,9 @@ import { v4 as uuidv4 } from "uuid";
  */
 const useCookie = () => {
   const COOKIE_NAME = "user_id";
-  const [userId, setUserId] = useState<string | null>(null);
 
-  useEffect(() => {
+  // Initialize userId state based on existing cookie or generate a new one
+  const [userId, setUserId] = useState<string>(() => {
     // Retrieve the user_id from cookies
     let existingUserId = Cookies.get(COOKIE_NAME);
 
@@ -35,8 +33,8 @@ const useCookie = () => {
       console.log("Existing user_id cookie found:", existingUserId);
     }
 
-    setUserId(existingUserId);
-  }, []);
+    return existingUserId;
+  });
 
   return userId;
 };
