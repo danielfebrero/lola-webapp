@@ -15,6 +15,7 @@ import OptionsDropdown from "../OptionsDropdown";
 import useClickOutside from "../../hooks/useClickOutside";
 import useGA from "../../hooks/useGA";
 import AdultIcon from "../../icons/adult";
+import TelegramIcon from "../../icons/telegram";
 import Loading from "../Loading";
 
 const LeftPanel: React.FC = () => {
@@ -555,7 +556,7 @@ const LeftPanel: React.FC = () => {
 
           if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
         }}
-        className="fixed bottom-[10px] left-[10px] pl-[10px] dark:text-pink-200 text-rose-600 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[230px] py-[10px] rounded-lg"
+        className="fixed bottom-[10px] left-[10px] pl-[10px] dark:text-pink-200 text-rose-600 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[180px] py-[10px] rounded-lg flex flex-row"
       >
         <div className="">
           {t(mode === "minor" ? "Enter Lola" : "Exit Lola")}
@@ -564,6 +565,13 @@ const LeftPanel: React.FC = () => {
           <AdultIcon />
         </div>
       </div>
+      <a href="https://t.me/lola_storyteller" target="_blank" rel="noreferrer">
+        <div className="fixed bottom-[10px] pl-[10px] left-[200px] w-[44px] py-[10px] rounded-lg flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[230px] flex flex-row">
+          <div className="w-[24px] h-[24px]">
+            <TelegramIcon />
+          </div>
+        </div>
+      </a>
     </div>
   );
 };
