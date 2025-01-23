@@ -1,10 +1,12 @@
 import { useAuth } from "react-oidc-context";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 
 import useClickOutside from "../../hooks/useClickOutside";
 import LogoutIcon from "../../icons/logout";
 import SettingsIcon from "../../icons/setting";
 import AdultIcon from "../../icons/adult";
+import PlanIcon from "../../icons/plan";
 import useGA from "../../hooks/useGA";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { toggleSettings, setMode } from "../../store/features/app/appSlice";
@@ -22,6 +24,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
   const { mode } = useAppSelector((state) => state.app);
   const { sendEvent } = useGA();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const signOutRedirect = () => {
     sendEvent("click_signout");
@@ -99,6 +102,18 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
           <SettingsIcon />
         </div>
         <div className="ml-[10px]">{t("Settings")}</div>
+      </div>
+      <div
+        className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
+        onClick={() => {
+          navigate("/pricing");
+          props.hide();
+        }}
+      >
+        <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
+          <PlanIcon />
+        </div>
+        <div className="ml-[10px]">{t("Plans")}</div>
       </div>
     </div>
   );

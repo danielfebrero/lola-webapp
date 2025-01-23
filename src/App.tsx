@@ -21,10 +21,10 @@ import NewStoryPage from "./routes/NewStory";
 import NewGamePage from "./routes/NewGame";
 import LoginSuccess from "./routes/LoginSuccess";
 import SilentRenew from "./routes/SilentRenew";
-// import LandingPage from "./routes/Landing";
 import AnalyticsPage from "./routes/Analytics";
 import ExplorePage from "./routes/Explore";
 import ExploreImagesPage from "./routes/ExploreImages";
+import PricingPage from "./routes/Pricing";
 
 import { store, persistor } from "./store/store";
 
@@ -60,12 +60,6 @@ const App: React.FC = () => {
               <SpeedInsights />
               <Init />
               <Routes>
-                {/* Landing Page without layout */}
-
-                {/* <Route path="/" element={<LandingPage />} />
-              <Route path="/18" element={<LandingPage />} /> */}
-
-                {/* All other routes with MainLayout */}
                 <Route element={<MainLayout />}>
                   <Route
                     path="/"
@@ -100,6 +94,7 @@ const App: React.FC = () => {
                   <Route path="/lola/:conversationId" element={<LolaPage />} />
                   <Route path="/lola/new" element={<LolaPage />} />
                   <Route path="/analytics/:type" element={<AnalyticsPage />} />
+                  <Route path="/pricing" element={<PricingPage />} />
                 </Route>
 
                 <Route path="*" element={<Navigate to="/" replace={true} />} />

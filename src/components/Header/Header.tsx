@@ -93,6 +93,8 @@ const Header: React.FC = () => {
       ? setHeaderLabel(t("Latest"))
       : location.pathname.indexOf("/explore/images") === 0
       ? setHeaderLabel(t("Images"))
+      : location.pathname.indexOf("/pricing") === 0
+      ? setHeaderLabel(t("Pricing"))
       : setHeaderLabel("Story");
     setModeDropdownOpen(false);
   }, [location]);
