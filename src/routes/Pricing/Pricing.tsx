@@ -1,9 +1,15 @@
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 import Meta from "../../components/Meta";
+import useWebSocket from "../../hooks/useWebSocket";
+import LoadingIcon from "../../icons/loading";
 
 const PricingPage: React.FC = () => {
+  const [hasClickedLifetime, setHasClickedLifettime] = useState<boolean>(false);
+  const [hasClicked1month, setHasClicked1month] = useState<boolean>(false);
   const { t } = useTranslation();
+  const { getCryptoCheckoutUrl } = useWebSocket({});
   return (
     <>
       <Meta title={t("Plans")} />
@@ -26,20 +32,46 @@ const PricingPage: React.FC = () => {
                 <div>$5</div>
                 <div>Unlimited use</div>
                 <div>Keep your content private</div>
-                <div className="px-[20px] py-[10px] rounded-lg bg-lightGray dark:bg-darkMainSurcaceTertiary cursor-pointer">
-                  {t("Choose")}
+                <div
+                  onClick={() => {
+                    if (hasClickedLifetime || hasClicked1month) return;
+                    getCryptoCheckoutUrl("early_1_month");
+                    setHasClicked1month(true);
+                  }}
+                  className="px-[20px] py-[10px] rounded-lg bg-lightGray dark:bg-darkMainSurcaceTertiary cursor-pointer"
+                >
+                  {hasClicked1month ? (
+                    <div className="w-[24px] h-[24px] text-textPrimary dark:text-darkTextPrimary">
+                      <LoadingIcon />
+                    </div>
+                  ) : (
+                    t("Choose")
+                  )}
                 </div>
               </div>
               <div className="border border-borderColor dark:border-darkBorderColor rounded-lg items-center flex p-[10px] flex-col">
                 <span className="text-xl font-bold">
-                  Lola Early bird for Lifetime
+                  Lola Early Bird for Lifetime
                 </span>
                 <div>$200</div>
                 <div>Unlimited use</div>
                 <div>Keep your content private</div>
                 <div>Lifetime Early Bird Trophee</div>
-                <div className="px-[20px] py-[10px] rounded-lg bg-lightGray dark:bg-darkMainSurcaceTertiary cursor-pointer">
-                  {t("Choose")}
+                <div
+                  onClick={() => {
+                    if (hasClickedLifetime || hasClicked1month) return;
+                    getCryptoCheckoutUrl("early_lifetime");
+                    setHasClickedLifettime(true);
+                  }}
+                  className="px-[20px] py-[10px] rounded-lg bg-lightGray dark:bg-darkMainSurcaceTertiary cursor-pointer"
+                >
+                  {hasClickedLifetime ? (
+                    <div className="w-[24px] h-[24px] text-textPrimary dark:text-darkTextPrimary">
+                      <LoadingIcon />
+                    </div>
+                  ) : (
+                    t("Choose")
+                  )}
                 </div>
               </div>
             </div>

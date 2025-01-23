@@ -58,6 +58,13 @@ export default function useWebSocket({
       try {
         const data = JSON.parse(event.data);
         switch (data.action) {
+          case "plan":
+            switch (data.type) {
+              case "get_crypto_checkout_url":
+                window.open(data.data.checkout_url, "_blank");
+                break;
+            }
+            break;
           case "fetch":
             switch (data.type) {
               case "analytics_admin":
@@ -609,6 +616,18 @@ export default function useWebSocket({
     );
   };
 
+  const getCryptoCheckoutUrl = (item: string) => {
+    socketConnection?.send(
+      JSON.stringify({
+        action: "plan",
+        endpoint: "get_crypto_checkout_url",
+        item,
+        cookie,
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
   return {
     sendMessage,
     initData,
@@ -629,6 +648,7 @@ export default function useWebSocket({
     downvote,
     getClickedVotes,
     getAdminAnalytics,
+    getCryptoCheckoutUrl,
     socketConnection,
   };
 }
