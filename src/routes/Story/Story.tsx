@@ -12,7 +12,6 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
 import clsx from "clsx";
-import CloseIcon from "../../icons/close";
 import ImageViewer from "../../components/ImageViewer/ImageViewer";
 
 const Storypage: React.FC = () => {
