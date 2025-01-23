@@ -367,6 +367,7 @@ export default function useWebSocket({
       input_text: message,
       language: i18n.language,
       mode,
+      cookie,
       admin: searchParams.get("admin"),
       token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       ...extraFields,
