@@ -13,6 +13,7 @@ import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
 import clsx from "clsx";
 import ImageViewer from "../../components/ImageViewer/ImageViewer";
+import useGA from "../../hooks/useGA";
 
 const Storypage: React.FC = () => {
   const [threadId, setThreadId] = useState<string | null>(null);
@@ -20,6 +21,7 @@ const Storypage: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const { sendEvent } = useGA();
 
   const { sendMessage, getThreadChatLog, getStory, socketConnection } =
     useWebSocket({});
@@ -118,9 +120,10 @@ const Storypage: React.FC = () => {
               <div className="flex w-full justify-center">
                 <div className="flex w-full max-w-[715px] text-end px-[40px] pb-[20px] pt-[10px] justify-end">
                   <div
-                    onClick={() =>
-                      sendMessage(t("Continue"), "story", threadId)
-                    }
+                    onClick={() => {
+                      sendMessage(t("Continue"), "story", threadId);
+                      sendEvent("clicked_on_continue_from_story");
+                    }}
                     className="rounded-lg p-[15px] py-[7px] w-fit border border-borderColor dark:border-darkBorderColor hover:bg-lightGray dark:hover:bg-darkLightGray cursor-pointer"
                   >
                     {t("Continue")}
