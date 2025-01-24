@@ -6,6 +6,7 @@ import CloseIcon from "../../icons/close";
 import Meta from "../../components/Meta";
 import useWebSocket from "../../hooks/useWebSocket";
 import { useAppSelector } from "../../store/hooks";
+import useGA from "../../hooks/useGA";
 
 const ExploreImagesPage: React.FC = (props) => {
   const { t } = useTranslation();
@@ -13,6 +14,8 @@ const ExploreImagesPage: React.FC = (props) => {
   const { explore } = useAppSelector((state) => state.app);
 
   const { getExploreImages, socketConnection } = useWebSocket({});
+
+  const { sendEvent } = useGA();
 
   useEffect(() => {
     if (socketConnection?.readyState === socketConnection?.OPEN) {
@@ -50,7 +53,10 @@ const ExploreImagesPage: React.FC = (props) => {
               {explore.images?.map((i) => (
                 <div
                   className="w-full cursor-pointer"
-                  onClick={() => setImageViewing(i.original)}
+                  onClick={() => {
+                    setImageViewing(i.original);
+                    sendEvent("clicked_on_image_from_explore_image");
+                  }}
                 >
                   <img src={i.large} alt={i.original} />
                 </div>

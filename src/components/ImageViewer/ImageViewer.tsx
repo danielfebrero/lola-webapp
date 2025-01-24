@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useState } from "react";
 
 import CloseIcon from "../../icons/close";
+import useGA from "../../hooks/useGA";
 
 interface ImageViewerProps {
   images: ImageSearch[];
@@ -9,6 +10,8 @@ interface ImageViewerProps {
 
 const ImageViewer: React.FC<ImageViewerProps> = (props) => {
   const [imageViewing, setImageViewing] = useState<string | null>(null);
+
+  const { sendEvent } = useGA();
 
   return (
     <div>
@@ -35,7 +38,10 @@ const ImageViewer: React.FC<ImageViewerProps> = (props) => {
       <div className="flex flex-row no-scrollbar overflow-x-scroll">
         {props.images?.map((img) => (
           <div
-            onClick={() => setImageViewing(img.original)}
+            onClick={() => {
+              setImageViewing(img.original);
+              sendEvent("clicked_on_image_from_image_viewer");
+            }}
             key={img.original}
             className="h-[100px] flex-shrink-0 snap-center cursor-pointer"
           >
