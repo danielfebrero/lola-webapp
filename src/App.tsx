@@ -25,6 +25,8 @@ import AnalyticsPage from "./routes/Analytics";
 import ExplorePage from "./routes/Explore";
 import ExploreImagesPage from "./routes/ExploreImages";
 import PricingPage from "./routes/Pricing";
+import OrderReceivedPage from "./routes/Checkout/OrderReceived";
+import OrderCanceledPage from "./routes/Checkout/OrderCanceled";
 
 import { store, persistor } from "./store/store";
 
@@ -95,6 +97,14 @@ const App: React.FC = () => {
                   <Route path="/lola/new" element={<LolaPage />} />
                   <Route path="/analytics/:type" element={<AnalyticsPage />} />
                   <Route path="/pricing" element={<PricingPage />} />
+                  <Route
+                    path="/checkout/order-received/:orderId"
+                    element={<OrderReceivedPage />}
+                  />
+                  <Route
+                    path="/checkout/order-canceled/:orderId"
+                    element={<OrderCanceledPage />}
+                  />
                 </Route>
 
                 <Route path="*" element={<Navigate to="/" replace={true} />} />

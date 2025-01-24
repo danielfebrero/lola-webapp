@@ -95,6 +95,8 @@ const Header: React.FC = () => {
       ? setHeaderLabel(t("Images"))
       : location.pathname.indexOf("/pricing") === 0
       ? setHeaderLabel(t("Pricing"))
+      : location.pathname.indexOf("/checkout") === 0
+      ? setHeaderLabel(t("Checkout"))
       : setHeaderLabel("Story");
     setModeDropdownOpen(false);
   }, [location]);

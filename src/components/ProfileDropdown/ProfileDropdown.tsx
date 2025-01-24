@@ -113,7 +113,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
         <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
           <PlanIcon />
         </div>
-        <div className="ml-[10px]">{t("Plans")}</div>
+        <div className="ml-[10px]">{t("Pricing")}</div>
       </div>
     </div>
   );

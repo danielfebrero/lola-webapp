@@ -28,6 +28,7 @@ interface AppState {
     images: ImagesMultisize[];
   };
   exploreLanguage: string;
+  isCryptoPricingCheckoutUrlLoading: boolean;
 }
 
 // Define the initial state using that type
@@ -57,12 +58,16 @@ const initialState: AppState = {
     images: [],
   },
   exploreLanguage: "all",
+  isCryptoPricingCheckoutUrlLoading: false,
 };
 
 export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    setIsCryptoCheckoutUrlLoading: (state, action) => {
+      state.isCryptoPricingCheckoutUrlLoading = action.payload;
+    },
     setLanguages: (state, action) => {
       state.languages = action.payload;
     },
@@ -378,6 +383,7 @@ export const {
   downvoteExplore,
   setExploreLanguage,
   setLanguages,
+  setIsCryptoCheckoutUrlLoading,
 } = appSlice.actions;
 
 export default appSlice.reducer;

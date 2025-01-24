@@ -7,6 +7,7 @@ interface UserState {
   };
   clickedUpvotes: string[];
   clickedDownvotes: string[];
+  plan: string;
 }
 
 // Define the initial state using that type
@@ -16,6 +17,7 @@ const initialState: UserState = {
   },
   clickedUpvotes: [],
   clickedDownvotes: [],
+  plan: "free",
 };
 
 export const userSlice = createSlice({
@@ -32,10 +34,17 @@ export const userSlice = createSlice({
     setSettings: (state, action) => {
       state.settings = Object.assign(state.settings, action.payload);
     },
+    setUserPlan: (state, action) => {
+      state.plan = action.payload;
+    },
   },
 });
 
-export const { setSettings, setClickedDownvotes, setClickedUpvotes } =
-  userSlice.actions;
+export const {
+  setSettings,
+  setClickedDownvotes,
+  setClickedUpvotes,
+  setUserPlan,
+} = userSlice.actions;
 
 export default userSlice.reducer;

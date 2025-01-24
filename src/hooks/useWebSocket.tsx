@@ -22,11 +22,13 @@ import {
   setExploreLatest,
   setExploreBest,
   setExploreImages,
+  setIsCryptoCheckoutUrlLoading,
 } from "../store/features/app/appSlice";
 import {
   setClickedDownvotes,
   setClickedUpvotes,
   setSettings as setSettingsAction,
+  setUserPlan,
 } from "../store/features/user/userSlice";
 import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
 import useGA from "./useGA";
@@ -60,13 +62,20 @@ export default function useWebSocket({
         switch (data.action) {
           case "plan":
             switch (data.type) {
+              case "cancel_crypto_order":
+                console.log({ data });
+                break;
               case "get_crypto_checkout_url":
+                dispatch(setIsCryptoCheckoutUrlLoading(false));
                 window.open(data.data.checkout_url, "_blank");
                 break;
             }
             break;
           case "fetch":
             switch (data.type) {
+              case "plan":
+                dispatch(setUserPlan(data.data.plan));
+                break;
               case "analytics_admin":
                 dispatch(setAdminAnalytics(data.data));
                 break;
@@ -390,6 +399,7 @@ export default function useWebSocket({
     getThreads();
     getCharacters();
     getSettings();
+    getUserPlan();
   };
 
   const getThreads = () => {
@@ -628,6 +638,29 @@ export default function useWebSocket({
     );
   };
 
+  const cancelCryptoOrder = (orderId: string) => {
+    socketConnection?.send(
+      JSON.stringify({
+        action: "plan",
+        endpoint: "cancel_crypto_order",
+        orderId,
+        cookie,
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
+  const getUserPlan = () => {
+    socketConnection?.send(
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "plan",
+        cookie,
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
   return {
     sendMessage,
     initData,
@@ -649,6 +682,8 @@ export default function useWebSocket({
     getClickedVotes,
     getAdminAnalytics,
     getCryptoCheckoutUrl,
+    cancelCryptoOrder,
+    getUserPlan,
     socketConnection,
   };
 }
