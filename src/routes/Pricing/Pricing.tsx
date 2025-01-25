@@ -36,14 +36,16 @@ const PricingPage: React.FC = () => {
                 <span className="text-xl font-bold">Lola Free</span>
                 <div>$0</div>
                 <div>Unlimited use</div>
-                <div
-                  className={clsx(
-                    { "cursor-pointer": plan !== "free" },
-                    "px-[20px] py-[10px] rounded-lg bg-lightGray dark:bg-darkMainSurcaceTertiary"
-                  )}
-                >
-                  {t(plan === "free" ? "Your current plan" : "Choose")}
-                </div>
+                {plan === "free" && (
+                  <div
+                    className={clsx(
+                      { "cursor-pointer": plan !== "free" },
+                      "px-[20px] py-[10px] rounded-lg bg-lightGray dark:bg-darkMainSurcaceTertiary"
+                    )}
+                  >
+                    {t(plan === "free" ? "Your current plan" : "Choose")}
+                  </div>
+                )}
               </div>
               <div className="border border-borderColor dark:border-darkBorderColor rounded-lg items-center flex p-[10px] flex-col">
                 <span className="text-xl font-bold">
@@ -54,7 +56,12 @@ const PricingPage: React.FC = () => {
                 <div>Keep your content private</div>
                 <div
                   onClick={() => {
-                    if (hasClickedLifetime || hasClicked1month) return;
+                    if (
+                      hasClickedLifetime ||
+                      hasClicked1month ||
+                      plan === "early_1_month"
+                    )
+                      return;
                     getCryptoCheckoutUrl("early_1_month");
                     setHasClicked1month(true);
                     dispatch(setIsCryptoCheckoutUrlLoading(true));
@@ -83,7 +90,12 @@ const PricingPage: React.FC = () => {
                 <div>Lifetime Early Bird Trophee</div>
                 <div
                   onClick={() => {
-                    if (hasClickedLifetime || hasClicked1month) return;
+                    if (
+                      hasClickedLifetime ||
+                      hasClicked1month ||
+                      plan === "early_lifetime"
+                    )
+                      return;
                     getCryptoCheckoutUrl("early_lifetime");
                     setHasClickedLifettime(true);
                     dispatch(setIsCryptoCheckoutUrlLoading(true));
