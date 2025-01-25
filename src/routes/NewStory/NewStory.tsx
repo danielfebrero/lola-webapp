@@ -212,11 +212,11 @@ const NewStoryPage: React.FC = () => {
               disabled={plan === "free"}
             />
             <label htmlFor="private" className="ml-2">
-              Set to private.
+              {t("Set to private.")}
             </label>
             {plan === "free" && (
               <div className="ml-2 font-bold">
-                <NavLink to="/pricing">Upgrade</NavLink>
+                <NavLink to="/pricing">{t("Upgrade")}</NavLink>
               </div>
             )}
           </div>
