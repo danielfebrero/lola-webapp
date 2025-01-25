@@ -51,7 +51,7 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>Unlimited use</span>
+                  <span>{t("Unlimited use")}</span>
                 </div>
                 {plan === "free" && (
                   <div
@@ -74,13 +74,13 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>Unlimited use</span>
+                  <span>{t("Unlimited use")}</span>
                 </div>
                 <div className="flex flex-row items-center mt-[5px]">
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>Make your content private</span>
+                  <span>{t("Make your content private")}</span>
                 </div>
                 {plan !== "early_lifetime" && (
                   <div
@@ -130,20 +130,21 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>Unlimited use</span>
+                  <span>{t("Unlimited use")}</span>
                 </div>
                 <div className="flex flex-row items-center mt-[5px]">
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>Make your content private</span>
+                  <span>{t("Make your content private")}</span>
                 </div>
                 <div className="flex flex-row items-center mt-[5px]">
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
                   <span>
-                    Early Bird Trophy <span className="text-xs">(soon)</span>
+                    Early Bird Trophy{" "}
+                    <span className="text-xs">({t("soon")})</span>
                   </span>
                 </div>
                 <div
