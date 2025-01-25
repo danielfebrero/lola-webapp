@@ -108,7 +108,7 @@ const PricingPage: React.FC = () => {
                         "bg-lightGray dark:bg-darkLightGray":
                           plan !== "early_1_month",
                       },
-                      "px-[20px] py-[10px] rounded-full border border-borderColor dark:border-darkBorderColor mt-auto text-center"
+                      "px-[20px] py-[10px] rounded-full border border-borderColor dark:border-darkBorderColor mt-auto text-center flex flex-row justify-center"
                     )}
                   >
                     {hasClicked1month ? (
@@ -174,7 +174,7 @@ const PricingPage: React.FC = () => {
                       "bg-lightGray dark:bg-darkLightGray":
                         plan !== "early_lifetime",
                     },
-                    "px-[20px] py-[10px] rounded-full border border-borderColor dark:border-darkBorderColor mt-[20px] text-center"
+                    "px-[20px] py-[10px] rounded-full border border-borderColor dark:border-darkBorderColor mt-[20px] text-center flex flex-row justify-center"
                   )}
                 >
                   {hasClickedLifetime ? (
