@@ -12,7 +12,7 @@ const PricingPage: React.FC = () => {
   const [hasClickedLifetime, setHasClickedLifettime] = useState<boolean>(false);
   const [hasClicked1month, setHasClicked1month] = useState<boolean>(false);
   const { t } = useTranslation();
-  const { getCryptoCheckoutUrl } = useWebSocket({});
+  const { getCryptoCheckoutUrl, getUserPlan } = useWebSocket({});
   const dispatch = useAppDispatch();
   const { isCryptoPricingCheckoutUrlLoading } = useAppSelector(
     (state) => state.app
@@ -25,6 +25,15 @@ const PricingPage: React.FC = () => {
       setHasClickedLifettime(false);
     }
   }, [isCryptoPricingCheckoutUrlLoading]);
+
+  useEffect(() => {
+    const inter = setInterval(() => {
+      getUserPlan();
+    }, 5000);
+
+    return () => clearInterval(inter);
+  }, []);
+
   return (
     <>
       <Meta title={t("Pricing")} />
