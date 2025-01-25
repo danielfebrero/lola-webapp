@@ -19,4 +19,5 @@ interface ChatLog {
   state?: string;
   votes: number;
   isOwner: boolean;
+  is_private?: boolean;
 }

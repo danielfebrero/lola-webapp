@@ -14,8 +14,7 @@ import { toggleLeftPanel } from "../../store/features/app/appSlice";
 import useNewChatLocation from "../../hooks/useNewChatLocation";
 import useGA from "../../hooks/useGA";
 import ExploreLanguageDropdown from "../ExploreLanguageDropdown";
-import { l } from "react-router/dist/development/fog-of-war-DU_DzpDb";
-// import ShareIcon from "../../icons/share";
+import ShieldIcon from "../../icons/shield";
 
 const languages = {
   all: "all languages",
@@ -44,11 +43,11 @@ const Header: React.FC = () => {
   const [headerLabel, setHeaderLabel] = useState("Main character");
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const { isLeftPanelOpen, exploreLanguage } = useAppSelector(
-    (state) => state.app
-  );
+  const { isLeftPanelOpen, exploreLanguage, currentlyViewing, chatLogs } =
+    useAppSelector((state) => state.app);
   const newChatLocation = useNewChatLocation();
   const { sendEvent } = useGA();
+  const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
   const toggleExploreLanguageDropdown = () => {
     setExploreLanguageDropdownOpen((prev) => !prev);
@@ -61,6 +60,17 @@ const Header: React.FC = () => {
   const toggleProfileDropdown = () => {
     setProfileDropdownOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (chatLogs.length > 0) {
+      const currentChatLog = chatLogs.find(
+        (log) => log.threadId === currentlyViewing.objectId
+      );
+      if (currentChatLog) {
+        setIsPrivate(currentChatLog.is_private ?? false);
+      }
+    }
+  }, [currentlyViewing, chatLogs]);
 
   useEffect(() => {
     if (modeDropdownOpen) sendEvent("open_mode_dropdown");
@@ -129,6 +139,14 @@ const Header: React.FC = () => {
               <ChevronDown />
             </div>
           </div>
+          {location.pathname.indexOf("/story") === 0 && isPrivate && (
+            <div className="ml-2 flex flex-row items-center">
+              <div>{t("Private")}</div>
+              <div className="w-[18px] h-[18px] ml-1">
+                <ShieldIcon />
+              </div>
+            </div>
+          )}
           {(location.pathname.indexOf("/explore/best") === 0 ||
             location.pathname.indexOf("/explore/latest") === 0) && (
             <div

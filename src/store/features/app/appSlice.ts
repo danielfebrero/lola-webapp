@@ -271,6 +271,7 @@ export const appSlice = createSlice({
           title: `New ${action.payload.type}`,
           votes: 0,
           isOwner: true,
+          is_private: action.payload.is_private,
         });
       }
     },

@@ -255,7 +255,7 @@ export default function useWebSocket({
                 break;
 
               case "messages":
-                if (data.errorCode === "503") navigate(newChatLocation);
+                if (data.errorCode === "403") navigate(newChatLocation);
                 dispatch(
                   setChatLog({
                     chatLog: data.data,
@@ -373,6 +373,7 @@ export default function useWebSocket({
           content: message,
           role: "user",
           type: endpoint,
+          is_private: extraFields?.isPrivate ?? false,
         })
       );
 
