@@ -96,7 +96,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     ) {
       dispatch(
         setChatLogAction({
-          threaId: params.characterId,
+          threadId: params.characterId,
           isLoading: true,
           isInputAvailable: false,
         })
@@ -142,6 +142,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   useEffect(() => {
     if (threadId && location.pathname !== "/character/" + threadId) {
       navigate("/character/" + threadId);
+      setThreadId(null);
     }
   }, [threadId]);
 
