@@ -69,6 +69,7 @@ const NewStoryPage: React.FC = () => {
           content: context,
           role: "user",
           type: "story",
+          is_private: newIsPrivate,
         })
       );
       navigate("/story/" + threadId);

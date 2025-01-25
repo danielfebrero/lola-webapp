@@ -213,6 +213,8 @@ export const appSlice = createSlice({
           action.payload.isBeingDeleted ?? currentLog.isBeingDeleted;
         currentLog.state = action.payload.state ?? currentLog.state;
         currentLog.isOwner = action.payload.isOwner ?? currentLog.isOwner;
+        currentLog.is_private =
+          action.payload.is_private ?? currentLog.is_private;
       } else {
         state.chatLogs.unshift({
           threadId: action.payload.threadId,
@@ -224,6 +226,7 @@ export const appSlice = createSlice({
           state: action.payload.state,
           votes: 0,
           isOwner: action.payload.isOwner ?? true,
+          is_private: action.payload.is_private ?? false,
         });
       }
     },
@@ -234,6 +237,8 @@ export const appSlice = createSlice({
       if (currentLog) {
         if (!currentLog.chatLog) currentLog.chatLog = [];
         if (!currentLog.type) currentLog.type = action.payload.type;
+        if (action.payload.is_private)
+          currentLog.is_private = action.payload.is_private;
         if (!currentLog.title)
           currentLog.title =
             action.payload.title ?? `New ${action.payload.type}`;

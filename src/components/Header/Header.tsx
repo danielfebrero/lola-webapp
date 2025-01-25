@@ -141,14 +141,16 @@ const Header: React.FC = () => {
               <ChevronDown />
             </div>
           </div>
-          {isPrivate && (
-            <div className="ml-2 flex flex-row items-center">
-              <div>{t("Private")}</div>
-              <div className="w-[18px] h-[18px] ml-1">
-                <ShieldIcon />
+          {isPrivate &&
+            (location.pathname.indexOf("/story") === 0 ||
+              location.pathname.indexOf("/character") === 0) && (
+              <div className="ml-2 flex flex-row items-center">
+                <div>{t("Private")}</div>
+                <div className="w-[18px] h-[18px] ml-1">
+                  <ShieldIcon />
+                </div>
               </div>
-            </div>
-          )}
+            )}
           {(location.pathname.indexOf("/explore/best") === 0 ||
             location.pathname.indexOf("/explore/latest") === 0) && (
             <div
