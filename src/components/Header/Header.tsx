@@ -69,6 +69,8 @@ const Header: React.FC = () => {
       currentChatLog
         ? setIsPrivate(currentChatLog.is_private ?? false)
         : setIsPrivate(false);
+    } else {
+      setIsPrivate(false);
     }
   }, [currentlyViewing, chatLogs]);
 
