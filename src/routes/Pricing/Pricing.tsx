@@ -46,7 +46,7 @@ const PricingPage: React.FC = () => {
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
               <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
                 <span className="text-xl font-bold">Lola Free</span>
-                <div className="text-4xl">$0</div>
+                <div className="text-4xl mt-[10px]">$0</div>
                 <div className="flex flex-row items-center mt-[20px]">
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
@@ -69,7 +69,7 @@ const PricingPage: React.FC = () => {
               </div>
               <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
                 <span className="text-xl font-bold">1-month Early Bird</span>
-                <div className="text-4xl">$5</div>
+                <div className="text-4xl mt-[10px]">$5</div>
                 <div className="flex flex-row items-center mt-[20px]">
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
@@ -125,7 +125,7 @@ const PricingPage: React.FC = () => {
               </div>
               <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
                 <span className="text-xl font-bold">Lifetime Early Bird</span>
-                <div className="text-4xl">$50</div>
+                <div className="text-4xl mt-[10px]">$50</div>
                 <div className="flex flex-row items-center mt-[20px]">
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
