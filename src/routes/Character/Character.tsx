@@ -74,10 +74,12 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       setThreadId,
     });
 
-  const sendMessageToCharacter = (content: string, threadId: string | null) => {
-    sendMessage(content, "character", threadId);
-    if (chatLog.length === 1)
-      setChatLog((prev) => [...prev, { role: "user", content }]);
+  const sendMessageToCharacter = (
+    content: string,
+    threadId: string | null,
+    isPrivate: boolean
+  ) => {
+    sendMessage(content, "character", threadId, { isPrivate });
   };
 
   const handleViewTypeChange = (
@@ -205,7 +207,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
               />
             </div>
             {params.characterId === "new" && (
-              <div className="flex flex-row items-center">
+              <div className="flex flex-row items-center mb-2">
                 <input
                   type="checkbox"
                   value="1"
@@ -216,7 +218,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   disabled={plan === "free"}
                 />
                 <label htmlFor="private" className="ml-2">
-                  Set to private, it will not be visible to other users.
+                  Set to private.
                 </label>
                 {plan === "free" && (
                   <div className="ml-2 font-bold">
@@ -239,7 +241,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                     ? false
                     : chatState?.canSendMessage ?? true
                 }
-                onSend={(message) => sendMessageToCharacter(message, threadId)}
+                onSend={(message) =>
+                  sendMessageToCharacter(message, threadId, newIsPrivate)
+                }
               />
             </div>
           </div>
@@ -290,6 +294,27 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                       isChatLoading={chatState?.isLoading ?? false}
                     />
                   </div>
+                  {params.characterId === "new" && (
+                    <div className="flex flex-row items-center justify-center mb-2">
+                      <input
+                        type="checkbox"
+                        value="1"
+                        name="private"
+                        id="private"
+                        onChange={(e) => setNewIsPrivate(e.target.checked)}
+                        checked={newIsPrivate}
+                        disabled={plan === "free"}
+                      />
+                      <label htmlFor="private" className="ml-2">
+                        Set to private.
+                      </label>
+                      {plan === "free" && (
+                        <div className="ml-2 font-bold">
+                          <NavLink to="/pricing">Upgrade</NavLink>
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <div className="justify-center flex w-full md:px-0 px-[30px]">
                     <SendChatInput
                       type="character"
@@ -305,7 +330,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                           : chatState?.canSendMessage ?? true
                       }
                       onSend={(message) =>
-                        sendMessageToCharacter(message, threadId)
+                        sendMessageToCharacter(message, threadId, newIsPrivate)
                       }
                     />
                   </div>

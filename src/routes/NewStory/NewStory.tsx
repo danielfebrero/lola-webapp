@@ -44,7 +44,10 @@ const NewStoryPage: React.FC = () => {
       console.error("Message exceeds the maximum size of 8KB.");
       return;
     }
-    sendMessage(context, "story", null, { characters: selectedCharacters });
+    sendMessage(context, "story", null, {
+      characters: selectedCharacters,
+      isPrivate: newIsPrivate,
+    });
     setHasSentMessage(true);
   };
 
@@ -198,7 +201,7 @@ const NewStoryPage: React.FC = () => {
               {context}
             </textarea>
           </div>
-          <div className="flex flex-row items-center">
+          <div className="flex flex-row items-center mt-[20px]">
             <input
               type="checkbox"
               value="1"
@@ -209,7 +212,7 @@ const NewStoryPage: React.FC = () => {
               disabled={plan === "free"}
             />
             <label htmlFor="private" className="ml-2">
-              Set to private, it will not be visible to other users.
+              Set to private.
             </label>
             {plan === "free" && (
               <div className="ml-2 font-bold">
