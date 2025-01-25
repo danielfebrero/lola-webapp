@@ -66,9 +66,9 @@ const Header: React.FC = () => {
       const currentChatLog = chatLogs.find(
         (log) => log.threadId === currentlyViewing.objectId
       );
-      if (currentChatLog) {
-        setIsPrivate(currentChatLog.is_private ?? false);
-      }
+      currentChatLog
+        ? setIsPrivate(currentChatLog.is_private ?? false)
+        : setIsPrivate(false);
     }
   }, [currentlyViewing, chatLogs]);
 
@@ -139,7 +139,7 @@ const Header: React.FC = () => {
               <ChevronDown />
             </div>
           </div>
-          {location.pathname.indexOf("/story") === 0 && isPrivate && (
+          {isPrivate && (
             <div className="ml-2 flex flex-row items-center">
               <div>{t("Private")}</div>
               <div className="w-[18px] h-[18px] ml-1">
