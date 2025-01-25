@@ -30,6 +30,8 @@ const NewStoryPage: React.FC = () => {
     setThreadId,
   });
   const { characters } = useAppSelector((state) => state.app);
+  const { plan } = useAppSelector((state) => state.user);
+  const [newIsPrivate, setNewIsPrivate] = useState<boolean>(plan !== "free");
 
   const createStory = () => {
     const encoder = new TextEncoder();
@@ -195,6 +197,25 @@ const NewStoryPage: React.FC = () => {
             >
               {context}
             </textarea>
+          </div>
+          <div className="flex flex-row items-center">
+            <input
+              type="checkbox"
+              value="1"
+              name="private"
+              id="private"
+              onChange={(e) => setNewIsPrivate(e.target.checked)}
+              checked={newIsPrivate}
+              disabled={plan === "free"}
+            />
+            <label htmlFor="private" className="ml-2">
+              Set to private, it will not be visible to other users.
+            </label>
+            {plan === "free" && (
+              <div className="ml-2 font-bold">
+                <NavLink to="/pricing">Upgrade</NavLink>
+              </div>
+            )}
           </div>
           <div className="pb-[60px]">
             <div

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import clsx from "clsx";
-import { useParams, useNavigate, useLocation } from "react-router";
+import { useParams, useNavigate, useLocation, NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import Chat from "../../components/Chat";
@@ -29,6 +29,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const location = useLocation();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { sendEvent } = useGA();
+  const { plan } = useAppSelector((state) => state.user);
+  const [newIsPrivate, setNewIsPrivate] = useState<boolean>(plan !== "free");
 
   const newroleChat = useCallback(
     () => [
@@ -202,6 +204,27 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 isChatLoading={chatState?.isLoading ?? false}
               />
             </div>
+            {params.characterId === "new" && (
+              <div className="flex flex-row items-center">
+                <input
+                  type="checkbox"
+                  value="1"
+                  name="private"
+                  id="private"
+                  onChange={(e) => setNewIsPrivate(e.target.checked)}
+                  checked={newIsPrivate}
+                  disabled={plan === "free"}
+                />
+                <label htmlFor="private" className="ml-2">
+                  Set to private, it will not be visible to other users.
+                </label>
+                {plan === "free" && (
+                  <div className="ml-2 font-bold">
+                    <NavLink to="/pricing">Upgrade</NavLink>
+                  </div>
+                )}
+              </div>
+            )}
             <div className="justify-center flex w-full md:px-0 px-[30px]">
               <SendChatInput
                 type="character"

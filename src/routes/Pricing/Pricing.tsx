@@ -7,6 +7,7 @@ import useWebSocket from "../../hooks/useWebSocket";
 import LoadingIcon from "../../icons/loading";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setIsCryptoCheckoutUrlLoading } from "../../store/features/app/appSlice";
+import { useAuth } from "react-oidc-context";
 
 const PricingPage: React.FC = () => {
   const [hasClickedLifetime, setHasClickedLifettime] = useState<boolean>(false);
@@ -14,6 +15,7 @@ const PricingPage: React.FC = () => {
   const { t } = useTranslation();
   const { getCryptoCheckoutUrl, getUserPlan } = useWebSocket({});
   const dispatch = useAppDispatch();
+  const auth = useAuth();
   const { isCryptoPricingCheckoutUrlLoading } = useAppSelector(
     (state) => state.app
   );
@@ -62,7 +64,7 @@ const PricingPage: React.FC = () => {
                 </span>
                 <div>$5</div>
                 <div>Unlimited use</div>
-                <div>Keep your content private</div>
+                <div>Set your content private</div>
                 <div
                   onClick={() => {
                     if (
@@ -71,6 +73,11 @@ const PricingPage: React.FC = () => {
                       plan === "early_1_month"
                     )
                       return;
+
+                    if (!auth?.isAuthenticated) {
+                      auth.signinRedirect();
+                      return;
+                    }
                     getCryptoCheckoutUrl("early_1_month");
                     setHasClicked1month(true);
                     dispatch(setIsCryptoCheckoutUrlLoading(true));
@@ -95,7 +102,7 @@ const PricingPage: React.FC = () => {
                 </span>
                 <div>$200</div>
                 <div>Unlimited use</div>
-                <div>Keep your content private</div>
+                <div>Set your content private</div>
                 <div>Lifetime Early Bird Trophee</div>
                 <div
                   onClick={() => {
@@ -105,6 +112,11 @@ const PricingPage: React.FC = () => {
                       plan === "early_lifetime"
                     )
                       return;
+
+                    if (!auth?.isAuthenticated) {
+                      auth.signinRedirect();
+                      return;
+                    }
                     getCryptoCheckoutUrl("early_lifetime");
                     setHasClickedLifettime(true);
                     dispatch(setIsCryptoCheckoutUrlLoading(true));
