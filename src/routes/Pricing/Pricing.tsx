@@ -60,7 +60,7 @@ const PricingPage: React.FC = () => {
                       {
                         "bg-lightGray dark:bg-darkLightGray": plan !== "free",
                       },
-                      "px-[20px] py-[10px] rounded-lg border border-borderColor dark:border-darkBorderColor mt-auto text-center"
+                      "px-[20px] py-[10px] rounded-full border border-borderColor dark:border-darkBorderColor mt-auto text-center"
                     )}
                   >
                     {t(plan === "free" ? "Your current plan" : "Choose")}
@@ -106,7 +106,7 @@ const PricingPage: React.FC = () => {
                         "bg-lightGray dark:bg-darkLightGray":
                           plan !== "early_1_month",
                       },
-                      "px-[20px] py-[10px] rounded-lg border border-borderColor dark:border-darkBorderColor mt-auto text-center"
+                      "px-[20px] py-[10px] rounded-full border border-borderColor dark:border-darkBorderColor mt-auto text-center"
                     )}
                   >
                     {hasClicked1month ? (
@@ -142,7 +142,9 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>Early Bird Trophy</span>
+                  <span>
+                    Early Bird Trophy <span className="text-xs">(soon)</span>
+                  </span>
                 </div>
                 <div
                   onClick={() => {
@@ -167,7 +169,7 @@ const PricingPage: React.FC = () => {
                       "bg-lightGray dark:bg-darkLightGray":
                         plan !== "early_lifetime",
                     },
-                    "px-[20px] py-[10px] rounded-lg border border-borderColor dark:border-darkBorderColor mt-[20px] text-center"
+                    "px-[20px] py-[10px] rounded-full border border-borderColor dark:border-darkBorderColor mt-[20px] text-center"
                   )}
                 >
                   {hasClickedLifetime ? (
