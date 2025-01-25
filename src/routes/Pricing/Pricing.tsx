@@ -68,9 +68,7 @@ const PricingPage: React.FC = () => {
                 )}
               </div>
               <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
-                <span className="text-xl font-bold">
-                  Early Bird for 1 month
-                </span>
+                <span className="text-xl font-bold">1-month Early Bird</span>
                 <div className="text-4xl">$5</div>
                 <div className="flex flex-row items-center mt-[20px]">
                   <div className="w-[18px] h-[18px]">
@@ -82,7 +80,7 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>Set your content to private</span>
+                  <span>Make your content private</span>
                 </div>
                 {plan !== "early_lifetime" && (
                   <div
@@ -126,9 +124,7 @@ const PricingPage: React.FC = () => {
                 )}
               </div>
               <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
-                <span className="text-xl font-bold">
-                  Early Bird for Lifetime
-                </span>
+                <span className="text-xl font-bold">Lifetime Early Bird</span>
                 <div className="text-4xl">$50</div>
                 <div className="flex flex-row items-center mt-[20px]">
                   <div className="w-[18px] h-[18px]">
@@ -140,13 +136,13 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>Set your content to private</span>
+                  <span>Make your content private</span>
                 </div>
                 <div className="flex flex-row items-center mt-[5px]">
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>Early Bird Trophee</span>
+                  <span>Early Bird Trophy</span>
                 </div>
                 <div
                   onClick={() => {
