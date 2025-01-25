@@ -1,13 +1,14 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
+import { useAuth } from "react-oidc-context";
 
 import Meta from "../../components/Meta";
 import useWebSocket from "../../hooks/useWebSocket";
 import LoadingIcon from "../../icons/loading";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setIsCryptoCheckoutUrlLoading } from "../../store/features/app/appSlice";
-import { useAuth } from "react-oidc-context";
+import CheckOnlyIcon from "../../icons/checkOnly";
 
 const PricingPage: React.FC = () => {
   const [hasClickedLifetime, setHasClickedLifettime] = useState<boolean>(false);
@@ -43,67 +44,110 @@ const PricingPage: React.FC = () => {
         <div className="grow flex flex-col h-[calc(100vh-110px)] items-center">
           <div className="grow overflow-y-scroll no-scrollbar flex flex-col w-full items-center">
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
-              <div className="border border-borderColor dark:border-darkBorderColor rounded-lg items-center flex p-[10px] flex-col">
+              <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
                 <span className="text-xl font-bold">Lola Free</span>
-                <div>$0</div>
-                <div>Unlimited use</div>
+                <div className="text-4xl">$0</div>
+                <div className="flex flex-row items-center mt-[20px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>Unlimited use</span>
+                </div>
                 {plan === "free" && (
                   <div
                     className={clsx(
                       { "cursor-pointer": plan !== "free" },
-                      "px-[20px] py-[10px] rounded-lg bg-lightGray dark:bg-darkMainSurcaceTertiary"
+                      {
+                        "bg-lightGray dark:bg-darkLightGray": plan !== "free",
+                      },
+                      "px-[20px] py-[10px] rounded-lg border border-borderColor dark:border-darkBorderColor mt-auto text-center"
                     )}
                   >
                     {t(plan === "free" ? "Your current plan" : "Choose")}
                   </div>
                 )}
               </div>
-              <div className="border border-borderColor dark:border-darkBorderColor rounded-lg items-center flex p-[10px] flex-col">
+              <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
                 <span className="text-xl font-bold">
-                  Lola Early Bird for 1 month
+                  Early Bird for 1 month
                 </span>
-                <div>$5</div>
-                <div>Unlimited use</div>
-                <div>Set your content private</div>
-                <div
-                  onClick={() => {
-                    if (
-                      hasClickedLifetime ||
-                      hasClicked1month ||
-                      plan === "early_1_month"
-                    )
-                      return;
-
-                    if (!auth?.isAuthenticated) {
-                      auth.signinRedirect();
-                      return;
-                    }
-                    getCryptoCheckoutUrl("early_1_month");
-                    setHasClicked1month(true);
-                    dispatch(setIsCryptoCheckoutUrlLoading(true));
-                  }}
-                  className={clsx(
-                    { "cursor-pointer": plan !== "early_1_month" },
-                    "px-[20px] py-[10px] rounded-lg bg-lightGray dark:bg-darkMainSurcaceTertiary"
-                  )}
-                >
-                  {hasClicked1month ? (
-                    <div className="w-[24px] h-[24px] text-textPrimary dark:text-darkTextPrimary">
-                      <LoadingIcon />
-                    </div>
-                  ) : (
-                    t(plan === "early_1_month" ? "Your current plan" : "Choose")
-                  )}
+                <div className="text-4xl">$5</div>
+                <div className="flex flex-row items-center mt-[20px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>Unlimited use</span>
                 </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>Set your content to private</span>
+                </div>
+                {plan !== "early_lifetime" && (
+                  <div
+                    onClick={() => {
+                      if (
+                        hasClickedLifetime ||
+                        hasClicked1month ||
+                        plan === "early_1_month"
+                      )
+                        return;
+
+                      if (!auth?.isAuthenticated) {
+                        auth.signinRedirect();
+                        return;
+                      }
+                      getCryptoCheckoutUrl("early_1_month");
+                      setHasClicked1month(true);
+                      dispatch(setIsCryptoCheckoutUrlLoading(true));
+                    }}
+                    className={clsx(
+                      { "cursor-pointer": plan !== "early_1_month" },
+                      {
+                        "bg-lightGray dark:bg-darkLightGray":
+                          plan !== "early_1_month",
+                      },
+                      "px-[20px] py-[10px] rounded-lg border border-borderColor dark:border-darkBorderColor mt-auto text-center"
+                    )}
+                  >
+                    {hasClicked1month ? (
+                      <div className="w-[24px] h-[24px] text-textPrimary dark:text-darkTextPrimary">
+                        <LoadingIcon />
+                      </div>
+                    ) : (
+                      t(
+                        plan === "early_1_month"
+                          ? "Your current plan"
+                          : "Choose"
+                      )
+                    )}
+                  </div>
+                )}
               </div>
-              <div className="border border-borderColor dark:border-darkBorderColor rounded-lg items-center flex p-[10px] flex-col">
+              <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
                 <span className="text-xl font-bold">
-                  Lola Early Bird for Lifetime
+                  Early Bird for Lifetime
                 </span>
-                <div>$200</div>
-                <div>Unlimited use</div>
-                <div>Set your content private</div>
-                <div>Lifetime Early Bird Trophee</div>
+                <div className="text-4xl">$50</div>
+                <div className="flex flex-row items-center mt-[20px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>Unlimited use</span>
+                </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>Set your content to private</span>
+                </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>Early Bird Trophee</span>
+                </div>
                 <div
                   onClick={() => {
                     if (
@@ -123,7 +167,11 @@ const PricingPage: React.FC = () => {
                   }}
                   className={clsx(
                     { "cursor-pointer": plan !== "early_lifetime" },
-                    "px-[20px] py-[10px] rounded-lg bg-lightGray dark:bg-darkMainSurcaceTertiary"
+                    {
+                      "bg-lightGray dark:bg-darkLightGray":
+                        plan !== "early_lifetime",
+                    },
+                    "px-[20px] py-[10px] rounded-lg border border-borderColor dark:border-darkBorderColor mt-[20px] text-center"
                   )}
                 >
                   {hasClickedLifetime ? (
