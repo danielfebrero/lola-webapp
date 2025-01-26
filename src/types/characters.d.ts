@@ -1,5 +1,5 @@
 interface Character {
-  threadId: string;
+  thread_id: string;
   name?: string;
   json?: Record<string, any>;
   images?: string[];

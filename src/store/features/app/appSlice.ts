@@ -299,12 +299,12 @@ export const appSlice = createSlice({
     },
     deleteCharacter: (state, action) => {
       state.characters = state.characters.filter(
-        (character) => character.threadId !== action.payload
+        (character) => character.thread_id !== action.payload
       );
     },
     setCharacter: (state, action) => {
       const currentCharacter = state.characters?.find(
-        (character) => character.threadId === action.payload.threadId
+        (character) => character.thread_id === action.payload.thread_id
       );
       if (currentCharacter) {
         currentCharacter.name = action.payload.name ?? currentCharacter.name;
@@ -337,7 +337,7 @@ export const appSlice = createSlice({
           action.payload.images_multisize ?? currentCharacter.imagesMultisize;
       } else {
         state.characters.push({
-          threadId: action.payload.threadId,
+          thread_id: action.payload.thread_id,
           name: action.payload.name,
           json: action.payload.json,
           images: action.payload.images

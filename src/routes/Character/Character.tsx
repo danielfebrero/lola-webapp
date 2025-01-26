@@ -59,7 +59,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const character = useAppSelector(
     (state) =>
       state.app.characters.find(
-        (char) => char.threadId === params.characterId
+        (char) => char.thread_id === params.characterId
       ) ?? ({} as Character)
   );
   const [threadId, setThreadId] = useState<string | null>(null);
@@ -105,7 +105,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       );
       dispatch(
         setCharacter({
-          threadId: params.characterId,
+          thread_id: params.characterId,
           isImageProcessing: true,
           isReportProcessing: true,
         })
