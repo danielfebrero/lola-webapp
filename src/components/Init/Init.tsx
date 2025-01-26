@@ -156,7 +156,7 @@ const Init: React.FC = () => {
     if (settings.language === "auto") return;
     else i18n.changeLanguage(settings.language);
 
-    if (i18n.language === "en") dispatch(setExploreLanguage("en"));
+    if (i18n.language.indexOf("en") === 0) dispatch(setExploreLanguage("en"));
   }, [settings.language]);
 
   useEffect(() => {
