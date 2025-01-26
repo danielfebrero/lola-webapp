@@ -103,42 +103,42 @@ const NewGamePage: React.FC = () => {
               <div
                 className="flex flex-col items-center m-[10px] cursor-pointer"
                 onClick={() => {
-                  selectedCharacters.includes(char.threadId)
+                  selectedCharacters.includes(char.thread_id)
                     ? setSelectedCharacters([])
-                    : setSelectedCharacters([char.threadId]);
+                    : setSelectedCharacters([char.thread_id]);
                 }}
               >
-                {characters.find((c) => c.threadId === char.threadId)
+                {characters.find((c) => c.thread_id === char.thread_id)
                   ?.imagesMultisize?.[0] ? (
                   <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200">
                     <img
                       alt={char.name}
                       src={
-                        characters.find((c) => c.threadId === char.threadId)
+                        characters.find((c) => c.thread_id === char.thread_id)
                           ?.imagesMultisize?.[0].medium
                       }
                       className={clsx(
                         {
                           "border-4 border-green-700":
-                            selectedCharacters.includes(char.threadId),
+                            selectedCharacters.includes(char.thread_id),
                         },
                         "rounded-full h-[64px] w-[64px] object-cover"
                       )}
                     />
                   </div>
-                ) : characters.find((c) => c.threadId === char.threadId)
+                ) : characters.find((c) => c.thread_id === char.thread_id)
                     ?.images?.[0] ? (
                   <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200">
                     <img
                       alt={char.name}
                       src={
-                        characters.find((c) => c.threadId === char.threadId)
+                        characters.find((c) => c.thread_id === char.thread_id)
                           ?.images?.[0]
                       }
                       className={clsx(
                         {
                           "border-4 border-green-700":
-                            selectedCharacters.includes(char.threadId),
+                            selectedCharacters.includes(char.thread_id),
                         },
                         "rounded-full h-[64px] w-[64px] object-cover"
                       )}
@@ -149,7 +149,7 @@ const NewGamePage: React.FC = () => {
                     className={clsx(
                       {
                         "border-4 border-green-700":
-                          selectedCharacters.includes(char.threadId),
+                          selectedCharacters.includes(char.thread_id),
                       },
                       "h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200 animate-pulse"
                     )}

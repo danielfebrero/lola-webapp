@@ -241,43 +241,46 @@ const LeftPanel: React.FC = () => {
                             {
                               "bg-gray-200 rounded-full":
                                 characters.find(
-                                  (c) => c.threadId === char.threadId
+                                  (c) => c.thread_id === char.threadId
                                 )?.images?.[0] === undefined,
                             },
                             "h-[24px] w-[24px]"
                           )}
                         >
                           {" "}
-                          {characters.find((c) => c.threadId === char.threadId)
+                          {characters.find((c) => c.thread_id === char.threadId)
                             ?.imagesMultisize?.[0] ? (
                             <img
                               src={
                                 characters.find(
-                                  (c) => c.threadId === char.threadId
+                                  (c) => c.thread_id === char.threadId
                                 )?.imagesMultisize?.[0]?.small
                               }
                               className="rounded-full h-[24px] w-[24px] object-cover"
+                              alt="Character"
                             />
                           ) : characters.find(
-                              (c) => c.threadId === char.threadId
+                              (c) => c.thread_id === char.threadId
                             )?.images?.[0] ? (
                             <img
                               src={
                                 characters.find(
-                                  (c) => c.threadId === char.threadId
+                                  (c) => c.thread_id === char.threadId
                                 )?.imagesMultisize?.[0]?.small ??
                                 characters.find(
-                                  (c) => c.threadId === char.threadId
+                                  (c) => c.thread_id === char.threadId
                                 )?.images?.[0]
                               }
                               className="rounded-full h-[24px] w-[24px] object-cover"
+                              alt="Character"
                             />
                           ) : null}
                         </div>
                         <span className="pl-[10px] truncate">
                           {t(
-                            characters.find((c) => c.threadId === char.threadId)
-                              ?.json?.name ??
+                            characters.find(
+                              (c) => c.thread_id === char.threadId
+                            )?.json?.name ??
                               char.title ??
                               ""
                           )}

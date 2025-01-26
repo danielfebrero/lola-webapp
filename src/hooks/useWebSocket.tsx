@@ -135,7 +135,7 @@ export default function useWebSocket({
                     if (data.threadId && data.feature_type === "character") {
                       dispatch(
                         setCharacter({
-                          threadId: data.threadId,
+                          thread_id: data.threadId,
                           isReportProcessing: true,
                           isImageProcessing: true,
                         })
@@ -168,7 +168,7 @@ export default function useWebSocket({
                     if (data.threadId && data.feature_type === "character") {
                       dispatch(
                         setCharacter({
-                          threadId: data.threadId,
+                          thread_id: data.threadId,
                           isReportProcessing: false,
                           isImageProcessing: false,
                         })
@@ -213,7 +213,7 @@ export default function useWebSocket({
               case "character":
                 dispatch(
                   setCharacter({
-                    threadId: data.threadId,
+                    thread_id: data.threadId,
                     isReportProcessing: false,
                     isImageProcessing: false,
                     ...data.data,
@@ -224,7 +224,7 @@ export default function useWebSocket({
               case "json_character_generation":
                 dispatch(
                   setCharacter({
-                    threadId: data.threadId,
+                    thread_id: data.threadId,
                     isReportProcessing: false,
                     isImageProcessing: !data.error,
                     ...data.data,
@@ -246,7 +246,7 @@ export default function useWebSocket({
               case "image_generation":
                 dispatch(
                   setCharacter({
-                    threadId: data.threadId,
+                    thread_id: data.threadId,
                     newImage: data.s3Url,
                     newImagesMultisize: data.s3Urls,
                     isImageProcessing: false,
