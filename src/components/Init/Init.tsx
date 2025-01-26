@@ -14,6 +14,7 @@ import {
   setIsDataLoading,
   setIsDataLoadingLeftPanel,
   setLanguages,
+  setExploreLanguage,
 } from "../../store/features/app/appSlice";
 import { setSocketConnection } from "../../store/features/socket/socketSlice";
 import useWebSocket from "../../hooks/useWebSocket";
@@ -154,6 +155,8 @@ const Init: React.FC = () => {
   useEffect(() => {
     if (settings.language === "auto") return;
     else i18n.changeLanguage(settings.language);
+
+    if (i18n.language === "en") dispatch(setExploreLanguage("en"));
   }, [settings.language]);
 
   useEffect(() => {
