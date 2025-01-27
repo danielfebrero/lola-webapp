@@ -34,6 +34,7 @@ import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
 import useGA from "./useGA";
 import useNewChatLocation from "./useNewChatLocation";
 import useCookie from "./useCookie";
+import { useAPI } from "./useAPI";
 
 export default function useWebSocket({
   setThreadId,
@@ -46,6 +47,7 @@ export default function useWebSocket({
     (state) => state.app
   );
   const { socketConnection } = useAppSelector((state) => state.socket);
+  const api = useAPI();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -398,22 +400,10 @@ export default function useWebSocket({
 
   const initData = () => {
     console.log("Fetching initData");
-    getThreads();
+    api.getThreads();
     getCharacters();
     getSettings();
     getUserPlan();
-  };
-
-  const getThreads = () => {
-    socketConnection?.send(
-      JSON.stringify({
-        action: "fetchData",
-        endpoint: "threads",
-        mode,
-        cookie,
-        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
-      })
-    );
   };
 
   const getThreadChatLog = (threadId: string) => {
