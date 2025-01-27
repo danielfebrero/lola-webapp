@@ -17,16 +17,6 @@ class MyDocument extends Document {
             name="description"
             content="A Choose Your Own Adventure AI game where you are the hero and storyteller."
           />
-          <script
-            defer
-            src="https://static.cloudflareinsights.com/beacon.min.js"
-            data-cf-beacon='{"token": "5e724824dce14b45850bb69020287c91"}'
-          ></script>
-          <script
-            src="https://cdn.usefathom.com/script.js"
-            data-site="CGASQKRQ"
-            defer
-          ></script>
         </Head>
         <body>
           <Main />
