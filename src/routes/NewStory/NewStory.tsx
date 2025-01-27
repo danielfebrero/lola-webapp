@@ -14,6 +14,7 @@ import {
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
+import { useAPI } from "../../hooks/useAPI";
 
 const NewStoryPage: React.FC = () => {
   const { t } = useTranslation();
@@ -26,12 +27,13 @@ const NewStoryPage: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const dispatch = useAppDispatch();
-  const { sendMessage, getCharacters, socketConnection } = useWebSocket({
+  const { sendMessage, socketConnection } = useWebSocket({
     setThreadId,
   });
   const { characters } = useAppSelector((state) => state.app);
   const { plan } = useAppSelector((state) => state.user);
   const [newIsPrivate, setNewIsPrivate] = useState<boolean>(plan !== "free");
+  const { getCharacters } = useAPI();
 
   const createStory = () => {
     const encoder = new TextEncoder();

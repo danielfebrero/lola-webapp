@@ -6,12 +6,12 @@ import { useTranslation } from "react-i18next";
 import SendIcon from "../../icons/send";
 import PlusIcon from "../../icons/plus";
 import CloseIcon from "../../icons/close";
-import Adult16Icon from "../../icons/adult16";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
+import { useAPI } from "../../hooks/useAPI";
 
 const NewGamePage: React.FC = () => {
   const { t } = useTranslation();
@@ -27,9 +27,11 @@ const NewGamePage: React.FC = () => {
   const [threadId, setThreadId] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
-  const { sendMessage, getCharacters, socketConnection } = useWebSocket({
+  const { sendMessage, socketConnection } = useWebSocket({
     setThreadId,
   });
+
+  const { getCharacters } = useAPI();
 
   const createGame = () => {
     sendMessage("", "you_are_the_hero", null, {
