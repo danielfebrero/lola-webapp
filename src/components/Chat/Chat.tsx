@@ -43,17 +43,9 @@ const Chat: React.FC<ChatProps> = (props) => {
                 </div>
               ) : (
                 <div
-                  className="flex flex-row mb-[10px]"
+                  className="flex flex-row mb-[20px]"
                   key={message.timestamp ?? idx}
                 >
-                  {/* <div className="w-[30px] h-[30px] mr-[10px]">
-                    {message.role !== "assistant" ? (
-                      <img
-                        className="rounded-full h-[30px] w-[30px] object-cover"
-                        src={message.role === "cara" ? imageLola : imageDani}
-                      />
-                    ) : null}
-                  </div> */}
                   <div className="grow max-w-[100%] md:px-[30px]">
                     <Markdown>{message.content}</Markdown>
                   </div>
