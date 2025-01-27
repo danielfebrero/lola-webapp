@@ -559,7 +559,7 @@ const LeftPanel: React.FC = () => {
 
           if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
         }}
-        className="fixed bottom-[10px] left-[10px] pl-[10px] dark:text-pink-200 text-rose-600 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[180px] py-[10px] rounded-lg flex flex-row"
+        className="fixed bottom-[10px] left-[10px] pl-[10px] dark:text-pink-200 text-rose-600 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[240px] py-[10px] rounded-lg flex flex-row"
       >
         <div className="">
           {t(mode === "minor" ? "Enter Lola" : "Exit Lola")}
@@ -568,13 +568,13 @@ const LeftPanel: React.FC = () => {
           <AdultIcon />
         </div>
       </div>
-      <a href="https://t.me/lola_storyteller" target="_blank" rel="noreferrer">
+      {/* <a href="https://t.me/lola_storyteller" target="_blank" rel="noreferrer">
         <div className="fixed bottom-[10px] pl-[10px] left-[200px] w-[44px] py-[10px] rounded-lg flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[230px] flex flex-row">
           <div className="w-[24px] h-[24px]">
             <TelegramIcon />
           </div>
         </div>
-      </a>
+      </a> */}
     </div>
   );
 };
