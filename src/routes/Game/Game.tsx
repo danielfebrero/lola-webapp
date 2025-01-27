@@ -12,6 +12,7 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 import LoadingIcon from "../../icons/loading";
 import Meta from "../../components/Meta";
+import { useAPI } from "../../hooks/useAPI";
 
 const GamePage: React.FC = () => {
   const navigate = useNavigate();
@@ -19,10 +20,10 @@ const GamePage: React.FC = () => {
   const location = useLocation();
   const params = useParams();
   const dispatch = useAppDispatch();
-  const { getThreadChatLog, getHeroActions, sendMessage, socketConnection } =
-    useWebSocket({});
+  const { getHeroActions, sendMessage, socketConnection } = useWebSocket({});
   const [threadId, setThreadId] = useState<string>();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const { getMessages } = useAPI();
 
   const chatLog = useAppSelector(
     (state) =>
@@ -73,7 +74,7 @@ const GamePage: React.FC = () => {
         dispatch(
           setGame({ threadId: params.gameId, heroActionsIsLoading: true })
         );
-        getThreadChatLog(params.gameId);
+        getMessages(params.gameId);
         getHeroActions(params.gameId);
       }
     }

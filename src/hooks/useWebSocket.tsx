@@ -406,19 +406,6 @@ export default function useWebSocket({
     getUserPlan();
   };
 
-  const getThreadChatLog = (threadId: string) => {
-    console.log("Fetching chatLog for thread: ", threadId);
-    socketConnection?.send(
-      JSON.stringify({
-        action: "fetchData",
-        endpoint: "messages",
-        threadId,
-        cookie,
-        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
-      })
-    );
-  };
-
   const getCharacter = (threadId: string) => {
     console.log("Fetching Character for thread: ", threadId);
     socketConnection?.send(
@@ -426,19 +413,6 @@ export default function useWebSocket({
         action: "fetchData",
         endpoint: "character",
         threadId,
-        cookie,
-        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
-      })
-    );
-  };
-
-  const getCharacters = () => {
-    console.log("Fetching Characters");
-    socketConnection?.send(
-      JSON.stringify({
-        action: "fetchData",
-        endpoint: "characters",
-        mode,
         cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
@@ -656,9 +630,7 @@ export default function useWebSocket({
   return {
     sendMessage,
     initData,
-    getThreadChatLog,
     getCharacter,
-    getCharacters,
     deleteCharacter,
     getHeroActions,
     deleteHeroGame,

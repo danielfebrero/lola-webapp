@@ -17,6 +17,7 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 import useGA from "../../hooks/useGA";
 import Meta from "../../components/Meta";
+import { useAPI } from "../../hooks/useAPI";
 
 interface CharacterPageProps {
   selected?: Record<string, string>;
@@ -33,6 +34,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const [newIsPrivate, setNewIsPrivate] = useState<boolean>(
     plan !== "free" && params.characterId === "new"
   );
+
+  const { getMessages } = useAPI();
 
   const newroleChat = useCallback(
     () => [
@@ -71,10 +74,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     "report" | "json" | "images" | "chat"
   >(isSmallScreen ? "chat" : "report");
 
-  const { sendMessage, getThreadChatLog, getCharacter, socketConnection } =
-    useWebSocket({
-      setThreadId,
-    });
+  const { sendMessage, getCharacter, socketConnection } = useWebSocket({
+    setThreadId,
+  });
 
   const sendMessageToCharacter = (
     content: string,
@@ -114,7 +116,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         setThreadId(params.characterId);
         setTimeout(() => {
           if (params.characterId) {
-            getThreadChatLog(params.characterId);
+            getMessages(params.characterId);
             getCharacter(params.characterId);
           }
         }, 50);
@@ -123,7 +125,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [
     dispatch,
     getCharacter,
-    getThreadChatLog,
+    getMessages,
     params.characterId,
     socketConnection?.readyState,
     threadId,
@@ -136,7 +138,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       params.characterId !== "main" &&
       socketConnection?.readyState === WebSocket.OPEN
     ) {
-      getThreadChatLog(params.characterId);
+      getMessages(params.characterId);
       getCharacter(params.characterId);
     }
   }, [socketConnection?.readyState]);

@@ -11,6 +11,7 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 import { addChatLog } from "../../store/features/app/appSlice";
 import Meta from "../../components/Meta";
+import { useAPI } from "../../hooks/useAPI";
 
 const LolaPage: React.FC = () => {
   const [chatLog, setChatLog] = useState<Message[]>([]);
@@ -19,8 +20,9 @@ const LolaPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+  const { getMessages } = useAPI();
 
-  const { sendMessage, socketConnection, getThreadChatLog } = useWebSocket({
+  const { sendMessage, socketConnection } = useWebSocket({
     setThreadId,
   });
 
@@ -47,7 +49,7 @@ const LolaPage: React.FC = () => {
       );
       setThreadId(params.conversationId);
       if (socketConnection?.readyState === WebSocket.OPEN) {
-        getThreadChatLog(params.conversationId);
+        getMessages(params.conversationId);
       }
     }
   }, [params.storyId, socketConnection?.readyState]);

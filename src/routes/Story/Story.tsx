@@ -14,6 +14,7 @@ import Meta from "../../components/Meta";
 import clsx from "clsx";
 import ImageViewer from "../../components/ImageViewer/ImageViewer";
 import useGA from "../../hooks/useGA";
+import { useAPI } from "../../hooks/useAPI";
 
 const Storypage: React.FC = () => {
   const [threadId, setThreadId] = useState<string | null>(null);
@@ -23,8 +24,9 @@ const Storypage: React.FC = () => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { sendEvent } = useGA();
 
-  const { sendMessage, getThreadChatLog, getStory, socketConnection } =
-    useWebSocket({});
+  const { sendMessage, getStory, socketConnection } = useWebSocket({});
+
+  const { getMessages } = useAPI();
 
   const chatLog = useAppSelector(
     (state) =>
@@ -52,7 +54,7 @@ const Storypage: React.FC = () => {
       );
       if (socketConnection?.readyState === WebSocket.OPEN) {
         console.log("get thread chat log");
-        getThreadChatLog(params.storyId);
+        getMessages(params.storyId);
         getStory(params.storyId);
       }
     }
