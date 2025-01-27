@@ -401,7 +401,7 @@ export default function useWebSocket({
   const initData = () => {
     console.log("Fetching initData");
     api.getThreads();
-    getCharacters();
+    api.getCharacters();
     getSettings();
     getUserPlan();
   };

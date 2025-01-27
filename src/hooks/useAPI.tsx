@@ -3,6 +3,7 @@ import useCookie from "./useCookie";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import {
   removeIsFromDataLoading,
+  setCharacters,
   setChatLogs,
 } from "../store/features/app/appSlice";
 
@@ -37,7 +38,6 @@ export const useAPI = () => {
       }
 
       const data = await response.json();
-      console.log({ data });
       dispatch(removeIsFromDataLoading("threads"));
       dispatch(setChatLogs(data));
       return;
@@ -47,7 +47,36 @@ export const useAPI = () => {
     }
   };
 
+  const getCharacters = async () => {
+    try {
+      const response = await fetch(`${API_URL}/characters?mode=${mode}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          cookie,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error fetching characters: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      dispatch(removeIsFromDataLoading("characters"));
+      dispatch(setCharacters(data));
+      return;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   return {
     getThreads,
+    getCharacters,
   };
 };
