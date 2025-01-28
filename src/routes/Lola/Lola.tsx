@@ -11,7 +11,7 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 import { addChatLog } from "../../store/features/app/appSlice";
 import Meta from "../../components/Meta";
-import { useAPI } from "../../hooks/useAPI";
+import useAPI from "../../hooks/useAPI";
 
 const LolaPage: React.FC = () => {
   const [chatLog, setChatLog] = useState<Message[]>([]);

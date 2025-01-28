@@ -14,7 +14,8 @@ import {
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
-import { useAPI } from "../../hooks/useAPI";
+import useAPI from "../../hooks/useAPI";
+import useGA from "../../hooks/useGA";
 
 const NewStoryPage: React.FC = () => {
   const { t } = useTranslation();
@@ -34,12 +35,11 @@ const NewStoryPage: React.FC = () => {
   const { plan } = useAppSelector((state) => state.user);
   const [newIsPrivate, setNewIsPrivate] = useState<boolean>(plan !== "free");
   const { getCharacters } = useAPI();
+  const { sendEvent } = useGA();
 
   const createStory = () => {
     const encoder = new TextEncoder();
     const encodedMessage = encoder.encode(context);
-
-    console.log({ length: encodedMessage.length, message: context });
 
     if (encodedMessage.length > 16384 / 2) {
       // 16KB limit: 16384 bytes
@@ -77,10 +77,6 @@ const NewStoryPage: React.FC = () => {
       navigate("/story/" + threadId);
     }
   }, [threadId]);
-
-  // useEffect(() => {
-  //   textAreaRef.current?.focus();
-  // }, []);
 
   return (
     <>
@@ -219,7 +215,14 @@ const NewStoryPage: React.FC = () => {
             </label>
             {plan === "free" && (
               <div className="ml-2 font-bold">
-                <NavLink to="/pricing">{t("Upgrade")}</NavLink>
+                <NavLink
+                  onClick={() =>
+                    sendEvent("click_upgrade_from_story", "character")
+                  }
+                  to="/pricing"
+                >
+                  {t("Upgrade")}
+                </NavLink>
               </div>
             )}
           </div>

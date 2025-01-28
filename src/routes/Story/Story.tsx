@@ -14,7 +14,7 @@ import Meta from "../../components/Meta";
 import clsx from "clsx";
 import ImageViewer from "../../components/ImageViewer/ImageViewer";
 import useGA from "../../hooks/useGA";
-import { useAPI } from "../../hooks/useAPI";
+import useAPI from "../../hooks/useAPI";
 
 const Storypage: React.FC = () => {
   const [threadId, setThreadId] = useState<string | null>(null);

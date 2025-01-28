@@ -17,7 +17,7 @@ const API_URL =
     ? "https://devapi.lola.la/dev"
     : "https://prodapi.lola.la/prod";
 
-export const useAPI = () => {
+const useAPI = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -126,3 +126,5 @@ export const useAPI = () => {
     getMessages,
   };
 };
+
+export default useAPI;

@@ -12,7 +12,7 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 import LoadingIcon from "../../icons/loading";
 import Meta from "../../components/Meta";
-import { useAPI } from "../../hooks/useAPI";
+import useAPI from "../../hooks/useAPI";
 
 const GamePage: React.FC = () => {
   const navigate = useNavigate();

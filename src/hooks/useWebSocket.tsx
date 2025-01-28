@@ -34,7 +34,7 @@ import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
 import useGA from "./useGA";
 import useNewChatLocation from "./useNewChatLocation";
 import useCookie from "./useCookie";
-import { useAPI } from "./useAPI";
+import useAPI from "./useAPI";
 
 export default function useWebSocket({
   setThreadId,

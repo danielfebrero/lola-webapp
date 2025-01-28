@@ -17,7 +17,7 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 import useGA from "../../hooks/useGA";
 import Meta from "../../components/Meta";
-import { useAPI } from "../../hooks/useAPI";
+import useAPI from "../../hooks/useAPI";
 
 interface CharacterPageProps {
   selected?: Record<string, string>;
@@ -227,7 +227,14 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 </label>
                 {plan === "free" && (
                   <div className="ml-2 font-bold">
-                    <NavLink to="/pricing">{t("Upgrade")}</NavLink>
+                    <NavLink
+                      onClick={() =>
+                        sendEvent("click_upgrade_from_character", "character")
+                      }
+                      to="/pricing"
+                    >
+                      {t("Upgrade")}
+                    </NavLink>
                   </div>
                 )}
               </div>
@@ -315,7 +322,17 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                       </label>
                       {plan === "free" && (
                         <div className="ml-2 font-bold">
-                          <NavLink to="/pricing">{t("Upgrade")}</NavLink>
+                          <NavLink
+                            onClick={() =>
+                              sendEvent(
+                                "click_upgrade_from_character",
+                                "character"
+                              )
+                            }
+                            to="/pricing"
+                          >
+                            {t("Upgrade")}
+                          </NavLink>
                         </div>
                       )}
                     </div>

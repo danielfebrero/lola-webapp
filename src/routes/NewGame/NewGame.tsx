@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
-import { useAPI } from "../../hooks/useAPI";
+import useAPI from "../../hooks/useAPI";
 
 const NewGamePage: React.FC = () => {
   const { t } = useTranslation();
