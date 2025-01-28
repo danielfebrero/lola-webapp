@@ -9,7 +9,7 @@ const App = dynamic(() => import("../../../../App"), {
 const ExplorePage: React.FC = () => {
   return (
     <div className="no-scrollbar overflow-hidden h-screen w-screen">
-      <PageLayout>{""}</PageLayout>
+      <PageLayout headerDropdownLabel="Order received">{""}</PageLayout>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <App />
       </div>
