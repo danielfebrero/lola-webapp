@@ -13,7 +13,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
 }) => {
   return (
     <div className="text-textPrimary dark:text-darkTextPrimary h-screen w-screen flex flex-row">
-      <LeftPanelLayout />
+      {/* <LeftPanelLayout /> */}
       <div className="flex flex-col h-screen overflow-y-scroll w-full bg-white dark:bg-darkMainSurfacePrimary no-scrollbar w-full">
         <div className="flex flex-col grow overflow-y-scroll no-scrollbar">
           {headerDropdownLabel && (
