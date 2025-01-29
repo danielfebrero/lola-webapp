@@ -38,10 +38,12 @@ const Init: React.FC = () => {
     prevMode,
     isDataLoading,
   } = useAppSelector((state) => state.app);
-  const { socketConnection } = useAppSelector((state) => state.socket);
+  const { socketConnection, connectionId } = useAppSelector(
+    (state) => state.socket
+  );
   const { setUserId } = useUserLog();
   const { settings } = useAppSelector((state) => state.user);
-  const { initData } = useWebSocket({});
+  const { initData, getConnectionId } = useWebSocket({});
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
 
   const { i18n } = useTranslation();
@@ -133,6 +135,17 @@ const Init: React.FC = () => {
       !isDataLoaded &&
       socketConnection &&
       socketConnection.readyState === socketConnection.OPEN
+    ) {
+      getConnectionId();
+    }
+  }, [socketConnection]);
+
+  useEffect(() => {
+    if (
+      !isDataLoaded &&
+      socketConnection &&
+      socketConnection.readyState === socketConnection.OPEN &&
+      connectionId
     ) {
       initData();
       dispatch(setIsDataLoaded(true));

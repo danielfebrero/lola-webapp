@@ -23,6 +23,7 @@ const useAPI = () => {
   const dispatch = useAppDispatch();
   const cookie = useCookie();
   const { mode } = useAppSelector((state) => state.app);
+  const { connectionId } = useAppSelector((state) => state.socket);
   const newChatLocation = useNewChatLocation();
 
   const getThreads = async () => {
@@ -36,6 +37,7 @@ const useAPI = () => {
               ? auth.user?.id_token
               : "",
           cookie,
+          "ws-connection-id": connectionId ?? "",
         },
       });
 
@@ -64,6 +66,7 @@ const useAPI = () => {
               ? auth.user?.id_token
               : "",
           cookie,
+          "ws-connection-id": connectionId ?? "",
         },
       });
 
@@ -92,6 +95,7 @@ const useAPI = () => {
               ? auth.user?.id_token
               : "",
           cookie,
+          "ws-connection-id": connectionId ?? "",
         },
       });
 

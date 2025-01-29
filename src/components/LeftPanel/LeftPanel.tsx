@@ -15,8 +15,8 @@ import OptionsDropdown from "../OptionsDropdown";
 import useClickOutside from "../../hooks/useClickOutside";
 import useGA from "../../hooks/useGA";
 import AdultIcon from "../../icons/adult";
-import TelegramIcon from "../../icons/telegram";
 import Loading from "../Loading";
+import PlanIcon from "../../icons/plan";
 
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -101,7 +101,7 @@ const LeftPanel: React.FC = () => {
             <div
               onClick={() => {
                 dispatch(toggleLeftPanel());
-                sendEvent("click_toggle_left_panel");
+                sendEvent("click_toggle_left_panel", "left_panel");
               }}
             >
               <div className="ml-[-5px]  hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
@@ -115,7 +115,7 @@ const LeftPanel: React.FC = () => {
               onClick={() => {
                 if (isSmallScreen && isLeftPanelOpen)
                   dispatch(toggleLeftPanel());
-                sendEvent("click_new_chat_from_left_panel");
+                sendEvent("click_new_chat", "left_panel");
               }}
             >
               <div className="mr-[-5px]  hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
@@ -142,7 +142,7 @@ const LeftPanel: React.FC = () => {
                 onClick={() => {
                   if (isSmallScreen && isLeftPanelOpen)
                     dispatch(toggleLeftPanel());
-                  sendEvent("click_latest_from_left_panel");
+                  sendEvent("click_explore_latest", "left_panel");
                 }}
               >
                 <div className="truncate">{t("Latest")}</div>
@@ -155,7 +155,7 @@ const LeftPanel: React.FC = () => {
                 onClick={() => {
                   if (isSmallScreen && isLeftPanelOpen)
                     dispatch(toggleLeftPanel());
-                  sendEvent("click_best_from_left_panel");
+                  sendEvent("click_explore_best", "left_panel");
                 }}
               >
                 <div className="truncate">{t("Best content")}</div>
@@ -168,7 +168,7 @@ const LeftPanel: React.FC = () => {
                 onClick={() => {
                   if (isSmallScreen && isLeftPanelOpen)
                     dispatch(toggleLeftPanel());
-                  sendEvent("click_images_from_left_panel");
+                  sendEvent("click_explore_images", "left_panel");
                 }}
               >
                 <div className="truncate">{t("Images")}</div>
@@ -186,7 +186,7 @@ const LeftPanel: React.FC = () => {
                   onClick={() => {
                     if (isSmallScreen && isLeftPanelOpen)
                       dispatch(toggleLeftPanel());
-                    sendEvent("click_plus_char_from_left_panel", "character");
+                    sendEvent("click_new_character", "left_panel");
                   }}
                 >
                   <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
@@ -204,7 +204,7 @@ const LeftPanel: React.FC = () => {
                 to="/character/new"
                 onClick={() => {
                   if (isSmallScreen) dispatch(toggleLeftPanel());
-                  sendEvent("click_plus_char_from_left_panel", "character");
+                  sendEvent("click_new_character", "left_panel");
                 }}
               >
                 <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
@@ -342,7 +342,7 @@ const LeftPanel: React.FC = () => {
                   onClick={() => {
                     if (isSmallScreen && isLeftPanelOpen)
                       dispatch(toggleLeftPanel());
-                    sendEvent("click_plus_story_from_left_panel", "story");
+                    sendEvent("click_new_story", "left_panel");
                   }}
                 >
                   <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
@@ -359,7 +359,7 @@ const LeftPanel: React.FC = () => {
                 to="/story/new"
                 onClick={() => {
                   if (isSmallScreen) dispatch(toggleLeftPanel());
-                  sendEvent("click_plus_story_from_left_panel", "story");
+                  sendEvent("click_new_story", "left_panel");
                 }}
               >
                 <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
@@ -442,10 +442,7 @@ const LeftPanel: React.FC = () => {
                   onClick={() => {
                     if (isSmallScreen && isLeftPanelOpen)
                       dispatch(toggleLeftPanel());
-                    sendEvent(
-                      "click_plus_game_from_left_panel",
-                      "you_are_the_hero"
-                    );
+                    sendEvent("click_new_game", "left_panel");
                   }}
                 >
                   <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
@@ -462,10 +459,7 @@ const LeftPanel: React.FC = () => {
                 to="/game/new"
                 onClick={() => {
                   if (isSmallScreen) dispatch(toggleLeftPanel());
-                  sendEvent(
-                    "click_plus_game_from_left_panel",
-                    "you_are_the_hero"
-                  );
+                  sendEvent("click_new_game", "left_panel");
                 }}
               >
                 <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
@@ -550,6 +544,21 @@ const LeftPanel: React.FC = () => {
           </div>
         </div>
       </div>
+      <NavLink
+        onClick={() => {
+          sendEvent("click_upgrade", "left_panel");
+
+          if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
+        }}
+        to={"/pricing"}
+        className="fixed bottom-[55px] left-[10px] pl-[10px] flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[240px] py-[10px] rounded-lg flex flex-row"
+      >
+        <div className="w-[24px] h-[24px] mr-[10px]">
+          <PlanIcon />
+        </div>
+        <div className="">{t("Upgrade plan")}</div>
+      </NavLink>
+
       <div
         onClick={() => {
           dispatch(setMode(mode === "adult" ? "minor" : "adult"));
@@ -563,11 +572,11 @@ const LeftPanel: React.FC = () => {
         }}
         className="fixed bottom-[10px] left-[10px] pl-[10px] dark:text-pink-200 text-rose-600 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[240px] py-[10px] rounded-lg flex flex-row"
       >
+        <div className="w-[24px] h-[24px] mr-[10px]">
+          <AdultIcon />
+        </div>
         <div className="">
           {t(mode === "minor" ? "Enter Lola" : "Exit Lola")}
-        </div>
-        <div className="w-[24px] h-[24px] ml-[5px]">
-          <AdultIcon />
         </div>
       </div>
       {/* <a href="https://t.me/lola_storyteller" target="_blank" rel="noreferrer">

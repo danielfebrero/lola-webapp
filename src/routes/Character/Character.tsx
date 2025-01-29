@@ -229,12 +229,10 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 {plan === "free" && (
                   <div className="ml-2 font-bold">
                     <NavLink
-                      onClick={() =>
-                        sendEvent("click_upgrade_from_character", "character")
-                      }
+                      onClick={() => sendEvent("click_upgrade", "character")}
                       to="/pricing"
                     >
-                      {t("Upgrade")}
+                      {t("Upgrade plan")}
                     </NavLink>
                   </div>
                 )}
@@ -330,14 +328,11 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                         <div className="ml-2 font-bold">
                           <NavLink
                             onClick={() =>
-                              sendEvent(
-                                "click_upgrade_from_character",
-                                "character"
-                              )
+                              sendEvent("click_upgrade", "character")
                             }
                             to="/pricing"
                           >
-                            {t("Upgrade")}
+                            {t("Upgrade plan")}
                           </NavLink>
                         </div>
                       )}

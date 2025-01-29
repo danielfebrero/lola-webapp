@@ -22,6 +22,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
     props.hide();
   });
   const { mode } = useAppSelector((state) => state.app);
+  const { plan } = useAppSelector((state) => state.user);
   const { sendEvent } = useGA();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -49,9 +50,8 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
           dispatch(setMode(mode === "adult" ? "minor" : "adult"));
           props.hide();
           sendEvent(
-            mode === "adult"
-              ? "click_exit_lola18_from_profile_dropdown"
-              : "click_enter_lola18_from_profile_dropdown"
+            mode === "adult" ? "click_exit_lola18" : "click_enter_lola18",
+            "profile_dropdown"
           );
         }}
       >
@@ -77,25 +77,27 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
         </div>
         <div className="ml-[10px]">{t("Settings")}</div>
       </div>
-      <div
-        className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
-        onClick={() => {
-          navigate("/pricing");
-          sendEvent("click_pricing_from_profile_dropdown");
-          props.hide();
-        }}
-      >
-        <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
-          <PlanIcon />
+      {plan !== "early_lifetime" && (
+        <div
+          className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
+          onClick={() => {
+            navigate("/pricing");
+            sendEvent("click_upgrade", "profile_dropdown");
+            props.hide();
+          }}
+        >
+          <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
+            <PlanIcon />
+          </div>
+          <div className="ml-[10px]">{t("Upgrade plan")}</div>
         </div>
-        <div className="ml-[10px]">{t("Pricing")}</div>
-      </div>
+      )}
       {auth?.isAuthenticated ? (
         <div
           className="rounded-lg cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
           onClick={() => {
             signOutRedirect();
-            sendEvent("click_signout");
+            sendEvent("click_signout", "profile_dropdown");
           }}
         >
           <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
@@ -107,7 +109,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
         <div
           className="rounded-lg cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
           onClick={() => {
-            sendEvent("click_signin_signup");
+            sendEvent("click_signin_signup", "profile_dropdown");
             auth.signinRedirect();
           }}
         >

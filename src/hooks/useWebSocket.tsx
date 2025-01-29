@@ -35,6 +35,7 @@ import useGA from "./useGA";
 import useNewChatLocation from "./useNewChatLocation";
 import useCookie from "./useCookie";
 import useAPI from "./useAPI";
+import { setConnectionId } from "../store/features/socket/socketSlice";
 
 export default function useWebSocket({
   setThreadId,
@@ -75,6 +76,10 @@ export default function useWebSocket({
             break;
           case "fetch":
             switch (data.type) {
+              case "connection_id":
+                dispatch(setConnectionId(data.data.connectionId));
+                break;
+
               case "plan":
                 dispatch(setUserPlan(data.data.plan));
                 break;
@@ -406,6 +411,19 @@ export default function useWebSocket({
     getUserPlan();
   };
 
+  const getConnectionId = (threadId: string) => {
+    console.log("Fetching Character for thread: ", threadId);
+    socketConnection?.send(
+      JSON.stringify({
+        action: "fetchData",
+        endpoint: "connection_id",
+        threadId,
+        cookie,
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
+  };
+
   const getCharacter = (threadId: string) => {
     console.log("Fetching Character for thread: ", threadId);
     socketConnection?.send(
@@ -648,6 +666,7 @@ export default function useWebSocket({
     getCryptoCheckoutUrl,
     cancelCryptoOrder,
     getUserPlan,
+    getConnectionId,
     socketConnection,
   };
 }

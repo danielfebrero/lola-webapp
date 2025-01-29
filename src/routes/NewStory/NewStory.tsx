@@ -216,12 +216,10 @@ const NewStoryPage: React.FC = () => {
             {plan === "free" && (
               <div className="ml-2 font-bold">
                 <NavLink
-                  onClick={() =>
-                    sendEvent("click_upgrade_from_story", "character")
-                  }
+                  onClick={() => sendEvent("click_upgrade", "story")}
                   to="/pricing"
                 >
-                  {t("Upgrade")}
+                  {t("Upgrade plan")}
                 </NavLink>
               </div>
             )}
