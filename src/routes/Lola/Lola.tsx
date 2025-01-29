@@ -136,7 +136,7 @@ const LolaPage: React.FC = () => {
           >
             <Chat
               type="lola"
-              id={params.threadId}
+              id={threadId}
               chatLog={chatLog}
               isChatLoading={chatState?.isLoading ?? false}
               isAssistantWriting={isAssistantWriting}
@@ -146,6 +146,7 @@ const LolaPage: React.FC = () => {
             <div className="w-[65%]">
               <SendChatInput
                 type="lola"
+                threadId={threadId}
                 onSend={(message) => sendMessageToLola(message, threadId)}
                 canSendMessage={chatState?.canSendMessage ?? true}
                 isChatInputAvailable={chatState?.isInputAvailable ?? true}

@@ -46,7 +46,7 @@ export default function useWebSocket({
 }) {
   const auth = useAuth();
   const newChatLocation = useNewChatLocation();
-  const { currentlyViewing, mode, exploreLanguage } = useAppSelector(
+  const { currentlyViewing, mode, exploreLanguage, chatLogs } = useAppSelector(
     (state) => state.app
   );
   const { socketConnection } = useAppSelector((state) => state.socket);
@@ -186,6 +186,11 @@ export default function useWebSocket({
                     break;
                   case "partial":
                     // Add assistant's message to the chat log
+                    if (
+                      chatLogs.find((log) => log.threadId === data.threadId)
+                        ?.isRequestStopped
+                    )
+                      return;
                     dispatch(
                       addChatLog({
                         threadId: data.threadId,
@@ -361,6 +366,7 @@ export default function useWebSocket({
     currentlyViewing.objectId,
     navigate,
     newChatLocation,
+    chatLogs,
   ]);
 
   const sendMessage = (
@@ -383,6 +389,7 @@ export default function useWebSocket({
           threadId,
           canSendMessage: false,
           lastRequestId: requestId,
+          isRequestStopped: false,
         })
       );
       dispatch(
@@ -424,6 +431,18 @@ export default function useWebSocket({
     api.getCharacters();
     getSettings();
     getUserPlan();
+  };
+
+  const stopRequestId = (requestId: string) => {
+    socketConnection?.send(
+      JSON.stringify({
+        action: "setData",
+        endpoint: "stop_request_id",
+        cookie,
+        requestId,
+        token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      })
+    );
   };
 
   const getConnectionId = () => {
@@ -680,6 +699,7 @@ export default function useWebSocket({
     cancelCryptoOrder,
     getUserPlan,
     getConnectionId,
+    stopRequestId,
     socketConnection,
   };
 }

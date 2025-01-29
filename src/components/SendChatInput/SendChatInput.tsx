@@ -1,13 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../store/hooks";
 import SendIcon from "../../icons/send";
 import StopIcon from "../../icons/stop";
+import useWebSocket from "../../hooks/useWebSocket";
+import { useAppDispatch } from "../../store/hooks";
+import { setChatLog } from "../../store/features/app/appSlice";
+import { threadId } from "worker_threads";
 
 interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
-  id?: string | null;
+  threadId?: string | null;
   onSend?: (message: string) => void;
   onChange?: (message: string) => void;
   isChatInputAvailable: boolean;
@@ -18,7 +22,11 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const [value, setValue] = useState<string>("");
   const { t } = useTranslation();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const isSmallScreen = useAppSelector((state) => state.app.isSmallScreen);
+  const { isSmallScreen, lastRequestIdWaitingForThreadId } = useAppSelector(
+    (state) => state.app
+  );
+  const { stopRequestId } = useWebSocket({});
+  const dispatch = useAppDispatch();
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = event.target;
@@ -27,6 +35,23 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
     setValue(textarea.value);
     if (props.onChange) props.onChange(textarea.value);
   };
+
+  const handleStop = useCallback(() => {
+    if (props.threadId) {
+      stopRequestId(props.threadId);
+      dispatch(
+        setChatLog({
+          threadId: props.threadId,
+          isInputAvailable: true,
+          isLoading: false,
+          canSendMessage: true,
+          isRequestStopped: true,
+        })
+      );
+    } else if (lastRequestIdWaitingForThreadId) {
+      stopRequestId(lastRequestIdWaitingForThreadId);
+    }
+  }, [lastRequestIdWaitingForThreadId, props.threadId, stopRequestId]);
 
   const handleSend = () => {
     const trimmedValue = value.trim();
@@ -78,13 +103,22 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
           placeholder={t("Type a message and press Enter to send...")}
           rows={1}
         ></textarea>
-        <div className="w-[36px] h-[36px] cursor-pointer" onClick={handleSend}>
-          {!props.canSendMessage && props.isChatInputAvailable ? (
+
+        {!props.canSendMessage && props.isChatInputAvailable ? (
+          <div
+            className="w-[36px] h-[36px] cursor-pointer"
+            onClick={handleStop}
+          >
             <StopIcon />
-          ) : (
+          </div>
+        ) : (
+          <div
+            className="w-[36px] h-[36px] cursor-pointer"
+            onClick={handleSend}
+          >
             <SendIcon />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -21,4 +21,5 @@ interface ChatLog {
   isOwner: boolean;
   is_private?: boolean;
   lastRequestId?: string | null;
+  isRequestStopped?: boolean;
 }

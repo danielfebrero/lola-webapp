@@ -253,7 +253,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
             <div className="justify-center flex w-full md:px-0 px-[30px]">
               <SendChatInput
                 type="character"
-                id={threadId}
+                threadId={threadId}
                 isChatInputAvailable={
                   chatState && !chatState?.isOwner
                     ? false
@@ -353,7 +353,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   <div className="justify-center flex w-full md:px-0 px-[30px]">
                     <SendChatInput
                       type="character"
-                      id={threadId}
+                      threadId={threadId}
                       isChatInputAvailable={
                         chatState && !chatState?.isOwner
                           ? false

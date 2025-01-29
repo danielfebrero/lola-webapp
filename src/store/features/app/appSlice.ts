@@ -205,6 +205,8 @@ export const appSlice = createSlice({
       );
       if (currentLog) {
         currentLog.chatLog = action.payload.chatLog ?? currentLog.chatLog;
+        currentLog.isRequestStopped =
+          action.payload.isRequestStopped ?? currentLog.isRequestStopped;
         currentLog.lastRequestId =
           action.payload.lastRequestId ?? currentLog.lastRequestId;
         currentLog.canSendMessage =
@@ -232,6 +234,7 @@ export const appSlice = createSlice({
           isOwner: action.payload.isOwner ?? true,
           is_private: action.payload.is_private ?? false,
           lastRequestId: action.payload.lastRequestId ?? null,
+          isRequestStopped: action.payload.isRequestStopped ?? false,
         });
       }
     },
@@ -249,6 +252,8 @@ export const appSlice = createSlice({
             action.payload.title ?? `New ${action.payload.type}`;
         currentLog.lastRequestId =
           action.payload.lastRequestId ?? currentLog.lastRequestId;
+        currentLog.isRequestStopped =
+          action.payload.isRequestStopped ?? currentLog.isRequestStopped;
 
         // if last message is already from "narrator", we concatenate
         if (
@@ -285,6 +290,7 @@ export const appSlice = createSlice({
           isOwner: true,
           is_private: action.payload.is_private,
           lastRequestId: action.payload.lastRequestId,
+          isRequestStopped: action.payload.isRequestStopped,
         });
       }
     },

@@ -151,6 +151,7 @@ const Storypage: React.FC = () => {
             <div className="md:max-w-[715px] w-[100%] px-[30px]">
               <SendChatInput
                 type="story"
+                threadId={threadId}
                 onSend={(message) => sendMessage(message, "story", threadId)}
                 canSendMessage={
                   chatState?.isOwner ? chatState?.canSendMessage ?? true : false
