@@ -14,6 +14,7 @@ interface AppState {
     objectId: string | null;
   };
   chatLogs: ChatLog[];
+  lastRequestIdWaitingForThreadId?: string | null;
   isDataLoaded: boolean;
   isDataLoading: string[];
   isDataLoadingLeftPanel: string[];
@@ -59,6 +60,7 @@ const initialState: AppState = {
   },
   exploreLanguage: "all",
   isCryptoPricingCheckoutUrlLoading: false,
+  lastRequestIdWaitingForThreadId: null,
 };
 
 export const appSlice = createSlice({
@@ -203,6 +205,8 @@ export const appSlice = createSlice({
       );
       if (currentLog) {
         currentLog.chatLog = action.payload.chatLog ?? currentLog.chatLog;
+        currentLog.lastRequestId =
+          action.payload.lastRequestId ?? currentLog.lastRequestId;
         currentLog.canSendMessage =
           action.payload.canSendMessage ?? currentLog.canSendMessage;
         currentLog.isLoading = action.payload.isLoading ?? currentLog.isLoading;
@@ -227,6 +231,7 @@ export const appSlice = createSlice({
           votes: 0,
           isOwner: action.payload.isOwner ?? true,
           is_private: action.payload.is_private ?? false,
+          lastRequestId: action.payload.lastRequestId ?? null,
         });
       }
     },
@@ -242,6 +247,8 @@ export const appSlice = createSlice({
         if (!currentLog.title)
           currentLog.title =
             action.payload.title ?? `New ${action.payload.type}`;
+        currentLog.lastRequestId =
+          action.payload.lastRequestId ?? currentLog.lastRequestId;
 
         // if last message is already from "narrator", we concatenate
         if (
@@ -277,6 +284,7 @@ export const appSlice = createSlice({
           votes: 0,
           isOwner: true,
           is_private: action.payload.is_private,
+          lastRequestId: action.payload.lastRequestId,
         });
       }
     },
@@ -355,6 +363,9 @@ export const appSlice = createSlice({
         });
       }
     },
+    setLastRequestWaitingForThreadId: (state, action) => {
+      state.lastRequestIdWaitingForThreadId = action.payload;
+    },
   },
 });
 
@@ -390,6 +401,7 @@ export const {
   setExploreLanguage,
   setLanguages,
   setIsCryptoCheckoutUrlLoading,
+  setLastRequestWaitingForThreadId,
 } = appSlice.actions;
 
 export default appSlice.reducer;

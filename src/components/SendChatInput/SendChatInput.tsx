@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../store/hooks";
 import SendIcon from "../../icons/send";
+import StopIcon from "../../icons/stop";
 
 interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
@@ -78,7 +79,11 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
           rows={1}
         ></textarea>
         <div className="w-[36px] h-[36px] cursor-pointer" onClick={handleSend}>
-          <SendIcon />
+          {!props.canSendMessage && props.isChatInputAvailable ? (
+            <StopIcon />
+          ) : (
+            <SendIcon />
+          )}
         </div>
       </div>
     </div>

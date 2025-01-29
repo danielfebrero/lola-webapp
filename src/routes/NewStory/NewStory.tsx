@@ -10,6 +10,7 @@ import SendIcon from "../../icons/send";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   addChatLog,
+  setChatLog,
   setCurrentlyViewing,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
@@ -28,10 +29,23 @@ const NewStoryPage: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const dispatch = useAppDispatch();
+  const { characters, lastRequestIdWaitingForThreadId } = useAppSelector(
+    (state) => state.app
+  );
+
+  const gameSetThreadId = (threadId: string | null) => {
+    setThreadId(threadId);
+    dispatch(
+      setChatLog({
+        threadId,
+        lastRequestId: lastRequestIdWaitingForThreadId,
+      })
+    );
+  };
+
   const { sendMessage, socketConnection } = useWebSocket({
-    setThreadId,
+    setThreadId: gameSetThreadId,
   });
-  const { characters } = useAppSelector((state) => state.app);
   const { plan } = useAppSelector((state) => state.user);
   const [newIsPrivate, setNewIsPrivate] = useState<boolean>(plan !== "free");
   const { getCharacters } = useAPI();

@@ -23,8 +23,22 @@ const LolaPage: React.FC = () => {
   const { getMessages } = useAPI();
   const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
 
+  const { lastRequestIdWaitingForThreadId } = useAppSelector(
+    (state) => state.app
+  );
+
+  const lolaSetThreadId = (threadId: string | null) => {
+    setThreadId(threadId);
+    dispatch(
+      setChatLogAction({
+        threadId,
+        lastRequestId: lastRequestIdWaitingForThreadId,
+      })
+    );
+  };
+
   const { sendMessage, socketConnection } = useWebSocket({
-    setThreadId,
+    setThreadId: lolaSetThreadId,
   });
 
   const chatLogs = useAppSelector((state) => state.app.chatLogs);

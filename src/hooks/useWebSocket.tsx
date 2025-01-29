@@ -23,6 +23,7 @@ import {
   setExploreBest,
   setExploreImages,
   setIsCryptoCheckoutUrlLoading,
+  setLastRequestWaitingForThreadId,
 } from "../store/features/app/appSlice";
 import {
   setClickedDownvotes,
@@ -36,6 +37,7 @@ import useNewChatLocation from "./useNewChatLocation";
 import useCookie from "./useCookie";
 import useAPI from "./useAPI";
 import { setConnectionId } from "../store/features/socket/socketSlice";
+import { v4 } from "uuid";
 
 export default function useWebSocket({
   setThreadId,
@@ -367,14 +369,22 @@ export default function useWebSocket({
     threadId: string | null,
     extraFields?: Record<string, any>
   ) => {
+    const requestId = v4();
+
     track("sent_message");
     sendEvent("send_message_" + endpoint, endpoint);
 
     dispatch(messageSentPlusOne());
 
     // Add user's message to the chat log
-    if (threadId) dispatch(setChatLog({ threadId, canSendMessage: false }));
-    if (threadId)
+    if (threadId) {
+      dispatch(
+        setChatLog({
+          threadId,
+          canSendMessage: false,
+          lastRequestId: requestId,
+        })
+      );
       dispatch(
         addChatLog({
           threadId,
@@ -382,8 +392,12 @@ export default function useWebSocket({
           role: "user",
           type: endpoint,
           is_private: extraFields?.isPrivate ?? false,
+          lastRequsetId: requestId,
         })
       );
+    } else {
+      dispatch(setLastRequestWaitingForThreadId(requestId));
+    }
 
     // Send the action via WebSocket
     const msg: Record<string, any> = {
@@ -395,6 +409,7 @@ export default function useWebSocket({
       cookie,
       admin: searchParams.get("admin"),
       token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
+      requestId,
       ...extraFields,
     };
 

@@ -58,7 +58,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const chatState = useAppSelector((state) =>
     state.app.chatLogs.find((log) => log.threadId === params.threadId)
   );
-  const { isSmallScreen } = useAppSelector((state) => state.app);
+  const { isSmallScreen, lastRequestIdWaitingForThreadId } = useAppSelector(
+    (state) => state.app
+  );
   const character = useAppSelector(
     (state) =>
       state.app.characters.find((char) => char.thread_id === params.threadId) ??
@@ -73,8 +75,18 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     "report" | "json" | "images" | "chat"
   >(isSmallScreen ? "chat" : "report");
 
+  const characterSetThreadId = (threadId: string | null) => {
+    setThreadId(threadId);
+    dispatch(
+      setChatLogAction({
+        threadId,
+        lastRequestId: lastRequestIdWaitingForThreadId,
+      })
+    );
+  };
+
   const { sendMessage, getCharacter, socketConnection } = useWebSocket({
-    setThreadId,
+    setThreadId: characterSetThreadId,
   });
 
   const sendMessageToCharacter = (

@@ -20,4 +20,5 @@ interface ChatLog {
   votes: number;
   isOwner: boolean;
   is_private?: boolean;
+  lastRequestId?: string | null;
 }

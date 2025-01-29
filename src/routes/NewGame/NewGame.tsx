@@ -8,7 +8,10 @@ import PlusIcon from "../../icons/plus";
 import CloseIcon from "../../icons/close";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setCurrentlyViewing } from "../../store/features/app/appSlice";
+import {
+  setChatLog,
+  setCurrentlyViewing,
+} from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
@@ -22,13 +25,25 @@ const NewGamePage: React.FC = () => {
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const dispatch = useAppDispatch();
-  const { characters, mode } = useAppSelector((state) => state.app);
+  const { characters, mode, lastRequestIdWaitingForThreadId } = useAppSelector(
+    (state) => state.app
+  );
   const [hasSentMessage, setHasSentMessage] = useState<boolean>(false);
   const [threadId, setThreadId] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
+  const gameSetThreadId = (threadId: string | null) => {
+    setThreadId(threadId);
+    dispatch(
+      setChatLog({
+        threadId,
+        lastRequestId: lastRequestIdWaitingForThreadId,
+      })
+    );
+  };
+
   const { sendMessage, socketConnection } = useWebSocket({
-    setThreadId,
+    setThreadId: gameSetThreadId,
   });
 
   const { getCharacters } = useAPI();
