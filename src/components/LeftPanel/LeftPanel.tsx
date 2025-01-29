@@ -134,19 +134,7 @@ const LeftPanel: React.FC = () => {
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>{t("Explore")}</div>
             </div>
-            <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-              <NavLink
-                to={`/explore/images`}
-                className="h-full grow flex items-center w-[calc(100%-40px)]"
-                onClick={() => {
-                  if (isSmallScreen && isLeftPanelOpen)
-                    dispatch(toggleLeftPanel());
-                  sendEvent("click_images_from_left_panel");
-                }}
-              >
-                <div className="truncate">{t("Images")}</div>
-              </NavLink>
-            </div>
+
             <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
               <NavLink
                 to={`/explore/latest`}
@@ -171,6 +159,19 @@ const LeftPanel: React.FC = () => {
                 }}
               >
                 <div className="truncate">{t("Best content")}</div>
+              </NavLink>
+            </div>
+            <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+              <NavLink
+                to={`/explore/images`}
+                className="h-full grow flex items-center w-[calc(100%-40px)]"
+                onClick={() => {
+                  if (isSmallScreen && isLeftPanelOpen)
+                    dispatch(toggleLeftPanel());
+                  sendEvent("click_images_from_left_panel");
+                }}
+              >
+                <div className="truncate">{t("Images")}</div>
               </NavLink>
             </div>
           </div>
