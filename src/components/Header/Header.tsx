@@ -69,7 +69,10 @@ const Header: React.FC = () => {
         chatLogs.find((log) => log.threadId === params.threadId)?.title ?? ""
       );
     }
-  }, [params.threadId]);
+  }, [
+    params.threadId,
+    chatLogs.find((log) => log.threadId === params.threadId)?.title,
+  ]);
 
   useEffect(() => {
     if (chatLogs.length > 0) {
