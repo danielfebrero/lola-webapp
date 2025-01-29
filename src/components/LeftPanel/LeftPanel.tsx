@@ -329,6 +329,107 @@ const LeftPanel: React.FC = () => {
                 ))
             )}
           </div>
+
+          <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
+            <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
+              <div className="font-bold h-[40px] content-center">
+                {t("Stories")}
+              </div>
+              {chatLogs.filter((log) => log.type === "story" && log.isOwner)
+                .length > 0 ? (
+                <NavLink
+                  to="/story/new"
+                  onClick={() => {
+                    if (isSmallScreen && isLeftPanelOpen)
+                      dispatch(toggleLeftPanel());
+                    sendEvent("click_plus_story_from_left_panel", "story");
+                  }}
+                >
+                  <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
+                    <PlusIcon />
+                  </div>
+                </NavLink>
+              ) : null}
+            </div>
+            {isDataLoadingLeftPanel.includes("threads") ? (
+              <Loading />
+            ) : chatLogs.filter((log) => log.type === "story" && log.isOwner)
+                .length === 0 ? (
+              <NavLink
+                to="/story/new"
+                onClick={() => {
+                  if (isSmallScreen) dispatch(toggleLeftPanel());
+                  sendEvent("click_plus_story_from_left_panel", "story");
+                }}
+              >
+                <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                  <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
+                    <PlusIcon />
+                  </div>
+                  <span className="pl-[10px]">{t("New story")}</span>
+                </div>
+              </NavLink>
+            ) : (
+              chatLogs
+                .filter((log) => log.type === "story" && log.isOwner)
+                .map((story) => (
+                  <div
+                    key={story.threadId}
+                    className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]"
+                  >
+                    <NavLink
+                      to={`/story/${story.threadId}`}
+                      key={story.threadId}
+                      className="h-full grow flex items-center w-[calc(100%-40px)]"
+                      onClick={
+                        isSmallScreen
+                          ? () => dispatch(toggleLeftPanel())
+                          : undefined
+                      }
+                    >
+                      <div className="truncate">{t(story.title ?? "")}</div>
+                    </NavLink>
+                    {story.isBeingDeleted ? (
+                      <div className="h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary">
+                        <LoadingIcon />
+                      </div>
+                    ) : (
+                      <div
+                        className={clsx(
+                          {
+                            hidden: displayOptionDropdownId !== story.threadId,
+                          },
+                          "group-hover:block cursor-pointer  ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
+                        )}
+                        onClick={(event) =>
+                          handleDropdownClick(event, story.threadId)
+                        }
+                      >
+                        <OptionsIcon />
+                      </div>
+                    )}
+
+                    {displayOptionDropdownId === story.threadId &&
+                      dropdownPosition && (
+                        <div
+                          style={{
+                            position: "fixed",
+                            top: dropdownPosition.top,
+                            left: dropdownPosition.left,
+                          }}
+                          className="z-20"
+                        >
+                          <OptionsDropdown
+                            type="story"
+                            threadId={story.threadId}
+                            hide={() => setDisplayOptionDropdownId(null)}
+                          />
+                        </div>
+                      )}
+                  </div>
+                ))
+            )}
+          </div>
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div className="font-bold h-[40px] content-center">
@@ -439,106 +540,6 @@ const LeftPanel: React.FC = () => {
                           <OptionsDropdown
                             type="you_are_the_hero"
                             threadId={game.threadId}
-                            hide={() => setDisplayOptionDropdownId(null)}
-                          />
-                        </div>
-                      )}
-                  </div>
-                ))
-            )}
-          </div>
-          <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
-            <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
-              <div className="font-bold h-[40px] content-center">
-                {t("Stories")}
-              </div>
-              {chatLogs.filter((log) => log.type === "story" && log.isOwner)
-                .length > 0 ? (
-                <NavLink
-                  to="/story/new"
-                  onClick={() => {
-                    if (isSmallScreen && isLeftPanelOpen)
-                      dispatch(toggleLeftPanel());
-                    sendEvent("click_plus_story_from_left_panel", "story");
-                  }}
-                >
-                  <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
-                    <PlusIcon />
-                  </div>
-                </NavLink>
-              ) : null}
-            </div>
-            {isDataLoadingLeftPanel.includes("threads") ? (
-              <Loading />
-            ) : chatLogs.filter((log) => log.type === "story" && log.isOwner)
-                .length === 0 ? (
-              <NavLink
-                to="/story/new"
-                onClick={() => {
-                  if (isSmallScreen) dispatch(toggleLeftPanel());
-                  sendEvent("click_plus_story_from_left_panel", "story");
-                }}
-              >
-                <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                  <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
-                    <PlusIcon />
-                  </div>
-                  <span className="pl-[10px]">{t("New story")}</span>
-                </div>
-              </NavLink>
-            ) : (
-              chatLogs
-                .filter((log) => log.type === "story" && log.isOwner)
-                .map((story) => (
-                  <div
-                    key={story.threadId}
-                    className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]"
-                  >
-                    <NavLink
-                      to={`/story/${story.threadId}`}
-                      key={story.threadId}
-                      className="h-full grow flex items-center w-[calc(100%-40px)]"
-                      onClick={
-                        isSmallScreen
-                          ? () => dispatch(toggleLeftPanel())
-                          : undefined
-                      }
-                    >
-                      <div className="truncate">{t(story.title ?? "")}</div>
-                    </NavLink>
-                    {story.isBeingDeleted ? (
-                      <div className="h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary">
-                        <LoadingIcon />
-                      </div>
-                    ) : (
-                      <div
-                        className={clsx(
-                          {
-                            hidden: displayOptionDropdownId !== story.threadId,
-                          },
-                          "group-hover:block cursor-pointer  ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
-                        )}
-                        onClick={(event) =>
-                          handleDropdownClick(event, story.threadId)
-                        }
-                      >
-                        <OptionsIcon />
-                      </div>
-                    )}
-
-                    {displayOptionDropdownId === story.threadId &&
-                      dropdownPosition && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: dropdownPosition.top,
-                            left: dropdownPosition.left,
-                          }}
-                          className="z-20"
-                        >
-                          <OptionsDropdown
-                            type="story"
-                            threadId={story.threadId}
                             hide={() => setDisplayOptionDropdownId(null)}
                           />
                         </div>
