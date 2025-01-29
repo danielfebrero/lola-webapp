@@ -412,12 +412,10 @@ export default function useWebSocket({
   };
 
   const getConnectionId = () => {
-    console.log("Fetching Character for thread: ", threadId);
     socketConnection?.send(
       JSON.stringify({
         action: "fetchData",
         endpoint: "connection_id",
-        threadId,
         cookie,
         token: auth?.isAuthenticated ? auth.user?.id_token : undefined,
       })
