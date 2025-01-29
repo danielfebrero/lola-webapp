@@ -9,6 +9,7 @@ import LoadingIcon from "../../icons/loading";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setIsCryptoCheckoutUrlLoading } from "../../store/features/app/appSlice";
 import CheckOnlyIcon from "../../icons/checkOnly";
+import useGA from "../../hooks/useGA";
 
 const PricingPage: React.FC = () => {
   const [hasClickedLifetime, setHasClickedLifettime] = useState<boolean>(false);
@@ -21,6 +22,7 @@ const PricingPage: React.FC = () => {
     (state) => state.app
   );
   const { plan } = useAppSelector((state) => state.user);
+  const { sendEvent } = useGA();
 
   useEffect(() => {
     if (isCryptoPricingCheckoutUrlLoading === false) {
@@ -101,6 +103,7 @@ const PricingPage: React.FC = () => {
                       getCryptoCheckoutUrl("early_1_month");
                       setHasClicked1month(true);
                       dispatch(setIsCryptoCheckoutUrlLoading(true));
+                      sendEvent("choose_early_1_month", "pricing");
                     }}
                     className={clsx(
                       { "cursor-pointer": plan !== "early_1_month" },
@@ -167,6 +170,7 @@ const PricingPage: React.FC = () => {
                     getCryptoCheckoutUrl("early_lifetime");
                     setHasClickedLifettime(true);
                     dispatch(setIsCryptoCheckoutUrlLoading(true));
+                    sendEvent("choose_early_lifetime", "pricing");
                   }}
                   className={clsx(
                     { "cursor-pointer": plan !== "early_lifetime" },
