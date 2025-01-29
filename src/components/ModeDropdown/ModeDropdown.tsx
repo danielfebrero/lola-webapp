@@ -44,25 +44,6 @@ const ModeDropdown: React.FC<ModeDropdownProps> = (props) => {
       </NavLink>
       <NavLink
         to={
-          location.pathname.indexOf("/game") === 0 ? location.pathname : "/game"
-        }
-      >
-        <div className="rounded-lg cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row justify-between items-center">
-          <div>
-            <div>{t("You are the hero")}</div>
-            <div className="text-textSecondary dark:text-darkTextSecondary text-xs">
-              {t("Play the game")}
-            </div>
-          </div>
-          {location.pathname.indexOf("/game") === 0 && (
-            <div className="h-[20px] w-[20px]">
-              <CheckIcon />
-            </div>
-          )}
-        </div>
-      </NavLink>
-      <NavLink
-        to={
           location.pathname.indexOf("/story") === 0
             ? location.pathname
             : "/story/new"
@@ -76,6 +57,25 @@ const ModeDropdown: React.FC<ModeDropdownProps> = (props) => {
             </div>
           </div>
           {location.pathname.indexOf("/story") === 0 && (
+            <div className="h-[20px] w-[20px]">
+              <CheckIcon />
+            </div>
+          )}
+        </div>
+      </NavLink>
+      <NavLink
+        to={
+          location.pathname.indexOf("/game") === 0 ? location.pathname : "/game"
+        }
+      >
+        <div className="rounded-lg cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row justify-between items-center">
+          <div>
+            <div>{t("You are the hero")}</div>
+            <div className="text-textSecondary dark:text-darkTextSecondary text-xs">
+              {t("Play the game")}
+            </div>
+          </div>
+          {location.pathname.indexOf("/game") === 0 && (
             <div className="h-[20px] w-[20px]">
               <CheckIcon />
             </div>
