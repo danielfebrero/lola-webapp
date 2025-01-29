@@ -150,7 +150,7 @@ const Init: React.FC = () => {
       initData();
       dispatch(setIsDataLoaded(true));
     }
-  }, [socketConnection, isDataLoaded, dispatch]);
+  }, [socketConnection, isDataLoaded, dispatch, connectionId]);
 
   useEffect(() => {
     dispatch(setIsDataLoaded(false));
