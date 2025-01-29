@@ -125,10 +125,6 @@ const ExplorePage: React.FC = (props) => {
                                   content={message.content}
                                   showWorkerIndicator={false}
                                 />
-                                <MarkdownToHTML
-                                  content={message.content}
-                                  showWorkerIndicator={false}
-                                />
                               </div>
                             )
                           )}
