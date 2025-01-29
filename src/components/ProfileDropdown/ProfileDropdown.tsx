@@ -64,6 +64,32 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
           )}
         </div>
       </div>
+
+      <div
+        className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
+        onClick={() => {
+          dispatch(toggleSettings());
+          props.hide();
+        }}
+      >
+        <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
+          <SettingsIcon />
+        </div>
+        <div className="ml-[10px]">{t("Settings")}</div>
+      </div>
+      <div
+        className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
+        onClick={() => {
+          navigate("/pricing");
+          sendEvent("click_pricing_from_profile_dropdown");
+          props.hide();
+        }}
+      >
+        <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
+          <PlanIcon />
+        </div>
+        <div className="ml-[10px]">{t("Pricing")}</div>
+      </div>
       {auth?.isAuthenticated ? (
         <div
           className="rounded-lg cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
@@ -91,31 +117,6 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
           <div className="ml-[10px]">{t("Signup or login")}</div>
         </div>
       )}
-      <div
-        className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
-        onClick={() => {
-          dispatch(toggleSettings());
-          props.hide();
-        }}
-      >
-        <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
-          <SettingsIcon />
-        </div>
-        <div className="ml-[10px]">{t("Settings")}</div>
-      </div>
-      <div
-        className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
-        onClick={() => {
-          navigate("/pricing");
-          sendEvent("click_pricing_from_profile_dropdown");
-          props.hide();
-        }}
-      >
-        <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
-          <PlanIcon />
-        </div>
-        <div className="ml-[10px]">{t("Pricing")}</div>
-      </div>
     </div>
   );
 };
