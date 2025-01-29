@@ -69,7 +69,7 @@ export default function useWebSocket({
                 break;
               case "get_crypto_checkout_url":
                 dispatch(setIsCryptoCheckoutUrlLoading(false));
-                window.open(data.data.checkout_url, "_blank");
+                window.location.href = data.data.checkout_url;
                 break;
             }
             break;
