@@ -124,7 +124,12 @@ const Header: React.FC = () => {
   }, [location]);
 
   return (
-    <div className="pl-[20px] pr-[20px] pt-[10px] flex flex-row justify-between items-center">
+    <div
+      className={clsx(
+        { "w-[calc(100%-260px)]": isLeftPanelOpen, "w-full": !isLeftPanelOpen },
+        "pl-[20px] pr-[20px] pt-[10px] flex flex-row justify-between items-center fixed transition-all duration-500"
+      )}
+    >
       <div className="w-auto h-auto">
         <div className="flex flex-row items-center">
           {!isLeftPanelOpen ? (
