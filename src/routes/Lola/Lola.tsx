@@ -21,6 +21,7 @@ const LolaPage: React.FC = () => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
   const { getMessages } = useAPI();
+  const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
 
   const { sendMessage, socketConnection } = useWebSocket({
     setThreadId,
@@ -36,6 +37,12 @@ const LolaPage: React.FC = () => {
     sendMessage(content, "lola", threadId);
     if (chatLog.length === 0) setChatLog([{ role: "user", content }]);
   };
+
+  useEffect(() => {
+    setIsAssistantWriting(
+      chatState?.isOwner ? !(chatState?.canSendMessage ?? true) : false
+    );
+  }, [chatState]);
 
   useEffect(() => {
     if (params.threadId) {
@@ -118,6 +125,7 @@ const LolaPage: React.FC = () => {
               id={params.threadId}
               chatLog={chatLog}
               isChatLoading={chatState?.isLoading ?? false}
+              isAssistantWriting={isAssistantWriting}
             />
           </div>
           <div className="justify-center flex w-full">

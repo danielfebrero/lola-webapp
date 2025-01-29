@@ -23,6 +23,7 @@ const Storypage: React.FC = () => {
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { sendEvent } = useGA();
+  const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
 
   const { sendMessage, getStory, socketConnection } = useWebSocket({});
 
@@ -41,6 +42,12 @@ const Storypage: React.FC = () => {
   const story = useAppSelector((state) =>
     state.app.stories.find((sto) => sto.threadId === params.threadId)
   );
+
+  useEffect(() => {
+    setIsAssistantWriting(
+      chatState?.isOwner ? !(chatState?.canSendMessage ?? true) : false
+    );
+  }, [chatState]);
 
   useEffect(() => {
     if (params.threadId) {
@@ -79,7 +86,12 @@ const Storypage: React.FC = () => {
       }
     }, 0);
     return () => clearTimeout(timer);
-  }, [chatLog, chatState?.isLoading, chatState?.canSendMessage]);
+  }, [
+    chatLog,
+    chatState?.isLoading,
+    chatState?.canSendMessage,
+    isAssistantWriting,
+  ]);
 
   return (
     <>
@@ -113,6 +125,7 @@ const Storypage: React.FC = () => {
               id={params.threadId}
               chatLog={chatLog}
               isChatLoading={chatState?.isLoading ?? false}
+              isAssistantWriting={isAssistantWriting}
             />
           </div>
           {chatState?.isOwner &&

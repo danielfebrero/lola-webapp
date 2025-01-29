@@ -1,5 +1,5 @@
-import Markdown from "markdown-to-jsx";
 import Loading from "../Loading";
+import MarkdownToHTML from "../MarkdownToHTML";
 
 interface ChatLayoutProps {
   chatLog?: Message[];
@@ -20,7 +20,10 @@ const ChatLayout: React.FC<ChatLayoutProps> = (props) => {
                   key={message.id ?? message.timestamp ?? idx}
                 >
                   <div className="w-fit bg-messageBackground dark:bg-darkMessageBackground rounded-lg p-[10px]">
-                    <Markdown>{message.content}</Markdown>
+                    <MarkdownToHTML
+                      content={message.content}
+                      showWorkerIndicator={false}
+                    />
                   </div>
                 </div>
               ) : (
@@ -29,7 +32,10 @@ const ChatLayout: React.FC<ChatLayoutProps> = (props) => {
                   key={message.timestamp ?? idx}
                 >
                   <div className="grow max-w-[100%] md:px-[30px]">
-                    <Markdown>{message.content}</Markdown>
+                    <MarkdownToHTML
+                      content={message.content}
+                      showWorkerIndicator={false}
+                    />
                   </div>
                 </div>
               )

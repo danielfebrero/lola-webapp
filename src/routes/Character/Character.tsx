@@ -67,7 +67,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const [threadId, setThreadId] = useState<string | null>(null);
   const [chatLog, setChatLog] = useState<Message[]>([]);
   const dispatch = useAppDispatch();
-  useState<boolean>(true);
+  const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
 
   const [selectedRightViewType, setSelectedRightViewType] = useState<
     "report" | "json" | "images" | "chat"
@@ -90,6 +90,12 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   ) => {
     setSelectedRightViewType(viewType);
   };
+
+  useEffect(() => {
+    setIsAssistantWriting(
+      chatState?.isOwner ? !(chatState?.canSendMessage ?? true) : false
+    );
+  }, [chatState]);
 
   useEffect(() => {
     if (
@@ -202,8 +208,10 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 id={threadId}
                 chatLog={chatLog}
                 isChatLoading={chatState?.isLoading ?? false}
+                isAssistantWriting={isAssistantWriting}
               />
             </div>
+
             {params.threadId === "new" && (
               <div className="flex flex-row items-center mb-2">
                 <input
@@ -297,6 +305,11 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                       id={threadId}
                       chatLog={chatLog}
                       isChatLoading={chatState?.isLoading ?? false}
+                      isAssistantWriting={
+                        chatState?.canSendMessage
+                          ? !chatState?.canSendMessage
+                          : false
+                      }
                     />
                   </div>
                   {params.threadId === "new" && (

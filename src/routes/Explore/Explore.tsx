@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import Markdown from "markdown-to-jsx";
 import { Link, useSearchParams, useParams } from "react-router";
 
 import JSONToText from "../../components/JSONToText";
@@ -17,6 +16,7 @@ import {
 } from "../../store/features/app/appSlice";
 import useGA from "../../hooks/useGA";
 import ImageViewer from "../../components/ImageViewer/ImageViewer";
+import MarkdownToHTML from "../../components/MarkdownToHTML";
 
 const titleByType = {
   best: "Best content",
@@ -113,12 +113,22 @@ const ExplorePage: React.FC = (props) => {
                                     "bg-messageBackground dark:bg-darkMessageBackground rounded-lg p-[10px]"
                                   )}
                                 >
-                                  <Markdown>{message.content}</Markdown>
+                                  <MarkdownToHTML
+                                    content={message.content}
+                                    showWorkerIndicator={false}
+                                  />
                                 </div>
                               </div>
                             ) : (
                               <div className="" key={message.id}>
-                                <Markdown>{message.content}</Markdown>
+                                <MarkdownToHTML
+                                  content={message.content}
+                                  showWorkerIndicator={false}
+                                />
+                                <MarkdownToHTML
+                                  content={message.content}
+                                  showWorkerIndicator={false}
+                                />
                               </div>
                             )
                           )}
@@ -171,14 +181,18 @@ const ExplorePage: React.FC = (props) => {
                                               "bg-messageBackground dark:bg-darkMessageBackground rounded-lg p-[10px]"
                                             )}
                                           >
-                                            <Markdown>
-                                              {message.content}
-                                            </Markdown>
+                                            <MarkdownToHTML
+                                              content={message.content}
+                                              showWorkerIndicator={false}
+                                            />
                                           </div>
                                         </div>
                                       ) : (
                                         <div className="" key={message.id}>
-                                          <Markdown>{message.content}</Markdown>
+                                          <MarkdownToHTML
+                                            content={message.content}
+                                            showWorkerIndicator={false}
+                                          />
                                         </div>
                                       )
                                     )}

@@ -1,14 +1,16 @@
 import { useLocation } from "react-router";
-import Markdown from "markdown-to-jsx";
+// import Markdown from "markdown-to-jsx";
 
 import clsx from "clsx";
 import Loading from "../Loading";
+import MarkdownToHTML from "../MarkdownToHTML";
 
 interface ChatProps {
   type?: "character" | "story" | "game" | "lola";
   id?: string | null;
   chatLog?: Message[];
   isChatLoading: boolean;
+  isAssistantWriting: boolean;
 }
 
 const Chat: React.FC<ChatProps> = (props) => {
@@ -38,7 +40,10 @@ const Chat: React.FC<ChatProps> = (props) => {
                       "w-fit  bg-messageBackground dark:bg-darkMessageBackground rounded-lg p-[10px]"
                     )}
                   >
-                    <Markdown>{message.content}</Markdown>
+                    <MarkdownToHTML
+                      content={message.content}
+                      showWorkerIndicator={false}
+                    />
                   </div>
                 </div>
               ) : (
@@ -47,11 +52,27 @@ const Chat: React.FC<ChatProps> = (props) => {
                   key={message.timestamp ?? idx}
                 >
                   <div className="grow max-w-[100%] md:px-[30px]">
-                    <Markdown>{message.content}</Markdown>
+                    <MarkdownToHTML
+                      content={message.content}
+                      showWorkerIndicator={
+                        props.chatLog?.length &&
+                        idx === props.chatLog?.length - 1
+                          ? props.isAssistantWriting
+                          : false
+                      }
+                    />
                   </div>
                 </div>
               )
             )}
+            {props.isAssistantWriting &&
+              props.chatLog?.[props.chatLog?.length - 1]?.role === "user" && (
+                <div className="flex w-full justify-center">
+                  <div className="flex w-full max-w-[715px] px-[40px] pb-[40px] pt-[10px]">
+                    <div className="rounded-full w-[12px] h-[12px] bg-textPrimary dark:bg-darkTextPrimary"></div>
+                  </div>
+                </div>
+              )}
           </div>
         </div>
       )}

@@ -24,6 +24,7 @@ const GamePage: React.FC = () => {
   const [threadId, setThreadId] = useState<string>();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { getMessages } = useAPI();
+  const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
 
   const chatLog = useAppSelector(
     (state) =>
@@ -52,6 +53,12 @@ const GamePage: React.FC = () => {
         threadId
       );
   };
+
+  useEffect(() => {
+    setIsAssistantWriting(
+      chatState?.isOwner ? !(chatState?.canSendMessage ?? true) : false
+    );
+  }, [chatState]);
 
   useEffect(() => {
     if (location.pathname === "/game") {
@@ -117,6 +124,7 @@ const GamePage: React.FC = () => {
               id={params.threadId}
               chatLog={chatLog}
               isChatLoading={chatState?.isLoading ?? false}
+              isAssistantWriting={isAssistantWriting}
             />
             {!chatState?.isLoading &&
             !game?.heroActionsIsLoading &&
