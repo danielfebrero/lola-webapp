@@ -18,6 +18,7 @@ module.exports = {
         transparentBlack: "#00000080",
         buttonGreen: "#10a37f",
         textError: "#f93a37",
+        brandMainColor: "#3ccccf",
 
         //dark
         darkMainSurfacePrimary: "#212121",
@@ -29,6 +30,7 @@ module.exports = {
         darkMessageBackground: "rgba(50,50,50,.85)",
         darkBorderLight: "hsla(0,0%,100%,.1)",
         darkBorderColor: "hsla(0,0%,100%,.15)",
+        darkBrandMainColor: "#3ccccf",
       },
     },
   },

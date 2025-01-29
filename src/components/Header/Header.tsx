@@ -177,7 +177,7 @@ const Header: React.FC = () => {
       </div>
       <div className="flex flex-row">
         <div
-          className="bg-sky-700 rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer justify-center flex items-center"
+          className="bg-brandMainColor dark:bg-darkBrandMainColor rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer justify-center flex items-center"
           onClick={toggleProfileDropdown}
         >
           {auth?.isAuthenticated ? (
