@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router";
+import { NavLink, useLocation, useParams } from "react-router";
 import { useAuth } from "react-oidc-context";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { useTranslation } from "react-i18next";
@@ -40,7 +40,8 @@ const Header: React.FC = () => {
   const [exploreLanguageDropdownOpen, setExploreLanguageDropdownOpen] =
     useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-  const [headerLabel, setHeaderLabel] = useState("Main character");
+  const [headerLabel, setHeaderLabel] = useState<string>("Main character");
+  const [threadTitle, setThreadTitle] = useState<string>("");
   const location = useLocation();
   const dispatch = useAppDispatch();
   const { isLeftPanelOpen, exploreLanguage, currentlyViewing, chatLogs } =
@@ -48,6 +49,7 @@ const Header: React.FC = () => {
   const newChatLocation = useNewChatLocation();
   const { sendEvent } = useGA();
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
+  const params = useParams();
 
   const toggleExploreLanguageDropdown = () => {
     setExploreLanguageDropdownOpen((prev) => !prev);
@@ -60,6 +62,14 @@ const Header: React.FC = () => {
   const toggleProfileDropdown = () => {
     setProfileDropdownOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (params.threadId) {
+      setThreadTitle(
+        chatLogs.find((log) => log.threadId === params.threadId)?.title ?? ""
+      );
+    }
+  }, [params.threadId]);
 
   useEffect(() => {
     if (chatLogs.length > 0) {
@@ -163,6 +173,11 @@ const Header: React.FC = () => {
               <div className="h-[24px] w-[24px]">
                 <ChevronDown />
               </div>
+            </div>
+          )}
+          {params.threadId && (
+            <div className="h-[40px] items-center flex flex-row ml-[10px]">
+              <span className="font-bold">{threadTitle}</span>
             </div>
           )}
         </div>

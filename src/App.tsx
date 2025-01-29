@@ -85,15 +85,15 @@ const App: React.FC = () => {
                     element={<CharacterPage selected={{ type: "main" }} />}
                   />
                   <Route
-                    path="/character/:characterId"
+                    path="/character/:threadId"
                     element={<CharacterPage />}
                   />
                   <Route path="/game" element={<GamePage />} />
                   <Route path="/game/new" element={<NewGamePage />} />
-                  <Route path="/game/:gameId" element={<GamePage />} />
-                  <Route path="/story/:storyId" element={<StoryPage />} />
+                  <Route path="/game/:threadId" element={<GamePage />} />
+                  <Route path="/story/:threadId" element={<StoryPage />} />
                   <Route path="/story/new" element={<NewStoryPage />} />
-                  <Route path="/lola/:conversationId" element={<LolaPage />} />
+                  <Route path="/lola/:threadId" element={<LolaPage />} />
                   <Route path="/lola/new" element={<LolaPage />} />
                   <Route path="/analytics/:type" element={<AnalyticsPage />} />
                   <Route path="/pricing" element={<PricingPage />} />

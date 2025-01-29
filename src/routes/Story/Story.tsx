@@ -30,44 +30,44 @@ const Storypage: React.FC = () => {
 
   const chatLog = useAppSelector(
     (state) =>
-      state.app.chatLogs.find((log) => log.threadId === params.storyId)
+      state.app.chatLogs.find((log) => log.threadId === params.threadId)
         ?.chatLog ?? []
   );
 
   const chatState = useAppSelector((state) =>
-    state.app.chatLogs.find((log) => log.threadId === params.storyId)
+    state.app.chatLogs.find((log) => log.threadId === params.threadId)
   );
 
   const story = useAppSelector((state) =>
-    state.app.stories.find((sto) => sto.threadId === params.storyId)
+    state.app.stories.find((sto) => sto.threadId === params.threadId)
   );
 
   useEffect(() => {
-    if (params.storyId) {
-      setThreadId(params.storyId);
+    if (params.threadId) {
+      setThreadId(params.threadId);
       dispatch(
         setChatLog({
-          threadId: params.storyId,
+          threadId: params.threadId,
           isInputAvailable: false,
           isLoading: true,
         })
       );
       if (socketConnection?.readyState === WebSocket.OPEN) {
         console.log("get thread chat log");
-        getMessages(params.storyId);
-        getStory(params.storyId);
+        getMessages(params.threadId);
+        getStory(params.threadId);
       }
     }
-  }, [params.storyId, socketConnection?.readyState]);
+  }, [params.threadId, socketConnection?.readyState]);
 
   useEffect(() => {
     dispatch(
       setCurrentlyViewing({
         objectType: "story",
-        objectId: params.storyId,
+        objectId: params.threadId,
       })
     );
-  }, [params.conversationId, dispatch]);
+  }, [params.threadId, dispatch]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -110,7 +110,7 @@ const Storypage: React.FC = () => {
           >
             <Chat
               type="story"
-              id={params.conversationId}
+              id={params.threadId}
               chatLog={chatLog}
               isChatLoading={chatState?.isLoading ?? false}
             />

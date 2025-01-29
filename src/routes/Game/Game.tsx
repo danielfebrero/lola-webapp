@@ -27,21 +27,21 @@ const GamePage: React.FC = () => {
 
   const chatLog = useAppSelector(
     (state) =>
-      state.app.chatLogs.find((log) => log.threadId === params.gameId)
+      state.app.chatLogs.find((log) => log.threadId === params.threadId)
         ?.chatLog ?? []
   );
 
   const chatState = useAppSelector((state) =>
-    state.app.chatLogs.find((log) => log.threadId === params.gameId)
+    state.app.chatLogs.find((log) => log.threadId === params.threadId)
   );
 
   const heroActions = useAppSelector(
     (state) =>
-      state.app.games.find((g) => g.threadId === params.gameId)?.heroActions
+      state.app.games.find((g) => g.threadId === params.threadId)?.heroActions
   );
 
   const game = useAppSelector((state) =>
-    state.app.games.find((g) => g.threadId === params.gameId)
+    state.app.games.find((g) => g.threadId === params.threadId)
   );
 
   const chooseAction = (actionTitle: string, actionDescription: string) => {
@@ -60,11 +60,11 @@ const GamePage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (params.gameId) {
-      setThreadId(params.gameId);
+    if (params.threadId) {
+      setThreadId(params.threadId);
       dispatch(
         setChatLog({
-          threadId: params.gameId,
+          threadId: params.threadId,
           isInputAvailable: false,
           isLoading: true,
         })
@@ -72,19 +72,19 @@ const GamePage: React.FC = () => {
       if (socketConnection?.readyState === WebSocket.OPEN) {
         console.log("get thread chat log");
         dispatch(
-          setGame({ threadId: params.gameId, heroActionsIsLoading: true })
+          setGame({ threadId: params.threadId, heroActionsIsLoading: true })
         );
-        getMessages(params.gameId);
-        getHeroActions(params.gameId);
+        getMessages(params.threadId);
+        getHeroActions(params.threadId);
       }
     }
-  }, [params.gameId, socketConnection?.readyState]);
+  }, [params.threadId, socketConnection?.readyState]);
 
   useEffect(() => {
     dispatch(
-      setCurrentlyViewing({ objectType: "game", objectId: params.gameId })
+      setCurrentlyViewing({ objectType: "game", objectId: params.threadId })
     );
-  }, [params.gameId]);
+  }, [params.threadId]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -114,7 +114,7 @@ const GamePage: React.FC = () => {
           >
             <Chat
               type="game"
-              id={params.gameId}
+              id={params.threadId}
               chatLog={chatLog}
               isChatLoading={chatState?.isLoading ?? false}
             />

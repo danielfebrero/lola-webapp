@@ -29,7 +29,7 @@ const LolaPage: React.FC = () => {
   const chatLogs = useAppSelector((state) => state.app.chatLogs);
 
   const chatState = useAppSelector((state) =>
-    state.app.chatLogs.find((log) => log.threadId === params.conversationId)
+    state.app.chatLogs.find((log) => log.threadId === params.threadId)
   );
 
   const sendMessageToLola = (content: string, threadId: string | null) => {
@@ -38,25 +38,25 @@ const LolaPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (params.conversationId) {
+    if (params.threadId) {
       console.log("get thread chat log");
       dispatch(
         setChatLogAction({
-          threadId: params.conversationId,
+          threadId: params.threadId,
           isLoading: true,
           isInputAvailable: false,
         })
       );
-      setThreadId(params.conversationId);
+      setThreadId(params.threadId);
       if (socketConnection?.readyState === WebSocket.OPEN) {
-        getMessages(params.conversationId);
+        getMessages(params.threadId);
       }
     }
-  }, [params.storyId, socketConnection?.readyState]);
+  }, [params.threadId, socketConnection?.readyState]);
 
   useEffect(() => {
     const log =
-      chatLogs.find((log) => log.threadId === params.conversationId)?.chatLog ??
+      chatLogs.find((log) => log.threadId === params.threadId)?.chatLog ??
       chatLog;
     setChatLog(log);
   }, [chatLogs]);
@@ -77,20 +77,20 @@ const LolaPage: React.FC = () => {
   }, [threadId]);
 
   useEffect(() => {
-    if (!params.conversationId) {
+    if (!params.threadId) {
       setThreadId(null);
       setChatLog([]);
     }
-  }, [params.conversationId]);
+  }, [params.threadId]);
 
   useEffect(() => {
     dispatch(
       setCurrentlyViewing({
         objectType: "lola",
-        objectId: params.conversationId,
+        objectId: params.threadId,
       })
     );
-  }, [params.conversationId, dispatch]);
+  }, [params.threadId, dispatch]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -115,7 +115,7 @@ const LolaPage: React.FC = () => {
           >
             <Chat
               type="lola"
-              id={params.conversationId}
+              id={params.threadId}
               chatLog={chatLog}
               isChatLoading={chatState?.isLoading ?? false}
             />

@@ -32,7 +32,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const { sendEvent } = useGA();
   const { plan } = useAppSelector((state) => state.user);
   const [newIsPrivate, setNewIsPrivate] = useState<boolean>(
-    plan !== "free" && params.characterId === "new"
+    plan !== "free" && params.threadId === "new"
   );
 
   const { getMessages } = useAPI();
@@ -52,18 +52,17 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   const chatLogState = useAppSelector(
     (state) =>
-      state.app.chatLogs.find((log) => log.threadId === params.characterId)
+      state.app.chatLogs.find((log) => log.threadId === params.threadId)
         ?.chatLog ?? newroleChat
   );
   const chatState = useAppSelector((state) =>
-    state.app.chatLogs.find((log) => log.threadId === params.characterId)
+    state.app.chatLogs.find((log) => log.threadId === params.threadId)
   );
   const { isSmallScreen } = useAppSelector((state) => state.app);
   const character = useAppSelector(
     (state) =>
-      state.app.characters.find(
-        (char) => char.thread_id === params.characterId
-      ) ?? ({} as Character)
+      state.app.characters.find((char) => char.thread_id === params.threadId) ??
+      ({} as Character)
   );
   const [threadId, setThreadId] = useState<string | null>(null);
   const [chatLog, setChatLog] = useState<Message[]>([]);
@@ -94,30 +93,30 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   useEffect(() => {
     if (
-      params.characterId &&
-      params.characterId !== "new" &&
-      threadId !== params.characterId
+      params.threadId &&
+      params.threadId !== "new" &&
+      threadId !== params.threadId
     ) {
       dispatch(
         setChatLogAction({
-          threadId: params.characterId,
+          threadId: params.threadId,
           isLoading: true,
           isInputAvailable: false,
         })
       );
       dispatch(
         setCharacter({
-          thread_id: params.characterId,
+          thread_id: params.threadId,
           isImageProcessing: true,
           isReportProcessing: true,
         })
       );
       if (socketConnection?.readyState === WebSocket.OPEN) {
-        setThreadId(params.characterId);
+        setThreadId(params.threadId);
         setTimeout(() => {
-          if (params.characterId) {
-            getMessages(params.characterId);
-            getCharacter(params.characterId);
+          if (params.threadId) {
+            getMessages(params.threadId);
+            getCharacter(params.threadId);
           }
         }, 50);
       }
@@ -126,20 +125,20 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     dispatch,
     getCharacter,
     getMessages,
-    params.characterId,
+    params.threadId,
     socketConnection?.readyState,
     threadId,
   ]);
 
   useEffect(() => {
     if (
-      params.characterId &&
-      params.characterId !== "new" &&
-      params.characterId !== "main" &&
+      params.threadId &&
+      params.threadId !== "new" &&
+      params.threadId !== "main" &&
       socketConnection?.readyState === WebSocket.OPEN
     ) {
-      getMessages(params.characterId);
-      getCharacter(params.characterId);
+      getMessages(params.threadId);
+      getCharacter(params.threadId);
     }
   }, [socketConnection?.readyState]);
 
@@ -151,25 +150,19 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [threadId]);
 
   useEffect(() => {
-    if (
-      chatLogState &&
-      params.characterId !== "new" &&
-      params.characterId !== "main"
-    )
+    if (chatLogState && params.threadId !== "new" && params.threadId !== "main")
       setChatLog(chatLogState);
-  }, [chatLogState, params.characterId]);
+  }, [chatLogState, params.threadId]);
 
   useEffect(() => {
-    if (params.characterId === "new") {
+    if (params.threadId === "new") {
       setThreadId(null);
       setChatLog(newroleChat);
     }
-  }, [newroleChat, params.characterId]);
+  }, [newroleChat, params.threadId]);
 
   useEffect(() => {
-    setThreadId(
-      params.characterId !== "new" ? params.characterId ?? null : null
-    );
+    setThreadId(params.threadId !== "new" ? params.threadId ?? null : null);
 
     return () => {
       setThreadId(null);
@@ -211,7 +204,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 isChatLoading={chatState?.isLoading ?? false}
               />
             </div>
-            {params.characterId === "new" && (
+            {params.threadId === "new" && (
               <div className="flex flex-row items-center mb-2">
                 <input
                   type="checkbox"
@@ -306,7 +299,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                       isChatLoading={chatState?.isLoading ?? false}
                     />
                   </div>
-                  {params.characterId === "new" && (
+                  {params.threadId === "new" && (
                     <div className="flex flex-row items-center justify-center mb-2">
                       <input
                         type="checkbox"
