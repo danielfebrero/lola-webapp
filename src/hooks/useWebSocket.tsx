@@ -411,7 +411,7 @@ export default function useWebSocket({
     getUserPlan();
   };
 
-  const getConnectionId = (threadId: string) => {
+  const getConnectionId = () => {
     console.log("Fetching Character for thread: ", threadId);
     socketConnection?.send(
       JSON.stringify({
