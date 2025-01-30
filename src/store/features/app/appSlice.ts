@@ -375,7 +375,9 @@ export const appSlice = createSlice({
       state.lastRequestIdWaitingForThreadId = action.payload;
     },
     addRequestStopped: (state, action) => {
-      state.requestsStopped.push(action.payload);
+      state.requestsStopped
+        ? state.requestsStopped.push(action.payload)
+        : (state.requestsStopped = [action.payload]);
     },
   },
 });
