@@ -30,6 +30,7 @@ interface AppState {
   };
   exploreLanguage: string;
   isCryptoPricingCheckoutUrlLoading: boolean;
+  requestsStopped: string[];
 }
 
 // Define the initial state using that type
@@ -61,6 +62,7 @@ const initialState: AppState = {
   exploreLanguage: "all",
   isCryptoPricingCheckoutUrlLoading: false,
   lastRequestIdWaitingForThreadId: null,
+  requestsStopped: [],
 };
 
 export const appSlice = createSlice({
@@ -372,6 +374,9 @@ export const appSlice = createSlice({
     setLastRequestWaitingForThreadId: (state, action) => {
       state.lastRequestIdWaitingForThreadId = action.payload;
     },
+    addRequestStopped: (state, action) => {
+      state.requestsStopped.push(action.payload);
+    },
   },
 });
 
@@ -408,6 +413,7 @@ export const {
   setLanguages,
   setIsCryptoCheckoutUrlLoading,
   setLastRequestWaitingForThreadId,
+  addRequestStopped,
 } = appSlice.actions;
 
 export default appSlice.reducer;

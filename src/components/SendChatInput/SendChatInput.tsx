@@ -6,7 +6,10 @@ import SendIcon from "../../icons/send";
 import StopIcon from "../../icons/stop";
 import useWebSocket from "../../hooks/useWebSocket";
 import { useAppDispatch } from "../../store/hooks";
-import { setChatLog } from "../../store/features/app/appSlice";
+import {
+  addRequestStopped,
+  setChatLog,
+} from "../../store/features/app/appSlice";
 import { threadId } from "worker_threads";
 
 interface SendChatInputProps {
@@ -22,9 +25,8 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const [value, setValue] = useState<string>("");
   const { t } = useTranslation();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const { isSmallScreen, lastRequestIdWaitingForThreadId } = useAppSelector(
-    (state) => state.app
-  );
+  const { isSmallScreen, lastRequestIdWaitingForThreadId, chatLogs } =
+    useAppSelector((state) => state.app);
   const { stopRequestId } = useWebSocket({});
   const dispatch = useAppDispatch();
 
@@ -40,6 +42,11 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
     if (props.threadId) {
       stopRequestId(props.threadId);
       dispatch(
+        addRequestStopped(
+          chatLogs.find((log) => log.threadId === props.threadId)?.lastRequestId
+        )
+      );
+      dispatch(
         setChatLog({
           threadId: props.threadId,
           isInputAvailable: true,
@@ -51,7 +58,12 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
     } else if (lastRequestIdWaitingForThreadId) {
       stopRequestId(lastRequestIdWaitingForThreadId);
     }
-  }, [lastRequestIdWaitingForThreadId, props.threadId, stopRequestId]);
+  }, [
+    lastRequestIdWaitingForThreadId,
+    props.threadId,
+    stopRequestId,
+    chatLogs,
+  ]);
 
   const handleSend = () => {
     const trimmedValue = value.trim();

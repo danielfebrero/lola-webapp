@@ -46,9 +46,8 @@ export default function useWebSocket({
 }) {
   const auth = useAuth();
   const newChatLocation = useNewChatLocation();
-  const { currentlyViewing, mode, exploreLanguage, chatLogs } = useAppSelector(
-    (state) => state.app
-  );
+  const { currentlyViewing, mode, exploreLanguage, chatLogs, requestsStopped } =
+    useAppSelector((state) => state.app);
   const { socketConnection } = useAppSelector((state) => state.socket);
   const api = useAPI();
 
@@ -138,6 +137,8 @@ export default function useWebSocket({
                 }
                 break;
               case "chat":
+                if (data.requestId && requestsStopped.includes(data.requestId))
+                  return;
                 switch (data.status) {
                   case "complete":
                     // Handle logic for when chat generation is complete
