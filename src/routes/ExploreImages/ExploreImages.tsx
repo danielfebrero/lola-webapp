@@ -38,7 +38,7 @@ const ExploreImagesPage: React.FC = (props) => {
             <div className="grid md:grid-cols-5 grid grid-cols-3 gap-4">
               {explore.images?.map((i, idx) => (
                 <div
-                  className="w-full cursor-pointer"
+                  className="w-[120px] h-[120px] cursor-pointer"
                   onClick={() => {
                     setImageViewingIdx(idx);
                     sendEvent("clicked_on_image_from_explore_image");
