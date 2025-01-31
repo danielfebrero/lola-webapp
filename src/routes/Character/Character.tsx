@@ -145,8 +145,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       params.threadId &&
       params.threadId !== "new" &&
       socketConnection?.readyState === WebSocket.OPEN &&
-      !isDataLoading.includes("threads") &&
-      !isDataLoading.includes("characters")
+      ((!isDataLoading.includes("threads") &&
+        !isDataLoading.includes("characters")) ||
+        chatState?.isOwner)
     ) {
       getMessages(params.threadId);
       getCharacter(params.threadId);

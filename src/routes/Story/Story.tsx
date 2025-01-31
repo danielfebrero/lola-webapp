@@ -63,7 +63,7 @@ const Storypage: React.FC = () => {
       );
       if (
         socketConnection?.readyState === WebSocket.OPEN &&
-        !isDataLoading.includes("threads")
+        (!isDataLoading.includes("threads") || chatState?.isOwner)
       ) {
         getMessages(params.threadId);
         getStory(params.threadId);
