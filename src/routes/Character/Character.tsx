@@ -242,25 +242,27 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 )}
               </div>
             )}
-            <div className="justify-center flex w-full md:px-0 px-[30px]">
-              <SendChatInput
-                type="character"
-                threadId={threadId}
-                isChatInputAvailable={
-                  chatState && !chatState?.isOwner
-                    ? false
-                    : chatState?.isInputAvailable ?? true
-                }
-                canSendMessage={
-                  chatState && !chatState?.isOwner
-                    ? false
-                    : chatState?.canSendMessage ?? true
-                }
-                onSend={(message) =>
-                  sendMessageToCharacter(message, threadId, newIsPrivate)
-                }
-              />
-            </div>
+            {(chatState?.isOwner || params.threadId === "new") && (
+              <div className="justify-center flex w-full md:px-0 px-[30px]">
+                <SendChatInput
+                  type="character"
+                  threadId={threadId}
+                  isChatInputAvailable={
+                    chatState && !chatState?.isOwner
+                      ? false
+                      : chatState?.isInputAvailable ?? true
+                  }
+                  canSendMessage={
+                    chatState && !chatState?.isOwner
+                      ? false
+                      : chatState?.canSendMessage ?? true
+                  }
+                  onSend={(message) =>
+                    sendMessageToCharacter(message, threadId, newIsPrivate)
+                  }
+                />
+              </div>
+            )}
           </div>
         )}
 
@@ -342,25 +344,31 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                       )}
                     </div>
                   )}
-                  <div className="justify-center flex w-full md:px-0 px-[30px]">
-                    <SendChatInput
-                      type="character"
-                      threadId={threadId}
-                      isChatInputAvailable={
-                        chatState && !chatState?.isOwner
-                          ? false
-                          : chatState?.isInputAvailable ?? true
-                      }
-                      canSendMessage={
-                        chatState && !chatState?.isOwner
-                          ? false
-                          : chatState?.canSendMessage ?? true
-                      }
-                      onSend={(message) =>
-                        sendMessageToCharacter(message, threadId, newIsPrivate)
-                      }
-                    />
-                  </div>
+                  {(chatState?.isOwner || params.threadId === "new") && (
+                    <div className="justify-center flex w-full md:px-0 px-[30px]">
+                      <SendChatInput
+                        type="character"
+                        threadId={threadId}
+                        isChatInputAvailable={
+                          chatState && !chatState?.isOwner
+                            ? false
+                            : chatState?.isInputAvailable ?? true
+                        }
+                        canSendMessage={
+                          chatState && !chatState?.isOwner
+                            ? false
+                            : chatState?.canSendMessage ?? true
+                        }
+                        onSend={(message) =>
+                          sendMessageToCharacter(
+                            message,
+                            threadId,
+                            newIsPrivate
+                          )
+                        }
+                      />
+                    </div>
+                  )}
                 </div>
               )}
               {selectedRightViewType === "report" && (

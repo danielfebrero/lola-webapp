@@ -146,24 +146,27 @@ const Storypage: React.FC = () => {
                 </div>
               </div>
             )}
-
-          <div className="justify-center flex w-full">
-            <div className="md:max-w-[715px] w-[100%] px-[30px]">
-              <SendChatInput
-                type="story"
-                threadId={threadId}
-                onSend={(message) => sendMessage(message, "story", threadId)}
-                canSendMessage={
-                  chatState?.isOwner ? chatState?.canSendMessage ?? true : false
-                }
-                isChatInputAvailable={
-                  chatState?.isOwner
-                    ? chatState?.isInputAvailable ?? true
-                    : false
-                }
-              />
+          {chatState?.isOwner && (
+            <div className="justify-center flex w-full">
+              <div className="md:max-w-[715px] w-[100%] px-[30px]">
+                <SendChatInput
+                  type="story"
+                  threadId={threadId}
+                  onSend={(message) => sendMessage(message, "story", threadId)}
+                  canSendMessage={
+                    chatState?.isOwner
+                      ? chatState?.canSendMessage ?? true
+                      : false
+                  }
+                  isChatInputAvailable={
+                    chatState?.isOwner
+                      ? chatState?.isInputAvailable ?? true
+                      : false
+                  }
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>
