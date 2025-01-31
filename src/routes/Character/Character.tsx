@@ -58,9 +58,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const chatState = useAppSelector((state) =>
     state.app.chatLogs.find((log) => log.threadId === params.threadId)
   );
-  const { isSmallScreen, lastRequestIdWaitingForThreadId } = useAppSelector(
-    (state) => state.app
-  );
+  const { isSmallScreen, lastRequestIdWaitingForThreadId, isDataLoading } =
+    useAppSelector((state) => state.app);
   const character = useAppSelector(
     (state) =>
       state.app.characters.find((char) => char.thread_id === params.threadId) ??
@@ -129,15 +128,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
           isReportProcessing: true,
         })
       );
-      if (socketConnection?.readyState === WebSocket.OPEN) {
-        setThreadId(params.threadId);
-        setTimeout(() => {
-          if (params.threadId) {
-            getMessages(params.threadId);
-            getCharacter(params.threadId);
-          }
-        }, 50);
-      }
+      setThreadId(params.threadId);
     }
   }, [
     dispatch,
@@ -146,19 +137,21 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     params.threadId,
     socketConnection?.readyState,
     threadId,
+    isDataLoading,
   ]);
 
   useEffect(() => {
     if (
       params.threadId &&
       params.threadId !== "new" &&
-      params.threadId !== "main" &&
-      socketConnection?.readyState === WebSocket.OPEN
+      socketConnection?.readyState === WebSocket.OPEN &&
+      !isDataLoading.includes("threads") &&
+      !isDataLoading.includes("characters")
     ) {
       getMessages(params.threadId);
       getCharacter(params.threadId);
     }
-  }, [socketConnection?.readyState]);
+  }, [socketConnection?.readyState, isDataLoading, params.threadId]);
 
   useEffect(() => {
     if (threadId && location.pathname !== "/character/" + threadId) {
@@ -168,8 +161,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [threadId]);
 
   useEffect(() => {
-    if (chatLogState && params.threadId !== "new" && params.threadId !== "main")
-      setChatLog(chatLogState);
+    if (chatLogState && params.threadId !== "new") setChatLog(chatLogState);
   }, [chatLogState, params.threadId]);
 
   useEffect(() => {

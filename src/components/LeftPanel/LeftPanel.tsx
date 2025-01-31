@@ -230,11 +230,7 @@ const LeftPanel: React.FC = () => {
                           ? () => dispatch(toggleLeftPanel())
                           : undefined
                       }
-                      to={
-                        char.type === "main"
-                          ? "/character/main"
-                          : `/character/${char.threadId}`
-                      }
+                      to={`/character/${char.threadId}`}
                     >
                       <div className="flex flex-row">
                         <div

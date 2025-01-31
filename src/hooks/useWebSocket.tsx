@@ -101,8 +101,8 @@ export default function useWebSocket({
                 dispatch(setExploreBest(data.data));
                 break;
               case "settings":
-                dispatch(removeIsFromDataLoading("settings"));
                 dispatch(setSettingsAction(data.data));
+                dispatch(removeIsFromDataLoading("settings"));
                 break;
               case "story":
                 console.log({ data });
@@ -221,8 +221,8 @@ export default function useWebSocket({
                 break;
 
               case "threads":
-                dispatch(removeIsFromDataLoading("threads"));
                 dispatch(setChatLogs(data.data));
+                dispatch(removeIsFromDataLoading("threads"));
                 break;
 
               case "character":
@@ -248,8 +248,8 @@ export default function useWebSocket({
                 break;
 
               case "characters":
-                dispatch(removeIsFromDataLoading("characters"));
                 dispatch(setCharacters(data.data));
+                dispatch(removeIsFromDataLoading("characters"));
                 break;
 
               case "thread_title":

@@ -48,7 +48,7 @@ const initialState: AppState = {
   },
   chatLogs: [],
   isDataLoaded: false,
-  isDataLoading: [],
+  isDataLoading: ["characters", "threads", "settings"],
   isDataLoadingLeftPanel: [],
   characters: [],
   games: [],

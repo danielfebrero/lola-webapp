@@ -102,12 +102,14 @@ const Init: React.FC = () => {
         uk: "Українська",
       })
     );
+    dispatch(setIsDataLoading(["characters", "threads", "settings"]));
+    dispatch(setIsDataLoaded(false));
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(setIsDataLoadingLeftPanel(isDataLoading));
-    }, 600);
+    // setTimeout(() => {
+    dispatch(setIsDataLoadingLeftPanel(isDataLoading));
+    // }, 600);
   }, [isDataLoading]);
 
   useEffect(() => {

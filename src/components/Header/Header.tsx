@@ -40,7 +40,7 @@ const Header: React.FC = () => {
   const [exploreLanguageDropdownOpen, setExploreLanguageDropdownOpen] =
     useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-  const [headerLabel, setHeaderLabel] = useState<string>("Main character");
+  const [headerLabel, setHeaderLabel] = useState<string>("Character");
   const [threadTitle, setThreadTitle] = useState<string>("");
   const location = useLocation();
   const dispatch = useAppDispatch();
