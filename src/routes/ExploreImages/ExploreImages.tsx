@@ -7,10 +7,11 @@ import Meta from "../../components/Meta";
 import useWebSocket from "../../hooks/useWebSocket";
 import { useAppSelector } from "../../store/hooks";
 import useGA from "../../hooks/useGA";
+import ImageSlider from "../../components/ImageSlider";
 
 const ExploreImagesPage: React.FC = (props) => {
   const { t } = useTranslation();
-  const [imageViewing, setImageViewing] = useState<string | null>(null);
+  const [imageViewingIdx, setImageViewingIdx] = useState<number | null>(null);
   const { explore } = useAppSelector((state) => state.app);
 
   const { getExploreImages, socketConnection } = useWebSocket({});
@@ -26,35 +27,20 @@ const ExploreImagesPage: React.FC = (props) => {
   return (
     <>
       <Meta title={t("Images")} />
-      <div
-        className={clsx(
-          { hidden: !imageViewing },
-          "fixed h-[calc(100vh-60px)] w-[calc(100vw-60px)] top-[30px] left-[30px] bg-slate-200"
-        )}
-      >
-        <div
-          onClick={() => setImageViewing(null)}
-          className="fixed top-[40px] right-[40px] h-[48px] w-[48px] cursor-pointer text-textSecondary dark:text-darkTextSecondary"
-        >
-          <CloseIcon />
-        </div>
-        {imageViewing && (
-          <img
-            className="h-full w-full object-contain"
-            src={imageViewing}
-            alt={imageViewing}
-          />
-        )}
-      </div>
+      <ImageSlider
+        images={explore.images}
+        imageViewingIdx={imageViewingIdx}
+        hide={() => setImageViewingIdx(null)}
+      />
       <div className="grow pt-2.5 pb-5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-110px)] items-center">
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col w-full items-center">
             <div className="grid md:grid-cols-5 grid grid-cols-3 gap-4">
-              {explore.images?.map((i) => (
+              {explore.images?.map((i, idx) => (
                 <div
                   className="w-full cursor-pointer"
                   onClick={() => {
-                    setImageViewing(i.original);
+                    setImageViewingIdx(idx);
                     sendEvent("clicked_on_image_from_explore_image");
                   }}
                 >
