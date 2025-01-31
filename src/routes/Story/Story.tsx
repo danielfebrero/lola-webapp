@@ -43,6 +43,8 @@ const Storypage: React.FC = () => {
     state.app.stories.find((sto) => sto.threadId === params.threadId)
   );
 
+  const { isDataLoading } = useAppSelector((state) => state.app);
+
   useEffect(() => {
     setIsAssistantWriting(
       chatState?.isOwner ? !(chatState?.canSendMessage ?? true) : false
@@ -59,13 +61,15 @@ const Storypage: React.FC = () => {
           isLoading: true,
         })
       );
-      if (socketConnection?.readyState === WebSocket.OPEN) {
-        console.log("get thread chat log");
+      if (
+        socketConnection?.readyState === WebSocket.OPEN &&
+        !isDataLoading.includes("threads")
+      ) {
         getMessages(params.threadId);
         getStory(params.threadId);
       }
     }
-  }, [params.threadId, socketConnection?.readyState]);
+  }, [params.threadId, socketConnection?.readyState, isDataLoading]);
 
   useEffect(() => {
     dispatch(
