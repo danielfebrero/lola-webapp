@@ -1,8 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import clsx from "clsx";
 
-import CloseIcon from "../../icons/close";
 import Meta from "../../components/Meta";
 import useWebSocket from "../../hooks/useWebSocket";
 import { useAppSelector } from "../../store/hooks";

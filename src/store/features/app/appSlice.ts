@@ -350,7 +350,7 @@ export const appSlice = createSlice({
         currentCharacter.images =
           action.payload.images ?? currentCharacter.images;
         currentCharacter.imagesMultisize =
-          action.payload.images_multisize ?? currentCharacter.imagesMultisize;
+          action.payload.imagesMultisize ?? currentCharacter.imagesMultisize;
       } else {
         state.characters.push({
           thread_id: action.payload.thread_id,
@@ -361,8 +361,8 @@ export const appSlice = createSlice({
             : action.payload.newImage
             ? [action.payload.newImage]
             : [],
-          imagesMultisize: action.payload.images_multisize
-            ? action.payload.images_multisize
+          imagesMultisize: action.payload.imagesMultisize
+            ? action.payload.imagesMultisize
             : action.payload.newImagesMultisize
             ? [action.payload.newImagesMultisize]
             : [],
