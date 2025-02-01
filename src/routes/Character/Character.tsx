@@ -31,9 +31,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { sendEvent } = useGA();
   const { plan } = useAppSelector((state) => state.user);
-  const [newIsPrivate, setNewIsPrivate] = useState<boolean>(
-    plan !== "free" && params.threadId === "new"
-  );
+  const [newIsPrivate, setNewIsPrivate] = useState<boolean>(false);
 
   const { getMessages } = useAPI();
 
