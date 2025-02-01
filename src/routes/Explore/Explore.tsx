@@ -160,8 +160,16 @@ const ExplorePage: React.FC = (props) => {
                                 </div>
                               </div>
                               <div className="max-w-[715px] flex flex-row">
-                                <div className="flex-shrink-0 mr-[20px] max-w-[300px]">
-                                  <JSONToText data={c.character?.json ?? {}} />
+                                <div className="flex-shrink-0 mr-[20px] md:max-w-[300px] max-w-full">
+                                  {c.character?.summary ? (
+                                    <span className="italic">
+                                      {c.character.summary}
+                                    </span>
+                                  ) : (
+                                    <JSONToText
+                                      data={c.character?.json ?? {}}
+                                    />
+                                  )}
                                 </div>
                                 <div className="hidden md:block max-w-[715px]">
                                   {c.thread.chatLog

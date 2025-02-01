@@ -6,6 +6,7 @@ interface Character {
   imagesMultisize?: ImagesMultisize[];
   isImageProcessing?: boolean;
   isReportProcessing?: boolean;
+  summary?: string;
 }
 
 interface ImagesMultisize {
