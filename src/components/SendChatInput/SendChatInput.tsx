@@ -181,7 +181,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                 <div className="w-[18px] h-[18px] mr-[5px]">
                   <ShieldIcon />
                 </div>
-                <span>Make private</span>
+                <span>{t("Private")}</span>
               </div>
             )}
 
@@ -199,7 +199,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                 <div className="w-[18px] h-[18px] mr-[5px]">
                   <GlobeIcon />
                 </div>
-                <span>Image search</span>
+                <span>{t("Image search")}</span>
               </div>
             )}
 
