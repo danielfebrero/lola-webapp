@@ -216,7 +216,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
             </div>
 
             {(chatState?.isOwner || params.threadId === "new") && (
-              <div className="justify-center flex w-full md:px-0 px-[30px]">
+              <div className="justify-center flex w-full">
                 <SendChatInput
                   type="character"
                   threadId={threadId}
@@ -237,6 +237,14 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   showPrivate={params.threadId === "new"}
                   setPrivate={setNewIsPrivate}
                 />
+              </div>
+            )}
+            {!chatState?.isOwner && params.threadId !== "new" && (
+              <div
+                className="rounded-full border border-borderColor dark:border-darkBorderColor text-center py-[5px] cursor-pointer"
+                onClick={() => navigate("/character/new")}
+              >
+                {t("Create a character")}
               </div>
             )}
           </div>
@@ -294,7 +302,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   </div>
 
                   {(chatState?.isOwner || params.threadId === "new") && (
-                    <div className="justify-center flex w-full md:px-0 px-[30px]">
+                    <div className="justify-center flex w-full md:px-0 px-[10px]">
                       <SendChatInput
                         type="character"
                         threadId={threadId}
@@ -319,6 +327,14 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                         showPrivate={params.threadId === "new"}
                         setPrivate={setNewIsPrivate}
                       />
+                    </div>
+                  )}
+                  {!chatState?.isOwner && params.threadId !== "new" && (
+                    <div
+                      className="rounded-full border border-borderColor dark:border-darkBorderColor text-center py-[5px] cursor-pointer"
+                      onClick={() => navigate("/character/new")}
+                    >
+                      {t("Create a character")}
                     </div>
                   )}
                 </div>

@@ -142,7 +142,7 @@ const ExplorePage: React.FC = (props) => {
                               >
                                 <div
                                   className={clsx(
-                                    "h-[120px] w-[120px] rounded-full bg-slate-200 items-center flex flex-shrink-0"
+                                    "h-[120px] w-[120px] rounded-full bg-slate-200 items-center flex flex-shrink-0 ml-[15px]"
                                   )}
                                 >
                                   {c.character?.imagesMultisize &&
@@ -159,7 +159,7 @@ const ExplorePage: React.FC = (props) => {
                                   ) : null}
                                 </div>
                               </div>
-                              <div className="max-w-[715px] flex flex-row">
+                              <div className="max-w-[715px] flex flex-row ml-[30px]">
                                 <div className="flex-shrink-0 mr-[20px] md:max-w-[300px] max-w-full">
                                   {c.character?.summary ? (
                                     <span className="italic">
