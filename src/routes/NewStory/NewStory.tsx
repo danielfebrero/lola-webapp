@@ -189,7 +189,7 @@ const NewStoryPage: React.FC = () => {
               </div>
             </NavLink>
           </div>
-          <div className="flex flex-row items-center w-full max-w-[715px] mt-[60px]">
+          <div className="flex flex-row items-center w-full max-w-[715px] mt-[60px] pb-[20px]">
             <SendChatInput
               type="story"
               isChatInputAvailable={!hasSentMessage}
@@ -202,13 +202,6 @@ const NewStoryPage: React.FC = () => {
               onSend={createStory}
               canSendEmptyMessage={true}
             />
-            {/* <textarea
-              className="rounded-lg border border-lightBorder resize-none h-[100px] md:w-[400px] w-[100%] outline-none p-[10px] dark:bg-darkMessageBackground"
-              onChange={(e) => setContext(e.target.value)}
-              ref={textAreaRef}
-            >
-              {context}
-            </textarea> */}
           </div>
         </div>
       </div>
