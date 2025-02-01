@@ -94,7 +94,6 @@ const App: React.FC = () => {
                   <Route path="/story/:threadId" element={<StoryPage />} />
                   <Route path="/story/new" element={<NewStoryPage />} />
                   <Route path="/lola/:threadId" element={<LolaPage />} />
-                  <Route path="/lola/new" element={<LolaPage />} />
                   <Route path="/analytics/:type" element={<AnalyticsPage />} />
                   <Route path="/pricing" element={<PricingPage />} />
                   <Route

@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import Chat from "../../components/Chat";
 import SendChatInput from "../../components/SendChatInput";
@@ -9,7 +10,6 @@ import {
   setChatLog as setChatLogAction,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
-import { addChatLog } from "../../store/features/app/appSlice";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
 
@@ -22,20 +22,24 @@ const LolaPage: React.FC = () => {
   const navigate = useNavigate();
   const { getMessages } = useAPI();
   const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   const { lastRequestIdWaitingForThreadId } = useAppSelector(
     (state) => state.app
   );
 
-  const lolaSetThreadId = (threadId: string | null) => {
-    setThreadId(threadId);
-    dispatch(
-      setChatLogAction({
-        threadId,
-        lastRequestId: lastRequestIdWaitingForThreadId,
-      })
-    );
-  };
+  const lolaSetThreadId = useCallback(
+    (threadId: string | null) => {
+      setThreadId(threadId);
+      dispatch(
+        setChatLogAction({
+          threadId,
+          lastRequestId: lastRequestIdWaitingForThreadId,
+        })
+      );
+    },
+    [dispatch, lastRequestIdWaitingForThreadId]
+  );
 
   const { sendMessage, socketConnection } = useWebSocket({
     setThreadId: lolaSetThreadId,
@@ -59,8 +63,7 @@ const LolaPage: React.FC = () => {
   }, [chatState]);
 
   useEffect(() => {
-    if (params.threadId) {
-      console.log("get thread chat log");
+    if (params.threadId && params.threadId !== "new") {
       dispatch(
         setChatLogAction({
           threadId: params.threadId,
@@ -84,21 +87,12 @@ const LolaPage: React.FC = () => {
 
   useEffect(() => {
     if (threadId) {
-      if (chatLog.length === 1)
-        dispatch(
-          addChatLog({
-            threadId,
-            content: chatLog[0].content,
-            role: "user",
-            type: "lola",
-          })
-        );
       navigate("/lola/" + threadId);
     }
   }, [threadId]);
 
   useEffect(() => {
-    if (!params.threadId) {
+    if (params.threadId === "new") {
       setThreadId(null);
       setChatLog([]);
     }
@@ -130,29 +124,48 @@ const LolaPage: React.FC = () => {
       <Meta title={"Lola"} />
       <div className="flex justify-center h-full">
         <div className="grow pt-[10px] pb-[20px] flex flex-col h-[calc(100vh-75px)]">
-          <div
-            ref={chatContainerRef}
-            className="grow overflow-y-scroll no-scrollbar justify-center flex"
-          >
-            <Chat
-              type="lola"
-              id={threadId}
-              chatLog={chatLog}
-              isChatLoading={chatState?.isLoading ?? false}
-              isAssistantWriting={isAssistantWriting}
-            />
-          </div>
-          <div className="justify-center flex w-full">
-            <div className="w-[65%]">
-              <SendChatInput
-                type="lola"
-                threadId={threadId}
-                onSend={(message) => sendMessageToLola(message, threadId)}
-                canSendMessage={chatState?.canSendMessage ?? true}
-                isChatInputAvailable={chatState?.isInputAvailable ?? true}
-              />
+          {params.threadId !== "new" ? (
+            <>
+              <div
+                ref={chatContainerRef}
+                className="grow overflow-y-scroll no-scrollbar justify-center flex"
+              >
+                <Chat
+                  type="lola"
+                  id={threadId}
+                  chatLog={chatLog}
+                  isChatLoading={chatState?.isLoading ?? false}
+                  isAssistantWriting={isAssistantWriting}
+                />
+              </div>
+              <div className="justify-center flex w-full">
+                <div className="md:w-[65%]">
+                  <SendChatInput
+                    type="lola"
+                    threadId={threadId}
+                    onSend={(message) => sendMessageToLola(message, threadId)}
+                    canSendMessage={chatState?.canSendMessage ?? true}
+                    isChatInputAvailable={chatState?.isInputAvailable ?? true}
+                  />
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="grow flex flex-col justify-center items-center">
+              <span className="text-4xl">{t("How can I help you?")}</span>
+              <div className="justify-center flex w-full">
+                <div className="md:w-[65%] mt-[20px]">
+                  <SendChatInput
+                    type="lola"
+                    threadId={threadId}
+                    onSend={(message) => sendMessageToLola(message, threadId)}
+                    canSendMessage={true}
+                    isChatInputAvailable={true}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>
