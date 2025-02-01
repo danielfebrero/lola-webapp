@@ -217,32 +217,6 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
               />
             </div>
 
-            {params.threadId === "new" && (
-              <div className="flex flex-row items-center mb-2">
-                <input
-                  type="checkbox"
-                  value="1"
-                  name="private"
-                  id="private"
-                  onChange={(e) => setNewIsPrivate(e.target.checked)}
-                  checked={newIsPrivate}
-                  disabled={plan === "free"}
-                />
-                <label htmlFor="private" className="ml-2">
-                  {t("Set to private.")}
-                </label>
-                {plan === "free" && (
-                  <div className="ml-2 font-bold">
-                    <NavLink
-                      onClick={() => sendEvent("click_upgrade", "character")}
-                      to="/pricing"
-                    >
-                      {t("Upgrade plan")}
-                    </NavLink>
-                  </div>
-                )}
-              </div>
-            )}
             {(chatState?.isOwner || params.threadId === "new") && (
               <div className="justify-center flex w-full md:px-0 px-[30px]">
                 <SendChatInput
@@ -261,6 +235,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   onSend={(message) =>
                     sendMessageToCharacter(message, threadId, newIsPrivate)
                   }
+                  canMakePrivate={plan !== "free"}
+                  showPrivate={params.threadId === "new"}
+                  setPrivate={setNewIsPrivate}
                 />
               </div>
             )}
@@ -317,34 +294,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                       }
                     />
                   </div>
-                  {params.threadId === "new" && (
-                    <div className="flex flex-row items-center justify-center mb-2">
-                      <input
-                        type="checkbox"
-                        value="1"
-                        name="private"
-                        id="private"
-                        onChange={(e) => setNewIsPrivate(e.target.checked)}
-                        checked={newIsPrivate}
-                        disabled={plan === "free"}
-                      />
-                      <label htmlFor="private" className="ml-2">
-                        {t("Set to private.")}
-                      </label>
-                      {plan === "free" && (
-                        <div className="ml-2 font-bold">
-                          <NavLink
-                            onClick={() =>
-                              sendEvent("click_upgrade", "character")
-                            }
-                            to="/pricing"
-                          >
-                            {t("Upgrade plan")}
-                          </NavLink>
-                        </div>
-                      )}
-                    </div>
-                  )}
+
                   {(chatState?.isOwner || params.threadId === "new") && (
                     <div className="justify-center flex w-full md:px-0 px-[30px]">
                       <SendChatInput
@@ -367,6 +317,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                             newIsPrivate
                           )
                         }
+                        canMakePrivate={plan !== "free"}
+                        showPrivate={params.threadId === "new"}
+                        setPrivate={setNewIsPrivate}
                       />
                     </div>
                   )}
