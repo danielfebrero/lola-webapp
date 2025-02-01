@@ -151,7 +151,7 @@ const LolaPage: React.FC = () => {
               </div>
             </>
           ) : (
-            <div className="grow flex flex-col justify-center items-center">
+            <div className="grow flex flex-col justify-center items-center text-center">
               <span className="text-4xl">{t("How can I help you?")}</span>
               <div className="justify-center flex w-full">
                 <div className="md:w-[65%] mt-[20px]">
