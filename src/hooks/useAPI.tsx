@@ -124,10 +124,41 @@ const useAPI = () => {
     }
   };
 
+  const getGameScenarios = async () => {
+    try {
+      const response = await fetch(`${API_URL}/game_scenarios?mode=${mode}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error fetching game scenarios: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      console.log("game scenarios", { data });
+      return;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   return {
     getThreads,
     getCharacters,
     getMessages,
+    getGameScenarios,
   };
 };
 

@@ -46,7 +46,7 @@ const NewGamePage: React.FC = () => {
     setThreadId: gameSetThreadId,
   });
 
-  const { getCharacters } = useAPI();
+  const { getCharacters, getGameScenarios } = useAPI();
 
   const createGame = () => {
     sendMessage("", "you_are_the_hero", null, {
@@ -62,10 +62,9 @@ const NewGamePage: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (socketConnection?.readyState === WebSocket.OPEN) {
-      getCharacters();
-    }
-  }, [socketConnection?.readyState]);
+    getCharacters();
+    getGameScenarios();
+  }, []);
 
   useEffect(() => {
     if (threadId) {
