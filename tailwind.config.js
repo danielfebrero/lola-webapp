@@ -19,8 +19,8 @@ module.exports = {
         buttonGreen: "#10a37f",
         textError: "#f93a37",
         brandMainColor: "#3ccccf",
-        textOptionSelected: "rgb(72 170 255)",
-        backgroundOptionSelected: "rgb(42 74 109)",
+        textOptionSelected: "rgb(2 133 255)",
+        backgroundOptionSelected: "rgb(205 229 247)",
 
         //dark
         darkMainSurfacePrimary: "#212121",
