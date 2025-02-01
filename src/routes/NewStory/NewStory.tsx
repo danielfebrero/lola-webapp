@@ -1,33 +1,30 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
 import PlusIcon from "../../icons/plus";
 import CloseIcon from "../../icons/close";
-import SendIcon from "../../icons/send";
-
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
-  addChatLog,
   setChatLog,
   setCurrentlyViewing,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
-import useGA from "../../hooks/useGA";
+import SendChatInput from "../../components/SendChatInput";
 
 const NewStoryPage: React.FC = () => {
   const { t } = useTranslation();
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
   const [AIInputValue, setAIInputValue] = useState<string>("");
-  const [context, setContext] = useState<string>("");
   const [threadId, setThreadId] = useState<string | null>(null);
   const [hasSentMessage, setHasSentMessage] = useState<boolean>(false);
-  const navigate = useNavigate();
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
+  const [newIsPrivate, setNewIsPrivate] = useState<boolean>(false);
+  const [turnOnImageSearch, setTurnOnImageSearch] = useState<boolean>(false);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { characters, lastRequestIdWaitingForThreadId } = useAppSelector(
     (state) => state.app
@@ -47,11 +44,9 @@ const NewStoryPage: React.FC = () => {
     setThreadId: gameSetThreadId,
   });
   const { plan } = useAppSelector((state) => state.user);
-  const [newIsPrivate, setNewIsPrivate] = useState<boolean>(plan !== "free");
   const { getCharacters } = useAPI();
-  const { sendEvent } = useGA();
 
-  const createStory = () => {
+  const createStory = (context: string) => {
     const encoder = new TextEncoder();
     const encodedMessage = encoder.encode(context);
 
@@ -63,6 +58,7 @@ const NewStoryPage: React.FC = () => {
     sendMessage(context, "story", null, {
       characters: selectedCharacters,
       isPrivate: newIsPrivate,
+      turnOnImageSearch,
     });
     setHasSentMessage(true);
   };
@@ -79,15 +75,6 @@ const NewStoryPage: React.FC = () => {
 
   useEffect(() => {
     if (threadId) {
-      dispatch(
-        addChatLog({
-          threadId,
-          content: context,
-          role: "user",
-          type: "story",
-          is_private: newIsPrivate,
-        })
-      );
       navigate("/story/" + threadId);
     }
   }, [threadId]);
@@ -202,66 +189,26 @@ const NewStoryPage: React.FC = () => {
               </div>
             </NavLink>
           </div>
-          <div className="font-semibold text-lg mt-[40px] mb-[20px]">
-            {t("Context")}
-          </div>
-          <div className="flex flex-row items-center">
-            <textarea
+          <div className="flex flex-row items-center w-full max-w-[715px] mt-[60px]">
+            <SendChatInput
+              type="story"
+              isChatInputAvailable={!hasSentMessage}
+              canSendMessage={!hasSentMessage}
+              showPrivate={true}
+              showImageSearch={true}
+              canMakePrivate={plan !== "free"}
+              setPrivate={setNewIsPrivate}
+              setImageSearch={setTurnOnImageSearch}
+              onSend={createStory}
+              canSendEmptyMessage={true}
+            />
+            {/* <textarea
               className="rounded-lg border border-lightBorder resize-none h-[100px] md:w-[400px] w-[100%] outline-none p-[10px] dark:bg-darkMessageBackground"
               onChange={(e) => setContext(e.target.value)}
               ref={textAreaRef}
             >
               {context}
-            </textarea>
-          </div>
-          <div className="flex flex-row items-center mt-[20px]">
-            <input
-              type="checkbox"
-              value="1"
-              name="private"
-              id="private"
-              onChange={(e) => setNewIsPrivate(e.target.checked)}
-              checked={newIsPrivate}
-              disabled={plan === "free"}
-            />
-            <label htmlFor="private" className="ml-2">
-              {t("Set to private.")}
-            </label>
-            {plan === "free" && (
-              <div className="ml-2 font-bold">
-                <NavLink
-                  onClick={() => sendEvent("click_upgrade", "story")}
-                  to="/pricing"
-                >
-                  {t("Upgrade plan")}
-                </NavLink>
-              </div>
-            )}
-          </div>
-          <div className="pb-[60px]">
-            <div
-              onClick={!hasSentMessage ? createStory : undefined}
-              className={clsx(
-                {
-                  "cursor-pointer": !hasSentMessage,
-                },
-                "py-[5px] px-[10px] bg-lightGray dark:bg-darkLightGray rounded-lg flex flex-row mt-[40px] items-center border border-borderLight dark:border-darkBorderLight"
-              )}
-            >
-              <div className="mr-[10px]">{t("Start")}</div>
-              <div
-                className={clsx(
-                  {
-                    "bg-black": !hasSentMessage,
-                    "bg-textSecondary dark:bg-darkTextSecondary":
-                      hasSentMessage,
-                  },
-                  "w-[32px] h-[32px]  text-white rounded-full flex justify-center items-center"
-                )}
-              >
-                <SendIcon />
-              </div>
-            </div>
+            </textarea> */}
           </div>
         </div>
       </div>

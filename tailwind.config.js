@@ -19,6 +19,8 @@ module.exports = {
         buttonGreen: "#10a37f",
         textError: "#f93a37",
         brandMainColor: "#3ccccf",
+        textOptionSelected: "rgb(72 170 255)",
+        backgroundOptionSelected: "rgb(42 74 109)",
 
         //dark
         darkMainSurfacePrimary: "#212121",
@@ -31,6 +33,8 @@ module.exports = {
         darkBorderLight: "hsla(0,0%,100%,.1)",
         darkBorderColor: "hsla(0,0%,100%,.15)",
         darkBrandMainColor: "#3ccccf",
+        darkTextOptionSelected: "rgb(72 170 255)",
+        darkBackgroundOptionSelected: "rgb(42 74 109)",
       },
     },
   },
