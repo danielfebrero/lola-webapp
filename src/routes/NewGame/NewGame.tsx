@@ -15,17 +15,19 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
+import { i } from "react-router/dist/development/route-data-DuV3tXo2";
 
 const NewGamePage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const games = useAppSelector((state) => state.games.scenarios);
 
   const navigate = useNavigate();
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
-  const [selectedGame, setSelectedGame] = useState<string | null>(null);
+  const [selectedGame, setSelectedGame] = useState<number | null>(null);
+  const [locale, setLocale] = useState<string>("en");
   const dispatch = useAppDispatch();
-  const { characters, mode, lastRequestIdWaitingForThreadId } = useAppSelector(
+  const { characters, lastRequestIdWaitingForThreadId } = useAppSelector(
     (state) => state.app
   );
   const [hasSentMessage, setHasSentMessage] = useState<boolean>(false);
@@ -42,17 +44,17 @@ const NewGamePage: React.FC = () => {
     );
   };
 
-  const { sendMessage, socketConnection } = useWebSocket({
+  const { sendMessage } = useWebSocket({
     setThreadId: gameSetThreadId,
   });
 
-  const { getCharacters } = useAPI();
+  const { getCharacters, getGameScenarios } = useAPI();
 
   const createGame = () => {
     sendMessage("", "you_are_the_hero", null, {
       hero: selectedCharacters[0],
-      context: t(games.filter((g) => g.id === selectedGame)[0].context),
-      adult: games.filter((g) => g.id === selectedGame)[0].adult,
+      context: games[selectedGame ?? 0].scenario_locales[locale],
+      adult: games[selectedGame ?? 0].mode === "adult",
     });
     setHasSentMessage(true);
   };
@@ -62,10 +64,9 @@ const NewGamePage: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (socketConnection?.readyState === WebSocket.OPEN) {
-      getCharacters();
-    }
-  }, [socketConnection?.readyState]);
+    getCharacters();
+    getGameScenarios();
+  }, []);
 
   useEffect(() => {
     if (threadId) {
@@ -82,6 +83,15 @@ const NewGamePage: React.FC = () => {
       });
     }
   }, [selectedGame]);
+
+  useEffect(() => {
+    if (
+      Object.keys(games[0]?.scenario_locales ?? []).includes(
+        i18n.language.substring(0, 2)
+      )
+    )
+      setLocale(i18n.language.substring(0, 2));
+  }, [i18n.language, games]);
 
   return (
     <>
@@ -191,40 +201,34 @@ const NewGamePage: React.FC = () => {
             {t("Choose a game")}
           </div>
           <div className="grid gap-4 md:grid-cols-5 grid-cols-3 px-[30px]">
-            {games
-              .filter((g) =>
-                mode === "adult" ? g.adult === true : g.adult === false
-              )
-              .map((game) => (
-                <div
-                  className="flex flex-col items-center mx-[10px] cursor-pointer w-auto"
-                  onClick={() => {
-                    setSelectedGame((prev) =>
-                      prev === game.id ? null : game.id
-                    );
-                  }}
-                >
-                  <div className="h-[64px] w-[64px] mb-[10px]">
-                    <img
-                      src={game.image.src}
-                      alt={game.label}
-                      className={clsx(
-                        {
-                          "border-4 border-green-700": selectedGame === game.id,
-                        },
-                        "rounded-full h-[64px] w-[64px] object-cover"
-                      )}
-                    />
-                  </div>
-                  <div className="text-textSecondary dark:text-darkTextSecondary text-center">
-                    {t(game.label)}
-                  </div>
+            {games.map((game, idx) => (
+              <div
+                className="flex flex-col items-center mx-[10px] cursor-pointer w-auto"
+                onClick={() => {
+                  setSelectedGame((prev) => (prev === idx ? null : idx));
+                }}
+              >
+                <div className="h-[64px] w-[64px] mb-[10px]">
+                  <img
+                    src={game.images_multisize.medium}
+                    alt={game.title_locales[locale]}
+                    className={clsx(
+                      {
+                        "border-4 border-green-700": selectedGame === idx,
+                      },
+                      "rounded-full h-[64px] w-[64px] object-cover"
+                    )}
+                  />
                 </div>
-              ))}
+                <div className="text-textSecondary dark:text-darkTextSecondary text-center">
+                  {game.title_locales[locale]}
+                </div>
+              </div>
+            ))}
           </div>
-          {selectedGame && (
+          {selectedGame !== null && (
             <div className="text-textSecondary dark:text-darkTextSecondary text-center mt-[40px] md:w-[70%] w-full self-center justify-self-center rounded-lg bg-lightGray dark:bg-darkLightGray p-[20px]">
-              {t(games.filter((g) => g.id === selectedGame)[0].context)}
+              {t(games[selectedGame].scenario_locales[locale])}
             </div>
           )}
           <div className="pb-[60px]">
