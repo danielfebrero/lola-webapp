@@ -57,7 +57,7 @@ const App: React.FC = () => {
             api_key={"JwhVr4bpczMbGntosgQkjduKjQU37hYV"}
             project={"Lola.la"}
           >
-            <div className="flex h-screen w-screen items-center justify-center">
+            <div className="dark:bg-darkMainSurfacePrimary text-textPrimary dark:text-darkTextPrimary flex h-screen w-screen items-center justify-center">
               We are offline for maintenance. Please check back tomorrow.
             </div>
             {/* <BrowserRouter>
