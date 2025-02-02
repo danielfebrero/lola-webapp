@@ -254,11 +254,11 @@ const NewGamePage: React.FC = () => {
                   {
                     "bg-black":
                       selectedCharacters.length > 0 &&
-                      selectedGame &&
+                      selectedGame !== null &&
                       !hasSentMessage,
                     "bg-textSecondary dark:bg-darkTextSecondary":
                       !(selectedCharacters.length > 0) ||
-                      !selectedGame ||
+                      selectedGame === null ||
                       hasSentMessage,
                   },
                   "w-[32px] h-[32px]  text-white rounded-full flex justify-center items-center"
