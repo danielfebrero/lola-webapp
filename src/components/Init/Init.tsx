@@ -18,6 +18,7 @@ import {
 } from "../../store/features/app/appSlice";
 import { setSocketConnection } from "../../store/features/socket/socketSlice";
 import useWebSocket from "../../hooks/useWebSocket";
+import { setScenarios } from "../../store/features/games/gamesSlice";
 
 const WEBSOCKET_URL =
   process.env.NODE_ENV === "development" ||
@@ -102,6 +103,7 @@ const Init: React.FC = () => {
         uk: "Українська",
       })
     );
+    dispatch(setScenarios([]));
     dispatch(setIsDataLoading(["characters", "threads", "settings"]));
     dispatch(setIsDataLoaded(false));
   }, []);

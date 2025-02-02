@@ -12,9 +12,11 @@ interface Games {
 }
 
 interface Scenario {
-  id: string;
-  image: StaticImageData;
-  label: string;
-  adult: boolean;
-  context: string;
+  created_at: date;
+  scenario: string;
+  title: string;
+  mode: string;
+  images_multisize: ImagesMultisize;
+  scenario_locales: Record<string, string>;
+  title_locales: Record<string, string>;
 }

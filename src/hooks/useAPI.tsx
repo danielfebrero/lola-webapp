@@ -10,6 +10,7 @@ import {
   setChatLogs,
 } from "../store/features/app/appSlice";
 import useNewChatLocation from "./useNewChatLocation";
+import { setScenarios } from "../store/features/games/gamesSlice";
 
 const API_URL =
   process.env.NODE_ENV === "development" ||
@@ -147,6 +148,7 @@ const useAPI = () => {
 
       const data = await response.json();
       console.log("game scenarios", { data });
+      dispatch(setScenarios(data));
       return;
     } catch (error) {
       console.error(error);

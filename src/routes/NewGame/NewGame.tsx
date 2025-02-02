@@ -23,9 +23,9 @@ const NewGamePage: React.FC = () => {
   const navigate = useNavigate();
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
-  const [selectedGame, setSelectedGame] = useState<string | null>(null);
+  const [selectedGame, setSelectedGame] = useState<number | null>(null);
   const dispatch = useAppDispatch();
-  const { characters, mode, lastRequestIdWaitingForThreadId } = useAppSelector(
+  const { characters, lastRequestIdWaitingForThreadId } = useAppSelector(
     (state) => state.app
   );
   const [hasSentMessage, setHasSentMessage] = useState<boolean>(false);
@@ -42,7 +42,7 @@ const NewGamePage: React.FC = () => {
     );
   };
 
-  const { sendMessage, socketConnection } = useWebSocket({
+  const { sendMessage } = useWebSocket({
     setThreadId: gameSetThreadId,
   });
 
@@ -51,8 +51,8 @@ const NewGamePage: React.FC = () => {
   const createGame = () => {
     sendMessage("", "you_are_the_hero", null, {
       hero: selectedCharacters[0],
-      context: t(games.filter((g) => g.id === selectedGame)[0].context),
-      adult: games.filter((g) => g.id === selectedGame)[0].adult,
+      context: t(games[selectedGame ?? 0].scenario),
+      adult: games[selectedGame ?? 0].mode === "adult",
     });
     setHasSentMessage(true);
   };
@@ -190,40 +190,34 @@ const NewGamePage: React.FC = () => {
             {t("Choose a game")}
           </div>
           <div className="grid gap-4 md:grid-cols-5 grid-cols-3 px-[30px]">
-            {games
-              .filter((g) =>
-                mode === "adult" ? g.adult === true : g.adult === false
-              )
-              .map((game) => (
-                <div
-                  className="flex flex-col items-center mx-[10px] cursor-pointer w-auto"
-                  onClick={() => {
-                    setSelectedGame((prev) =>
-                      prev === game.id ? null : game.id
-                    );
-                  }}
-                >
-                  <div className="h-[64px] w-[64px] mb-[10px]">
-                    <img
-                      src={game.image.src}
-                      alt={game.label}
-                      className={clsx(
-                        {
-                          "border-4 border-green-700": selectedGame === game.id,
-                        },
-                        "rounded-full h-[64px] w-[64px] object-cover"
-                      )}
-                    />
-                  </div>
-                  <div className="text-textSecondary dark:text-darkTextSecondary text-center">
-                    {t(game.label)}
-                  </div>
+            {games.map((game, idx) => (
+              <div
+                className="flex flex-col items-center mx-[10px] cursor-pointer w-auto"
+                onClick={() => {
+                  setSelectedGame((prev) => (prev === idx ? null : idx));
+                }}
+              >
+                <div className="h-[64px] w-[64px] mb-[10px]">
+                  <img
+                    src={game.images_multisize.medium}
+                    alt={game.title}
+                    className={clsx(
+                      {
+                        "border-4 border-green-700": selectedGame === idx,
+                      },
+                      "rounded-full h-[64px] w-[64px] object-cover"
+                    )}
+                  />
                 </div>
-              ))}
+                <div className="text-textSecondary dark:text-darkTextSecondary text-center">
+                  {t(game.title)}
+                </div>
+              </div>
+            ))}
           </div>
-          {selectedGame && (
+          {selectedGame !== null && (
             <div className="text-textSecondary dark:text-darkTextSecondary text-center mt-[40px] md:w-[70%] w-full self-center justify-self-center rounded-lg bg-lightGray dark:bg-darkLightGray p-[20px]">
-              {t(games.filter((g) => g.id === selectedGame)[0].context)}
+              {t(games[selectedGame].scenario)}
             </div>
           )}
           <div className="pb-[60px]">
