@@ -57,7 +57,10 @@ const App: React.FC = () => {
             api_key={"JwhVr4bpczMbGntosgQkjduKjQU37hYV"}
             project={"Lola.la"}
           >
-            <BrowserRouter>
+            <div className="flex h-screen w-screen items-center justify-center">
+              We are offline for maintenance. Please check back tomorrow.
+            </div>
+            {/* <BrowserRouter>
               <Analytics />
               <SpeedInsights />
               <Init />
@@ -108,7 +111,7 @@ const App: React.FC = () => {
 
                 <Route path="*" element={<Navigate to="/" replace={true} />} />
               </Routes>
-            </BrowserRouter>
+            </BrowserRouter> */}
           </UserLogProvider>
         </PersistGate>
       </Provider>
