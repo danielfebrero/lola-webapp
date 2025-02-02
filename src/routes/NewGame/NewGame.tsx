@@ -234,7 +234,9 @@ const NewGamePage: React.FC = () => {
           <div className="pb-[60px]">
             <div
               onClick={
-                selectedCharacters.length > 0 && selectedGame && !hasSentMessage
+                selectedCharacters.length > 0 &&
+                selectedGame !== null &&
+                !hasSentMessage
                   ? createGame
                   : undefined
               }
@@ -242,7 +244,7 @@ const NewGamePage: React.FC = () => {
                 {
                   "cursor-pointer":
                     selectedCharacters.length > 0 &&
-                    selectedGame &&
+                    selectedGame !== null &&
                     !hasSentMessage,
                 },
                 "py-[5px] px-[10px] bg-lightGray dark:bg-darkLightGray rounded-lg flex flex-row mt-[40px] items-center border border-borderLight dark:border-darkBorderLight"
