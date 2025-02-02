@@ -15,15 +15,17 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
+import { i } from "react-router/dist/development/route-data-DuV3tXo2";
 
 const NewGamePage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const games = useAppSelector((state) => state.games.scenarios);
 
   const navigate = useNavigate();
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const [selectedGame, setSelectedGame] = useState<number | null>(null);
+  const [locale, setLocale] = useState<string>("en");
   const dispatch = useAppDispatch();
   const { characters, lastRequestIdWaitingForThreadId } = useAppSelector(
     (state) => state.app
@@ -51,7 +53,7 @@ const NewGamePage: React.FC = () => {
   const createGame = () => {
     sendMessage("", "you_are_the_hero", null, {
       hero: selectedCharacters[0],
-      context: t(games[selectedGame ?? 0].scenario),
+      context: games[selectedGame ?? 0].scenario_locales[locale],
       adult: games[selectedGame ?? 0].mode === "adult",
     });
     setHasSentMessage(true);
@@ -81,6 +83,15 @@ const NewGamePage: React.FC = () => {
       });
     }
   }, [selectedGame]);
+
+  useEffect(() => {
+    if (
+      Object.keys(games[0]?.scenario_locales ?? []).includes(
+        i18n.language.substring(0, 2)
+      )
+    )
+      setLocale(i18n.language.substring(0, 2));
+  }, [i18n.language, games]);
 
   return (
     <>
@@ -200,7 +211,7 @@ const NewGamePage: React.FC = () => {
                 <div className="h-[64px] w-[64px] mb-[10px]">
                   <img
                     src={game.images_multisize.medium}
-                    alt={game.title}
+                    alt={game.title_locales[locale]}
                     className={clsx(
                       {
                         "border-4 border-green-700": selectedGame === idx,
@@ -210,14 +221,14 @@ const NewGamePage: React.FC = () => {
                   />
                 </div>
                 <div className="text-textSecondary dark:text-darkTextSecondary text-center">
-                  {t(game.title)}
+                  {game.title_locales[locale]}
                 </div>
               </div>
             ))}
           </div>
           {selectedGame !== null && (
             <div className="text-textSecondary dark:text-darkTextSecondary text-center mt-[40px] md:w-[70%] w-full self-center justify-self-center rounded-lg bg-lightGray dark:bg-darkLightGray p-[20px]">
-              {t(games[selectedGame].scenario)}
+              {t(games[selectedGame].scenario_locales[locale])}
             </div>
           )}
           <div className="pb-[60px]">
