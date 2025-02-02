@@ -180,7 +180,7 @@ const Header: React.FC = () => {
           )}
           {params.threadId && (
             <div className="h-[40px] items-center flex flex-row ml-[10px]">
-              <span className="font-bold">{threadTitle}</span>
+              <span className="font-bold">{t(threadTitle)}</span>
             </div>
           )}
         </div>
