@@ -47,7 +47,7 @@ const PricingPage: React.FC = () => {
           <div className="grow overflow-y-scroll no-scrollbar flex flex-col w-full items-center">
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
               <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
-                <span className="text-xl font-bold">Lola Free</span>
+                <span className="text-xl font-bold">Fabularius Free</span>
                 <div className="text-4xl mt-[10px]">$0</div>
                 <div className="flex flex-row items-center mt-[20px]">
                   <div className="w-[18px] h-[18px]">
