@@ -12,12 +12,17 @@ import {
 import useNewChatLocation from "./useNewChatLocation";
 import { setScenarios } from "../store/features/games/gamesSlice";
 
+const api_url_list = {
+  "https://fabularius.ai": "https://prodapi.fabularius.ai/prod",
+  "https://lola.la": "https://prodapi.lola.la/prod",
+  rest: "https://devapi.fabularius.ai/dev",
+};
+
 const API_URL =
   process.env.NODE_ENV === "development" ||
-  (window.location.origin !== "https://lola.la" &&
-    window.location.origin !== "https://fabularius.ai")
-    ? "https://devapi.fabularius.ai/dev"
-    : "https://prodapi.fabularius.ai/prod";
+  !Object.keys(api_url_list).includes(window.location.origin)
+    ? api_url_list.rest
+    : api_url_list[window.location.origin as "https://fabularius.ai"];
 
 const useAPI = () => {
   const auth = useAuth();
