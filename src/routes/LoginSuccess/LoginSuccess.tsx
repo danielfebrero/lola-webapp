@@ -13,14 +13,9 @@ const LoginSuccess: React.FC = () => {
 
   useEffect(() => {
     if (
-      window.location.origin === "https://lola.la" ||
-      window.location.origin === "https://dev.lola.la"
+      window.location.origin === "https://fabularius.ai" ||
+      window.location.origin === "https://dev.fabularius.ai"
     ) {
-      window.location.href = window.location.href.replace(
-        "lola.la",
-        "fabularius.ai"
-      );
-    } else {
       if (auth.isAuthenticated) {
         dispatch(setIsDataLoaded(false));
         navigate("/");

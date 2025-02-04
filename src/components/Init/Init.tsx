@@ -87,6 +87,18 @@ const Init: React.FC = () => {
   };
 
   useEffect(() => {
+    if (
+      window.location.origin === "https://lola.la" ||
+      window.location.origin === "https://dev.lola.la"
+    ) {
+      window.location.href = window.location.href.replace(
+        "lola.la",
+        "fabularius.ai"
+      );
+    }
+  }, []);
+
+  useEffect(() => {
     dispatch(
       setLanguages({
         ar: "العربية",
