@@ -190,7 +190,10 @@ const ExplorePage: React.FC = (props) => {
                                           </div>
                                         </div>
                                       ) : (
-                                        <div className="" key={message.id}>
+                                        <div
+                                          className="mb-[10px]"
+                                          key={message.id}
+                                        >
                                           <MarkdownToHTML
                                             content={message.content}
                                             showWorkerIndicator={false}
