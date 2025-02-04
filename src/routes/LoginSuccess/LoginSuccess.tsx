@@ -12,9 +12,19 @@ const LoginSuccess: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (auth.isAuthenticated) {
-      dispatch(setIsDataLoaded(false));
-      navigate("/");
+    if (
+      window.location.origin === "https://lola.la" ||
+      window.location.origin === "https://dev.lola.la"
+    ) {
+      window.location.href = window.location.href.replace(
+        "lola.la",
+        "fabularius.ai"
+      );
+    } else {
+      if (auth.isAuthenticated) {
+        dispatch(setIsDataLoaded(false));
+        navigate("/");
+      }
     }
   }, [auth]);
   return (
