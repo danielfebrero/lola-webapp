@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { props: { threadData: { thread_id: "new" } } };
 
   const res = await fetch(
-    `https://prodapi.fabularius.ai/prod/character?threadId=${threadId}`
+    `https://devapi.fabularius.ai/dev/character?threadId=${threadId}`
   );
 
   if (!res.ok) {
