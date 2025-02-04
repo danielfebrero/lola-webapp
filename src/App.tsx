@@ -35,7 +35,11 @@ import "./i18n";
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_GGRb4RlVb",
   client_id: "6hg2ttnt7v00aflhj0qbgm0dgj",
-  redirect_uri: window.location.origin + "/login/success",
+  redirect_uri:
+    (window.location.origin === "https://lola.la" ||
+    window.location.origin === "https://fabularius.ai"
+      ? "https://lola.la"
+      : "https://dev.lola.la") + "/login/success",
   response_type: "code",
   scope: "phone openid email",
   userStore: new WebStorageStateStore({ store: window.localStorage }),
@@ -57,10 +61,10 @@ const App: React.FC = () => {
             api_key={"JwhVr4bpczMbGntosgQkjduKjQU37hYV"}
             project={"Lola.la"}
           >
-            {/* <div className="dark:bg-darkMainSurfacePrimary text-textPrimary dark:text-darkTextPrimary flex h-screen w-screen items-center justify-center">
+            <div className="dark:bg-darkMainSurfacePrimary text-textPrimary dark:text-darkTextPrimary flex h-screen w-screen items-center justify-center">
               We are offline for maintenance. Please check back tomorrow.
-            </div> */}
-            <BrowserRouter>
+            </div>
+            {/* <BrowserRouter>
               <Analytics />
               <SpeedInsights />
               <Init />
@@ -111,7 +115,7 @@ const App: React.FC = () => {
 
                 <Route path="*" element={<Navigate to="/" replace={true} />} />
               </Routes>
-            </BrowserRouter>
+            </BrowserRouter> */}
           </UserLogProvider>
         </PersistGate>
       </Provider>
