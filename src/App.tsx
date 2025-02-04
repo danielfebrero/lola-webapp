@@ -45,6 +45,10 @@ const cognitoAuthConfig = {
   userStore: new WebStorageStateStore({ store: window.localStorage }),
   loadUserInfo: true,
   automaticSilentRenew: true,
+  logout_uri:
+    window.location.origin === "https://fabularius.ai"
+      ? "https://lola.la"
+      : "https://dev.lola.la",
   silent_redirect_uri:
     (window.location.origin === "https://lola.la" ||
     window.location.origin === "https://fabularius.ai"
