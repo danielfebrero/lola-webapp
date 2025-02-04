@@ -7,7 +7,7 @@ export interface Character {
   isImageProcessing?: boolean;
   isReportProcessing?: boolean;
   summary?: string;
-  chatLog?: ChatLog;
+  chatLog?: Message[];
 }
 
 interface ImagesMultisize {
