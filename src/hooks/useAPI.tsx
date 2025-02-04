@@ -15,7 +15,7 @@ import { setScenarios } from "../store/features/games/gamesSlice";
 const API_URL =
   process.env.NODE_ENV === "development" ||
   window.location.origin !== "https://lola.la"
-    ? "https://devapi.lola.la/dev"
+    ? "https://devapi.fabularius.ai/dev"
     : "https://prodapi.lola.la/prod";
 
 const useAPI = () => {
