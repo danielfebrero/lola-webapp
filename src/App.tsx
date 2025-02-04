@@ -35,21 +35,13 @@ import "./i18n";
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_GGRb4RlVb",
   client_id: "6hg2ttnt7v00aflhj0qbgm0dgj",
-  redirect_uri:
-    (window.location.origin === "https://lola.la" ||
-    window.location.origin === "https://fabularius.ai"
-      ? "https://lola.la"
-      : "https://dev.lola.la") + "/login/success",
+  redirect_uri: window.location.origin + "/login/success",
   response_type: "code",
   scope: "phone openid email",
   userStore: new WebStorageStateStore({ store: window.localStorage }),
   loadUserInfo: true,
   automaticSilentRenew: true,
-  silent_redirect_uri:
-    (window.location.origin === "https://lola.la" ||
-    window.location.origin === "https://fabularius.ai"
-      ? "https://lola.la"
-      : "https://dev.lola.la") + "/login/silent-renew",
+  silent_redirect_uri: window.location.origin + "/login/silent-renew",
 };
 
 const App: React.FC = () => {

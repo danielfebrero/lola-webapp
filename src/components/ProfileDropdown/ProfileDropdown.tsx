@@ -30,11 +30,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
   const signOutRedirect = () => {
     sendEvent("click_signout");
     const clientId = "6hg2ttnt7v00aflhj0qbgm0dgj";
-    const logoutUri =
-      window.location.origin === "https://lola.la" ||
-      window.location.origin === "https://fabularius.ai"
-        ? "https://lola.la"
-        : "https://dev.lola.la";
+    const logoutUri = window.location.origin;
     const cognitoDomain =
       "https://us-east-1ggrb4rlvb.auth.us-east-1.amazoncognito.com";
     auth.removeUser();
