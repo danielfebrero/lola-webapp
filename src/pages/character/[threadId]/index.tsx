@@ -27,14 +27,12 @@ const CharacterPage: NextPage<CharacterPageProps> = ({ threadData }) => {
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <App />
       </div>
-      {/* You can pass threadData to any child components as needed */}
-      <pre>{JSON.stringify(threadData, null, 2)}</pre>
     </div>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { threadId } = context.params!; // threadId is extracted from the URL
+  const { threadId } = context.params!;
 
   if (threadId === "new")
     return { props: { threadData: { thread_id: "new" } } };
