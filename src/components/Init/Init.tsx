@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useAuth } from "react-oidc-context";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate, useLocation, useSearchParams } from "react-router";
 import { useUserLog } from "@userlog/next";
 
+import useNewChatLocation from "../../hooks/useNewChatLocation";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   setIsDataLoaded,
@@ -15,6 +16,7 @@ import {
   setIsDataLoadingLeftPanel,
   setLanguages,
   setExploreLanguage,
+  setMode,
 } from "../../store/features/app/appSlice";
 import { setSocketConnection } from "../../store/features/socket/socketSlice";
 import useWebSocket from "../../hooks/useWebSocket";
@@ -47,6 +49,8 @@ const Init: React.FC = () => {
   const { settings } = useAppSelector((state) => state.user);
   const { initData, getConnectionId } = useWebSocket({});
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
+  const [searchParams] = useSearchParams();
+  const newChatLocation = useNewChatLocation();
 
   const { i18n } = useTranslation();
   const navigate = useNavigate();
@@ -85,6 +89,10 @@ const Init: React.FC = () => {
       console.error("Max reconnection attempts reached. Giving up.");
     }
   };
+
+  useEffect(() => {
+    if (searchParams.get("adult") === "1") dispatch(setMode("adult"));
+  }, [searchParams]);
 
   useEffect(() => {
     if (
@@ -135,7 +143,7 @@ const Init: React.FC = () => {
       dispatch(
         setIsDataLoadingLeftPanel(["characters", "threads", "settings"])
       );
-      navigate("/");
+      navigate(newChatLocation);
     }
   }, [mode, prevMode, location.pathname]);
 
