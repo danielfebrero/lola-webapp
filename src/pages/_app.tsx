@@ -8,7 +8,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Fabularius</title>
+        <title>
+          Fabularius AI - Choose your own adventure, storyteller, chatbot,
+          character and image generator.
+        </title>
       </Head>
       <Component {...pageProps} />
     </>
