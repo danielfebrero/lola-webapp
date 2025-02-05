@@ -73,6 +73,7 @@ const ExplorePage: React.FC = (props) => {
                   className={clsx(
                     "p-[10px] hover:bg-lightGray rounded-lg dark:hover:bg-darkMainSurfaceSecondary border-b border-borderColor dark:border-darkBorderColor w-full items-center flex flex-col"
                   )}
+                  key={c.thread.threadId}
                 >
                   <div
                     className={clsx(

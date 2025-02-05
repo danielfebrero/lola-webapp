@@ -56,15 +56,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       : `https://prodapi.fabularius.ai/prod/story?threadId=${threadId}`
   );
 
-  console.log({ res });
-
   if (!res.ok) {
     return { props: { data: { thread_id: "new" }, threadId } };
   }
 
   const result = await res.json();
-
-  console.log({ result });
 
   return {
     props: {
