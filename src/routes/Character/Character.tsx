@@ -199,7 +199,13 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
 
   return (
     <>
-      <Meta title={character.json?.name ?? t("Character")} />
+      <Meta
+        title={
+          character.json?.name ??
+          t("New character") +
+            " on Fabularius AI - Choose your own adventure, storyteller, chatbot, character and image generator."
+        }
+      />
       <div className="grow pl-5 pr-5 pt-2.5 md:pb-5 pb-[10px] flex flex-row overflow-y-scroll no-scrollbar h-full">
         {!isSmallScreen && (
           <div className="grow md:border-r-2 md:border-borderColor dark:md:border-darkBorderColor md:w-1/2 md:pr-5 flex flex-col h-full overflow-y-scroll no-scrollbar h-full">

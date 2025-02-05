@@ -10,4 +10,6 @@ interface Story {
   characters: string[];
   context: string;
   isImageSearchProcessing?: boolean;
+  chatLog?: Message[];
+  title?: string;
 }
