@@ -7,6 +7,7 @@ import { GetServerSideProps, NextPage } from "next";
 import CharacterLayout from "../../../components/Layouts/Character";
 import PageLayout from "../../../components/Layouts/Page";
 import { Character } from "../../../types/characters";
+import { getAPIUrlFromContext } from "../../../utils/ssr";
 
 const App = dynamic(() => import("../../../App"), {
   ssr: false,
@@ -54,17 +55,12 @@ const CharacterPage: NextPage<CharacterPageProps> = ({
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { threadId } = context.params!;
-  const host = context.req.headers.host || "";
-  const isDevDomain =
-    host.includes("dev.fabularius.ai") || host.includes("localhost");
 
   if (threadId === "new")
     return { props: { data: { thread_id: "new" }, threadId } };
 
   const res = await fetch(
-    isDevDomain
-      ? `https://devapi.fabularius.ai/dev/character?threadId=${threadId}`
-      : `https://prodapi.fabularius.ai/prod/character?threadId=${threadId}`
+    getAPIUrlFromContext(context) + "/character?threadId=" + threadId
   );
 
   if (!res.ok) {

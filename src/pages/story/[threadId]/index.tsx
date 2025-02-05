@@ -5,6 +5,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import StoryLayout from "../../../components/Layouts/Story";
 import NewStoryLayout from "../../../components/Layouts/NewStory";
+import { getAPIUrlFromContext } from "../../../utils/ssr";
 
 const App = dynamic(() => import("../../../App"), {
   ssr: false,
@@ -43,17 +44,12 @@ const StoryPage: React.FC<StoryPageProps> = ({ data, title, threadId }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { threadId } = context.params!;
-  const host = context.req.headers.host || "";
-  const isDevDomain =
-    host.includes("dev.fabularius.ai") || host.includes("localhost");
 
   if (threadId === "new")
     return { props: { data: { thread_id: "new" }, threadId } };
 
   const res = await fetch(
-    isDevDomain
-      ? `https://devapi.fabularius.ai/dev/story?threadId=${threadId}`
-      : `https://prodapi.fabularius.ai/prod/story?threadId=${threadId}`
+    getAPIUrlFromContext(context) + "/story?threadId=" + threadId
   );
 
   if (!res.ok) {
