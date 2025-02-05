@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 import CloseIcon from "../../icons/close";
+import { ImagesMultisize } from "../../types/characters";
 
 interface ImageSliderProps {
   images: ImagesMultisize[] | ImageSearch[];
