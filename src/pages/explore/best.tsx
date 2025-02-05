@@ -44,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const fetchQuery = adult === "1" ? "?mode=adult" : "?mode=minor";
 
   const res = await fetch(
-    getAPIUrlFromContext(context) + "/explore/latest" + fetchQuery
+    getAPIUrlFromContext(context) + "/explore/best" + fetchQuery
   );
 
   if (!res.ok) {
