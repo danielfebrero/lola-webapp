@@ -33,7 +33,7 @@ const CharacterPage: NextPage<CharacterPageProps> = ({
         </title>
       </Head>
       <PageLayout headerDropdownLabel={"Character"}>
-        {data.thread_id === "new" ? (
+        {threadId === "new" ? (
           <CharacterLayout />
         ) : (
           <CharacterLayout
@@ -57,7 +57,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const isDevDomain =
     host.includes("dev.fabularius.ai") || host.includes("localhost");
 
-  if (threadId === "new") return { props: { data: { thread_id: "new" } } };
+  if (threadId === "new")
+    return { props: { data: { thread_id: "new" }, threadId } };
 
   const res = await fetch(
     isDevDomain
@@ -66,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   );
 
   if (!res.ok) {
-    return { props: { data: { thread_id: "new" } } };
+    return { props: { data: { thread_id: "new" } }, threadId };
   }
 
   const result = await res.json();
