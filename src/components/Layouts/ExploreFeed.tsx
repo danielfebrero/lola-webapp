@@ -7,7 +7,6 @@ import UpvoteIcon from "../../icons/upvote";
 import DownvoteIcon from "../../icons/downvote";
 
 interface ExploreFeedLayoutProps {
-  type: "best" | "latest";
   data: {
     thread: ChatLog;
     character: Character;
@@ -15,10 +14,7 @@ interface ExploreFeedLayoutProps {
   }[];
 }
 
-const ExploreFeedLayout: React.FC<ExploreFeedLayoutProps> = ({
-  type,
-  data,
-}) => {
+const ExploreFeedLayout: React.FC<ExploreFeedLayoutProps> = ({ data }) => {
   return (
     <>
       <div className="grow pt-2.5 pb-5 flex flex-row">

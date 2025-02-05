@@ -29,7 +29,7 @@ const ExploreLatestPage: React.FC<ExploreLatestPageProps> = ({ data }) => {
         </title>
       </Head>
       <PageLayout headerDropdownLabel="Latest">
-        <ExploreFeedLayout type="latest" data={data} />
+        <ExploreFeedLayout data={data} />
       </PageLayout>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <App />

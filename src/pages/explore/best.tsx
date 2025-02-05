@@ -29,7 +29,7 @@ const ExploreBestPage: React.FC<ExploreBestPageProps> = ({ data }) => {
         </title>
       </Head>
       <PageLayout headerDropdownLabel="Best Content">
-        <ExploreFeedLayout type="best" data={data} />
+        <ExploreFeedLayout data={data} />
       </PageLayout>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <App />
