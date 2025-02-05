@@ -121,7 +121,7 @@ const LolaPage: React.FC = () => {
 
   return (
     <>
-      <Meta title={"Lola"} />
+      <Meta title={"Lola chatbot"} />
       <div className="flex justify-center h-full">
         <div className="grow pt-[10px] pb-[20px] flex flex-col h-[calc(100vh-75px)]">
           {params.threadId !== "new" ? (
