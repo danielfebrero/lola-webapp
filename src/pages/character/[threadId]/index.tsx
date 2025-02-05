@@ -13,9 +13,15 @@ const App = dynamic(() => import("../../../App"), {
 
 interface CharacterPageProps {
   data: Character;
+  isOwner: boolean;
+  threadId: string;
 }
 
-const CharacterPage: NextPage<CharacterPageProps> = ({ data }) => {
+const CharacterPage: NextPage<CharacterPageProps> = ({
+  data,
+  isOwner,
+  threadId,
+}) => {
   return (
     <div className="no-scrollbar overflow-hidden h-screen w-screen">
       <Head>
@@ -30,7 +36,12 @@ const CharacterPage: NextPage<CharacterPageProps> = ({ data }) => {
         {data.thread_id === "new" ? (
           <CharacterLayout />
         ) : (
-          <CharacterLayout chatLog={data.chatLog} report={data.json} />
+          <CharacterLayout
+            character={data}
+            chatLog={data.chatLog}
+            isOwner={isOwner}
+            threadId={threadId}
+          />
         )}
       </PageLayout>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
@@ -58,6 +69,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       data: result.data,
+      isOwner: result.isOwner,
+      threadId,
     },
   };
 };

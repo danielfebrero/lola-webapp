@@ -7,7 +7,7 @@ const LeftPanelLayout: React.FC = () => {
   return (
     <div
       className={clsx(
-        `min-w-[260px] w-[260px] transition-all duration-500 h-screen bg-lightGray dark:bg-darkLightGray left-0 top-0`
+        `min-w-[260px] w-[260px] md:block hidden h-screen bg-lightGray dark:bg-darkLightGray left-0 top-0`
       )}
     >
       <div className="h-screen w-[260px] flex flex-col pl-[20px] pr-[20px] pt-[10px]">
@@ -27,11 +27,6 @@ const LeftPanelLayout: React.FC = () => {
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>Explore</div>
             </div>
-            <a href="/explore/images">
-              <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                <span className="">Images</span>
-              </div>
-            </a>
             <a href="/explore/latest">
               <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                 <span className="">Latest</span>
@@ -40,6 +35,11 @@ const LeftPanelLayout: React.FC = () => {
             <a href="/explore/best">
               <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
                 <span className="">Best content</span>
+              </div>
+            </a>
+            <a href="/explore/images">
+              <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+                <span className="">Images</span>
               </div>
             </a>
           </div>
