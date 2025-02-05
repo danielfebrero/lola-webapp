@@ -16,6 +16,7 @@ import {
 import useGA from "../../hooks/useGA";
 import ImageViewer from "../../components/ImageViewer/ImageViewer";
 import MarkdownToHTML from "../../components/MarkdownToHTML";
+import useAPI from "../../hooks/useAPI";
 
 const titleByType = {
   best: "Best content",
@@ -25,14 +26,10 @@ const titleByType = {
 const ExplorePage: React.FC = (props) => {
   const { sendEvent } = useGA();
   const { t } = useTranslation();
-  const {
-    getExploreBest,
-    getExploreLatest,
-    upvote,
-    downvote,
-    getClickedVotes,
-    socketConnection,
-  } = useWebSocket({});
+  const { upvote, downvote, getClickedVotes, socketConnection } = useWebSocket(
+    {}
+  );
+  const { getExploreLatest, getExploreBest } = useAPI();
   const params = useParams();
   const { explore, exploreLanguage, isLeftPanelOpen } = useAppSelector(
     (state) => state.app

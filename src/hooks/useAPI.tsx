@@ -8,6 +8,8 @@ import {
   setCharacters,
   setChatLog,
   setChatLogs,
+  setExploreBest,
+  setExploreLatest,
 } from "../store/features/app/appSlice";
 import useNewChatLocation from "./useNewChatLocation";
 import { setScenarios } from "../store/features/games/gamesSlice";
@@ -29,7 +31,7 @@ const useAPI = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const cookie = useCookie();
-  const { mode } = useAppSelector((state) => state.app);
+  const { mode, exploreLanguage } = useAppSelector((state) => state.app);
   const { connectionId } = useAppSelector((state) => state.socket);
   const newChatLocation = useNewChatLocation();
 
@@ -153,8 +155,73 @@ const useAPI = () => {
       }
 
       const data = await response.json();
-      console.log("game scenarios", { data });
       dispatch(setScenarios(data));
+      return;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const getExploreLatest = async () => {
+    try {
+      const response = await fetch(
+        `${API_URL}/explore/latest?mode=${mode}&language=${exploreLanguage}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            token:
+              auth?.isAuthenticated && auth.user?.id_token
+                ? auth.user?.id_token
+                : "",
+            cookie,
+            "ws-connection-id": connectionId ?? "",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Error fetching explore latest: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      console.log("explore latest", { data });
+      dispatch(setExploreLatest(data));
+      return;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const getExploreBest = async () => {
+    try {
+      const response = await fetch(
+        `${API_URL}/explore/best?mode=${mode}&language=${exploreLanguage}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            token:
+              auth?.isAuthenticated && auth.user?.id_token
+                ? auth.user?.id_token
+                : "",
+            cookie,
+            "ws-connection-id": connectionId ?? "",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error fetching explore best: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("explore best", { data });
+      dispatch(setExploreBest(data));
       return;
     } catch (error) {
       console.error(error);
@@ -167,6 +234,8 @@ const useAPI = () => {
     getCharacters,
     getMessages,
     getGameScenarios,
+    getExploreLatest,
+    getExploreBest,
   };
 };
 
