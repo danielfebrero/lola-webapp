@@ -1,7 +1,7 @@
 const Footer: React.FC = () => {
   return (
     <div className="w-full text-center">
-      Lola is a storyteller. Everything is fictive.
+      Fabularius is a storyteller. Everything is fictional.
     </div>
   );
 };
