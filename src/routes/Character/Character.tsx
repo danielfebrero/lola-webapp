@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import clsx from "clsx";
-import { useParams, useNavigate, useLocation, NavLink } from "react-router";
+import { useParams, useNavigate, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import Chat from "../../components/Chat";
@@ -18,6 +18,7 @@ import useWebSocket from "../../hooks/useWebSocket";
 import useGA from "../../hooks/useGA";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
+import { Character } from "../../types/characters";
 
 interface CharacterPageProps {
   selected?: Record<string, string>;
