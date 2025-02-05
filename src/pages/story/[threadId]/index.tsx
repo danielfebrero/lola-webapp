@@ -3,6 +3,8 @@ import dynamic from "next/dynamic";
 import PageLayout from "../../../components/Layouts/Page";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import StoryLayout from "../../../components/Layouts/Story";
+import NewStoryLayout from "../../../components/Layouts/NewStory";
 
 const App = dynamic(() => import("../../../App"), {
   ssr: false,
@@ -10,22 +12,28 @@ const App = dynamic(() => import("../../../App"), {
 
 interface StoryPageProps {
   data: Story;
-  isOwner: boolean;
   threadId: string;
+  title: string;
 }
 
-const StoryPage: React.FC<StoryPageProps> = ({ data, isOwner, threadId }) => {
+const StoryPage: React.FC<StoryPageProps> = ({ data, title, threadId }) => {
   return (
     <div className="no-scrollbar overflow-hidden h-screen w-screen">
       <Head>
         <title>
-          {data.title
-            ? data.title +
+          {title
+            ? title +
               " - Story on Fabularius AI - Choose your own adventure, storyteller, chatbot, character and image generator."
             : "New story on Fabularius AI - Choose your own adventure, storyteller, chatbot, character and image generator."}
         </title>
       </Head>
-      <PageLayout headerDropdownLabel={"Story"}>{""}</PageLayout>
+      <PageLayout headerDropdownLabel={"Story"}>
+        {threadId === "new" ? (
+          <NewStoryLayout />
+        ) : (
+          <StoryLayout chatLog={data.chatLog} />
+        )}
+      </PageLayout>
       {/* <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <App />
       </div> */}
@@ -48,16 +56,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       : `https://prodapi.fabularius.ai/prod/story?threadId=${threadId}`
   );
 
+  console.log({ res });
+
   if (!res.ok) {
     return { props: { data: { thread_id: "new" }, threadId } };
   }
 
   const result = await res.json();
 
+  console.log({ result });
+
   return {
     props: {
       data: result.data,
-      isOwner: result.isOwner,
+      title: result.title,
       threadId,
     },
   };
