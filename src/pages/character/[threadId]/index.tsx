@@ -53,11 +53,16 @@ const CharacterPage: NextPage<CharacterPageProps> = ({
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { threadId } = context.params!;
+  const host = context.req.headers.host || "";
+  const isDevDomain =
+    host.includes("dev.fabularius.ai") || host.includes("localhost");
 
   if (threadId === "new") return { props: { data: { thread_id: "new" } } };
 
   const res = await fetch(
-    `https://devapi.fabularius.ai/dev/character?threadId=${threadId}`
+    isDevDomain
+      ? `https://devapi.fabularius.ai/dev/character?threadId=${threadId}`
+      : `https://prodapi.fabularius.ai/prod/character?threadId=${threadId}`
   );
 
   if (!res.ok) {
