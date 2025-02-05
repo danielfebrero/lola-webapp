@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import Loading from "../../components/Loading";
 import ImageSlider from "../../components/ImageSlider";
+import { ImagesMultisize } from "../../types/characters";
 
 interface ImageViewProps {
   type: "character" | "story";

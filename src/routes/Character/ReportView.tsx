@@ -4,6 +4,7 @@ import clsx from "clsx";
 
 import JSONToText from "../../components/JSONToText";
 import Loading from "../../components/Loading";
+import { ImagesMultisize } from "../../types/characters";
 
 interface ReportViewProps {
   type: "character";
