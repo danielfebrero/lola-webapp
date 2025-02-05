@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import ChatLayout from "./Chat";
 import SendChatInputLayout from "./SendChatInput";
-import ReportView from "../../routes/Character/ReportView";
 import { Character } from "../../types/characters";
+import ReportViewLayout from "./ReportView";
 
 interface CharacterLayoutProps {
   chatLog?: Message[];
@@ -97,7 +97,7 @@ const CharacterLayout: React.FC<CharacterLayoutProps> = (props) => {
               )}
             </div>
             <div className="w-full md:block hidden">
-              <ReportView
+              <ReportViewLayout
                 type="character"
                 id={props.threadId}
                 json={props.character?.json}
