@@ -67,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   );
 
   if (!res.ok) {
-    return { props: { data: { thread_id: "new" } }, threadId };
+    return { props: { data: { thread_id: "new" }, threadId } };
   }
 
   const result = await res.json();
