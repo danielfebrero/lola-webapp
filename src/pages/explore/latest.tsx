@@ -1,7 +1,7 @@
+import Head from "next/head";
 import dynamic from "next/dynamic";
 
 import PageLayout from "../../components/Layouts/Page";
-import Head from "next/head";
 
 const App = dynamic(() => import("../../App"), {
   ssr: false,

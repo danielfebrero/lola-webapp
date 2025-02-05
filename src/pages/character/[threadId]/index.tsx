@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { GetServerSideProps, NextPage } from "next";
+
 import CharacterLayout from "../../../components/Layouts/Character";
 import PageLayout from "../../../components/Layouts/Page";
 import { Character } from "../../../types/characters";

@@ -1,5 +1,6 @@
-import { Head } from "next/document";
+import Head from "next/head";
 import dynamic from "next/dynamic";
+
 import PageLayout from "../components/Layouts/Page";
 
 const App = dynamic(() => import("../App"), {
