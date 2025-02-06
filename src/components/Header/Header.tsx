@@ -44,8 +44,13 @@ const Header: React.FC = () => {
   const [threadTitle, setThreadTitle] = useState<string>("");
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const { isLeftPanelOpen, exploreLanguage, currentlyViewing, chatLogs } =
-    useAppSelector((state) => state.app);
+  const {
+    isLeftPanelOpen,
+    exploreLanguage,
+    currentlyViewing,
+    chatLogs,
+    isSmallScreen,
+  } = useAppSelector((state) => state.app);
   const newChatLocation = useNewChatLocation();
   const { sendEvent } = useGA();
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
@@ -103,9 +108,9 @@ const Header: React.FC = () => {
       : location.pathname.indexOf("/character") === 0
       ? setHeaderLabel("Character")
       : location.pathname.indexOf("/game/new") === 0
-      ? setHeaderLabel("You are the hero")
+      ? setHeaderLabel(isSmallScreen ? "Cyoa" : "You are the hero")
       : location.pathname.indexOf("/game") === 0
-      ? setHeaderLabel("You are the hero")
+      ? setHeaderLabel(isSmallScreen ? "Cyoa" : "You are the hero")
       : location.pathname.indexOf("/story/new") === 0
       ? setHeaderLabel("Story")
       : location.pathname.indexOf("/story") === 0
