@@ -60,7 +60,9 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
         </div>
         <div className="ml-[10px]">
           {t(
-            mode === "minor" ? "Enter Lola for Adults" : "Exit Lola for Adults"
+            mode === "minor"
+              ? "Enter Fabularius for adults"
+              : "Exit Fabularius for adults"
           )}
         </div>
       </div>

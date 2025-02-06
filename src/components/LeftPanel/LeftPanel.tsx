@@ -572,7 +572,7 @@ const LeftPanel: React.FC = () => {
           <AdultIcon />
         </div>
         <div className="">
-          {t(mode === "minor" ? "Enter Lola" : "Exit Lola")}
+          {t(mode === "minor" ? "Enter Fabularius" : "Exit Fabularius")}
         </div>
       </div>
       {/* <a href="https://t.me/lola_storyteller" target="_blank" rel="noreferrer">
