@@ -29,7 +29,7 @@ const useAutoScroll = (
         container.removeEventListener("scroll", handleScroll);
       }
     };
-  }, [handleScroll]);
+  }, [chatContainerRef, handleScroll]);
 
   return { autoScroll };
 };
