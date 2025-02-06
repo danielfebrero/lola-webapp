@@ -23,9 +23,8 @@ const StoryPage: React.FC<StoryPageProps> = ({ data, title, threadId }) => {
       <Head>
         <title>
           {title
-            ? title +
-              " - Story on Fabularius AI - Choose your own adventure, storyteller, chatbot, character and image generator."
-            : "New story on Fabularius AI - Choose your own adventure, storyteller, chatbot, character and image generator."}
+            ? title + " - Story on Fabularius AI"
+            : "New story on Fabularius AI"}
         </title>
       </Head>
       <PageLayout headerDropdownLabel={"Story"}>

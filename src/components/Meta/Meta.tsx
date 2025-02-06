@@ -6,9 +6,8 @@ interface MetaProps {
 const Meta: React.FC<MetaProps> = (props) => {
   useEffect(() => {
     document.title = props.title
-      ? props.title +
-        " on Fabularius AI - Choose your own adventure, storyteller, chatbot, character and image generator."
-      : "Fabularius AI - Choose your own adventure, storyteller, chatbot, character and image generator.";
+      ? props.title + " on Fabularius AI"
+      : "Fabularius AI - Choose your own adventure, storyteller, chatbot, character and image generator";
   }, [props.title]);
   return <></>;
 };

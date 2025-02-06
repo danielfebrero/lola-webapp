@@ -11,10 +11,7 @@ const ExplorePage: React.FC = () => {
   return (
     <div className="no-scrollbar overflow-hidden h-screen w-screen">
       <Head>
-        <title>
-          Explore images on Fabularius AI - Choose your own adventure,
-          storyteller, chatbot, character and image generator.
-        </title>
+        <title>Explore images on Fabularius AI</title>
       </Head>
       <PageLayout headerDropdownLabel="Images">{""}</PageLayout>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">

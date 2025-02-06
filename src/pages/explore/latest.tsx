@@ -23,10 +23,7 @@ const ExploreLatestPage: React.FC<ExploreLatestPageProps> = ({ data }) => {
   return (
     <div className="no-scrollbar overflow-hidden h-screen w-screen">
       <Head>
-        <title>
-          Explore latest content on Fabularius AI - Choose your own adventure,
-          storyteller, chatbot, character and image generator.
-        </title>
+        <title>Explore latest content on Fabularius AI</title>
       </Head>
       <PageLayout headerDropdownLabel="Latest">
         <ExploreFeedLayout data={data} />

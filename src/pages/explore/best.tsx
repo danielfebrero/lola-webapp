@@ -23,10 +23,7 @@ const ExploreBestPage: React.FC<ExploreBestPageProps> = ({ data }) => {
   return (
     <div className="no-scrollbar overflow-hidden h-screen w-screen">
       <Head>
-        <title>
-          Explore best content on Fabularius AI - Choose your own adventure,
-          storyteller, chatbot, character and image generator.
-        </title>
+        <title>Explore best content on Fabularius AI</title>
       </Head>
       <PageLayout headerDropdownLabel="Best Content">
         <ExploreFeedLayout data={data} />

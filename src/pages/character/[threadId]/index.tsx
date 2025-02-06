@@ -29,9 +29,8 @@ const CharacterPage: NextPage<CharacterPageProps> = ({
       <Head>
         <title>
           {data.json?.name
-            ? data.json?.name +
-              " on Fabularius AI - Choose your own adventure, storyteller, chatbot, character and image generator."
-            : "New character on Fabularius AI - Choose your own adventure, storyteller, chatbot, character and image generator."}
+            ? data.json?.name + " on Fabularius AI"
+            : "New character on Fabularius AI"}
         </title>
       </Head>
       <PageLayout headerDropdownLabel={"Character"}>
