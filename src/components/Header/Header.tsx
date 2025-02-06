@@ -108,9 +108,9 @@ const Header: React.FC = () => {
       : location.pathname.indexOf("/character") === 0
       ? setHeaderLabel("Character")
       : location.pathname.indexOf("/game/new") === 0
-      ? setHeaderLabel(isSmallScreen ? "Cyoa" : "You are the hero")
+      ? setHeaderLabel(isSmallScreen ? "CYOA" : "You are the hero")
       : location.pathname.indexOf("/game") === 0
-      ? setHeaderLabel(isSmallScreen ? "Cyoa" : "You are the hero")
+      ? setHeaderLabel(isSmallScreen ? "CYOA" : "You are the hero")
       : location.pathname.indexOf("/story/new") === 0
       ? setHeaderLabel("Story")
       : location.pathname.indexOf("/story") === 0
