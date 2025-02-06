@@ -15,7 +15,7 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" sizes="512x512" href="/logo512.png" />
           <meta
             name="description"
-            content="A Choose your own adventure, storyteller, chatbot, character and image generator powered with AI. CYOA AI."
+            content="A Choose your own adventure, storyteller, chatbot, character and image generator powered with AI. cyoa and chyoa AI-powered."
           />
         </Head>
         <body>
