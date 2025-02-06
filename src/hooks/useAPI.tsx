@@ -5,6 +5,7 @@ import useCookie from "./useCookie";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import {
   removeIsFromDataLoading,
+  setCharacter,
   setCharacters,
   setChatLog,
   setChatLogs,
@@ -86,6 +87,55 @@ const useAPI = () => {
       const data = await response.json();
       dispatch(removeIsFromDataLoading("characters"));
       dispatch(setCharacters(data));
+      return;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const getCharacter = async (threadId: string) => {
+    try {
+      const response = await fetch(
+        `${API_URL}/character?threadId=${threadId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            token:
+              auth?.isAuthenticated && auth.user?.id_token
+                ? auth.user?.id_token
+                : "",
+            cookie,
+            "ws-connection-id": connectionId ?? "",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error fetching character: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      dispatch(
+        setCharacter({
+          ...data.data,
+          thread_id: data.threadId,
+          isReportProcessing: false,
+          isImageProcessing: false,
+        })
+      );
+      dispatch(
+        setChatLog({
+          chatLog: data.data.chatLog,
+          threadId: data.threadId,
+          isInputAvailable: true,
+          isLoading: false,
+          type: data.feature_type,
+          isOwner: data.isOwner,
+          is_private: data.is_private,
+        })
+      );
       return;
     } catch (error) {
       console.error(error);
@@ -232,6 +282,7 @@ const useAPI = () => {
   return {
     getThreads,
     getCharacters,
+    getCharacter,
     getMessages,
     getGameScenarios,
     getExploreLatest,

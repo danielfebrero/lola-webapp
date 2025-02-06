@@ -34,7 +34,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const { plan } = useAppSelector((state) => state.user);
   const [newIsPrivate, setNewIsPrivate] = useState<boolean>(false);
 
-  const { getMessages } = useAPI();
+  const { getCharacter } = useAPI();
 
   const newroleChat = useCallback(
     () => [
@@ -83,7 +83,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     );
   };
 
-  const { sendMessage, getCharacter, socketConnection } = useWebSocket({
+  const { sendMessage, socketConnection } = useWebSocket({
     setThreadId: characterSetThreadId,
   });
 
@@ -129,15 +129,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       );
       setThreadId(params.threadId);
     }
-  }, [
-    dispatch,
-    getCharacter,
-    getMessages,
-    params.threadId,
-    socketConnection?.readyState,
-    threadId,
-    isDataLoading,
-  ]);
+  }, [dispatch, params.threadId, threadId]);
 
   useEffect(() => {
     if (
@@ -148,7 +140,6 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         !isDataLoading.includes("characters")) ||
         chatState?.isOwner)
     ) {
-      getMessages(params.threadId);
       getCharacter(params.threadId);
     }
   }, [socketConnection?.readyState, isDataLoading, params.threadId]);
