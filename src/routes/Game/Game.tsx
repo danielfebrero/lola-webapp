@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 
@@ -14,6 +14,8 @@ import LoadingIcon from "../../icons/loading";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
 
+const SCROLL_THRESHOLD = 50;
+
 const GamePage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -25,6 +27,7 @@ const GamePage: React.FC = () => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { getMessages } = useAPI();
   const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
+  const [autoScroll, setAutoScroll] = useState<boolean>(true);
 
   const chatLog = useAppSelector(
     (state) =>
@@ -44,6 +47,20 @@ const GamePage: React.FC = () => {
   const game = useAppSelector((state) =>
     state.app.games.find((g) => g.threadId === params.threadId)
   );
+
+  // Handle scroll events to enable/disable auto scroll.
+  const handleScroll = useCallback(() => {
+    const container = chatContainerRef.current;
+    if (container) {
+      const { scrollTop, scrollHeight, clientHeight } = container;
+      // Check if user is at the bottom within a threshold.
+      if (scrollHeight - scrollTop - clientHeight <= SCROLL_THRESHOLD) {
+        setAutoScroll(true);
+      } else {
+        setAutoScroll(false);
+      }
+    }
+  }, []);
 
   const chooseAction = (actionTitle: string, actionDescription: string) => {
     if (threadId)
@@ -94,6 +111,19 @@ const GamePage: React.FC = () => {
   }, [params.threadId]);
 
   useEffect(() => {
+    const container = chatContainerRef.current;
+    if (container) {
+      container.addEventListener("scroll", handleScroll);
+    }
+    return () => {
+      if (container) {
+        container.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [handleScroll]);
+
+  useEffect(() => {
+    if (!autoScroll) return;
     const timer = setTimeout(() => {
       if (chatContainerRef.current) {
         chatContainerRef.current.scrollTo({
@@ -108,6 +138,7 @@ const GamePage: React.FC = () => {
     game?.heroActionsIsLoading,
     chatState?.isLoading,
     chatState?.canSendMessage,
+    autoScroll,
   ]);
 
   return (
