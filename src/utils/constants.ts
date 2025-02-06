@@ -1,1 +1,1 @@
-export const AUTO_SCROLL_THRESHOLD = 50;
+export const AUTO_SCROLL_THRESHOLD = 25;
