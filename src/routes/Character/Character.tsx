@@ -19,6 +19,7 @@ import useGA from "../../hooks/useGA";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
 import { Character } from "../../types/characters";
+import useAutoScroll from "../../hooks/useAutoScroll";
 
 interface CharacterPageProps {
   selected?: Record<string, string>;
@@ -33,7 +34,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const { sendEvent } = useGA();
   const { plan } = useAppSelector((state) => state.user);
   const [newIsPrivate, setNewIsPrivate] = useState<boolean>(false);
-
+  const { autoScroll } = useAutoScroll(chatContainerRef);
   const { getCharacter } = useAPI();
 
   const newroleChat = useCallback(
@@ -177,6 +178,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [dispatch, threadId]);
 
   useEffect(() => {
+    if (!autoScroll) return;
     const timer = setTimeout(() => {
       if (chatContainerRef.current) {
         chatContainerRef.current.scrollTo({

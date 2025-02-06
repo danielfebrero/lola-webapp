@@ -15,6 +15,7 @@ import clsx from "clsx";
 import ImageViewer from "../../components/ImageViewer/ImageViewer";
 import useGA from "../../hooks/useGA";
 import useAPI from "../../hooks/useAPI";
+import useAutoScroll from "../../hooks/useAutoScroll";
 
 const Storypage: React.FC = () => {
   const [threadId, setThreadId] = useState<string | null>(null);
@@ -24,7 +25,7 @@ const Storypage: React.FC = () => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { sendEvent } = useGA();
   const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
-
+  const { autoScroll } = useAutoScroll(chatContainerRef);
   const { sendMessage, getStory, socketConnection } = useWebSocket({});
 
   const { getMessages } = useAPI();
@@ -81,6 +82,7 @@ const Storypage: React.FC = () => {
   }, [params.threadId, dispatch]);
 
   useEffect(() => {
+    if (!autoScroll) return;
     const timer = setTimeout(() => {
       if (chatContainerRef.current) {
         chatContainerRef.current.scrollTo({

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 
@@ -13,8 +13,7 @@ import useWebSocket from "../../hooks/useWebSocket";
 import LoadingIcon from "../../icons/loading";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
-
-const SCROLL_THRESHOLD = 50;
+import useAutoScroll from "../../hooks/useAutoScroll";
 
 const GamePage: React.FC = () => {
   const navigate = useNavigate();
@@ -27,7 +26,7 @@ const GamePage: React.FC = () => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { getMessages } = useAPI();
   const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
-  const [autoScroll, setAutoScroll] = useState<boolean>(true);
+  const { autoScroll } = useAutoScroll(chatContainerRef);
 
   const chatLog = useAppSelector(
     (state) =>
@@ -47,20 +46,6 @@ const GamePage: React.FC = () => {
   const game = useAppSelector((state) =>
     state.app.games.find((g) => g.threadId === params.threadId)
   );
-
-  // Handle scroll events to enable/disable auto scroll.
-  const handleScroll = useCallback(() => {
-    const container = chatContainerRef.current;
-    if (container) {
-      const { scrollTop, scrollHeight, clientHeight } = container;
-      // Check if user is at the bottom within a threshold.
-      if (scrollHeight - scrollTop - clientHeight <= SCROLL_THRESHOLD) {
-        setAutoScroll(true);
-      } else {
-        setAutoScroll(false);
-      }
-    }
-  }, []);
 
   const chooseAction = (actionTitle: string, actionDescription: string) => {
     if (threadId)
@@ -109,18 +94,6 @@ const GamePage: React.FC = () => {
       setCurrentlyViewing({ objectType: "game", objectId: params.threadId })
     );
   }, [params.threadId]);
-
-  useEffect(() => {
-    const container = chatContainerRef.current;
-    if (container) {
-      container.addEventListener("scroll", handleScroll);
-    }
-    return () => {
-      if (container) {
-        container.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, [handleScroll]);
 
   useEffect(() => {
     if (!autoScroll) return;

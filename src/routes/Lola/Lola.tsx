@@ -12,6 +12,7 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
+import useAutoScroll from "../../hooks/useAutoScroll";
 
 const LolaPage: React.FC = () => {
   const [chatLog, setChatLog] = useState<Message[]>([]);
@@ -23,7 +24,7 @@ const LolaPage: React.FC = () => {
   const { getMessages } = useAPI();
   const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
   const { t } = useTranslation();
-
+  const { autoScroll } = useAutoScroll(chatContainerRef);
   const { lastRequestIdWaitingForThreadId } = useAppSelector(
     (state) => state.app
   );
@@ -108,6 +109,7 @@ const LolaPage: React.FC = () => {
   }, [params.threadId, dispatch]);
 
   useEffect(() => {
+    if (!autoScroll) return;
     const timer = setTimeout(() => {
       if (chatContainerRef.current) {
         chatContainerRef.current.scrollTo({
@@ -128,7 +130,7 @@ const LolaPage: React.FC = () => {
             <>
               <div
                 ref={chatContainerRef}
-                className="grow overflow-y-scroll no-scrollbar justify-center flex"
+                className="grow overflow-y-scroll no-scrollbar justify-center flex px-5"
               >
                 <Chat
                   type="lola"
