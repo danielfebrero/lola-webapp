@@ -76,7 +76,7 @@ const NewGamePage: React.FC = () => {
 
   // Scroll to the bottom when selectedGame changes
   useEffect(() => {
-    if (bottomRef.current && selectedGame) {
+    if (bottomRef.current && selectedGame !== null) {
       bottomRef.current.scrollTo({
         top: bottomRef.current.scrollHeight,
         behavior: "smooth",
