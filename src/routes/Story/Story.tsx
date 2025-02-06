@@ -97,6 +97,7 @@ const Storypage: React.FC = () => {
     chatState?.isLoading,
     chatState?.canSendMessage,
     isAssistantWriting,
+    autoScroll,
   ]);
 
   return (

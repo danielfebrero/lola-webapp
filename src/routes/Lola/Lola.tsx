@@ -119,7 +119,7 @@ const LolaPage: React.FC = () => {
       }
     }, 100);
     return () => clearTimeout(timer);
-  }, [chatLog]);
+  }, [chatLog, autoScroll]);
 
   return (
     <>
