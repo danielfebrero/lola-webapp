@@ -15,6 +15,9 @@ import tr from "./locales/tr/tr.json";
 import ja from "./locales/ja/ja.json";
 import uk from "./locales/uk/uk.json";
 import it from "./locales/it/it.json";
+import zh from "./locales/zh/zh.json";
+import th from "./locales/th/th.json";
+import ko from "./locales/ko/ko.json";
 
 const resources = {
   en: {
@@ -55,6 +58,15 @@ const resources = {
   },
   it: {
     translation: it,
+  },
+  zh: {
+    translation: zh,
+  },
+  th: {
+    translation: th,
+  },
+  ko: {
+    translation: ko,
   },
 };
 
