@@ -47,21 +47,27 @@ const Chat: React.FC<ChatProps> = (props) => {
                   </div>
                 </div>
               ) : (
-                <div
-                  className="flex flex-row mb-[20px]"
-                  key={message.timestamp ?? idx}
-                >
-                  <div className="grow max-w-[100%] md:px-[30px]">
-                    <MarkdownToHTML
-                      content={message.content}
-                      showWorkerIndicator={
-                        props.chatLog?.length &&
-                        idx === props.chatLog?.length - 1
-                          ? props.isAssistantWriting
-                          : false
-                      }
-                    />
+                <div className="flex flex-col" key={message.timestamp ?? idx}>
+                  <div className="flex flex-row mb-[20px]">
+                    <div className="grow max-w-[100%] md:px-[30px]">
+                      <MarkdownToHTML
+                        content={message.content}
+                        showWorkerIndicator={
+                          props.chatLog?.length &&
+                          idx === props.chatLog?.length - 1
+                            ? props.isAssistantWriting
+                            : false
+                        }
+                      />
+                    </div>
                   </div>
+                  {message.withImageGeneration &&
+                    message.imageCountExpected === 2 && (
+                      <div className="flex flex-row w-full h-auto">
+                        <div className="w-[300px] max-w-[45%]"></div>
+                        <div className="w-[300px] max-w-[45%]"></div>
+                      </div>
+                    )}
                 </div>
               )
             )}

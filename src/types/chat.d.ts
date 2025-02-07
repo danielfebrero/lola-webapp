@@ -4,6 +4,8 @@ interface Message {
   content: string;
   threadId?: string;
   timestamp?: string;
+  withImageGeneration?: boolean;
+  imageCountExpected?: number;
 }
 
 interface ChatLog {

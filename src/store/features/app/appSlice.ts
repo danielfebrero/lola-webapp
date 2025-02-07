@@ -272,6 +272,8 @@ export const appSlice = createSlice({
             id: action.payload.id,
             content: action.payload.content,
             role: action.payload.role,
+            withImageGeneration: action.payload.withImageGeneration,
+            imageCountExpected: action.payload.imageCountExpected,
           });
         }
       } else {
@@ -286,6 +288,8 @@ export const appSlice = createSlice({
               role: action.payload.role,
               timestamp: Date.now().toString(),
               threadId: action.payload.threadId,
+              withImageGeneration: action.payload.withImageGeneration,
+              imageCountExpected: action.payload.imageCountExpected,
             },
           ],
           type: action.payload.type,
