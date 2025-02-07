@@ -56,9 +56,9 @@ const LolaPage: React.FC = () => {
   const sendMessageToLola = (
     content: string,
     threadId: string | null,
-    generateImage: boolean
+    turnOnImageGeneration: boolean
   ) => {
-    sendMessage(content, "lola", threadId, { generateImage });
+    sendMessage(content, "lola", threadId, { turnOnImageGeneration });
     if (chatLog.length === 0) setChatLog([{ role: "user", content }]);
   };
 
