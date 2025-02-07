@@ -25,6 +25,7 @@ const LolaPage: React.FC = () => {
   const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
   const { t } = useTranslation();
   const { autoScroll } = useAutoScroll(chatContainerRef);
+  const [genImage, setGenImage] = useState<boolean>(false);
   const { lastRequestIdWaitingForThreadId } = useAppSelector(
     (state) => state.app
   );
@@ -52,8 +53,12 @@ const LolaPage: React.FC = () => {
     state.app.chatLogs.find((log) => log.threadId === params.threadId)
   );
 
-  const sendMessageToLola = (content: string, threadId: string | null) => {
-    sendMessage(content, "lola", threadId);
+  const sendMessageToLola = (
+    content: string,
+    threadId: string | null,
+    generateImage: boolean
+  ) => {
+    sendMessage(content, "lola", threadId, { generateImage });
     if (chatLog.length === 0) setChatLog([{ role: "user", content }]);
   };
 
@@ -145,9 +150,14 @@ const LolaPage: React.FC = () => {
                   <SendChatInput
                     type="lola"
                     threadId={threadId}
-                    onSend={(message) => sendMessageToLola(message, threadId)}
+                    onSend={(message) =>
+                      sendMessageToLola(message, threadId, genImage)
+                    }
                     canSendMessage={chatState?.canSendMessage ?? true}
                     isChatInputAvailable={chatState?.isInputAvailable ?? true}
+                    showGenImage={true}
+                    setGenImage={setGenImage}
+                    genImage={genImage}
                   />
                 </div>
               </div>
@@ -160,9 +170,13 @@ const LolaPage: React.FC = () => {
                   <SendChatInput
                     type="lola"
                     threadId={threadId}
-                    onSend={(message) => sendMessageToLola(message, threadId)}
+                    onSend={(message) =>
+                      sendMessageToLola(message, threadId, genImage)
+                    }
                     canSendMessage={true}
                     isChatInputAvailable={true}
+                    showGenImage={true}
+                    setGenImage={setGenImage}
                   />
                 </div>
               </div>

@@ -14,6 +14,7 @@ import {
 import clsx from "clsx";
 import ShieldIcon from "../../icons/shield";
 import GlobeIcon from "../../icons/globe";
+import ArtIcon from "../../icons/art";
 
 interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
@@ -28,6 +29,9 @@ interface SendChatInputProps {
   showImageSearch?: boolean;
   setImageSearch?: (val: boolean) => void;
   canSendEmptyMessage?: boolean;
+  showGenImage?: boolean;
+  setGenImage?: (val: boolean) => void;
+  genImage?: boolean;
 }
 
 const SendChatInput: React.FC<SendChatInputProps> = (props) => {
@@ -41,6 +45,9 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const navigate = useNavigate();
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
   const [turnOnImageSearch, setTurnOnImageSearch] = useState<boolean>(false);
+  const [turnOnImageGen, setTurnOnImageGen] = useState<boolean>(
+    props.genImage ?? false
+  );
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = event.target;
@@ -123,6 +130,10 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   }, [turnOnImageSearch]);
 
   useEffect(() => {
+    if (props.setGenImage) props.setGenImage(turnOnImageGen);
+  }, [turnOnImageGen]);
+
+  useEffect(() => {
     if (!isSmallScreen) textAreaRef.current?.focus();
   }, [isSmallScreen, props]);
 
@@ -141,27 +152,29 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
             rows={1}
           ></textarea>
 
-          {!props.showImageSearch && !props.showPrivate && (
-            <>
-              {!props.canSendMessage && props.isChatInputAvailable ? (
-                <div
-                  className="w-[36px] h-[36px] cursor-pointer"
-                  onClick={handleStop}
-                >
-                  <StopIcon />
-                </div>
-              ) : (
-                <div
-                  className="w-[36px] h-[36px] cursor-pointer"
-                  onClick={handleSend}
-                >
-                  <SendIcon />
-                </div>
-              )}
-            </>
-          )}
+          {!props.showImageSearch &&
+            !props.showPrivate &&
+            !props.showGenImage && (
+              <>
+                {!props.canSendMessage && props.isChatInputAvailable ? (
+                  <div
+                    className="w-[36px] h-[36px] cursor-pointer"
+                    onClick={handleStop}
+                  >
+                    <StopIcon />
+                  </div>
+                ) : (
+                  <div
+                    className="w-[36px] h-[36px] cursor-pointer"
+                    onClick={handleSend}
+                  >
+                    <SendIcon />
+                  </div>
+                )}
+              </>
+            )}
         </div>
-        {(props.showPrivate || props.showImageSearch) && (
+        {(props.showPrivate || props.showImageSearch || props.showGenImage) && (
           <div className="flex flex-row items-center w-full p-[10px] mt-[20px] text-sm">
             {props.showPrivate && (
               <div
@@ -200,6 +213,42 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                   <GlobeIcon />
                 </div>
                 <span>{t("Image search")}</span>
+              </div>
+            )}
+
+            {props.showImageSearch && (
+              <div
+                onClick={() => setTurnOnImageSearch(!turnOnImageSearch)}
+                className={clsx(
+                  {
+                    "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
+                      turnOnImageSearch,
+                  },
+                  "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
+                )}
+              >
+                <div className="w-[18px] h-[18px] mr-[5px]">
+                  <GlobeIcon />
+                </div>
+                <span>{t("Image search")}</span>
+              </div>
+            )}
+
+            {props.showGenImage && (
+              <div
+                onClick={() => setTurnOnImageGen(!turnOnImageGen)}
+                className={clsx(
+                  {
+                    "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
+                      turnOnImageGen,
+                  },
+                  "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
+                )}
+              >
+                <div className="w-[18px] h-[18px] mr-[5px]">
+                  <ArtIcon />
+                </div>
+                <span>{t("Generate image")}</span>
               </div>
             )}
 
