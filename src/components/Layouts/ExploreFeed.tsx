@@ -5,6 +5,7 @@ import MarkdownToHTML from "../MarkdownToHTML";
 import JSONToText from "../JSONToText";
 import UpvoteIcon from "../../icons/upvote";
 import DownvoteIcon from "../../icons/downvote";
+import { Story } from "../../types/stories";
 
 interface ExploreFeedLayoutProps {
   data: {

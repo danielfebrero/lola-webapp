@@ -1,9 +1,8 @@
-import clsx from "clsx";
 import { useState } from "react";
 
-import CloseIcon from "../../icons/close";
 import useGA from "../../hooks/useGA";
 import ImageSlider from "../ImageSlider";
+import { ImageSearch } from "../../types/stories";
 
 interface ImageViewerProps {
   images: ImageSearch[];

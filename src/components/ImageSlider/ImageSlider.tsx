@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import CloseIcon from "../../icons/close";
 import { ImagesMultisize } from "../../types/characters";
+import { ImageSearch } from "../../types/stories";
 
 interface ImageSliderProps {
   images: ImagesMultisize[] | ImageSearch[];

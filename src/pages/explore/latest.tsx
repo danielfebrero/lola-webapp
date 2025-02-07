@@ -6,6 +6,7 @@ import ExploreFeedLayout from "../../components/Layouts/ExploreFeed";
 import { GetServerSideProps } from "next";
 import { Character } from "../../types/characters";
 import { getAPIUrlFromContext } from "../../utils/ssr";
+import { Story } from "../../types/stories";
 
 const App = dynamic(() => import("../../App"), {
   ssr: false,
