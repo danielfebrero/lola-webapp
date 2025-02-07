@@ -17,6 +17,7 @@ import useGA from "../../hooks/useGA";
 import ImageViewer from "../../components/ImageViewer/ImageViewer";
 import MarkdownToHTML from "../../components/MarkdownToHTML";
 import useAPI from "../../hooks/useAPI";
+import ChevronDownIcon from "../../icons/chevronDown";
 
 const titleByType = {
   best: "Best content",
@@ -41,6 +42,7 @@ const ExplorePage: React.FC = (props) => {
   const [stateClickedDownvotes, setStateClickedDownvotes] = useState<string[]>(
     []
   );
+  const [expandedThread, setExpandedThread] = useState<string[]>([]);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -68,14 +70,22 @@ const ExplorePage: React.FC = (props) => {
               (c) => (
                 <div
                   className={clsx(
-                    "p-[10px] hover:bg-lightGray rounded-lg dark:hover:bg-darkMainSurfaceSecondary border-b border-borderColor dark:border-darkBorderColor w-full items-center flex flex-col"
+                    "h-auto p-[10px] hover:bg-lightGray rounded-lg dark:hover:bg-darkMainSurfaceSecondary border-b border-borderColor dark:border-darkBorderColor w-full items-center flex flex-col"
                   )}
                   key={c.thread.threadId}
                 >
                   <div
                     className={clsx(
                       { "max-w-[715px]": c.thread.type === "story" },
-                      "flex flex-col h-auto overflow-y-hidden cursor-pointer w-full"
+                      {
+                        "max-h-[600px]": !expandedThread.includes(
+                          c.thread.threadId
+                        ),
+                        "max-h-full": expandedThread.includes(
+                          c.thread.threadId
+                        ),
+                      },
+                      "transition-all duration-500 flex flex-col h-auto overflow-y-hidden cursor-pointer w-full"
                     )}
                   >
                     {c.thread.type === "story" && (
@@ -126,7 +136,7 @@ const ExplorePage: React.FC = (props) => {
                           )}
                         {c.thread.type === "character" && (
                           <>
-                            <div className="flex flex-row">
+                            <div className="flex flex-row h-full">
                               <div
                                 className={clsx(
                                   {
@@ -209,7 +219,7 @@ const ExplorePage: React.FC = (props) => {
                   </div>
                   <div className="flex flex-row w-full justify-center">
                     <div className="flex flex-row w-full max-w-[715px]">
-                      <div className="flex flex-row mt-[10px]">
+                      <div className="flex flex-row mt-[10px] grow">
                         <div className="flex flex-row rounded-lg dark:bg-darkMainSurcaceTertiary bg-gray-200 items-center">
                           <div
                             onClick={() => {
@@ -289,6 +299,31 @@ const ExplorePage: React.FC = (props) => {
                             <DownvoteIcon />
                           </div>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-full flex justify-center">
+                    <div
+                      className=""
+                      onClick={() =>
+                        setExpandedThread((prev) =>
+                          prev.includes(c.thread.threadId)
+                            ? prev.filter((s) => s !== c.thread.threadId)
+                            : [...prev, c.thread.threadId]
+                        )
+                      }
+                    >
+                      <div
+                        className={clsx(
+                          {
+                            "transform rotate-180": expandedThread.includes(
+                              c.thread.threadId
+                            ),
+                          },
+                          "w-[44px] h-[44px] cursor-pointer p-[10px]"
+                        )}
+                      >
+                        <ChevronDownIcon />
                       </div>
                     </div>
                   </div>
