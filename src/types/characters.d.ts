@@ -16,3 +16,9 @@ interface ImagesMultisize {
   medium: string;
   small: string;
 }
+
+export interface CharacterServerData {
+  data: Character;
+  isOwner: boolean;
+  threadId: string;
+}

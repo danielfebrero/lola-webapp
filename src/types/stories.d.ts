@@ -13,3 +13,9 @@ interface Story {
   chatLog?: Message[];
   title?: string;
 }
+
+export interface StoryServerData {
+  data: Story;
+  threadId: string;
+  title: string;
+}

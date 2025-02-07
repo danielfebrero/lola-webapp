@@ -18,11 +18,12 @@ import useWebSocket from "../../hooks/useWebSocket";
 import useGA from "../../hooks/useGA";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
-import { Character } from "../../types/characters";
+import { Character, CharacterServerData } from "../../types/characters";
 import useAutoScroll from "../../hooks/useAutoScroll";
 
 interface CharacterPageProps {
   selected?: Record<string, string>;
+  serverData?: CharacterServerData;
 }
 
 const CharacterPage: React.FC<CharacterPageProps> = (props) => {
@@ -67,6 +68,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   );
   const [threadId, setThreadId] = useState<string | null>(null);
   const [chatLog, setChatLog] = useState<Message[]>([]);
+  const [serverCharacter, setServerCharacter] =
+    useState<CharacterServerData | null>(props.serverData ?? null);
   const dispatch = useAppDispatch();
   const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
 
@@ -137,11 +140,30 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       params.threadId &&
       params.threadId !== "new" &&
       socketConnection?.readyState === WebSocket.OPEN &&
-      ((!isDataLoading.includes("threads") &&
-        !isDataLoading.includes("characters")) ||
-        chatState?.isOwner)
+      (isDataLoading.length === 0 || chatState?.isOwner)
     ) {
       getCharacter(params.threadId);
+    }
+
+    if (serverCharacter) {
+      dispatch(
+        setCharacter({
+          ...serverCharacter,
+          thread_id: serverCharacter.threadId,
+          isReportProcessing: false,
+          isImageProcessing: false,
+        })
+      );
+      dispatch(
+        setChatLogAction({
+          chatLog: serverCharacter.data.chatLog,
+          threadId: serverCharacter.threadId,
+          isInputAvailable: true,
+          isLoading: false,
+          type: "character",
+        })
+      );
+      setServerCharacter(null);
     }
   }, [socketConnection?.readyState, isDataLoading, params.threadId]);
 

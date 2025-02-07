@@ -6,7 +6,7 @@ import { GetServerSideProps, NextPage } from "next";
 
 import CharacterLayout from "../../../components/Layouts/Character";
 import PageLayout from "../../../components/Layouts/Page";
-import { Character } from "../../../types/characters";
+import { CharacterServerData } from "../../../types/characters";
 import { getAPIUrlFromContext } from "../../../utils/ssr";
 
 const App = dynamic(() => import("../../../App"), {
@@ -14,39 +14,33 @@ const App = dynamic(() => import("../../../App"), {
 });
 
 interface CharacterPageProps {
-  data: Character;
-  isOwner: boolean;
-  threadId: string;
+  serverData: CharacterServerData;
 }
 
-const CharacterPage: NextPage<CharacterPageProps> = ({
-  data,
-  isOwner,
-  threadId,
-}) => {
+const CharacterPage: NextPage<CharacterPageProps> = ({ serverData }) => {
   return (
     <div className="no-scrollbar overflow-hidden h-screen w-screen">
       <Head>
         <title>
-          {data.json?.name
-            ? data.json?.name + " on Fabularius AI"
+          {serverData?.data.json?.name
+            ? serverData?.data.json?.name + " on Fabularius AI"
             : "New character on Fabularius AI"}
         </title>
       </Head>
       <PageLayout headerDropdownLabel={"Character"}>
-        {threadId === "new" ? (
+        {serverData?.threadId === "new" ? (
           <CharacterLayout />
         ) : (
           <CharacterLayout
-            character={data}
-            chatLog={data.chatLog}
-            isOwner={isOwner}
-            threadId={threadId}
+            character={serverData?.data}
+            chatLog={serverData?.data.chatLog}
+            isOwner={serverData?.isOwner}
+            threadId={serverData?.threadId}
           />
         )}
       </PageLayout>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
-        <App />
+        <App characterServerData={serverData} />
       </div>
     </div>
   );
@@ -70,9 +64,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      data: result.data,
-      isOwner: result.isOwner,
-      threadId,
+      serverData: { ...result, threadId },
     },
   };
 };

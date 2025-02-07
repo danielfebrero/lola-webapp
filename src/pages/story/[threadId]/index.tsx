@@ -6,36 +6,35 @@ import Head from "next/head";
 import StoryLayout from "../../../components/Layouts/Story";
 import NewStoryLayout from "../../../components/Layouts/NewStory";
 import { getAPIUrlFromContext } from "../../../utils/ssr";
+import { StoryServerData } from "../../../types/stories";
 
 const App = dynamic(() => import("../../../App"), {
   ssr: false,
 });
 
 interface StoryPageProps {
-  data: Story;
-  threadId: string;
-  title: string;
+  serverData: StoryServerData;
 }
 
-const StoryPage: React.FC<StoryPageProps> = ({ data, title, threadId }) => {
+const StoryPage: React.FC<StoryPageProps> = ({ serverData }) => {
   return (
     <div className="no-scrollbar overflow-hidden h-screen w-screen">
       <Head>
         <title>
-          {title
-            ? title + " - Story on Fabularius AI"
+          {serverData?.title
+            ? serverData?.title + " - Story on Fabularius AI"
             : "New story on Fabularius AI"}
         </title>
       </Head>
       <PageLayout headerDropdownLabel={"Story"}>
-        {threadId === "new" ? (
+        {serverData?.threadId === "new" ? (
           <NewStoryLayout />
         ) : (
-          <StoryLayout chatLog={data.chatLog} />
+          <StoryLayout chatLog={serverData?.data.chatLog} />
         )}
       </PageLayout>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
-        <App />
+        <App storyServerData={serverData} />
       </div>
     </div>
   );
@@ -59,9 +58,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      data: result.data,
-      title: result.title,
-      threadId,
+      serverData: { ...result, threadId },
     },
   };
 };

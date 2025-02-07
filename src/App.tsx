@@ -31,6 +31,8 @@ import OrderCanceledPage from "./routes/Checkout/OrderCanceled";
 import { store, persistor } from "./store/store";
 
 import "./i18n";
+import { CharacterServerData } from "./types/characters";
+import { StoryServerData } from "./types/stories";
 
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_GGRb4RlVb",
@@ -44,7 +46,12 @@ const cognitoAuthConfig = {
   silent_redirect_uri: window.location.origin + "/login/silent-renew",
 };
 
-const App: React.FC = () => {
+interface AppProps {
+  characterServerData?: CharacterServerData;
+  storyServerData?: StoryServerData;
+}
+
+const App: React.FC<AppProps> = (props) => {
   useEffect(() => {
     ReactGA.initialize("G-43V6GGK855");
   }, []);
@@ -93,12 +100,17 @@ const App: React.FC = () => {
                     />
                     <Route
                       path="/character/:threadId"
-                      element={<CharacterPage />}
+                      element={
+                        <CharacterPage serverData={props.characterServerData} />
+                      }
                     />
                     <Route path="/game" element={<GamePage />} />
                     <Route path="/game/new" element={<NewGamePage />} />
                     <Route path="/game/:threadId" element={<GamePage />} />
-                    <Route path="/story/:threadId" element={<StoryPage />} />
+                    <Route
+                      path="/story/:threadId"
+                      element={<StoryPage serverData={props.storyServerData} />}
+                    />
                     <Route path="/story/new" element={<NewStoryPage />} />
                     <Route path="/lola/:threadId" element={<LolaPage />} />
                     <Route

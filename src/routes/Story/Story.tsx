@@ -16,16 +16,27 @@ import ImageViewer from "../../components/ImageViewer/ImageViewer";
 import useGA from "../../hooks/useGA";
 import useAPI from "../../hooks/useAPI";
 import useAutoScroll from "../../hooks/useAutoScroll";
+import { StoryServerData } from "../../types/stories";
 
-const Storypage: React.FC = () => {
+interface StorypageProps {
+  serverData?: StoryServerData;
+}
+
+const Storypage: React.FC<StorypageProps> = (props) => {
   const [threadId, setThreadId] = useState<string | null>(null);
   const params = useParams();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { sendEvent } = useGA();
+  const [doNotShowLoading, setDoNotShowLoading] = useState<boolean>(
+    props.serverData ? true : false
+  );
   const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
   const { autoScroll } = useAutoScroll(chatContainerRef);
+  const [serverStory, setServerStory] = useState<StoryServerData | null>(
+    props.serverData ?? null
+  );
   const { sendMessage, getStory, socketConnection } = useWebSocket({});
 
   const { getMessages } = useAPI();
@@ -58,17 +69,31 @@ const Storypage: React.FC = () => {
       dispatch(
         setChatLog({
           threadId: params.threadId,
-          isInputAvailable: false,
-          isLoading: true,
+          isInputAvailable: false || doNotShowLoading,
+          isLoading: !doNotShowLoading,
         })
       );
       if (
         socketConnection?.readyState === WebSocket.OPEN &&
-        (!isDataLoading.includes("threads") || chatState?.isOwner)
+        isDataLoading.length === 0
       ) {
         getMessages(params.threadId);
         getStory(params.threadId);
+        setDoNotShowLoading(false);
       }
+    }
+
+    if (serverStory) {
+      dispatch(
+        setChatLog({
+          chatLog: serverStory.data.chatLog,
+          threadId: serverStory.threadId,
+          isInputAvailable: true,
+          isLoading: false,
+          type: "story",
+        })
+      );
+      setServerStory(null);
     }
   }, [params.threadId, socketConnection?.readyState, isDataLoading]);
 
