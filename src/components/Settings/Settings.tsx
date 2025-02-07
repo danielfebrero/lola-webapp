@@ -48,7 +48,7 @@ const Settings: React.FC = () => {
                 "bg-lightGray dark:bg-darkLightGray":
                   selectedView === "personalization",
               },
-              "rounded-lg flex flex-row items-center p-[10px] cursor-pointer"
+              "rounded-lg flex flex-row items-center p-[10px] cursor-pointer min-w-[260px]"
             )}
             onClick={() => setSelectedView("personalization")}
           >
