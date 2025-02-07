@@ -15,23 +15,9 @@ import useNewChatLocation from "../../hooks/useNewChatLocation";
 import useGA from "../../hooks/useGA";
 import ExploreLanguageDropdown from "../ExploreLanguageDropdown";
 import ShieldIcon from "../../icons/shield";
+import { ALL_IN_LANGUAUES } from "../../utils/constants";
 
-const languages = {
-  all: "all languages",
-  ar: "in Arabic",
-  de: "in German",
-  en: "in English",
-  es: "in Spanish",
-  fr: "in French",
-  hi: "in Hindi",
-  ja: "in Japanese",
-  pt: "in Portuguese",
-  ru: "in Russian",
-  sv: "in Swedish",
-  tr: "in Turkish",
-  uk: "in Ukrainian",
-  it: "in Italian",
-};
+const languages = ALL_IN_LANGUAUES;
 
 const Header: React.FC = () => {
   const { t } = useTranslation();

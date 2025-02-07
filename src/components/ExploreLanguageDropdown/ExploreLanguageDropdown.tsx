@@ -1,31 +1,16 @@
-import { useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import CheckIcon from "../../icons/check";
 import useClickOutside from "../../hooks/useClickOutside";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setExploreLanguage } from "../../store/features/app/appSlice";
+import { ALL_LANGUAGES_BY_CODE_IN_ENGLISH } from "../../utils/constants";
 
 interface ExploreLanguageDropdownProps {
   hide: () => void;
 }
 
-const languages = {
-  all: "All languages",
-  ar: "Arabic",
-  de: "German",
-  en: "English",
-  es: "Spanish",
-  fr: "French",
-  hi: "Hindi",
-  it: "Italian",
-  ja: "Japanese",
-  pt: "Portuguese",
-  ru: "Russian",
-  sv: "Swedish",
-  tr: "Turkish",
-  uk: "Ukrainian",
-};
+const languages = ALL_LANGUAGES_BY_CODE_IN_ENGLISH;
 
 const ExploreLanguageDropdown: React.FC<ExploreLanguageDropdownProps> = (
   props

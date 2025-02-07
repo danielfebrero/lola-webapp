@@ -21,6 +21,7 @@ import {
 import { setSocketConnection } from "../../store/features/socket/socketSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import { setScenarios } from "../../store/features/games/gamesSlice";
+import { LANGUES_BY_CODE } from "../../utils/constants";
 
 const WEBSOCKET_URL =
   process.env.NODE_ENV === "development" ||
@@ -107,23 +108,7 @@ const Init: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(
-      setLanguages({
-        ar: "العربية",
-        de: "Deutsch",
-        en: "English",
-        es: "Español",
-        fr: "Français",
-        hi: "हिन्दी",
-        it: "Italiano",
-        ja: "日本語",
-        pt: "Português",
-        ru: "Русский",
-        sv: "Svenska",
-        tr: "Türkçe",
-        uk: "Українська",
-      })
-    );
+    dispatch(setLanguages(LANGUES_BY_CODE));
     dispatch(setScenarios([]));
     dispatch(setIsDataLoading(["characters", "threads", "settings"]));
     dispatch(setIsDataLoaded(false));

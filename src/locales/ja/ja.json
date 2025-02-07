@@ -1,4 +1,10 @@
 {
+  "Korean": "韓国語",
+  "Chinese": "中国語",
+  "Thai": "タイ語",
+  "in Korean": "韓国語で",
+  "in Chinese": "中国語で",
+  "in Thai": "タイ語で",
   "Enter Fabularius for adults": "大人向けのFabulariusに入る",
   "Exit Fabularius for adults": "大人向けのFabulariusを退出する",
   "Enter Fabularius": "Fabulariusに入る",

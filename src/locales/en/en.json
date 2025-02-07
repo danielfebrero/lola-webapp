@@ -1,4 +1,10 @@
 {
+  "Korean": "Korean",
+  "Chinese": "Chinese",
+  "Thai": "Thai",
+  "in Korean": "in Korean",
+  "in Chinese": "in Chinese",
+  "in Thai": "in Thai",
   "Enter Fabularius for adults": "Enter Fabularius for adults",
   "Exit Fabularius for adults": "Exit Fabularius for adults",
   "Enter Fabularius": "Enter Fabularius",
@@ -9,7 +15,6 @@
   "Private": "Private",
   "Image search": "Image search",
   "Upgrade plan": "Upgrade plan",
-  "Your order has been canceled.": "Your order has been canceled.",
   "Your order is being processed. This may take a few minutes.": "Your order is being processed. This may take a few minutes.",
   "Set to private.": "Set to private.",
   "Upgrade": "Upgrade",
@@ -22,11 +27,9 @@
   "Your order has been canceled.": "Your order has been canceled.",
   "Your current plan": "Your current plan",
   "Choose": "Choose",
-  "Private": "Private",
   "Unlimited use": "Unlimited use",
   "Make your content private": "Make your content private",
   "soon": "soon",
-  "Images": "Images",
   "Italian": "Italian",
   "in Italian": "in Italian",
   "all languages": "all languages",
@@ -97,48 +100,5 @@
   "Nothing to show here yet": "Nothing to show here yet",
   "Choose a hero": "Choose a hero",
   "Choose a game": "Choose a game",
-  "Context": "Context",
-  "Lola is a storyteller. Everything is fictive.": "Lola is a storyteller. Everything is fictive.",
-  "Carnal Dungeon": "Carnal Dungeon",
-  "You are a bold adventurer, descending into a dungeon ruled by the Succubus Queen. The air is thick with the scent of desire, and every chamber tests your deepest inhibitions. The queen herself awaits at the end, promising unbridled ecstasy if you can withstand her carnal challenges—or total submission if you cannot.": "You are a bold adventurer, descending into a dungeon ruled by the Succubus Queen. The air is thick with the scent of desire, and every chamber tests your deepest inhibitions. The queen herself awaits at the end, promising unbridled ecstasy if you can withstand her carnal challenges—or total submission if you cannot.",
-  "Spy Seduction": "Spy Seduction",
-  "As a secret agent, you've been captured and find yourself at the mercy of a seductive interrogator. Each question is paired with temptations that blur the line between pleasure and pain. Will you resist their intoxicating allure and escape, or give in and reveal all in a haze of lust?": "As a secret agent, you've been captured and find yourself at the mercy of a seductive interrogator. Each question is paired with temptations that blur the line between pleasure and pain. Will you resist their intoxicating allure and escape, or give in and reveal all in a haze of lust?",
-  "Zombie Lust": "Zombie Lust",
-  "In a world overtaken by an outbreak, you discover a secret refuge where survivors indulge in primal desires to stave off despair. Among them is a mysterious stranger who tempts you into forbidden pleasures. But be warned: some carry more than scars of survival—they may have secrets that will consume you.": "In a world overtaken by an outbreak, you discover a secret refuge where survivors indulge in primal desires to stave off despair. Among them is a mysterious stranger who tempts you into forbidden pleasures. But be warned: some carry more than scars of survival—they may have secrets that will consume you.",
-  "Forest of Desires": "Forest of Desires",
-  "Lost in an enchanted forest, you are seduced by nymphs who thrive on human passion. Each encounter pulls you deeper into their world of untamed lust. To leave, you must outwit their sensual games and prove you are worthy, or surrender and become their eternal plaything.": "Lost in an enchanted forest, you are seduced by nymphs who thrive on human passion. Each encounter pulls you deeper into their world of untamed lust. To leave, you must outwit their sensual games and prove you are worthy, or surrender and become their eternal plaything.",
-  "Time of Pleasures": "Time of Pleasures",
-  "Thrown into a time loop, you find yourself revisiting moments of unspeakable desire. Each era offers new lovers, each more daring than the last. But indulging too much could trap you in a cycle of endless ecstasy, never to return to reality. Will you risk it all to savor every moment?": "Thrown into a time loop, you find yourself revisiting moments of unspeakable desire. Each era offers new lovers, each more daring than the last. But indulging too much could trap you in a cycle of endless ecstasy, never to return to reality. Will you risk it all to savor every moment?",
-  "Share": "Share",
-  "Who am I? The question echoed louder with every heartbeat. What is my name? My gender? My height? What do I even enjoy in this life?": "Who am I? The question echoed louder with every heartbeat. What is my name? My gender? My height? What do I even enjoy in this life?",
-
-  "Vampire Night": "Vampire Night",
-  "In the heart of a shadowy manor, you encounter a coven of vampires who hunger not only for blood but also for carnal delights. Will you succumb to their dark seduction, or find a way to escape their eternal night of pleasure?": "In the heart of a shadowy manor, you encounter a coven of vampires who hunger not only for blood but also for carnal delights. Will you succumb to their dark seduction, or find a way to escape their eternal night of pleasure?",
-
-  "Cyber Pleasures": "Cyber Pleasures",
-  "In a neon-lit city of the future, you explore virtual realities where fantasies become reality. But as the lines between the digital and physical blur, will you lose yourself to the pleasures of the cyber world?": "In a neon-lit city of the future, you explore virtual realities where fantasies become reality. But as the lines between the digital and physical blur, will you lose yourself to the pleasures of the cyber world?",
-
-  "Desert Temptation": "Desert Temptation",
-  "Stranded in an endless desert, you encounter a caravan of sensual mystics who test your body and mind. Only those who embrace the heat of desire can uncover the oasis of ultimate ecstasy.": "Stranded in an endless desert, you encounter a caravan of sensual mystics who test your body and mind. Only those who embrace the heat of desire can uncover the oasis of ultimate ecstasy.",
-
-  "Haunted Desires": "Haunted Desires",
-  "In a crumbling mansion, spirits of forbidden lovers haunt your nights. They whisper promises of eternal pleasure but warn of the price: your soul. Will you resist their ghostly touch, or surrender to the afterlife of lust?": "In a crumbling mansion, spirits of forbidden lovers haunt your nights. They whisper promises of eternal pleasure but warn of the price: your soul. Will you resist their ghostly touch, or surrender to the afterlife of lust?",
-
-  "Pirates of Passion": "Pirates of Passion",
-  "Captured by a crew of sensual pirates, you are drawn into their world of untamed lust and treasures. Will you claim the captain’s heart or remain their prisoner of desire?": "Captured by a crew of sensual pirates, you are drawn into their world of untamed lust and treasures. Will you claim the captain’s heart or remain their prisoner of desire?",
-
-  "Treasure Hunt": "Treasure Hunt",
-  "Join a band of adventurers searching for a legendary treasure hidden in a labyrinth filled with traps and puzzles. Each decision brings you closer to riches—or peril.": "Join a band of adventurers searching for a legendary treasure hidden in a labyrinth filled with traps and puzzles. Each decision brings you closer to riches—or peril.",
-
-  "Alien Odyssey": "Alien Odyssey",
-  "You find yourself aboard a mysterious alien spacecraft. To survive, you must navigate unknown technology and befriend—or outwit—the alien inhabitants.": "You find yourself aboard a mysterious alien spacecraft. To survive, you must navigate unknown technology and befriend—or outwit—the alien inhabitants.",
-
-  "Enchanted Library": "Enchanted Library",
-  "Lost in an ancient library, you discover books that transport you into magical worlds. Solve riddles and make choices to find your way back—or stay lost in the pages forever.": "Lost in an ancient library, you discover books that transport you into magical worlds. Solve riddles and make choices to find your way back—or stay lost in the pages forever.",
-
-  "Robot Rebellion": "Robot Rebellion",
-  "In a futuristic city, robots have begun to rise against their human creators. As a young engineer, you must decide whether to aid their cause or fight to protect humanity.": "In a futuristic city, robots have begun to rise against their human creators. As a young engineer, you must decide whether to aid their cause or fight to protect humanity.",
-
-  "Mystic Voyage": "Mystic Voyage",
-  "Sailing on a mysterious ship, you are swept into a world of mythical sea creatures and enchanted islands. Every decision shapes your destiny on the high seas.": "Sailing on a mysterious ship, you are swept into a world of mythical sea creatures and enchanted islands. Every decision shapes your destiny on the high seas."
+  "Context": "Context"
 }
