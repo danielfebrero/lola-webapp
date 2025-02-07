@@ -12,23 +12,21 @@ interface ImageSliderProps {
 }
 
 const SLIDE_DURATION = 500; // duration in ms
+const SWIPE_THRESHOLD = 50; // minimum px required to trigger a swipe
 
 const ImageSlider: React.FC<ImageSliderProps> = (props) => {
   const [currentIdx, setCurrentIdx] = useState<number | null>(
     props.imageViewingIdx
   );
-  // pendingIdx is the target index when a navigation is requested.
   const [pendingIdx, setPendingIdx] = useState<number | null>(null);
-  // slideDirection determines which direction the images will slide:
-  // "left" means the current image will slide left (and new one enters from the right),
-  // "right" means the current image will slide right (and new one enters from the left).
   const [slideDirection, setSlideDirection] = useState<"left" | "right">(
     "left"
   );
-  // animate toggles the CSS transforms to trigger the slide.
   const [animate, setAnimate] = useState(false);
+  // New state for tracking touch start coordinate
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
-  // Keep currentIdx in sync with the initial imageViewingIdx prop.
+  // Sync with prop change
   useEffect(() => {
     if (props.imageViewingIdx !== null) {
       setCurrentIdx(props.imageViewingIdx);
@@ -51,16 +49,13 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
     }
   }, [currentIdx, props.images]);
 
-  // When pendingIdx is set, start the parallel transition.
+  // Transition effect when pendingIdx changes.
   useEffect(() => {
     if (pendingIdx !== null) {
-      // On the next animation frame, toggle animate to true so that both
-      // images start moving concurrently.
       requestAnimationFrame(() => {
         setAnimate(true);
       });
       const timer = setTimeout(() => {
-        // After the slide duration, update the current image.
         setCurrentIdx(pendingIdx);
         setPendingIdx(null);
         setAnimate(false);
@@ -72,19 +67,16 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
   // Keyboard navigation.
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Do nothing if the modal is hidden.
       if (props.imageViewingIdx === null) return;
 
       switch (event.key) {
         case "ArrowLeft":
-          // Navigate to previous image.
           if (currentIdx !== null && currentIdx > 0 && pendingIdx === null) {
             setPendingIdx(currentIdx - 1);
             setSlideDirection("right");
           }
           break;
         case "ArrowRight":
-          // Navigate to next image.
           if (
             currentIdx !== null &&
             currentIdx < props.images.length - 1 &&
@@ -96,7 +88,6 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
           break;
         case "ArrowUp":
         case "ArrowDown":
-          // Hide the slider.
           props.hide();
           break;
         default:
@@ -107,6 +98,32 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [props, currentIdx, pendingIdx]);
+
+  // Touch event handlers for swipe navigation.
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null || currentIdx === null || pendingIdx !== null) {
+      return;
+    }
+    const touchEndX = e.changedTouches[0].clientX;
+    const deltaX = touchEndX - touchStartX;
+
+    if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
+      if (deltaX > 0 && currentIdx > 0) {
+        // Swiped right: go to previous image.
+        setPendingIdx(currentIdx - 1);
+        setSlideDirection("right");
+      } else if (deltaX < 0 && currentIdx < props.images.length - 1) {
+        // Swiped left: go to next image.
+        setPendingIdx(currentIdx + 1);
+        setSlideDirection("left");
+      }
+    }
+    setTouchStartX(null);
+  };
 
   const outgoingSrc =
     currentIdx !== null ? props.images[currentIdx].original : null;
@@ -122,7 +139,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
     >
       {/* Close Button */}
       <div
-        onClick={() => props.hide()}
+        onClick={props.hide}
         className="fixed top-[24px] right-[24px] h-[24px] w-[24px] cursor-pointer text-textSecondary dark:text-darkTextSecondary z-30"
       >
         <CloseIcon />
@@ -152,8 +169,12 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
         }}
       ></div>
 
-      {/* Image Container */}
-      <div className="relative h-full w-full pointer-events-none flex items-center justify-center">
+      {/* Image Container with touch support */}
+      <div
+        className="relative h-full w-full flex items-center justify-center"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         {/* Outgoing Image */}
         {pendingIdx !== null && outgoingSrc && (
           <div
