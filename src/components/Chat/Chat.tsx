@@ -4,6 +4,7 @@ import { useLocation } from "react-router";
 import clsx from "clsx";
 import Loading from "../Loading";
 import MarkdownToHTML from "../MarkdownToHTML";
+import LoadingIcon from "../../icons/loading";
 
 interface ChatProps {
   type?: "character" | "story" | "game" | "lola";
@@ -63,9 +64,17 @@ const Chat: React.FC<ChatProps> = (props) => {
                   </div>
                   {message.withImageGeneration &&
                     message.imageCountExpected === 2 && (
-                      <div className="flex flex-row w-full h-auto">
-                        <div className="w-[300px] max-w-[45%]"></div>
-                        <div className="w-[300px] max-w-[45%]"></div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="flex justify-center items-center h-[calc(50vw-30px)] bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground">
+                          <div className="w-[72px] h-[72px]">
+                            <LoadingIcon />
+                          </div>
+                        </div>
+                        <div className="flex justify-center items-center h-[calc(50vw-30px)] bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground">
+                          <div className="w-[72px] h-[72px]">
+                            <LoadingIcon />
+                          </div>
+                        </div>
                       </div>
                     )}
                 </div>
