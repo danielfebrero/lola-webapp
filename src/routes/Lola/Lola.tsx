@@ -141,7 +141,7 @@ const LolaPage: React.FC = () => {
                 />
               </div>
               <div className="justify-center flex w-full">
-                <div className="md:w-[65%]">
+                <div className="md:max-w-[715px] w-[100%] px-[20px]">
                   <SendChatInput
                     type="lola"
                     threadId={threadId}
@@ -156,7 +156,7 @@ const LolaPage: React.FC = () => {
             <div className="grow flex flex-col justify-center items-center text-center">
               <span className="text-4xl">{t("How can I help you?")}</span>
               <div className="justify-center flex w-full">
-                <div className="md:w-[65%] mt-[20px]">
+                <div className="md:max-w-[715px] w-[100%] px-[20px] mt-[20px]">
                   <SendChatInput
                     type="lola"
                     threadId={threadId}

@@ -318,7 +318,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   </div>
 
                   {(chatState?.isOwner || params.threadId === "new") && (
-                    <div className="justify-center flex w-full md:px-0 px-[10px]">
+                    <div className="justify-center flex md:max-w-[715px] w-[100%]">
                       <SendChatInput
                         type="character"
                         threadId={threadId}

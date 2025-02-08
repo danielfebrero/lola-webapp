@@ -180,7 +180,7 @@ const Storypage: React.FC<StorypageProps> = (props) => {
             )}
           {chatState?.isOwner && (
             <div className="justify-center flex w-full">
-              <div className="md:max-w-[715px] w-[100%] px-[30px]">
+              <div className="md:max-w-[715px] w-[100%] px-[20px]">
                 <SendChatInput
                   type="story"
                   threadId={threadId}

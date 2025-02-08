@@ -189,7 +189,7 @@ const NewStoryPage: React.FC = () => {
               </div>
             </NavLink>
           </div>
-          <div className="flex flex-row items-center w-full max-w-[715px] mt-[60px] pb-[20px]">
+          <div className="flex flex-row items-center md:max-w-[715px] w-[100%] px-[20px] mt-[60px] pb-[20px]">
             <SendChatInput
               type="story"
               isChatInputAvailable={!hasSentMessage}
