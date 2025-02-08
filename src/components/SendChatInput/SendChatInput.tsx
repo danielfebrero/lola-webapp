@@ -216,24 +216,6 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
               </div>
             )}
 
-            {props.showImageSearch && (
-              <div
-                onClick={() => setTurnOnImageSearch(!turnOnImageSearch)}
-                className={clsx(
-                  {
-                    "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
-                      turnOnImageSearch,
-                  },
-                  "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
-                )}
-              >
-                <div className="w-[18px] h-[18px] mr-[5px]">
-                  <GlobeIcon />
-                </div>
-                <span>{t("Image search")}</span>
-              </div>
-            )}
-
             {props.showGenImage && (
               <div
                 onClick={() => setTurnOnImageGen(!turnOnImageGen)}
