@@ -16,7 +16,7 @@ interface ImageViewProps {
 const ImageView: React.FC<ImageViewProps> = (props) => {
   const { t } = useTranslation();
   const [selectedImgIdx, setSelectedImgIdx] = useState<number>(0);
-  const [imageViewingIdx, setImageViewingIdx] = useState<number | null>(null);
+  const [imageViewingUrl, setImageViewingUrl] = useState<string | null>(null);
 
   useEffect(() => {
     setSelectedImgIdx(0);
@@ -27,8 +27,8 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
       {props.imagesMultisize && (
         <ImageSlider
           images={props.imagesMultisize}
-          imageViewingIdx={imageViewingIdx}
-          hide={() => setImageViewingIdx(null)}
+          imageViewingUrl={imageViewingUrl}
+          hide={() => setImageViewingUrl(null)}
         />
       )}
       <div className="w-full">
@@ -46,7 +46,11 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
               src={props.imagesMultisize[selectedImgIdx].original}
               width="1024"
               height="1024"
-              onClick={() => setImageViewingIdx(selectedImgIdx)}
+              onClick={() =>
+                setImageViewingUrl(
+                  props.imagesMultisize?.[selectedImgIdx].original ?? null
+                )
+              }
               className="cursor-pointer"
             />
             <div className="grid grid-cols-4 h-auto w-auto">
@@ -57,29 +61,6 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
                 <img
                   key={img.large}
                   src={img.large}
-                  className="w-full h-full"
-                  onClick={() => setSelectedImgIdx(idx)}
-                />
-              ))}
-            </div>
-          </div>
-        ) : props.images && props.images.length > 0 ? (
-          <div className="flex flex-col">
-            <img
-              src={props.images[selectedImgIdx]}
-              width="1024"
-              height="1024"
-              onClick={() => setImageViewingIdx(selectedImgIdx)}
-              className="cursor-pointer"
-            />
-            <div className="grid grid-cols-4 h-auto w-auto">
-              {props.isImageGenerating ? (
-                <div className="animate-pulse bg-slate-200"></div>
-              ) : null}
-              {props.images.map((img, idx) => (
-                <img
-                  key={img}
-                  src={img}
                   className="w-full h-full"
                   onClick={() => setSelectedImgIdx(idx)}
                 />

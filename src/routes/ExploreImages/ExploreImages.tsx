@@ -9,7 +9,7 @@ import ImageSlider from "../../components/ImageSlider";
 
 const ExploreImagesPage: React.FC = (props) => {
   const { t } = useTranslation();
-  const [imageViewingIdx, setImageViewingIdx] = useState<number | null>(null);
+  const [imageViewingUrl, setImageViewingUrl] = useState<string | null>(null);
   const { explore } = useAppSelector((state) => state.app);
 
   const { getExploreImages, socketConnection } = useWebSocket({});
@@ -27,8 +27,8 @@ const ExploreImagesPage: React.FC = (props) => {
       <Meta title={t("Images")} />
       <ImageSlider
         images={explore.images}
-        imageViewingIdx={imageViewingIdx}
-        hide={() => setImageViewingIdx(null)}
+        imageViewingUrl={imageViewingUrl}
+        hide={() => setImageViewingUrl(null)}
       />
       <div className="grow pt-2.5 pb-5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-110px)] items-center">
@@ -38,7 +38,7 @@ const ExploreImagesPage: React.FC = (props) => {
                 <div
                   className="w-[120px] h-[120px] cursor-pointer"
                   onClick={() => {
-                    setImageViewingIdx(idx);
+                    setImageViewingUrl(i.original);
                     sendEvent("clicked_on_image_from_explore_image");
                   }}
                 >
