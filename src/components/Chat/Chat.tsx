@@ -5,6 +5,8 @@ import Loading from "../Loading";
 import MarkdownToHTML from "../MarkdownToHTML";
 import LoadingIcon from "../../icons/loading";
 import { Message } from "../../types/chat";
+import ImageSlider from "../ImageSlider";
+import { useState } from "react";
 
 interface ChatProps {
   type?: "character" | "story" | "game" | "lola";
@@ -16,6 +18,8 @@ interface ChatProps {
 
 const Chat: React.FC<ChatProps> = (props) => {
   const location = useLocation();
+
+  const [imageViewingUrl, setImageViewingUrl] = useState<string | null>(null);
 
   return (
     <div className="w-full max-w-[715px]">
@@ -65,10 +69,26 @@ const Chat: React.FC<ChatProps> = (props) => {
                   {message.image_gen_on &&
                     message.expected_image_count === 2 && (
                       <div className="grid grid-cols-2 gap-4 mb-[20px]">
+                        {message.images && (
+                          <ImageSlider
+                            images={message.images}
+                            imageViewingUrl={imageViewingUrl}
+                            hide={() => setImageViewingUrl(null)}
+                          />
+                        )}
+
                         <div
                           className={clsx(
-                            "aspect-square flex justify-center items-center bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground"
+                            "cursor-pointer aspect-square flex justify-center items-center bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground"
                           )}
+                          onClick={
+                            message.images?.[0]
+                              ? () =>
+                                  setImageViewingUrl(
+                                    message.images?.[0].original ?? ""
+                                  )
+                              : undefined
+                          }
                         >
                           {message.images?.[0] ? (
                             <img
@@ -82,8 +102,18 @@ const Chat: React.FC<ChatProps> = (props) => {
                             </div>
                           )}
                         </div>
-                        <div className="aspect-square flex justify-center items-center bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground">
-                          {message.images?.[0] ? (
+                        <div
+                          onClick={
+                            message.images?.[1]
+                              ? () =>
+                                  setImageViewingUrl(
+                                    message.images?.[1].original ?? ""
+                                  )
+                              : undefined
+                          }
+                          className="cursor-pointer aspect-square flex justify-center items-center bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground"
+                        >
+                          {message.images?.[1] ? (
                             <img
                               src={message.images?.[1].original}
                               alt="Generated on fabularius.ai"

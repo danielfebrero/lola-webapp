@@ -24,6 +24,7 @@ import {
   setExploreImages,
   setIsCryptoCheckoutUrlLoading,
   setLastRequestWaitingForThreadId,
+  addImageToMessage,
 } from "../store/features/app/appSlice";
 import {
   setClickedDownvotes,
@@ -137,7 +138,10 @@ export default function useWebSocket({
                 }
                 break;
               case "chat":
-                if (data.requestId && requestsStopped.includes(data.requestId))
+                if (
+                  data.request_id &&
+                  requestsStopped.includes(data.request_id)
+                )
                   return;
                 switch (data.status) {
                   case "complete":
@@ -260,6 +264,15 @@ export default function useWebSocket({
                 break;
 
               case "image_generation":
+                if (data.featureType === "lola") {
+                  dispatch(
+                    addImageToMessage({
+                      threadId: data.threadId,
+                      request_id: data.request_id,
+                      image: data.s3Urls,
+                    })
+                  );
+                }
                 if (data.featureType === "character") {
                   dispatch(
                     setCharacter({
@@ -404,6 +417,7 @@ export default function useWebSocket({
           type: endpoint,
           is_private: extraFields?.isPrivate ?? false,
           lastRequsetId: requestId,
+          request_id: requestId,
         })
       );
     } else {

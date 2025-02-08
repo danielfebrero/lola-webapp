@@ -7,7 +7,8 @@ import { ImageSearch } from "../../types/stories";
 
 interface ImageSliderProps {
   images: ImagesMultisize[] | ImageSearch[];
-  imageViewingIdx: number | null;
+  imageViewingIdx?: number | null;
+  imageViewingUrl?: string | null;
   hide: () => void;
 }
 
@@ -17,7 +18,7 @@ const MIN_SWIPE_DISTANCE = 50; // minimal swipe distance in pixels
 const ImageSlider: React.FC<ImageSliderProps> = (props) => {
   // Current image index
   const [currentIdx, setCurrentIdx] = useState<number | null>(
-    props.imageViewingIdx
+    props.imageViewingIdx ?? null
   );
   // Target index for the transition
   const [pendingIdx, setPendingIdx] = useState<number | null>(null);
@@ -34,7 +35,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
 
   // Synchronize currentIdx with the imageViewingIdx prop.
   useEffect(() => {
-    if (props.imageViewingIdx !== null) {
+    if (props.imageViewingIdx && props.imageViewingIdx !== null) {
       setCurrentIdx(props.imageViewingIdx);
     } else {
       setCurrentIdx(null);
@@ -75,7 +76,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // Do nothing if the modal is hidden.
-      if (props.imageViewingIdx === null) return;
+      if (currentIdx === null) return;
 
       switch (event.key) {
         case "ArrowLeft":
@@ -106,6 +107,16 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [props, currentIdx, pendingIdx]);
+
+  useEffect(() => {
+    if (props.imageViewingUrl || props.imageViewingUrl === null) {
+      const idx = props.images.findIndex(
+        (i) => i.original === props.imageViewingUrl
+      );
+      if (idx > -1) setCurrentIdx(idx);
+      else setCurrentIdx(null);
+    }
+  }, [props.imageViewingUrl, props.images]);
 
   // Touch event handlers for swipe navigation.
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -153,7 +164,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
   return (
     <div
       className={clsx(
-        { hidden: props.imageViewingIdx === null },
+        { hidden: currentIdx === null },
         "fixed h-screen w-screen top-0 left-0 bg-black py-[50px] overflow-hidden"
       )}
       onTouchStart={handleTouchStart}

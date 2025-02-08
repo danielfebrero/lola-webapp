@@ -72,6 +72,29 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    addImageToMessage: (
+      state,
+      action: {
+        payload: {
+          threadId: string;
+          request_id: string;
+          image: ImagesMultisize;
+        };
+      }
+    ) => {
+      const log = state.chatLogs?.find(
+        (log: ChatLog) => log.threadId === action.payload.threadId
+      );
+      const message = log?.chatLog?.find(
+        (m) =>
+          m.request_id === action.payload.request_id && m.role === "assistant"
+      );
+      if (message) {
+        message.images = message.images
+          ? [...message.images, action.payload.image]
+          : [action.payload.image];
+      }
+    },
     setIsCryptoCheckoutUrlLoading: (state, action) => {
       state.isCryptoPricingCheckoutUrlLoading = action.payload;
     },
@@ -276,6 +299,7 @@ export const appSlice = createSlice({
             image_gen_on: action.payload.image_gen_on,
             expected_image_count: action.payload.expected_image_count,
             images: action.payload.images ?? [],
+            request_id: action.payload.request_id,
           });
         }
       } else {
@@ -292,6 +316,7 @@ export const appSlice = createSlice({
               threadId: action.payload.threadId,
               image_gen_on: action.payload.image_gen_on,
               expected_image_count: action.payload.expected_image_count,
+              request_id: action.payload.request_id,
             },
           ],
           type: action.payload.type,
@@ -424,6 +449,7 @@ export const {
   setIsCryptoCheckoutUrlLoading,
   setLastRequestWaitingForThreadId,
   addRequestStopped,
+  addImageToMessage,
 } = appSlice.actions;
 
 export default appSlice.reducer;

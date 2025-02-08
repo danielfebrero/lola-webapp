@@ -13,6 +13,7 @@ import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
 import useAutoScroll from "../../hooks/useAutoScroll";
+import ImageViewer from "../../components/ImageViewer/ImageViewer";
 
 const LolaPage: React.FC = () => {
   const [chatLog, setChatLog] = useState<Message[]>([]);

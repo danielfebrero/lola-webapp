@@ -9,6 +9,7 @@ interface Message {
   image_gen_on?: boolean;
   expected_image_count?: number;
   images?: ImagesMultisize[];
+  request_id?: string;
 }
 
 interface ChatLog {
