@@ -1,3 +1,5 @@
+import { ImagesMultisize } from "./characters";
+
 interface Message {
   id?: string;
   role: string;
@@ -6,6 +8,7 @@ interface Message {
   timestamp?: string;
   withImageGeneration?: boolean;
   imageCountExpected?: number;
+  images: ImagesMultisize[];
 }
 
 interface ChatLog {

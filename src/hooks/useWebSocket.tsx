@@ -261,14 +261,16 @@ export default function useWebSocket({
                 break;
 
               case "image_generation":
-                dispatch(
-                  setCharacter({
-                    thread_id: data.threadId,
-                    newImage: data.s3Url,
-                    newImagesMultisize: data.s3Urls,
-                    isImageProcessing: false,
-                  })
-                );
+                if (data.featureType === "character") {
+                  dispatch(
+                    setCharacter({
+                      thread_id: data.threadId,
+                      newImage: data.s3Url,
+                      newImagesMultisize: data.s3Urls,
+                      isImageProcessing: false,
+                    })
+                  );
+                }
                 break;
 
               case "messages":

@@ -1,10 +1,11 @@
 import { useLocation } from "react-router";
-// import Markdown from "markdown-to-jsx";
-
 import clsx from "clsx";
+
 import Loading from "../Loading";
 import MarkdownToHTML from "../MarkdownToHTML";
 import LoadingIcon from "../../icons/loading";
+import { Message } from "../../types/chat";
+import { useAppSelector } from "../../store/hooks";
 
 interface ChatProps {
   type?: "character" | "story" | "game" | "lola";
@@ -16,6 +17,9 @@ interface ChatProps {
 
 const Chat: React.FC<ChatProps> = (props) => {
   const location = useLocation();
+  const { isLeftPanelOpen, isSmallScreen } = useAppSelector(
+    (state) => state.app
+  );
 
   return (
     <div className="w-full max-w-[715px]">
@@ -50,7 +54,7 @@ const Chat: React.FC<ChatProps> = (props) => {
               ) : (
                 <div className="flex flex-col" key={message.timestamp ?? idx}>
                   <div className="flex flex-row mb-[20px]">
-                    <div className="grow max-w-[100%] md:px-[30px]">
+                    <div className="grow max-w-[100%]">
                       <MarkdownToHTML
                         content={message.content}
                         showWorkerIndicator={
@@ -64,16 +68,36 @@ const Chat: React.FC<ChatProps> = (props) => {
                   </div>
                   {message.withImageGeneration &&
                     message.imageCountExpected === 2 && (
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="flex justify-center items-center h-[calc(50vw-30px)] bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground">
-                          <div className="w-[72px] h-[72px]">
-                            <LoadingIcon />
-                          </div>
+                      <div className="grid grid-cols-2 gap-4 ">
+                        <div
+                          className={clsx(
+                            "aspect-square flex justify-center items-center bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground"
+                          )}
+                        >
+                          {message.images?.[0] ? (
+                            <img
+                              src={message.images?.[0].original}
+                              alt="Generated on fabularius.ai"
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="w-[72px] h-[72px]">
+                              <LoadingIcon />
+                            </div>
+                          )}
                         </div>
-                        <div className="flex justify-center items-center h-[calc(50vw-30px)] bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground">
-                          <div className="w-[72px] h-[72px]">
-                            <LoadingIcon />
-                          </div>
+                        <div className="aspect-square flex justify-center items-center bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground">
+                          {message.images?.[0] ? (
+                            <img
+                              src={message.images?.[1].original}
+                              alt="Generated on fabularius.ai"
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="w-[72px] h-[72px]">
+                              <LoadingIcon />
+                            </div>
+                          )}
                         </div>
                       </div>
                     )}
