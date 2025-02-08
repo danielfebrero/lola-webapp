@@ -23,7 +23,7 @@ const Chat: React.FC<ChatProps> = (props) => {
         <Loading />
       ) : (
         <div className="w-full flex">
-          <div className="w-auto grow mb-[30px]">
+          <div className="w-auto grow mb-[30px] md:px-[20px]">
             {props.chatLog?.map((message, idx) =>
               message.role === "user" ? (
                 <div
@@ -64,7 +64,7 @@ const Chat: React.FC<ChatProps> = (props) => {
                   </div>
                   {message.image_gen_on &&
                     message.expected_image_count === 2 && (
-                      <div className="grid grid-cols-2 gap-4 ">
+                      <div className="grid grid-cols-2 gap-4 mb-[20px]">
                         <div
                           className={clsx(
                             "aspect-square flex justify-center items-center bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground"

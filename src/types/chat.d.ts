@@ -8,7 +8,7 @@ interface Message {
   timestamp?: string;
   image_gen_on?: boolean;
   expected_image_count?: number;
-  images: ImagesMultisize[];
+  images?: ImagesMultisize[];
 }
 
 interface ChatLog {

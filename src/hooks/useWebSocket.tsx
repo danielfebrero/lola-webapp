@@ -201,8 +201,7 @@ export default function useWebSocket({
                         type: data.feature_type,
                         role: "assistant",
                         state: data.status,
-                        withImageGeneration: data.withImageGeneration,
-                        imageCountExpected: data.imageCountExpected,
+                        ...data,
                       })
                     );
                     break;

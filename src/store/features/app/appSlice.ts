@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Games } from "../../../types/games";
 import { Character, ImagesMultisize } from "../../../types/characters";
 import { Story } from "../../../types/stories";
+import { ChatLog } from "../../../types/chat";
 
 // Define a type for the slice state
 interface AppState {
@@ -244,7 +245,7 @@ export const appSlice = createSlice({
     },
     addChatLog: (state, action) => {
       const currentLog = state.chatLogs?.find(
-        (log) => log.threadId === action.payload.threadId
+        (log: ChatLog) => log.threadId === action.payload.threadId
       );
       if (currentLog) {
         if (!currentLog.chatLog) currentLog.chatLog = [];
@@ -272,8 +273,9 @@ export const appSlice = createSlice({
             id: action.payload.id,
             content: action.payload.content,
             role: action.payload.role,
-            withImageGeneration: action.payload.withImageGeneration,
-            imageCountExpected: action.payload.imageCountExpected,
+            image_gen_on: action.payload.image_gen_on,
+            expected_image_count: action.payload.expected_image_count,
+            images: action.payload.images ?? [],
           });
         }
       } else {
@@ -288,8 +290,8 @@ export const appSlice = createSlice({
               role: action.payload.role,
               timestamp: Date.now().toString(),
               threadId: action.payload.threadId,
-              withImageGeneration: action.payload.withImageGeneration,
-              imageCountExpected: action.payload.imageCountExpected,
+              image_gen_on: action.payload.image_gen_on,
+              expected_image_count: action.payload.expected_image_count,
             },
           ],
           type: action.payload.type,
