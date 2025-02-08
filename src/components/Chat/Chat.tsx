@@ -5,7 +5,6 @@ import Loading from "../Loading";
 import MarkdownToHTML from "../MarkdownToHTML";
 import LoadingIcon from "../../icons/loading";
 import { Message } from "../../types/chat";
-import { useAppSelector } from "../../store/hooks";
 
 interface ChatProps {
   type?: "character" | "story" | "game" | "lola";
@@ -17,9 +16,6 @@ interface ChatProps {
 
 const Chat: React.FC<ChatProps> = (props) => {
   const location = useLocation();
-  const { isLeftPanelOpen, isSmallScreen } = useAppSelector(
-    (state) => state.app
-  );
 
   return (
     <div className="w-full max-w-[715px]">
@@ -66,8 +62,8 @@ const Chat: React.FC<ChatProps> = (props) => {
                       />
                     </div>
                   </div>
-                  {message.withImageGeneration &&
-                    message.imageCountExpected === 2 && (
+                  {message.image_gen_on &&
+                    message.expected_image_count === 2 && (
                       <div className="grid grid-cols-2 gap-4 ">
                         <div
                           className={clsx(

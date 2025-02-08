@@ -6,8 +6,8 @@ interface Message {
   content: string;
   threadId?: string;
   timestamp?: string;
-  withImageGeneration?: boolean;
-  imageCountExpected?: number;
+  image_gen_on?: boolean;
+  expected_image_count?: number;
   images: ImagesMultisize[];
 }
 
