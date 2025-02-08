@@ -20,6 +20,7 @@ import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
 import { Character, CharacterServerData } from "../../types/characters";
 import useAutoScroll from "../../hooks/useAutoScroll";
+import { Message } from "../../types/chat";
 
 interface CharacterPageProps {
   selected?: Record<string, string>;

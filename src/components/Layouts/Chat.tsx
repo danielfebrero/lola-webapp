@@ -1,3 +1,4 @@
+import { Message } from "../../types/chat";
 import Loading from "../Loading";
 import MarkdownToHTML from "../MarkdownToHTML";
 

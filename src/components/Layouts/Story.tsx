@@ -1,3 +1,4 @@
+import { Message } from "../../types/chat";
 import ChatLayout from "./Chat";
 
 interface StoryLayoutProps {

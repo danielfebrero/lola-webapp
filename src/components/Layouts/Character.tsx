@@ -3,6 +3,7 @@ import ChatLayout from "./Chat";
 import SendChatInputLayout from "./SendChatInput";
 import { Character } from "../../types/characters";
 import ReportViewLayout from "./ReportView";
+import { Message } from "../../types/chat";
 
 interface CharacterLayoutProps {
   chatLog?: Message[];

@@ -7,6 +7,7 @@ import { GetServerSideProps } from "next";
 import { Character } from "../../types/characters";
 import { getAPIUrlFromContext } from "../../utils/ssr";
 import { Story } from "../../types/stories";
+import { ChatLog } from "../../types/chat";
 
 const App = dynamic(() => import("../../App"), {
   ssr: false,
