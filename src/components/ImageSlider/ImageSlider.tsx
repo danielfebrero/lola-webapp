@@ -159,10 +159,10 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
 
     // Si on est sur mobile, ou si l'attribut download n'est pas fiable
     if (isMobile) {
-      const downloadUrl = imageUrl.includes("?")
-        ? `${imageUrl}&response-content-disposition=attachment`
-        : `${imageUrl}?response-content-disposition=attachment`;
-      window.open(downloadUrl, "_blank");
+      // const downloadUrl = imageUrl.includes("?")
+      //   ? `${imageUrl}&response-content-disposition=attachment`
+      //   : `${imageUrl}?response-content-disposition=attachment`;
+      window.open(imageUrl, "_blank");
     } else {
       // Pour les navigateurs de bureau, en supposant que l'attribut download fonctionne bien
       try {
