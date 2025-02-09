@@ -11,7 +11,7 @@ export default function useGA() {
   };
 
   const sendEvent = (eventName: string, channel?: string) => {
-    ReactGA.send(eventName);
+    ReactGA.event(`${channel}_${eventName}`);
     // track({
     //   channel: channel ?? "web",
     //   event: eventName,
