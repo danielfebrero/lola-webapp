@@ -238,7 +238,6 @@ const useAPI = () => {
       }
 
       const data = await response.json();
-      console.log("explore latest", { data });
       dispatch(setExploreLatest(data));
       return;
     } catch (error) {
