@@ -199,7 +199,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                   "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
                 )}
               >
-                <div className="w-[18px] h-[18px] mr-[5px]">
+                <div className="w-[18px] h-[18px] mr-[10px]">
                   <SpreadIcon />
                 </div>
                 <span>{t("Short message")}</span>
