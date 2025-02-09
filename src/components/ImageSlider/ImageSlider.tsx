@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import CloseIcon from "../../icons/close";
 import { ImagesMultisize } from "../../types/characters";
 import { ImageSearch } from "../../types/stories";
+import DownloadIcon from "../../icons/download";
 
 interface ImageSliderProps {
   images: ImagesMultisize[] | ImageSearch[];
@@ -156,6 +157,34 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
     }
   };
 
+  // Download image function that uses fetch to download the image as a blob.
+  // This method ensures that the page does not navigate away.
+  const downloadImage = async () => {
+    if (currentIdx === null) return;
+    const imageUrl = props.images[currentIdx].original;
+    try {
+      const response = await fetch(imageUrl, { mode: "cors" });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      // Extract a filename from the URL; fallback to "download" if necessary.
+      const urlParts = imageUrl.split("/");
+      const filename = urlParts[urlParts.length - 1] || "download";
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.setAttribute("download", filename);
+      // Append the link, trigger the download, and then remove the link.
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Error downloading image:", error);
+    }
+  };
+
   const outgoingSrc =
     currentIdx !== null ? props.images[currentIdx].original : null;
   const incomingSrc =
@@ -171,12 +200,23 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
+      {/* Download Button */}
+      <div
+        onClick={downloadImage}
+        className="p-[10px] fixed top-[24px] right-[88px] h-[24px] w-[24px] cursor-pointer text-textSecondary dark:text-darkTextSecondary z-30"
+      >
+        <div className="h-[24px] w-[24px]">
+          <DownloadIcon />
+        </div>
+      </div>
       {/* Close Button */}
       <div
-        onClick={() => props.hide()}
-        className="fixed top-[24px] right-[24px] h-[24px] w-[24px] cursor-pointer text-textSecondary dark:text-darkTextSecondary z-30"
+        onClick={props.hide}
+        className="p-[10px] fixed top-[24px] right-[24px] cursor-pointer text-textSecondary dark:text-darkTextSecondary z-30"
       >
-        <CloseIcon />
+        <div className="h-[24px] w-[24px]">
+          <CloseIcon />
+        </div>
       </div>
 
       {/* Clickable Areas for desktop or tap navigation */}
