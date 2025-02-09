@@ -203,7 +203,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
       {/* Download Button */}
       <div
         onClick={downloadImage}
-        className="p-[10px] fixed top-[24px] right-[88px] h-[24px] w-[24px] cursor-pointer text-textSecondary dark:text-darkTextSecondary z-30"
+        className="p-[10px] fixed top-[24px] right-[78px] cursor-pointer hover:text-white text-textSecondary dark:text-darkTextSecondary z-30"
       >
         <div className="h-[24px] w-[24px]">
           <DownloadIcon />
@@ -212,7 +212,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
       {/* Close Button */}
       <div
         onClick={props.hide}
-        className="p-[10px] fixed top-[24px] right-[24px] cursor-pointer text-textSecondary dark:text-darkTextSecondary z-30"
+        className="p-[10px] fixed top-[24px] right-[24px] cursor-pointer hover:text-white text-textSecondary dark:text-darkTextSecondary z-30"
       >
         <div className="h-[24px] w-[24px]">
           <CloseIcon />
