@@ -269,7 +269,6 @@ const useAPI = () => {
       }
 
       const data = await response.json();
-      console.log("explore best", { data });
       dispatch(setExploreBest(data));
       return;
     } catch (error) {

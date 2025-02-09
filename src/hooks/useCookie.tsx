@@ -28,9 +28,6 @@ const useCookie = () => {
         path: "/", // Accessible throughout the site
         // HttpOnly cannot be set via JavaScript
       });
-      console.log("New user_id cookie set:", existingUserId);
-    } else {
-      console.log("Existing user_id cookie found:", existingUserId);
     }
 
     return existingUserId;
