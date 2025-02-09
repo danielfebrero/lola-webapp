@@ -1,10 +1,10 @@
 import ReactGA from "react-ga4";
-import { useUserLog } from "@userlog/next";
+// import { useUserLog } from "@userlog/next";
 
 ReactGA.initialize("G-43V6GGK855");
 
 export default function useGA() {
-  const { track } = useUserLog();
+  // const { track } = useUserLog();
 
   const sendCustomEvent = (params: Record<string, any>) => {
     ReactGA.send(params);
@@ -12,11 +12,11 @@ export default function useGA() {
 
   const sendEvent = (eventName: string, channel?: string) => {
     ReactGA.send(eventName);
-    track({
-      channel: channel ?? "web",
-      event: eventName,
-      notify: true,
-    });
+    // track({
+    //   channel: channel ?? "web",
+    //   event: eventName,
+    //   notify: true,
+    // });
   };
 
   return {
