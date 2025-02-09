@@ -128,7 +128,7 @@ const LeftPanel: React.FC = () => {
         </div>
         <div
           ref={scrollRef}
-          className="h-[calc(100vh-160px)] w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-clip ml-[-10px] mr-[-10px] no-scrollbar"
+          className="md:h-[calc(100vh-160px)] pb-[110px] md:pb-0 w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-clip ml-[-10px] mr-[-10px] no-scrollbar"
         >
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
