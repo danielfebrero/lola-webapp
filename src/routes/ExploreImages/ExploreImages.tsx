@@ -33,7 +33,7 @@ const ExploreImagesPage: React.FC = (props) => {
       <div className="grow pt-2.5 pb-5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-110px)] items-center">
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col w-full items-center">
-            <div className="grid md:grid-cols-5 grid grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-5 grid grid-cols-2 gap-4">
               {explore.images?.map((i, idx) => (
                 <div
                   className="w-[120px] h-[120px] cursor-pointer"
