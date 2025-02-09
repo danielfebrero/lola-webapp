@@ -15,6 +15,15 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   const parseMarkdown = (markdown: string): string => {
     let html = markdown;
 
+    // --- Begin text-hiding modification ---
+    // This regex removes any bracketed text that is not part of a link.
+    // It matches '[' followed by any characters (non-greedily) until the first ']'
+    // provided that the ']' is NOT immediately followed by '(' (which would indicate a link).
+    html = html.replace(/\[.*?\](?!\()/g, "");
+    // If there's an unmatched '[' (i.e. no closing ']'), remove everything from it to the end.
+    html = html.replace(/\[.*$/g, "");
+    // --- End text-hiding modification ---
+
     // Escape HTML tags
     html = html
       .replace(/&/g, "&amp;")
@@ -40,7 +49,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     // Strikethrough
     html = html.replace(/~~(.*?)~~/gim, "<del>$1</del>");
 
-    // Links
+    // Links (this regex will now only match links since non-link bracketed text was removed above)
     html = html.replace(
       /\[([^\]]+)\]\(([^)]+)\)/gim,
       '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
