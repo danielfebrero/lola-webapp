@@ -91,6 +91,11 @@ const Init: React.FC = () => {
     }
   };
 
+  const setVh = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
+
   useEffect(() => {
     if (searchParams.get("adult") === "1") dispatch(setMode("adult"));
   }, [searchParams]);
@@ -105,6 +110,9 @@ const Init: React.FC = () => {
         "fabularius.ai"
       );
     }
+
+    setVh();
+    window.addEventListener("resize", setVh);
   }, []);
 
   useEffect(() => {

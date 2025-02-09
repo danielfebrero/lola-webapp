@@ -92,7 +92,7 @@ const LeftPanel: React.FC = () => {
           "min-w-[260px] w-[260px]": isLeftPanelOpen,
           "min-w-0 w-0": !isLeftPanelOpen,
         },
-        `transition-all duration-500 h-screen bg-lightGray dark:bg-darkLightGray`
+        `transition-all duration-500 h-screen-real bg-lightGray dark:bg-darkLightGray`
       )}
     >
       <div className="h-screen w-[260px] flex flex-col pl-[20px] pr-[20px] pt-[10px]">
@@ -128,7 +128,7 @@ const LeftPanel: React.FC = () => {
         </div>
         <div
           ref={scrollRef}
-          className="md:h-[calc(100vh-160px)] w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-clip ml-[-10px] mr-[-10px] no-scrollbar"
+          className="h-[calc(100%-150px)] w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-clip ml-[-10px] mr-[-10px] no-scrollbar"
         >
           <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">

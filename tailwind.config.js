@@ -7,6 +7,9 @@ module.exports = {
       transitionProperty: {
         left: "left",
       },
+      height: {
+        "screen-real": "calc(var(--vh) * 100)",
+      },
       colors: {
         lightGray: "#f9f9f9",
         textPrimary: "#0d0d0d",
