@@ -36,6 +36,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const { sendEvent } = useGA();
   const { plan } = useAppSelector((state) => state.user);
   const [newIsPrivate, setNewIsPrivate] = useState<boolean>(false);
+  const [shortMessage, setShortMessage] = useState<boolean>(true);
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const { getCharacter } = useAPI();
 
@@ -92,12 +93,21 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     setThreadId: characterSetThreadId,
   });
 
-  const sendMessageToCharacter = (
-    content: string,
-    threadId: string | null,
-    isPrivate: boolean
-  ) => {
-    sendMessage(content, "character", threadId, { isPrivate });
+  const sendMessageToCharacter = ({
+    content,
+    threadId,
+    isPrivate,
+    isShortMessage,
+  }: {
+    content: string;
+    threadId: string | null;
+    isPrivate: boolean;
+    isShortMessage: boolean;
+  }) => {
+    sendMessage(content, "character", threadId, {
+      isPrivate,
+      isShortMessage,
+    });
   };
 
   const handleViewTypeChange = (
@@ -248,11 +258,19 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                       : chatState?.canSendMessage ?? true
                   }
                   onSend={(message) =>
-                    sendMessageToCharacter(message, threadId, newIsPrivate)
+                    sendMessageToCharacter({
+                      content: message,
+                      threadId,
+                      isPrivate: newIsPrivate,
+                      isShortMessage: shortMessage,
+                    })
                   }
                   canMakePrivate={plan !== "free"}
                   showPrivate={params.threadId === "new"}
                   setPrivate={setNewIsPrivate}
+                  showShortMessage={true}
+                  setShortMessage={setShortMessage}
+                  shortMessage={shortMessage}
                 />
               </div>
             )}
@@ -334,15 +352,19 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                             : chatState?.canSendMessage ?? true
                         }
                         onSend={(message) =>
-                          sendMessageToCharacter(
-                            message,
+                          sendMessageToCharacter({
+                            content: message,
                             threadId,
-                            newIsPrivate
-                          )
+                            isPrivate: newIsPrivate,
+                            isShortMessage: shortMessage,
+                          })
                         }
                         canMakePrivate={plan !== "free"}
                         showPrivate={params.threadId === "new"}
                         setPrivate={setNewIsPrivate}
+                        showShortMessage={true}
+                        setShortMessage={setShortMessage}
+                        shortMessage={shortMessage}
                       />
                     </div>
                   )}

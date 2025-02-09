@@ -32,6 +32,9 @@ interface SendChatInputProps {
   showGenImage?: boolean;
   setGenImage?: (val: boolean) => void;
   genImage?: boolean;
+  showShortMessage?: boolean;
+  setShortMessage?: (val: boolean) => void;
+  shortMessage?: boolean;
 }
 
 const SendChatInput: React.FC<SendChatInputProps> = (props) => {
@@ -154,7 +157,8 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
 
           {!props.showImageSearch &&
             !props.showPrivate &&
-            !props.showGenImage && (
+            !props.showGenImage &&
+            !props.showShortMessage && (
               <>
                 {!props.canSendMessage && props.isChatInputAvailable ? (
                   <div
@@ -174,8 +178,33 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
               </>
             )}
         </div>
-        {(props.showPrivate || props.showImageSearch || props.showGenImage) && (
+        {(props.showPrivate ||
+          props.showImageSearch ||
+          props.showGenImage ||
+          props.showShortMessage) && (
           <div className="flex flex-row items-center w-full p-[10px] mt-[20px] text-sm">
+            {props.showShortMessage && (
+              <div
+                onClick={() =>
+                  props.setShortMessage
+                    ? props.setShortMessage(!props.shortMessage)
+                    : null
+                }
+                className={clsx(
+                  {
+                    "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
+                      props.shortMessage,
+                  },
+                  "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
+                )}
+              >
+                <div className="w-[18px] h-[18px] mr-[5px]">
+                  <ShieldIcon />
+                </div>
+                <span>{t("Short message")}</span>
+              </div>
+            )}
+
             {props.showPrivate && (
               <div
                 onClick={
