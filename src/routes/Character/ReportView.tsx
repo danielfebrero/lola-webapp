@@ -21,7 +21,7 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const tmpJson = Object.assign({}, props.json);
+    const tmpJson = JSON.parse(JSON.stringify(props.json));
     if (tmpJson.name) delete tmpJson.name;
     setJson(tmpJson);
   }, [props.json]);
