@@ -15,6 +15,7 @@ import clsx from "clsx";
 import ShieldIcon from "../../icons/shield";
 import GlobeIcon from "../../icons/globe";
 import ArtIcon from "../../icons/art";
+import SpreadIcon from "../../icons/spread";
 
 interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
@@ -199,7 +200,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                 )}
               >
                 <div className="w-[18px] h-[18px] mr-[5px]">
-                  <ShieldIcon />
+                  <SpreadIcon />
                 </div>
                 <span>{t("Short message")}</span>
               </div>
