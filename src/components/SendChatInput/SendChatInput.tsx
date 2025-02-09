@@ -184,7 +184,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
           props.showGenImage ||
           props.showShortMessage) && (
           <div className="flex flex-row items-center w-full p-[10px] mt-[20px] text-sm">
-            <div className="overflow-x-scroll w-[calc(100vw-100px)]">
+            <div className="overflow-x-scroll w-[calc(100vw-120px)]">
               <div className="flex flex-row w-auto items-center ">
                 {props.showShortMessage && (
                   <div
