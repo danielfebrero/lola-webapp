@@ -13,28 +13,28 @@ interface ImageSliderProps {
   hide: () => void;
 }
 
-const SLIDE_DURATION = 500; // duration in ms
-const MIN_SWIPE_DISTANCE = 50; // minimal swipe distance in pixels
+const SLIDE_DURATION = 500; // durée de transition en ms
+const MIN_SWIPE_DISTANCE = 50; // distance minimale de swipe en pixels
 
 const ImageSlider: React.FC<ImageSliderProps> = (props) => {
-  // Current image index
+  // Index de l’image courante
   const [currentIdx, setCurrentIdx] = useState<number | null>(
     props.imageViewingIdx ?? null
   );
-  // Target index for the transition
+  // Index cible pour la transition
   const [pendingIdx, setPendingIdx] = useState<number | null>(null);
-  // Direction for the slide transition
+  // Sens de la transition
   const [slideDirection, setSlideDirection] = useState<"left" | "right">(
     "left"
   );
-  // Toggle to trigger the CSS slide animations
+  // Permet d'activer l'animation CSS de slide
   const [animate, setAnimate] = useState(false);
 
-  // State for tracking touch events
+  // Gestion des événements tactiles
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchEndX, setTouchEndX] = useState<number | null>(null);
 
-  // Synchronize currentIdx with the imageViewingIdx prop.
+  // Synchronisation de currentIdx avec le prop imageViewingIdx
   useEffect(() => {
     if (props.imageViewingIdx && props.imageViewingIdx !== null) {
       setCurrentIdx(props.imageViewingIdx);
@@ -43,7 +43,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
     }
   }, [props.imageViewingIdx, props.images]);
 
-  // Preload adjacent images for smoother transitions.
+  // Préchargement des images adjacentes pour une transition plus fluide
   useEffect(() => {
     if (currentIdx !== null) {
       const preload = (index: number) => {
@@ -57,10 +57,10 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
     }
   }, [currentIdx, props.images]);
 
-  // Handle the slide transition when pendingIdx changes.
+  // Gestion de la transition slide lorsque pendingIdx change
   useEffect(() => {
     if (pendingIdx !== null) {
-      // Use requestAnimationFrame to ensure that the state update triggers the transition.
+      // Utilisation de requestAnimationFrame pour déclencher l'animation
       requestAnimationFrame(() => {
         setAnimate(true);
       });
@@ -73,25 +73,20 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
     }
   }, [pendingIdx]);
 
-  // Keyboard navigation.
+  // Navigation au clavier
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Do nothing if the modal is hidden.
       if (currentIdx === null) return;
 
       switch (event.key) {
         case "ArrowLeft":
-          if (currentIdx !== null && currentIdx > 0 && pendingIdx === null) {
+          if (currentIdx > 0 && pendingIdx === null) {
             setPendingIdx(currentIdx - 1);
             setSlideDirection("right");
           }
           break;
         case "ArrowRight":
-          if (
-            currentIdx !== null &&
-            currentIdx < props.images.length - 1 &&
-            pendingIdx === null
-          ) {
+          if (currentIdx < props.images.length - 1 && pendingIdx === null) {
             setPendingIdx(currentIdx + 1);
             setSlideDirection("left");
           }
@@ -119,27 +114,22 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
     }
   }, [props.imageViewingUrl, props.images]);
 
-  // Touch event handlers for swipe navigation.
+  // Gestion des événements tactiles pour le swipe
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    // Reset the previous touch end and record the starting X coordinate.
     setTouchEndX(null);
     setTouchStartX(e.targetTouches[0].clientX);
   };
 
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    // Update the current touch X coordinate.
     setTouchEndX(e.targetTouches[0].clientX);
   };
 
   const handleTouchEnd = () => {
     if (touchStartX === null || touchEndX === null) return;
     const distance = touchStartX - touchEndX;
-
-    // If the swipe distance is too short, ignore it.
     if (Math.abs(distance) < MIN_SWIPE_DISTANCE) return;
 
     if (distance > 0) {
-      // Swiped left: navigate to the next image.
       if (
         currentIdx !== null &&
         currentIdx < props.images.length - 1 &&
@@ -149,7 +139,6 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
         setSlideDirection("left");
       }
     } else {
-      // Swiped right: navigate to the previous image.
       if (currentIdx !== null && currentIdx > 0 && pendingIdx === null) {
         setPendingIdx(currentIdx - 1);
         setSlideDirection("right");
@@ -157,31 +146,41 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
     }
   };
 
-  // Download image function that uses fetch to download the image as a blob.
-  // This method ensures that the page does not navigate away.
+  // Fonction de téléchargement adaptée pour desktop et mobile
   const downloadImage = async () => {
     if (currentIdx === null) return;
     const imageUrl = props.images[currentIdx].original;
-    try {
-      const response = await fetch(imageUrl, { mode: "cors" });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+    const filename = imageUrl.split("/").pop() || "download";
+
+    // Création d'un élément <a> temporaire pour tester la prise en charge de l'attribut download
+    const tempLink = document.createElement("a");
+
+    // Si l'attribut download est supporté (la plupart des navigateurs desktop)
+    if (typeof tempLink.download !== "undefined") {
+      try {
+        const response = await fetch(imageUrl, { mode: "cors" });
+        if (!response.ok) {
+          throw new Error("La réponse réseau n'est pas correcte");
+        }
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+
+        tempLink.href = blobUrl;
+        tempLink.setAttribute("download", filename);
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        document.body.removeChild(tempLink);
+        window.URL.revokeObjectURL(blobUrl);
+      } catch (error) {
+        console.error("Erreur lors du téléchargement de l'image:", error);
       }
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-      // Extract a filename from the URL; fallback to "download" if necessary.
-      const urlParts = imageUrl.split("/");
-      const filename = urlParts[urlParts.length - 1] || "download";
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.setAttribute("download", filename);
-      // Append the link, trigger the download, and then remove the link.
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-      console.error("Error downloading image:", error);
+    } else {
+      // Sur mobile (ex : iOS Safari) qui ne supporte pas l'attribut download,
+      // on tente d'ouvrir l'URL avec un paramètre forçant la réponse en téléchargement.
+      const downloadUrl = imageUrl.includes("?")
+        ? `${imageUrl}&response-content-disposition=attachment`
+        : `${imageUrl}?response-content-disposition=attachment`;
+      window.open(downloadUrl, "_blank");
     }
   };
 
@@ -200,7 +199,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Download Button */}
+      {/* Bouton de téléchargement */}
       <div
         onClick={downloadImage}
         className="p-[10px] fixed top-[24px] right-[78px] cursor-pointer hover:text-white text-textSecondary dark:text-darkTextSecondary z-30"
@@ -209,7 +208,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
           <DownloadIcon />
         </div>
       </div>
-      {/* Close Button */}
+      {/* Bouton de fermeture */}
       <div
         onClick={props.hide}
         className="p-[10px] fixed top-[24px] right-[24px] cursor-pointer hover:text-white text-textSecondary dark:text-darkTextSecondary z-30"
@@ -219,7 +218,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
         </div>
       </div>
 
-      {/* Clickable Areas for desktop or tap navigation */}
+      {/* Zones cliquables pour la navigation sur desktop ou en tap */}
       <div
         className="fixed w-1/2 left-0 top-0 h-screen z-20 cursor-pointer"
         onClick={() => {
@@ -243,9 +242,9 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
         }}
       ></div>
 
-      {/* Image Container */}
+      {/* Conteneur de l'image */}
       <div className="relative h-full w-full flex items-center justify-center">
-        {/* Outgoing Image */}
+        {/* Image sortante lors de la transition */}
         {pendingIdx !== null && outgoingSrc && (
           <div
             className={clsx(
@@ -264,7 +263,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
             />
           </div>
         )}
-        {/* Incoming Image */}
+        {/* Image entrante lors de la transition */}
         {pendingIdx !== null && incomingSrc && (
           <div
             className={clsx(
@@ -283,7 +282,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
             />
           </div>
         )}
-        {/* Idle State: No transition */}
+        {/* État inactif : aucune transition */}
         {pendingIdx === null && outgoingSrc && (
           <img
             src={outgoingSrc}
