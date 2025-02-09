@@ -150,38 +150,39 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
   const downloadImage = async () => {
     if (currentIdx === null) return;
     const imageUrl = props.images[currentIdx].original;
-    // const filename = imageUrl.split("/").pop() || "download";
+    const filename = imageUrl.split("/").pop() || "download";
+    const tempLink = document.createElement("a");
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
 
-    // // Création d'un élément <a> temporaire pour tester la prise en charge de l'attribut download
-    // const tempLink = document.createElement("a");
+    // Si on est sur mobile, ou si l'attribut download n'est pas fiable
+    if (isMobile) {
+      const downloadUrl = imageUrl.includes("?")
+        ? `${imageUrl}&response-content-disposition=attachment`
+        : `${imageUrl}?response-content-disposition=attachment`;
+      window.open(downloadUrl, "_blank");
+    } else {
+      // Pour les navigateurs de bureau, en supposant que l'attribut download fonctionne bien
+      try {
+        const response = await fetch(imageUrl, { mode: "cors" });
+        if (!response.ok) {
+          throw new Error("La réponse réseau n'est pas correcte");
+        }
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
 
-    // Si l'attribut download est supporté (la plupart des navigateurs desktop)
-    // if (typeof tempLink.download !== "undefined") {
-    //   try {
-    //     const response = await fetch(imageUrl, { mode: "cors" });
-    //     if (!response.ok) {
-    //       throw new Error("La réponse réseau n'est pas correcte");
-    //     }
-    //     const blob = await response.blob();
-    //     const blobUrl = window.URL.createObjectURL(blob);
-
-    //     tempLink.href = blobUrl;
-    //     tempLink.setAttribute("download", filename);
-    //     document.body.appendChild(tempLink);
-    //     tempLink.click();
-    //     document.body.removeChild(tempLink);
-    //     window.URL.revokeObjectURL(blobUrl);
-    //   } catch (error) {
-    //     console.error("Erreur lors du téléchargement de l'image:", error);
-    //   }
-    // } else {
-    // Sur mobile (ex : iOS Safari) qui ne supporte pas l'attribut download,
-    // on tente d'ouvrir l'URL avec un paramètre forçant la réponse en téléchargement.
-    // const downloadUrl = imageUrl.includes("?")
-    //   ? `${imageUrl}&response-content-disposition=attachment`
-    //   : `${imageUrl}?response-content-disposition=attachment`;
-    window.open(imageUrl, "_blank");
-    // }
+        tempLink.href = blobUrl;
+        tempLink.setAttribute("download", filename);
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        document.body.removeChild(tempLink);
+        window.URL.revokeObjectURL(blobUrl);
+      } catch (error) {
+        console.error("Erreur lors du téléchargement de l'image:", error);
+      }
+    }
   };
 
   const outgoingSrc =
