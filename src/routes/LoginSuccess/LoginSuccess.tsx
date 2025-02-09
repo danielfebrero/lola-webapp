@@ -25,7 +25,9 @@ const LoginSuccess: React.FC = () => {
   return (
     <>
       <Meta title={"Login"} />
-      <div className="w-full text-center">Logging in progress...</div>
+      <div className="h-[calc(100vh-70px)]">
+        <div className="w-full text-center">Logging in progress...</div>
+      </div>
     </>
   );
 };
