@@ -184,85 +184,91 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
           props.showGenImage ||
           props.showShortMessage) && (
           <div className="flex flex-row items-center w-full p-[10px] mt-[20px] text-sm">
-            {props.showShortMessage && (
-              <div
-                onClick={() =>
-                  props.setShortMessage
-                    ? props.setShortMessage(!props.shortMessage)
-                    : null
-                }
-                className={clsx(
-                  {
-                    "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
-                      props.shortMessage,
-                  },
-                  "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
+            <div className="overflow-x-scroll w-[calc(100vw-100px)]">
+              <div className="flex flex-row w-auto items-center ">
+                {props.showShortMessage && (
+                  <div
+                    onClick={() =>
+                      props.setShortMessage
+                        ? props.setShortMessage(!props.shortMessage)
+                        : null
+                    }
+                    className={clsx(
+                      {
+                        "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
+                          props.shortMessage,
+                      },
+                      "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
+                    )}
+                  >
+                    <div className="w-[18px] h-[18px] mr-[10px]">
+                      <SpreadIcon />
+                    </div>
+                    <div className="whitespace-nowrap">
+                      {t("Short message")}
+                    </div>
+                  </div>
                 )}
-              >
-                <div className="w-[18px] h-[18px] mr-[10px]">
-                  <SpreadIcon />
-                </div>
-                <span>{t("Short message")}</span>
-              </div>
-            )}
 
-            {props.showPrivate && (
-              <div
-                onClick={
-                  props.canMakePrivate
-                    ? () => setIsPrivate(!isPrivate)
-                    : () => navigate("/pricing")
-                }
-                className={clsx(
-                  {
-                    "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
-                      isPrivate,
-                  },
-                  "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
+                {props.showPrivate && (
+                  <div
+                    onClick={
+                      props.canMakePrivate
+                        ? () => setIsPrivate(!isPrivate)
+                        : () => navigate("/pricing")
+                    }
+                    className={clsx(
+                      {
+                        "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
+                          isPrivate,
+                      },
+                      "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
+                    )}
+                  >
+                    <div className="w-[18px] h-[18px] mr-[5px]">
+                      <ShieldIcon />
+                    </div>
+                    <span>{t("Private")}</span>
+                  </div>
                 )}
-              >
-                <div className="w-[18px] h-[18px] mr-[5px]">
-                  <ShieldIcon />
-                </div>
-                <span>{t("Private")}</span>
-              </div>
-            )}
 
-            {props.showImageSearch && (
-              <div
-                onClick={() => setTurnOnImageSearch(!turnOnImageSearch)}
-                className={clsx(
-                  {
-                    "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
-                      turnOnImageSearch,
-                  },
-                  "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
+                {props.showImageSearch && (
+                  <div
+                    onClick={() => setTurnOnImageSearch(!turnOnImageSearch)}
+                    className={clsx(
+                      {
+                        "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
+                          turnOnImageSearch,
+                      },
+                      "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
+                    )}
+                  >
+                    <div className="w-[18px] h-[18px] mr-[5px]">
+                      <GlobeIcon />
+                    </div>
+                    <span>{t("Image search")}</span>
+                  </div>
                 )}
-              >
-                <div className="w-[18px] h-[18px] mr-[5px]">
-                  <GlobeIcon />
-                </div>
-                <span>{t("Image search")}</span>
-              </div>
-            )}
 
-            {props.showGenImage && (
-              <div
-                onClick={() => setTurnOnImageGen(!turnOnImageGen)}
-                className={clsx(
-                  {
-                    "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
-                      turnOnImageGen,
-                  },
-                  "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
+                {props.showGenImage && (
+                  <div
+                    onClick={() => setTurnOnImageGen(!turnOnImageGen)}
+                    className={clsx(
+                      {
+                        "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
+                          turnOnImageGen,
+                      },
+                      "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
+                    )}
+                  >
+                    <div className="w-[18px] h-[18px] mr-[5px]">
+                      <ArtIcon />
+                    </div>
+                    <span>{t("Generate image")}</span>
+                  </div>
                 )}
-              >
-                <div className="w-[18px] h-[18px] mr-[5px]">
-                  <ArtIcon />
-                </div>
-                <span>{t("Generate image")}</span>
               </div>
-            )}
+            </div>
 
             <div className="justify-end flex grow">
               {!props.canSendMessage && props.isChatInputAvailable ? (
