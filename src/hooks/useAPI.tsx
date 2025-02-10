@@ -173,7 +173,6 @@ const useAPI = () => {
           type: data.feature_type,
           isOwner: data.isOwner,
           is_private: data.is_private,
-          canSendMessage: true,
         })
       );
       return;
