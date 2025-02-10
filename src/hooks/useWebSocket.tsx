@@ -160,6 +160,11 @@ export default function useWebSocket({
                       data.threadId &&
                       data.feature_type === "you_are_the_hero"
                     ) {
+                      const chatLastRequset = chatLogs.find(
+                        (log) => log.threadId === data.threadId
+                      )?.lastRequestId;
+                      if (data.request_id === !chatLastRequset) return;
+
                       dispatch(
                         setGame({
                           heroActionsIsLoading: true,
@@ -301,6 +306,10 @@ export default function useWebSocket({
                 break;
 
               case "hero_actions":
+                const chatLastRequset = chatLogs.find(
+                  (log) => log.threadId === data.threadId
+                )?.lastRequestId;
+                if (data.request_id === !chatLastRequset) return;
                 if (data.status === "init") {
                   dispatch(
                     setGame({

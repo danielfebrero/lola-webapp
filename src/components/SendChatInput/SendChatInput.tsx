@@ -63,12 +63,13 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
 
   const handleStop = useCallback(() => {
     if (props.threadId) {
-      stopRequestId(props.threadId);
-      dispatch(
-        addRequestStopped(
-          chatLogs.find((log) => log.threadId === props.threadId)?.lastRequestId
-        )
-      );
+      const lastRequestId = chatLogs.find(
+        (log) => log.threadId === props.threadId
+      )?.lastRequestId;
+      if (lastRequestId) {
+        stopRequestId(lastRequestId);
+        dispatch(addRequestStopped(lastRequestId));
+      }
       dispatch(
         setChatLog({
           threadId: props.threadId,
@@ -86,6 +87,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
     props.threadId,
     stopRequestId,
     chatLogs,
+    dispatch,
   ]);
 
   const handleSend = () => {

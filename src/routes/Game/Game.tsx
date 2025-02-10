@@ -8,6 +8,7 @@ import {
   setCurrentlyViewing,
   setChatLog,
   setGame,
+  addRequestStopped,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import LoadingIcon from "../../icons/loading";
@@ -21,7 +22,8 @@ const GamePage: React.FC = () => {
   const location = useLocation();
   const params = useParams();
   const dispatch = useAppDispatch();
-  const { getHeroActions, sendMessage, socketConnection } = useWebSocket({});
+  const { getHeroActions, sendMessage, socketConnection, stopRequestId } =
+    useWebSocket({});
   const [threadId, setThreadId] = useState<string>();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { getMessages } = useAPI();
@@ -33,6 +35,8 @@ const GamePage: React.FC = () => {
       state.app.chatLogs.find((log) => log.threadId === params.threadId)
         ?.chatLog ?? []
   );
+
+  const chatLogs = useAppSelector((state) => state.app.chatLogs);
 
   const chatState = useAppSelector((state) =>
     state.app.chatLogs.find((log) => log.threadId === params.threadId)
@@ -48,17 +52,34 @@ const GamePage: React.FC = () => {
   );
 
   const chooseAction = (actionTitle: string, actionDescription: string) => {
-    if (threadId)
+    if (threadId) {
+      const lastRequestId = chatLogs.find(
+        (log) => log.threadId === threadId
+      )?.lastRequestId;
+      if (lastRequestId && (heroActions?.length ?? 0) < 6) {
+        stopRequestId(lastRequestId);
+        dispatch(addRequestStopped(lastRequestId));
+      }
       sendMessage(
         `${actionTitle}: ${actionDescription}`,
         "you_are_the_hero",
         threadId
       );
+      dispatch(
+        setGame({
+          heroActions: [],
+          heroActionsIsLoading: false,
+          threadId: threadId,
+        })
+      );
+    }
   };
 
   useEffect(() => {
     setIsAssistantWriting(
-      chatState?.isOwner ? !(chatState?.canSendMessage ?? true) : false
+      chatState?.isOwner
+        ? !(chatState?.canSendMessage ?? true) && (heroActions?.length ?? 0) < 6
+        : false
     );
   }, [chatState]);
 
@@ -112,6 +133,7 @@ const GamePage: React.FC = () => {
     chatState?.isLoading,
     chatState?.canSendMessage,
     autoScroll,
+    heroActions,
   ]);
 
   return (
@@ -130,35 +152,39 @@ const GamePage: React.FC = () => {
               isChatLoading={chatState?.isLoading ?? false}
               isAssistantWriting={isAssistantWriting}
             />
-            {!chatState?.isLoading &&
-            !game?.heroActionsIsLoading &&
-            (chatState?.canSendMessage ?? true) ? (
-              <div className="grid md:grid-cols-2 grid-cols-1">
-                {heroActions?.map((action) => (
-                  <div
-                    key={action.action_title}
-                    className="flex flex-col p-[10px] m-[10px] rounded-lg border border-borderColor dark:border-darkBorderColor hover:bg-lightGray dark:hover:bg-darkLightGray cursor-pointer"
-                    onClick={() =>
-                      chooseAction(
-                        action.action_title,
-                        action.action_description
-                      )
-                    }
-                  >
-                    <div className="group text-center">
-                      {action.action_title}
-                      <div className="text-textSecondary dark:text-darkTextSecondary text-sm">
-                        {action.action_description}
+            {((!chatState?.isLoading && (chatState?.canSendMessage ?? true)) ||
+              heroActions?.length === 6) &&
+              !isAssistantWriting && (
+                <div className="grid md:grid-cols-2 grid-cols-1">
+                  {heroActions?.map((action) => (
+                    <div
+                      key={action.action_title}
+                      className="flex flex-col p-[10px] m-[10px] rounded-lg border border-borderColor dark:border-darkBorderColor hover:bg-lightGray dark:hover:bg-darkLightGray cursor-pointer"
+                      onClick={() =>
+                        chooseAction(
+                          action.action_title,
+                          action.action_description
+                        )
+                      }
+                    >
+                      <div className="group text-center">
+                        {action.action_title}
+                        <div className="text-textSecondary dark:text-darkTextSecondary text-sm">
+                          {action.action_description}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            ) : !chatState?.isLoading && game?.heroActionsIsLoading ? (
-              <div className="h-[48px] w-[48px]">
-                <LoadingIcon />
-              </div>
-            ) : null}
+                  ))}
+                </div>
+              )}
+            {!chatState?.isLoading &&
+              !isAssistantWriting &&
+              game?.heroActionsIsLoading &&
+              (heroActions?.length ?? 0) < 6 && (
+                <div className="h-[48px] w-[48px]">
+                  <LoadingIcon />
+                </div>
+              )}
           </div>
         </div>
       </div>
