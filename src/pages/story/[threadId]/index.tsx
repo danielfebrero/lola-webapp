@@ -18,7 +18,7 @@ interface StoryPageProps {
 
 const StoryPage: React.FC<StoryPageProps> = ({ serverData }) => {
   return (
-    <div className="no-scrollbar overflow-hidden h-screen w-screen">
+    <>
       <Head>
         <title>
           {serverData?.title
@@ -26,17 +26,22 @@ const StoryPage: React.FC<StoryPageProps> = ({ serverData }) => {
             : "New story on Fabularius AI"}
         </title>
       </Head>
-      <PageLayout headerDropdownLabel={"Story"}>
-        {serverData?.threadId === "new" ? (
-          <NewStoryLayout />
-        ) : (
-          <StoryLayout chatLog={serverData?.data.chatLog} />
-        )}
-      </PageLayout>
+      <div
+        id="ssr-root"
+        className="no-scrollbar overflow-hidden h-screen w-screen"
+      >
+        <PageLayout headerDropdownLabel={"Story"}>
+          {serverData?.threadId === "new" ? (
+            <NewStoryLayout />
+          ) : (
+            <StoryLayout chatLog={serverData?.data.chatLog} />
+          )}
+        </PageLayout>
+      </div>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <App storyServerData={serverData} />
       </div>
-    </div>
+    </>
   );
 };
 

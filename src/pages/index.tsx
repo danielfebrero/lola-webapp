@@ -23,17 +23,22 @@ interface ExploreLatestPageProps {
 
 const ExploreLatestPage: React.FC<ExploreLatestPageProps> = ({ data }) => {
   return (
-    <div className="no-scrollbar overflow-hidden h-screen w-screen">
+    <>
       <Head>
         <title>Explore latest content on Fabularius AI</title>
       </Head>
-      <PageLayout headerDropdownLabel="Latest">
-        <ExploreFeedLayout data={data} />
-      </PageLayout>
+      <div
+        id="ssr-root"
+        className="no-scrollbar overflow-hidden h-screen w-screen"
+      >
+        <PageLayout headerDropdownLabel="Latest">
+          <ExploreFeedLayout data={data} />
+        </PageLayout>
+      </div>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <App />
       </div>
-    </div>
+    </>
   );
 };
 

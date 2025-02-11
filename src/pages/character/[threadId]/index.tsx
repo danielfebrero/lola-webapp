@@ -19,7 +19,7 @@ interface CharacterPageProps {
 
 const CharacterPage: NextPage<CharacterPageProps> = ({ serverData }) => {
   return (
-    <div className="no-scrollbar overflow-hidden h-screen w-screen">
+    <>
       <Head>
         <title>
           {serverData?.data.json?.name
@@ -27,22 +27,27 @@ const CharacterPage: NextPage<CharacterPageProps> = ({ serverData }) => {
             : "New character on Fabularius AI"}
         </title>
       </Head>
-      <PageLayout headerDropdownLabel={"Character"}>
-        {serverData?.threadId === "new" ? (
-          <CharacterLayout />
-        ) : (
-          <CharacterLayout
-            character={serverData?.data}
-            chatLog={serverData?.data.chatLog}
-            isOwner={serverData?.isOwner}
-            threadId={serverData?.threadId}
-          />
-        )}
-      </PageLayout>
+      <div
+        id="ssr-root"
+        className="no-scrollbar overflow-hidden h-screen w-screen"
+      >
+        <PageLayout headerDropdownLabel={"Character"}>
+          {serverData?.threadId === "new" ? (
+            <CharacterLayout />
+          ) : (
+            <CharacterLayout
+              character={serverData?.data}
+              chatLog={serverData?.data.chatLog}
+              isOwner={serverData?.isOwner}
+              threadId={serverData?.threadId}
+            />
+          )}
+        </PageLayout>
+      </div>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <App characterServerData={serverData} />
       </div>
-    </div>
+    </>
   );
 };
 

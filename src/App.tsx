@@ -56,6 +56,10 @@ const App: React.FC<AppProps> = (props) => {
     ReactGA.initialize("G-43V6GGK855");
   }, []);
 
+  useEffect(() => {
+    document.getElementById("ssr-root")?.remove();
+  }, []);
+
   return (
     <AuthProvider {...cognitoAuthConfig}>
       <Provider store={store}>

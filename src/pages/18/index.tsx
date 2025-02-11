@@ -8,12 +8,17 @@ const App = dynamic(() => import("../../App"), {
 
 const EighteenPage: React.FC = () => {
   return (
-    <div className="no-scrollbar overflow-hidden h-screen w-screen">
-      <PageLayout headerDropdownLabel="Latest">{""}</PageLayout>
+    <>
+      <div
+        id="ssr-root"
+        className="no-scrollbar overflow-hidden h-screen w-screen"
+      >
+        <PageLayout headerDropdownLabel="Latest">{""}</PageLayout>
+      </div>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <App />
       </div>
-    </div>
+    </>
   );
 };
 

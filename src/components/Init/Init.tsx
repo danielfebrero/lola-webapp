@@ -113,6 +113,7 @@ const Init: React.FC = () => {
 
     setVh();
     window.addEventListener("resize", setVh);
+    return () => window.removeEventListener("resize", setVh);
   }, []);
 
   useEffect(() => {
