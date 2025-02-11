@@ -5,6 +5,7 @@ import clsx from "clsx";
 import JSONToText from "../../components/JSONToText";
 import Loading from "../../components/Loading";
 import { ImagesMultisize } from "../../types/characters";
+import TransitionImage from "../../components/TransitionImage";
 
 interface ReportViewProps {
   type: "character";
@@ -46,22 +47,16 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
               )}
             >
               {props.imagesMultisize && props.imagesMultisize.length > 0 ? (
-                <img
-                  className={clsx(
-                    { "animate-pulse": props.isImageGenerating },
-                    "rounded-full object-cover"
-                  )}
+                <TransitionImage
+                  className={clsx("rounded-full object-cover")}
                   src={props.imagesMultisize[0].large}
                 />
               ) : null}
               {props.images &&
               props.images.length > 0 &&
               (!props.imagesMultisize || props.imagesMultisize.length === 0) ? (
-                <img
-                  className={clsx(
-                    { "animate-pulse": props.isImageGenerating },
-                    "rounded-full object-cover"
-                  )}
+                <TransitionImage
+                  className={clsx("rounded-full object-cover")}
                   src={props.images[0]}
                 />
               ) : null}
