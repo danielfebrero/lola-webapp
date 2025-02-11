@@ -80,6 +80,7 @@ const PricingLayout: React.FC = () => {
               </div>
             </div>
           </div>
+          <div className="text-center w-full mt-[20px]">Pay in crypto.</div>
         </div>
       </div>
     </div>

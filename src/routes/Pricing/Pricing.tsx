@@ -188,6 +188,9 @@ const PricingPage: React.FC = () => {
                 </div>
               </div>
             </div>
+            <div className="text-center w-full mt-[20px]">
+              {t("Pay in crypto.")}
+            </div>
           </div>
         </div>
       </div>
