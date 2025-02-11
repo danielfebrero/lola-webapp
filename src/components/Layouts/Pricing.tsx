@@ -25,7 +25,7 @@ const PricingLayout: React.FC = () => {
               </div>
             </div>
             <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
-              <span className="text-xl font-bold">1-month Early Bird</span>
+              <span className="text-xl font-bold">1-month Plus</span>
               <div className="text-4xl mt-[10px]">$5</div>
               <div className="flex flex-row items-center mt-[20px]">
                 <div className="w-[18px] h-[18px]">
@@ -48,7 +48,7 @@ const PricingLayout: React.FC = () => {
               </div>
             </div>
             <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
-              <span className="text-xl font-bold">Lifetime Early Bird</span>
+              <span className="text-xl font-bold">Lifetime Plus</span>
               <div className="text-4xl mt-[10px]">$50</div>
               <div className="flex flex-row items-center mt-[20px]">
                 <div className="w-[18px] h-[18px]">
@@ -67,7 +67,7 @@ const PricingLayout: React.FC = () => {
                   <CheckOnlyIcon />
                 </div>
                 <span>
-                  Early Bird Trophy
+                  Plus Trophy
                   <span className="text-xs">(soon)</span>
                 </span>
               </div>
