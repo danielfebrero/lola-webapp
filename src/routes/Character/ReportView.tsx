@@ -75,7 +75,7 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
               {props.json?.name}
             </span>
           </div>
-          {props.isProcessing ? (
+          {props.isProcessing && !props.json ? (
             <Loading />
           ) : (
             <div className="md:mt-[60px] mt-[40px] md:ml-[20px] pb-[40px]">
