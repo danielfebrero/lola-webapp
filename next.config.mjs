@@ -18,6 +18,15 @@ const nextConfig = {
     defaultLocale: "en",
     localeDetection: false,
   },
+
+  async rewrites() {
+    return [
+      {
+        source: "/robots.txt",
+        destination: "/api/robots",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
