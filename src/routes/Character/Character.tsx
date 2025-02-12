@@ -37,6 +37,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const { plan } = useAppSelector((state) => state.user);
   const [newIsPrivate, setNewIsPrivate] = useState<boolean>(false);
   const [shortMessage, setShortMessage] = useState<boolean>(true);
+  const [genImage, setGenImage] = useState<boolean>(true);
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const { getCharacter } = useAPI();
 
@@ -98,15 +99,18 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     threadId,
     isPrivate,
     isShortMessage,
+    turnOnImageGeneration,
   }: {
     content: string;
     threadId: string | null;
     isPrivate: boolean;
     isShortMessage: boolean;
+    turnOnImageGeneration: boolean;
   }) => {
     sendMessage(content, "character", threadId, {
       isPrivate,
       isShortMessage,
+      turnOnImageGeneration,
     });
   };
 
@@ -263,6 +267,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                       threadId,
                       isPrivate: newIsPrivate,
                       isShortMessage: shortMessage,
+                      turnOnImageGeneration: genImage,
                     })
                   }
                   canMakePrivate={plan !== "free"}
@@ -271,6 +276,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   showShortMessage={true}
                   setShortMessage={setShortMessage}
                   shortMessage={shortMessage}
+                  showGenImage={params.threadId !== "new"}
+                  setGenImage={setGenImage}
+                  genImage={genImage}
                 />
               </div>
             )}
@@ -357,6 +365,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                             threadId,
                             isPrivate: newIsPrivate,
                             isShortMessage: shortMessage,
+                            turnOnImageGeneration: genImage,
                           })
                         }
                         canMakePrivate={plan !== "free"}
@@ -365,6 +374,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                         showShortMessage={true}
                         setShortMessage={setShortMessage}
                         shortMessage={shortMessage}
+                        showGenImage={params.threadId !== "new"}
+                        setGenImage={setGenImage}
+                        genImage={genImage}
                       />
                     </div>
                   )}
