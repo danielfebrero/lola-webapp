@@ -241,7 +241,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                     <div className="w-[18px] h-[18px] mr-[5px]">
                       <GlobeIcon />
                     </div>
-                    <span>{t("Image search")}</span>
+                    <div className="whitespace-nowrap">{t("Image search")}</div>
                   </div>
                 )}
 
@@ -261,7 +261,9 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                     <div className="w-[18px] h-[18px] mr-[5px]">
                       <ArtIcon />
                     </div>
-                    <span>{t("Generate image")}</span>
+                    <div className="whitespace-nowrap">
+                      {t("Generate image")}
+                    </div>
                   </div>
                 )}
               </div>
