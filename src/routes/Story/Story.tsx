@@ -32,6 +32,8 @@ const Storypage: React.FC<StorypageProps> = (props) => {
   const [doNotShowLoading, setDoNotShowLoading] = useState<boolean>(
     props.serverData ? true : false
   );
+  const { plan } = useAppSelector((state) => state.user);
+  const [uncensored, setUncensored] = useState<boolean>(plan !== "free");
   const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const [serverStory, setServerStory] = useState<StoryServerData | null>(
@@ -195,6 +197,9 @@ const Storypage: React.FC<StorypageProps> = (props) => {
                       ? chatState?.isInputAvailable ?? true
                       : false
                   }
+                  showUncensored={plan !== "free"}
+                  setUncensored={setUncensored}
+                  uncensored={uncensored}
                 />
               </div>
             </div>

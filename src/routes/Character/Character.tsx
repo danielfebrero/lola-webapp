@@ -35,7 +35,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { sendEvent } = useGA();
   const { plan } = useAppSelector((state) => state.user);
-  const [newIsPrivate, setNewIsPrivate] = useState<boolean>(false);
+  const [uncensored, setUncensored] = useState<boolean>(plan !== "free");
+  const [newIsPrivate, setNewIsPrivate] = useState<boolean>(plan !== "free");
   const [shortMessage, setShortMessage] = useState<boolean>(true);
   const [genImage, setGenImage] = useState<boolean>(true);
   const { autoScroll } = useAutoScroll(chatContainerRef);
@@ -100,17 +101,20 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     isPrivate,
     isShortMessage,
     turnOnImageGeneration,
+    isUncensored,
   }: {
     content: string;
     threadId: string | null;
     isPrivate: boolean;
     isShortMessage: boolean;
     turnOnImageGeneration: boolean;
+    isUncensored: boolean;
   }) => {
     sendMessage(content, "character", threadId, {
       isPrivate,
       isShortMessage,
       turnOnImageGeneration,
+      isUncensored,
     });
   };
 
@@ -268,9 +272,11 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                       isPrivate: newIsPrivate,
                       isShortMessage: shortMessage,
                       turnOnImageGeneration: genImage,
+                      isUncensored: uncensored,
                     })
                   }
                   canMakePrivate={plan !== "free"}
+                  isPrivate={newIsPrivate}
                   showPrivate={params.threadId === "new"}
                   setPrivate={setNewIsPrivate}
                   showShortMessage={true}
@@ -279,6 +285,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   showGenImage={params.threadId !== "new"}
                   setGenImage={setGenImage}
                   genImage={genImage}
+                  showUncensored={plan !== "free"}
+                  setUncensored={setUncensored}
+                  uncensored={uncensored}
                 />
               </div>
             )}
@@ -366,17 +375,22 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                             isPrivate: newIsPrivate,
                             isShortMessage: shortMessage,
                             turnOnImageGeneration: genImage,
+                            isUncensored: uncensored,
                           })
                         }
                         canMakePrivate={plan !== "free"}
                         showPrivate={params.threadId === "new"}
                         setPrivate={setNewIsPrivate}
+                        isPrivate={newIsPrivate}
                         showShortMessage={true}
                         setShortMessage={setShortMessage}
                         shortMessage={shortMessage}
                         showGenImage={params.threadId !== "new"}
                         setGenImage={setGenImage}
                         genImage={genImage}
+                        showUncensored={plan !== "free"}
+                        setUncensored={setUncensored}
+                        uncensored={uncensored}
                       />
                     </div>
                   )}

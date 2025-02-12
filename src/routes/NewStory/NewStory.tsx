@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
@@ -16,13 +16,14 @@ import useAPI from "../../hooks/useAPI";
 import SendChatInput from "../../components/SendChatInput";
 
 const NewStoryPage: React.FC = () => {
+  const { plan } = useAppSelector((state) => state.user);
   const { t } = useTranslation();
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
   const [AIInputValue, setAIInputValue] = useState<string>("");
   const [threadId, setThreadId] = useState<string | null>(null);
   const [hasSentMessage, setHasSentMessage] = useState<boolean>(false);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
-  const [newIsPrivate, setNewIsPrivate] = useState<boolean>(false);
+  const [newIsPrivate, setNewIsPrivate] = useState<boolean>(plan !== "free");
   const [turnOnImageSearch, setTurnOnImageSearch] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -43,8 +44,8 @@ const NewStoryPage: React.FC = () => {
   const { sendMessage, socketConnection } = useWebSocket({
     setThreadId: gameSetThreadId,
   });
-  const { plan } = useAppSelector((state) => state.user);
   const { getCharacters } = useAPI();
+  const [uncensored, setUncensored] = useState<boolean>(plan !== "free");
 
   const createStory = (context: string) => {
     const encoder = new TextEncoder();
@@ -195,12 +196,16 @@ const NewStoryPage: React.FC = () => {
               isChatInputAvailable={!hasSentMessage}
               canSendMessage={!hasSentMessage}
               showPrivate={true}
+              isPrivate={newIsPrivate}
               showImageSearch={true}
               canMakePrivate={plan !== "free"}
               setPrivate={setNewIsPrivate}
               setImageSearch={setTurnOnImageSearch}
               onSend={createStory}
               canSendEmptyMessage={true}
+              showUncensored={plan !== "free"}
+              setUncensored={setUncensored}
+              uncensored={uncensored}
             />
           </div>
         </div>

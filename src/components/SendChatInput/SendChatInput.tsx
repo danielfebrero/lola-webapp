@@ -27,6 +27,7 @@ interface SendChatInputProps {
   canSendMessage: boolean;
   showPrivate?: boolean;
   canMakePrivate?: boolean;
+  isPrivate?: boolean;
   setPrivate?: (val: boolean) => void;
   showImageSearch?: boolean;
   setImageSearch?: (val: boolean) => void;
@@ -51,7 +52,6 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const { stopRequestId } = useWebSocket({});
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [isPrivate, setIsPrivate] = useState<boolean>(false);
   const [turnOnImageSearch, setTurnOnImageSearch] = useState<boolean>(false);
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -129,16 +129,17 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   };
 
   useEffect(() => {
-    if (props.setPrivate) props.setPrivate(isPrivate);
-  }, [isPrivate]);
-
-  useEffect(() => {
     if (props.setImageSearch) props.setImageSearch(turnOnImageSearch);
   }, [turnOnImageSearch]);
 
   useEffect(() => {
     if (!isSmallScreen) textAreaRef.current?.focus();
   }, [isSmallScreen, props]);
+
+  useEffect(() => {
+    if (props.setPrivate && props.uncensored)
+      props.setPrivate(props.uncensored);
+  }, [props.uncensored]);
 
   return (
     <div className="w-full h-auto flex justify-center items-center">
@@ -235,13 +236,15 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                   <div
                     onClick={
                       props.canMakePrivate
-                        ? () => setIsPrivate(!isPrivate)
+                        ? () =>
+                            props.setPrivate &&
+                            props.setPrivate(!props.isPrivate)
                         : () => navigate("/pricing")
                     }
                     className={clsx(
                       {
                         "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
-                          isPrivate,
+                          props.isPrivate,
                       },
                       "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
                     )}
