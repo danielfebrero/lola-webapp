@@ -49,9 +49,6 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const navigate = useNavigate();
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
   const [turnOnImageSearch, setTurnOnImageSearch] = useState<boolean>(false);
-  const [turnOnImageGen, setTurnOnImageGen] = useState<boolean>(
-    props.genImage ?? false
-  );
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = event.target;
@@ -134,10 +131,6 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   useEffect(() => {
     if (props.setImageSearch) props.setImageSearch(turnOnImageSearch);
   }, [turnOnImageSearch]);
-
-  useEffect(() => {
-    if (props.setGenImage) props.setGenImage(turnOnImageGen);
-  }, [turnOnImageGen]);
 
   useEffect(() => {
     if (!isSmallScreen) textAreaRef.current?.focus();
@@ -254,11 +247,13 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
 
                 {props.showGenImage && (
                   <div
-                    onClick={() => setTurnOnImageGen(!turnOnImageGen)}
+                    onClick={() =>
+                      props.setGenImage && props.setGenImage(!props.genImage)
+                    }
                     className={clsx(
                       {
                         "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
-                          turnOnImageGen,
+                          props.genImage,
                       },
                       "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
                     )}
