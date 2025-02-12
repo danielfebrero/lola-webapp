@@ -27,6 +27,10 @@ const LolaPage: React.FC = () => {
   const { t } = useTranslation();
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const [genImage, setGenImage] = useState<boolean>(false);
+
+  const { plan } = useAppSelector((state) => state.user);
+
+  const [uncensored, setUncensored] = useState<boolean>(plan !== "free");
   const { lastRequestIdWaitingForThreadId } = useAppSelector(
     (state) => state.app
   );
@@ -57,9 +61,13 @@ const LolaPage: React.FC = () => {
   const sendMessageToLola = (
     content: string,
     threadId: string | null,
-    turnOnImageGeneration: boolean
+    turnOnImageGeneration: boolean,
+    isUncensored: boolean
   ) => {
-    sendMessage(content, "lola", threadId, { turnOnImageGeneration });
+    sendMessage(content, "lola", threadId, {
+      turnOnImageGeneration,
+      isUncensored,
+    });
     if (chatLog.length === 0) setChatLog([{ role: "user", content }]);
   };
 
@@ -152,13 +160,16 @@ const LolaPage: React.FC = () => {
                     type="lola"
                     threadId={threadId}
                     onSend={(message) =>
-                      sendMessageToLola(message, threadId, genImage)
+                      sendMessageToLola(message, threadId, genImage, uncensored)
                     }
                     canSendMessage={chatState?.canSendMessage ?? true}
                     isChatInputAvailable={chatState?.isInputAvailable ?? true}
                     showGenImage={true}
                     setGenImage={setGenImage}
                     genImage={genImage}
+                    showUncensored={plan !== "free"}
+                    uncensored={uncensored}
+                    setUncensored={setUncensored}
                   />
                 </div>
               </div>
@@ -172,13 +183,16 @@ const LolaPage: React.FC = () => {
                     type="lola"
                     threadId={threadId}
                     onSend={(message) =>
-                      sendMessageToLola(message, threadId, genImage)
+                      sendMessageToLola(message, threadId, genImage, uncensored)
                     }
                     canSendMessage={true}
                     isChatInputAvailable={true}
                     showGenImage={true}
                     setGenImage={setGenImage}
                     genImage={genImage}
+                    showUncensored={plan !== "free"}
+                    setUncensored={setUncensored}
+                    uncensored={uncensored}
                   />
                 </div>
               </div>

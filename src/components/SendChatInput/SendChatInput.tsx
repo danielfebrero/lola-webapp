@@ -16,6 +16,7 @@ import ShieldIcon from "../../icons/shield";
 import GlobeIcon from "../../icons/globe";
 import ArtIcon from "../../icons/art";
 import SpreadIcon from "../../icons/spread";
+import AdultIcon from "../../icons/adult";
 
 interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
@@ -36,6 +37,9 @@ interface SendChatInputProps {
   showShortMessage?: boolean;
   setShortMessage?: (val: boolean) => void;
   shortMessage?: boolean;
+  showUncensored?: boolean;
+  setUncensored?: (val: boolean) => void;
+  uncensored?: boolean;
 }
 
 const SendChatInput: React.FC<SendChatInputProps> = (props) => {
@@ -181,6 +185,28 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
           <div className="flex flex-row items-center w-full p-[10px] mt-[20px] text-sm">
             <div className="overflow-x-scroll w-[calc(100vw-120px)] no-scrollbar">
               <div className="flex flex-row w-auto items-center ">
+                {props.showUncensored && (
+                  <div
+                    onClick={() =>
+                      props.setUncensored
+                        ? props.setUncensored(!props.uncensored)
+                        : null
+                    }
+                    className={clsx(
+                      {
+                        "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
+                          props.uncensored,
+                      },
+                      "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
+                    )}
+                  >
+                    <div className="w-[18px] h-[18px] mr-[10px]">
+                      <AdultIcon />
+                    </div>
+                    <div className="whitespace-nowrap">{t("Uncensored")}</div>
+                  </div>
+                )}
+
                 {props.showShortMessage && (
                   <div
                     onClick={() =>

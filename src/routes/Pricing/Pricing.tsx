@@ -71,7 +71,7 @@ const PricingPage: React.FC = () => {
               </div>
               <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
                 <span className="text-xl font-bold">{t("1-month")} Plus</span>
-                <div className="text-4xl mt-[10px]">$5</div>
+                <div className="text-4xl mt-[10px]">$10</div>
                 <div className="flex flex-row items-center mt-[20px]">
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
@@ -83,6 +83,14 @@ const PricingPage: React.FC = () => {
                     <CheckOnlyIcon />
                   </div>
                   <span>{t("Make your content private")}</span>
+                </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>
+                    <div>{t("Uncensored")}</div>
+                  </span>
                 </div>
                 {plan !== "early_lifetime" && (
                   <div
@@ -128,7 +136,7 @@ const PricingPage: React.FC = () => {
               </div>
               <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
                 <span className="text-xl font-bold">{t("Lifetime Plus")}</span>
-                <div className="text-4xl mt-[10px]">$50</div>
+                <div className="text-4xl mt-[10px]">$60</div>
                 <div className="flex flex-row items-center mt-[20px]">
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
@@ -146,7 +154,7 @@ const PricingPage: React.FC = () => {
                     <CheckOnlyIcon />
                   </div>
                   <span>
-                    Plus Trophy <span className="text-xs">({t("soon")})</span>
+                    <div>{t("Uncensored")}</div>
                   </span>
                 </div>
                 <div
