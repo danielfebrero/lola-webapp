@@ -178,6 +178,7 @@ const LolaPage: React.FC = () => {
                     isChatInputAvailable={true}
                     showGenImage={true}
                     setGenImage={setGenImage}
+                    genImage={genImage}
                   />
                 </div>
               </div>
