@@ -141,6 +141,10 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
       props.setPrivate(props.uncensored);
   }, [props.uncensored]);
 
+  useEffect(() => {
+    if (props.setUncensored && !props.isPrivate) props.setUncensored(false);
+  }, [props.isPrivate]);
+
   return (
     <div className="w-full h-auto flex justify-center items-center">
       <div className="w-full flex flex-col items-center bg-lightGray dark:bg-darkMessageBackground rounded-2xl p-[10px]">
