@@ -186,7 +186,11 @@ const Storypage: React.FC<StorypageProps> = (props) => {
                 <SendChatInput
                   type="story"
                   threadId={threadId}
-                  onSend={(message) => sendMessage(message, "story", threadId)}
+                  onSend={(message) =>
+                    sendMessage(message, "story", threadId, {
+                      isUncensored: uncensored,
+                    })
+                  }
                   canSendMessage={
                     chatState?.isOwner
                       ? chatState?.canSendMessage ?? true
