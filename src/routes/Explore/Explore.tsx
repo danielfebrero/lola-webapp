@@ -47,10 +47,10 @@ const ExplorePage: React.FC = (props) => {
 
   useEffect(() => {
     if (socketConnection?.readyState === socketConnection?.OPEN) {
-      params.type === "best" ? getExploreBest() : getExploreLatest();
+      params.mode === "best" ? getExploreBest() : getExploreLatest(params.type);
       getClickedVotes();
     }
-  }, [socketConnection, params.type, exploreLanguage]);
+  }, [socketConnection, params.mode, exploreLanguage]);
 
   useEffect(() => {
     setStateClickedDownvotes(clickedDownvotes);
@@ -62,11 +62,11 @@ const ExplorePage: React.FC = (props) => {
 
   return (
     <>
-      <Meta title={t(titleByType[params.type as "best"])} />
+      <Meta title={t(titleByType[params.mode as "best"])} />
       <div className="grow pt-2.5 pb-5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-110px)] items-center max-w-full">
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col w-full items-center">
-            {(params.type === "best" ? explore.best : explore.latest).map(
+            {(params.mode === "best" ? explore.best : explore.latest).map(
               (c) => (
                 <div
                   className={clsx(

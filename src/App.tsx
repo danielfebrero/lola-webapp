@@ -97,7 +97,14 @@ const App: React.FC<AppProps> = (props) => {
                       path="/explore/images"
                       element={<ExploreImagesPage />}
                     />
-                    <Route path="/explore/:type" element={<ExplorePage />} />
+                    <Route
+                      path="/explore/:mode/:type"
+                      element={<ExplorePage />}
+                    />
+                    <Route
+                      path="/explore/:mode/:type"
+                      element={<ExplorePage />}
+                    />
                     <Route
                       path="/character/main"
                       element={<CharacterPage selected={{ type: "main" }} />}

@@ -1,15 +1,15 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
-
-import PageLayout from "../../components/Layouts/Page";
-import ExploreFeedLayout from "../../components/Layouts/ExploreFeed";
 import { GetServerSideProps } from "next";
-import { Character } from "../../types/characters";
-import { getAPIUrlFromContext } from "../../utils/ssr";
-import { Story } from "../../types/stories";
-import { ChatLog } from "../../types/chat";
 
-const App = dynamic(() => import("../../App"), {
+import PageLayout from "../../../components/Layouts/Page";
+import ExploreFeedLayout from "../../../components/Layouts/ExploreFeed";
+import { Character } from "../../../types/characters";
+import { getAPIUrlFromContext } from "../../../utils/ssr";
+import { Story } from "../../../types/stories";
+import { ChatLog } from "../../../types/chat";
+
+const App = dynamic(() => import("../../../App"), {
   ssr: false,
 });
 
@@ -45,7 +45,9 @@ const ExploreLatestPage: React.FC<ExploreLatestPageProps> = ({ data }) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query } = context;
   const adult = query.adult;
-  const fetchQuery = adult === "1" ? "?mode=adult" : "?mode=minor";
+  let fetchQuery = adult === "1" ? "?mode=adult" : "?mode=minor";
+
+  fetchQuery += "&type=character";
 
   const res = await fetch(
     getAPIUrlFromContext(context) + "/explore/latest" + fetchQuery

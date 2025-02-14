@@ -214,10 +214,10 @@ const useAPI = () => {
     }
   };
 
-  const getExploreLatest = async () => {
+  const getExploreLatest = async (type: string) => {
     try {
       const response = await fetch(
-        `${API_URL}/explore/latest?mode=${mode}&language=${exploreLanguage}`,
+        `${API_URL}/explore/latest?mode=${mode}&language=${exploreLanguage}&type=${type}`,
         {
           method: "GET",
           headers: {
