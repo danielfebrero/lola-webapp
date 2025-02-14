@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { Link, useParams } from "react-router";
+import { Link, useParams, useNavigate } from "react-router";
 
 import JSONToText from "../../components/JSONToText";
 import Meta from "../../components/Meta";
@@ -26,6 +26,7 @@ const titleByType = {
 
 const ExplorePage: React.FC = (props) => {
   const { sendEvent } = useGA();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { upvote, downvote, getClickedVotes, socketConnection } = useWebSocket(
     {}
@@ -47,10 +48,13 @@ const ExplorePage: React.FC = (props) => {
 
   useEffect(() => {
     if (socketConnection?.readyState === socketConnection?.OPEN) {
-      params.mode === "best" ? getExploreBest() : getExploreLatest(params.type);
+      console.log({ params });
+      params.exploreMode === "best"
+        ? getExploreBest()
+        : getExploreLatest(params.type);
       getClickedVotes();
     }
-  }, [socketConnection, params.mode, exploreLanguage]);
+  }, [socketConnection, params.exploreMode, params.type, exploreLanguage]);
 
   useEffect(() => {
     setStateClickedDownvotes(clickedDownvotes);
@@ -60,276 +64,266 @@ const ExplorePage: React.FC = (props) => {
     setStateClickedUpvotes(clickedUpvotes);
   }, [clickedUpvotes]);
 
+  useEffect(() => {
+    if (params.exploreMode === "latest" && !params.type)
+      navigate("/explore/latest/characters");
+  }, [params.exploreMode, params.type]);
+
   return (
     <>
-      <Meta title={t(titleByType[params.mode as "best"])} />
+      <Meta title={t(titleByType[params.exploreMode as "best"])} />
       <div className="grow pt-2.5 pb-5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-110px)] items-center max-w-full">
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col w-full items-center">
-            {(params.mode === "best" ? explore.best : explore.latest).map(
-              (c) => (
+            {(params.exploreMode === "best"
+              ? explore.best
+              : explore.latest
+            ).map((c) => (
+              <div
+                className={clsx(
+                  "h-auto p-[10px] hover:bg-lightGray rounded-lg dark:hover:bg-darkMainSurfaceSecondary border-b border-borderColor dark:border-darkBorderColor w-full items-center flex flex-col"
+                )}
+                key={c.thread.threadId}
+              >
                 <div
                   className={clsx(
-                    "h-auto p-[10px] hover:bg-lightGray rounded-lg dark:hover:bg-darkMainSurfaceSecondary border-b border-borderColor dark:border-darkBorderColor w-full items-center flex flex-col"
+                    { "max-w-[715px]": c.thread.type === "story" },
+                    {
+                      "max-h-[600px]": !expandedThread.includes(
+                        c.thread.threadId
+                      ),
+                      "max-h-full": expandedThread.includes(c.thread.threadId),
+                    },
+                    "transition-all duration-500 flex flex-col h-auto overflow-y-hidden cursor-pointer w-full"
                   )}
-                  key={c.thread.threadId}
                 >
-                  <div
-                    className={clsx(
-                      { "max-w-[715px]": c.thread.type === "story" },
-                      {
-                        "max-h-[600px]": !expandedThread.includes(
-                          c.thread.threadId
-                        ),
-                        "max-h-full": expandedThread.includes(
-                          c.thread.threadId
-                        ),
-                      },
-                      "transition-all duration-500 flex flex-col h-auto overflow-y-hidden cursor-pointer w-full"
-                    )}
-                  >
-                    {c.thread.type === "story" && (
-                      <Link to={"/" + c.thread.type + "/" + c.thread.threadId}>
-                        <div className="font-bold mb-[10px] text-lg self-middle">
-                          {c.thread.title}
-                        </div>
-                      </Link>
-                    )}
+                  {c.thread.type === "story" && (
+                    <Link to={"/" + c.thread.type + "/" + c.thread.threadId}>
+                      <div className="font-bold mb-[10px] text-lg self-middle">
+                        {c.thread.title}
+                      </div>
+                    </Link>
+                  )}
 
-                    <div>
+                  <div>
+                    {c.thread.type === "story" &&
+                      c.story?.image_search_results &&
+                      c.story.image_search_results.length > 0 && (
+                        <div className="mb-[20px]">
+                          <ImageViewer images={c.story.image_search_results} />
+                        </div>
+                      )}
+                    <Link to={"/" + c.thread.type + "/" + c.thread.threadId}>
                       {c.thread.type === "story" &&
-                        c.story?.image_search_results &&
-                        c.story.image_search_results.length > 0 && (
-                          <div className="mb-[20px]">
-                            <ImageViewer
-                              images={c.story.image_search_results}
-                            />
-                          </div>
-                        )}
-                      <Link to={"/" + c.thread.type + "/" + c.thread.threadId}>
-                        {c.thread.type === "story" &&
-                          c.thread.chatLog?.slice(0, 2).map((message) =>
-                            message.role === "user" ? (
+                        c.thread.chatLog?.slice(0, 2).map((message) =>
+                          message.role === "user" ? (
+                            <div
+                              className="flex flex-row justify-end mb-[10px]"
+                              key={message.id}
+                            >
                               <div
-                                className="flex flex-row justify-end mb-[10px]"
-                                key={message.id}
+                                className={clsx(
+                                  "bg-messageBackground dark:bg-darkMessageBackground rounded-lg p-[10px]"
+                                )}
                               >
-                                <div
-                                  className={clsx(
-                                    "bg-messageBackground dark:bg-darkMessageBackground rounded-lg p-[10px]"
-                                  )}
-                                >
-                                  <MarkdownToHTML
-                                    content={message.content}
-                                    showWorkerIndicator={false}
-                                  />
-                                </div>
-                              </div>
-                            ) : (
-                              <div className="" key={message.id}>
                                 <MarkdownToHTML
                                   content={message.content}
                                   showWorkerIndicator={false}
                                 />
                               </div>
-                            )
-                          )}
-                        {c.thread.type === "character" && (
-                          <>
-                            <div className="flex flex-row h-full">
+                            </div>
+                          ) : (
+                            <div className="" key={message.id}>
+                              <MarkdownToHTML
+                                content={message.content}
+                                showWorkerIndicator={false}
+                              />
+                            </div>
+                          )
+                        )}
+                      {c.thread.type === "character" && (
+                        <>
+                          <div className="flex flex-row h-full">
+                            <div
+                              className={clsx(
+                                {
+                                  "w-[calc(50vw-550px)]": isLeftPanelOpen,
+                                  "w-[calc(50vw-420px)]": !isLeftPanelOpen,
+                                },
+                                "min-w-[120px] md:mr-0 mr-[20px] transition-all duration-500 justify-center flex"
+                              )}
+                            >
                               <div
                                 className={clsx(
-                                  {
-                                    "w-[calc(50vw-550px)]": isLeftPanelOpen,
-                                    "w-[calc(50vw-420px)]": !isLeftPanelOpen,
-                                  },
-                                  "min-w-[120px] md:mr-0 mr-[20px] transition-all duration-500 justify-center flex"
+                                  "h-[120px] w-[120px] rounded-full bg-slate-200 items-center flex flex-shrink-0 ml-[15px]"
                                 )}
                               >
-                                <div
-                                  className={clsx(
-                                    "h-[120px] w-[120px] rounded-full bg-slate-200 items-center flex flex-shrink-0 ml-[15px]"
-                                  )}
-                                >
-                                  {c.character?.imagesMultisize &&
-                                  c.character?.imagesMultisize.length > 0 ? (
-                                    <img
-                                      alt={c.character?.json?.name}
-                                      className={clsx(
-                                        "rounded-full object-cover"
-                                      )}
-                                      src={
-                                        c.character?.imagesMultisize[0].large
-                                      }
-                                    />
-                                  ) : null}
-                                </div>
+                                {c.character?.imagesMultisize &&
+                                c.character?.imagesMultisize.length > 0 ? (
+                                  <img
+                                    alt={c.character?.json?.name}
+                                    className={clsx(
+                                      "rounded-full object-cover"
+                                    )}
+                                    src={c.character?.imagesMultisize[0].large}
+                                  />
+                                ) : null}
                               </div>
-                              <div className="max-w-[715px] flex flex-row md:ml-[30px]">
-                                <div className="flex-shrink-0 mr-[20px] md:max-w-[300px] max-w-full">
-                                  {c.character?.summary ? (
-                                    <span className="italic">
-                                      {c.character.summary}
-                                    </span>
-                                  ) : (
-                                    <JSONToText
-                                      data={c.character?.json ?? {}}
-                                    />
-                                  )}
-                                </div>
-                                <div className="hidden md:block max-w-[715px]">
-                                  {c.thread.chatLog
-                                    ?.slice(-2)
-                                    .map((message, idx) =>
-                                      message.role === "user" ? (
+                            </div>
+                            <div className="max-w-[715px] flex flex-row md:ml-[30px]">
+                              <div className="flex-shrink-0 mr-[20px] md:max-w-[300px] max-w-full">
+                                {c.character?.summary ? (
+                                  <span className="italic">
+                                    {c.character.summary}
+                                  </span>
+                                ) : (
+                                  <JSONToText data={c.character?.json ?? {}} />
+                                )}
+                              </div>
+                              <div className="hidden md:block max-w-[715px]">
+                                {c.thread.chatLog
+                                  ?.slice(-2)
+                                  .map((message, idx) =>
+                                    message.role === "user" ? (
+                                      <div
+                                        className="flex flex-row justify-end mb-[10px]"
+                                        key={message.id}
+                                      >
                                         <div
-                                          className="flex flex-row justify-end mb-[10px]"
-                                          key={message.id}
-                                        >
-                                          <div
-                                            className={clsx(
-                                              "bg-messageBackground dark:bg-darkMessageBackground rounded-lg p-[10px]"
-                                            )}
-                                          >
-                                            <MarkdownToHTML
-                                              content={message.content}
-                                              showWorkerIndicator={false}
-                                            />
-                                          </div>
-                                        </div>
-                                      ) : (
-                                        <div
-                                          className="mb-[10px]"
-                                          key={message.id}
+                                          className={clsx(
+                                            "bg-messageBackground dark:bg-darkMessageBackground rounded-lg p-[10px]"
+                                          )}
                                         >
                                           <MarkdownToHTML
                                             content={message.content}
                                             showWorkerIndicator={false}
                                           />
                                         </div>
-                                      )
-                                    )}
-                                </div>
+                                      </div>
+                                    ) : (
+                                      <div
+                                        className="mb-[10px]"
+                                        key={message.id}
+                                      >
+                                        <MarkdownToHTML
+                                          content={message.content}
+                                          showWorkerIndicator={false}
+                                        />
+                                      </div>
+                                    )
+                                  )}
                               </div>
                             </div>
-                          </>
-                        )}
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="flex flex-row w-full justify-center">
-                    <div className="flex flex-row w-full max-w-[715px]">
-                      <div className="flex flex-row mt-[10px] grow">
-                        <div className="flex flex-row rounded-lg dark:bg-darkMainSurcaceTertiary bg-gray-200 items-center">
-                          <div
-                            onClick={() => {
-                              if (
-                                !stateClickedUpvotes.includes(c.thread.threadId)
-                              ) {
-                                upvote(c.thread.threadId);
-                                sendEvent("add_upvote", "explore");
-                                dispatch(upvoteExplore(c.thread.threadId));
-                                setStateClickedUpvotes((prev) => [
-                                  ...prev,
-                                  c.thread.threadId,
-                                ]);
-                                if (
-                                  stateClickedDownvotes.includes(
-                                    c.thread.threadId
-                                  )
-                                ) {
-                                  dispatch(upvoteExplore(c.thread.threadId));
-                                  setStateClickedDownvotes((prev) =>
-                                    prev.filter((t) => t !== c.thread.threadId)
-                                  );
-                                }
-                              }
-                            }}
-                            className={clsx(
-                              {
-                                "dark:bg-darkMainSurfacePrimary bg-white":
-                                  stateClickedUpvotes.includes(
-                                    c.thread.threadId
-                                  ),
-                              },
-                              "cursor-pointer w-[30px] h-[30px] hover:dark:bg-darkMainSurfacePrimary hover:bg-white p-[5px] rounded-full"
-                            )}
-                          >
-                            <UpvoteIcon />
                           </div>
-                          <span className="mx-[5px]">
-                            {c.thread.votes ?? 0}
-                          </span>
-                          <div
-                            onClick={() => {
+                        </>
+                      )}
+                    </Link>
+                  </div>
+                </div>
+                <div className="flex flex-row w-full justify-center">
+                  <div className="flex flex-row w-full max-w-[715px]">
+                    <div className="flex flex-row mt-[10px] grow">
+                      <div className="flex flex-row rounded-lg dark:bg-darkMainSurcaceTertiary bg-gray-200 items-center">
+                        <div
+                          onClick={() => {
+                            if (
+                              !stateClickedUpvotes.includes(c.thread.threadId)
+                            ) {
+                              upvote(c.thread.threadId);
+                              sendEvent("add_upvote", "explore");
+                              dispatch(upvoteExplore(c.thread.threadId));
+                              setStateClickedUpvotes((prev) => [
+                                ...prev,
+                                c.thread.threadId,
+                              ]);
                               if (
-                                !stateClickedDownvotes.includes(
+                                stateClickedDownvotes.includes(
                                   c.thread.threadId
                                 )
                               ) {
-                                downvote(c.thread.threadId);
-                                sendEvent("add_downvote", "explore");
-                                dispatch(downvoteExplore(c.thread.threadId));
-                                setStateClickedDownvotes((prev) => [
-                                  ...prev,
-                                  c.thread.threadId,
-                                ]);
-                                if (
-                                  stateClickedUpvotes.includes(
-                                    c.thread.threadId
-                                  )
-                                ) {
-                                  dispatch(downvoteExplore(c.thread.threadId));
-                                  setStateClickedUpvotes((prev) =>
-                                    prev.filter((t) => t !== c.thread.threadId)
-                                  );
-                                }
+                                dispatch(upvoteExplore(c.thread.threadId));
+                                setStateClickedDownvotes((prev) =>
+                                  prev.filter((t) => t !== c.thread.threadId)
+                                );
                               }
-                            }}
-                            className={clsx(
-                              {
-                                "dark:bg-darkMainSurfacePrimary bg-white":
-                                  stateClickedDownvotes.includes(
-                                    c.thread.threadId
-                                  ),
-                              },
-                              "cursor-pointer w-[30px] h-[30px] hover:dark:bg-darkMainSurfacePrimary hover:bg-white p-[5px] rounded-full"
-                            )}
-                          >
-                            <DownvoteIcon />
-                          </div>
+                            }
+                          }}
+                          className={clsx(
+                            {
+                              "dark:bg-darkMainSurfacePrimary bg-white":
+                                stateClickedUpvotes.includes(c.thread.threadId),
+                            },
+                            "cursor-pointer w-[30px] h-[30px] hover:dark:bg-darkMainSurfacePrimary hover:bg-white p-[5px] rounded-full"
+                          )}
+                        >
+                          <UpvoteIcon />
+                        </div>
+                        <span className="mx-[5px]">{c.thread.votes ?? 0}</span>
+                        <div
+                          onClick={() => {
+                            if (
+                              !stateClickedDownvotes.includes(c.thread.threadId)
+                            ) {
+                              downvote(c.thread.threadId);
+                              sendEvent("add_downvote", "explore");
+                              dispatch(downvoteExplore(c.thread.threadId));
+                              setStateClickedDownvotes((prev) => [
+                                ...prev,
+                                c.thread.threadId,
+                              ]);
+                              if (
+                                stateClickedUpvotes.includes(c.thread.threadId)
+                              ) {
+                                dispatch(downvoteExplore(c.thread.threadId));
+                                setStateClickedUpvotes((prev) =>
+                                  prev.filter((t) => t !== c.thread.threadId)
+                                );
+                              }
+                            }
+                          }}
+                          className={clsx(
+                            {
+                              "dark:bg-darkMainSurfacePrimary bg-white":
+                                stateClickedDownvotes.includes(
+                                  c.thread.threadId
+                                ),
+                            },
+                            "cursor-pointer w-[30px] h-[30px] hover:dark:bg-darkMainSurfacePrimary hover:bg-white p-[5px] rounded-full"
+                          )}
+                        >
+                          <DownvoteIcon />
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="w-full flex justify-center">
+                </div>
+                <div className="w-full flex justify-center">
+                  <div
+                    className=""
+                    onClick={() =>
+                      setExpandedThread((prev) =>
+                        prev.includes(c.thread.threadId)
+                          ? prev.filter((s) => s !== c.thread.threadId)
+                          : [...prev, c.thread.threadId]
+                      )
+                    }
+                  >
                     <div
-                      className=""
-                      onClick={() =>
-                        setExpandedThread((prev) =>
-                          prev.includes(c.thread.threadId)
-                            ? prev.filter((s) => s !== c.thread.threadId)
-                            : [...prev, c.thread.threadId]
-                        )
-                      }
+                      className={clsx(
+                        {
+                          "transform rotate-180": expandedThread.includes(
+                            c.thread.threadId
+                          ),
+                        },
+                        "w-[44px] h-[44px] cursor-pointer p-[10px]"
+                      )}
                     >
-                      <div
-                        className={clsx(
-                          {
-                            "transform rotate-180": expandedThread.includes(
-                              c.thread.threadId
-                            ),
-                          },
-                          "w-[44px] h-[44px] cursor-pointer p-[10px]"
-                        )}
-                      >
-                        <ChevronDownIcon />
-                      </div>
+                      <ChevronDownIcon />
                     </div>
                   </div>
                 </div>
-              )
-            )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
