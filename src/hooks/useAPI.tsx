@@ -14,6 +14,7 @@ import {
 } from "../store/features/app/appSlice";
 import useNewChatLocation from "./useNewChatLocation";
 import { setScenarios } from "../store/features/games/gamesSlice";
+import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
 
 const api_url_list = {
   "https://fabularius.ai": "https://prodapi.fabularius.ai/prod",
@@ -277,6 +278,36 @@ const useAPI = () => {
     }
   };
 
+  const getAdminAnalytics = async () => {
+    try {
+      const response = await fetch(`${API_URL}/analytics/admin`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error fetching admin analytics: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      dispatch(setAdminAnalytics(data));
+      return;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   return {
     getThreads,
     getCharacters,
@@ -285,6 +316,7 @@ const useAPI = () => {
     getGameScenarios,
     getExploreLatest,
     getExploreBest,
+    getAdminAnalytics,
   };
 };
 
