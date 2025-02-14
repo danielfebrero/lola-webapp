@@ -137,15 +137,28 @@ const LeftPanel: React.FC = () => {
 
             <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
               <NavLink
-                to={`/explore/latest`}
+                to={`/explore/latest/characters`}
                 className="h-full grow flex items-center w-[calc(100%-40px)]"
                 onClick={() => {
                   if (isSmallScreen && isLeftPanelOpen)
                     dispatch(toggleLeftPanel());
-                  sendEvent("click_explore_latest", "left_panel");
+                  sendEvent("click_explore_latest_characters", "left_panel");
                 }}
               >
-                <div className="truncate">{t("Latest")}</div>
+                <div className="truncate">{t("Latest characters")}</div>
+              </NavLink>
+            </div>
+            <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+              <NavLink
+                to={`/explore/latest/stories`}
+                className="h-full grow flex items-center w-[calc(100%-40px)]"
+                onClick={() => {
+                  if (isSmallScreen && isLeftPanelOpen)
+                    dispatch(toggleLeftPanel());
+                  sendEvent("click_explore_latest_stories", "left_panel");
+                }}
+              >
+                <div className="truncate">{t("Latest stories")}</div>
               </NavLink>
             </div>
             <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">

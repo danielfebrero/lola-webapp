@@ -214,7 +214,8 @@ const useAPI = () => {
     }
   };
 
-  const getExploreLatest = async (type: string) => {
+  const getExploreLatest = async (type?: string) => {
+    if (!type) return;
     try {
       const response = await fetch(
         `${API_URL}/explore/latest?mode=${mode}&language=${exploreLanguage}&type=${type}`,

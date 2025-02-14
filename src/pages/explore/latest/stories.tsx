@@ -25,7 +25,7 @@ const ExploreLatestPage: React.FC<ExploreLatestPageProps> = ({ data }) => {
   return (
     <>
       <Head>
-        <title>Explore latest content on Fabularius AI</title>
+        <title>Explore latest stories on Fabularius AI</title>
       </Head>
       <div
         id="ssr-root"
@@ -47,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const adult = query.adult;
   let fetchQuery = adult === "1" ? "?mode=adult" : "?mode=minor";
 
-  fetchQuery += "&type=story";
+  fetchQuery += "&type=stories";
 
   const res = await fetch(
     getAPIUrlFromContext(context) + "/explore/latest" + fetchQuery
