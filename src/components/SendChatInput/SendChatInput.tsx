@@ -142,7 +142,8 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   }, [props.uncensored]);
 
   useEffect(() => {
-    if (props.setUncensored && !props.isPrivate) props.setUncensored(false);
+    if (props.setUncensored && props.isPrivate === false)
+      props.setUncensored(false);
   }, [props.isPrivate]);
 
   return (
