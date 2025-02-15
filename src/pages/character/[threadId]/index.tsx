@@ -8,6 +8,7 @@ import CharacterLayout from "../../../components/Layouts/Character";
 import PageLayout from "../../../components/Layouts/Page";
 import { CharacterServerData } from "../../../types/characters";
 import { getAPIUrlFromContext } from "../../../utils/ssr";
+import { META_DESCRIPTION } from "../../../utils/constants";
 
 const App = dynamic(() => import("../../../App"), {
   ssr: false,
@@ -18,14 +19,34 @@ interface CharacterPageProps {
 }
 
 const CharacterPage: NextPage<CharacterPageProps> = ({ serverData }) => {
+  const title = serverData?.data.json?.name
+    ? serverData?.data.json?.name + " on Fabularius AI"
+    : "New character on Fabularius AI";
+  const description = META_DESCRIPTION;
+  const image = serverData?.data.imagesMultisize?.[0].original ?? "";
+
   return (
     <>
       <Head>
-        <title>
-          {serverData?.data.json?.name
-            ? serverData?.data.json?.name + " on Fabularius AI"
-            : "New character on Fabularius AI"}
-        </title>
+        <title>{title}</title>
+        <meta itemProp="image" content={image} />
+
+        <meta itemProp="name" content={title} />
+        <meta itemProp="image" content={image} />
+
+        <meta
+          property="og:url"
+          content={`https://fabularius.ai/character/${serverData.threadId}`}
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={image} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={image} />
       </Head>
       <div
         id="ssr-root"

@@ -60,3 +60,6 @@ export const ALL_IN_LANGUAUES = {
 };
 
 export const HERO_ACTIONS_COUNT = 4;
+
+export const META_DESCRIPTION =
+  "A Choose your own adventure, storyteller, chatbot, character and image generator powered with AI. CYOA and CHYOA AI-powered.";
