@@ -147,7 +147,7 @@ const App: React.FC<AppProps> = (props) => {
                       path="/checkout/order-canceled/:orderId"
                       element={<OrderCanceledPage />}
                     />
-                    <Route path="/my-images" element={<MyImagesPage />} />
+                    <Route path="/images" element={<MyImagesPage />} />
                   </Route>
 
                   <Route

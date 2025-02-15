@@ -71,7 +71,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
       <div
         className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
         onClick={() => {
-          navigate("/my-images");
+          navigate("/images");
           props.hide();
         }}
       >
