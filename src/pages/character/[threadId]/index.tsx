@@ -31,9 +31,9 @@ const CharacterPage: NextPage<CharacterPageProps> = ({ serverData }) => {
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
-        <meta itemProp="image" content={image} />
 
         <meta itemProp="name" content={title} />
+        <meta itemProp="description" content={description} />
         <meta itemProp="image" content={image} />
 
         <meta

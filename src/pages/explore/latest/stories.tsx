@@ -8,6 +8,7 @@ import { Character } from "../../../types/characters";
 import { getAPIUrlFromContext } from "../../../utils/ssr";
 import { Story } from "../../../types/stories";
 import { ChatLog } from "../../../types/chat";
+import { META_DESCRIPTION } from "../../../utils/constants";
 
 const App = dynamic(() => import("../../../App"), {
   ssr: false,
@@ -22,10 +23,29 @@ interface ExploreLatestPageProps {
 }
 
 const ExploreLatestPage: React.FC<ExploreLatestPageProps> = ({ data }) => {
+  const title = "Explore latest stories on Fabularius AI";
+  const description = META_DESCRIPTION;
+  const image = "/logo512.png";
   return (
     <>
       <Head>
-        <title>Explore latest stories on Fabularius AI</title>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta itemProp="name" content={title} />
+        <meta itemProp="description" content={description} />
+        <meta itemProp="image" content={image} />
+        <meta
+          property="og:url"
+          content={`https://fabularius.ai/explore/latest/stories`}
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={image} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={image} />
       </Head>
       <div
         id="ssr-root"

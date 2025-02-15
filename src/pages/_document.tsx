@@ -13,10 +13,6 @@ class MyDocument extends Document {
           <meta name="apple-mobile-web-app-status-bar-style" content="black" />
           <link rel="apple-touch-icon" href="/logo192.png" />
           <link rel="apple-touch-icon" sizes="512x512" href="/logo512.png" />
-          <meta
-            name="description"
-            content="A Choose your own adventure, storyteller, chatbot, character and image generator powered with AI. CYOA and CHYOA AI-powered."
-          />
         </Head>
         <body>
           <Main />

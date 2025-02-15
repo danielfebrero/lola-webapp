@@ -1,17 +1,18 @@
 import dynamic from "next/dynamic";
+
+import PageLayout from "../../../../components/Layouts/Page";
+import { META_DESCRIPTION } from "../../../../utils/constants";
 import Head from "next/head";
 
-import PageLayout from "../../components/Layouts/Page";
-import { META_DESCRIPTION } from "../../utils/constants";
-
-const App = dynamic(() => import("../../App"), {
+const App = dynamic(() => import("../../../../App"), {
   ssr: false,
 });
 
 const ExplorePage: React.FC = () => {
-  const title = "Explore images on Fabularius AI";
+  const title = "New order on Fabularius AI";
   const description = META_DESCRIPTION;
   const image = "/logo512.png";
+
   return (
     <>
       <Head>
@@ -20,10 +21,6 @@ const ExplorePage: React.FC = () => {
         <meta itemProp="name" content={title} />
         <meta itemProp="description" content={description} />
         <meta itemProp="image" content={image} />
-        <meta
-          property="og:url"
-          content={`https://fabularius.ai/explore/images`}
-        />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -31,13 +28,13 @@ const ExplorePage: React.FC = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content={image} />{" "}
+        <meta name="twitter:image" content={image} />
       </Head>
       <div
         id="ssr-root"
         className="no-scrollbar overflow-hidden h-screen w-screen"
       >
-        <PageLayout headerDropdownLabel="Images">{""}</PageLayout>
+        <PageLayout headerDropdownLabel="Order received">{""}</PageLayout>
       </div>
       <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <App />
