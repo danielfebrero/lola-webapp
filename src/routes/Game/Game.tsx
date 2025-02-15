@@ -75,7 +75,8 @@ const GamePage: React.FC = () => {
   useEffect(() => {
     setIsAssistantWriting(
       chatState?.isOwner
-        ? !(chatState?.canSendMessage ?? true) && (heroActions?.length ?? 0) < 6
+        ? !(chatState?.canSendMessage ?? true) &&
+            (heroActions?.length ?? 0) < HERO_ACTIONS_COUNT
         : false
     );
   }, [chatState]);
