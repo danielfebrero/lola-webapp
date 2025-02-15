@@ -77,7 +77,7 @@ const AnalyticsAdminPage: React.FC = () => {
           id="timewindow"
           value={timewindow}
           onChange={handleTimeWindowChange}
-          className="border rounded p-1 text-textPrimary"
+          className="border rounded p-1 bg-transparent"
         >
           <option value="1_hour">1 Hour</option>
           <option value="6_hours">6 Hours</option>
