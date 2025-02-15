@@ -87,18 +87,10 @@ const Header: React.FC = () => {
   }, [profileDropdownOpen]);
 
   useEffect(() => {
-    location.pathname.indexOf("/character/main") === 0
-      ? setHeaderLabel("Main character")
-      : location.pathname.indexOf("/character/new") === 0
+    location.pathname.indexOf("/character") === 0
       ? setHeaderLabel("Character")
-      : location.pathname.indexOf("/character") === 0
-      ? setHeaderLabel("Character")
-      : location.pathname.indexOf("/game/new") === 0
-      ? setHeaderLabel(isSmallScreen ? "CYOA" : "You are the hero")
       : location.pathname.indexOf("/game") === 0
       ? setHeaderLabel(isSmallScreen ? "CYOA" : "You are the hero")
-      : location.pathname.indexOf("/story/new") === 0
-      ? setHeaderLabel("Story")
       : location.pathname.indexOf("/story") === 0
       ? setHeaderLabel("Story")
       : location.pathname.indexOf("/lola") === 0
