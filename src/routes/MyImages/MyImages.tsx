@@ -16,7 +16,7 @@ const MyImagesPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const auth = useAuth();
 
-  const imagesMultisize = images.map((i) => i.image_url);
+  const imagesMultisize = images?.map((i) => i.image_url);
 
   const { getMyImages } = useAPI();
   const { sendEvent } = useGA();
