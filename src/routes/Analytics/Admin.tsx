@@ -60,7 +60,7 @@ const AnalyticsAdminPage: React.FC = () => {
     setTimewindow(e.target.value);
   };
 
-  if (!admin || Object.keys(admin).length === 0) {
+  if (!admin || Object.keys(admin).length === 0 || !admin["users"]) {
     return <div>Loading...</div>;
   }
 
@@ -91,7 +91,6 @@ const AnalyticsAdminPage: React.FC = () => {
         <div>
           <h2 className="text-xl font-semibold mb-2">Users Metrics</h2>
           <div className="h-96">
-            {" "}
             {/* fixed height container */}
             <Line options={chartjs_options} data={admin["users"]} />
           </div>
