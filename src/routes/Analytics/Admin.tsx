@@ -58,7 +58,6 @@ const AnalyticsAdminPage: React.FC = () => {
 
   const handleTimeWindowChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTimewindow(e.target.value);
-    getAdminAnalytics(e.target.value);
   };
 
   if (!admin || Object.keys(admin).length === 0) {
