@@ -60,10 +60,6 @@ const AnalyticsAdminPage: React.FC = () => {
     setTimewindow(e.target.value);
   };
 
-  if (!admin || Object.keys(admin).length === 0 || !admin["users"]) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="h-[calc(100vh-70px)] overflow-y-scroll no-scrollbar p-4">
       <h1 className="text-2xl font-bold mb-4">Admin Analytics</h1>
@@ -86,67 +82,74 @@ const AnalyticsAdminPage: React.FC = () => {
         </select>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Users Metrics */}
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Users Metrics</h2>
-          <div className="h-96">
-            {/* fixed height container */}
-            <Line options={chartjs_options} data={admin["users"]} />
+      {!admin || Object.keys(admin).length === 0 || !admin["users"] ? (
+        <div>Loading...</div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Users Metrics */}
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Users Metrics</h2>
+            <div className="h-96">
+              {/* fixed height container */}
+              <Line options={chartjs_options} data={admin["users"]} />
+            </div>
           </div>
-        </div>
 
-        {/* Content Overview */}
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Content Overview</h2>
-          <div className="h-96">
-            <Line options={chartjs_options} data={admin["content_overview"]} />
+          {/* Content Overview */}
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Content Overview</h2>
+            <div className="h-96">
+              <Line
+                options={chartjs_options}
+                data={admin["content_overview"]}
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Content by Type */}
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Content by Type</h2>
-          <div className="h-96">
-            <Line options={chartjs_options} data={admin["content_by_type"]} />
+          {/* Content by Type */}
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Content by Type</h2>
+            <div className="h-96">
+              <Line options={chartjs_options} data={admin["content_by_type"]} />
+            </div>
           </div>
-        </div>
 
-        {/* Per Active User */}
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Per Active User</h2>
-          <div className="h-96">
-            <Line options={chartjs_options} data={admin["per_active_user"]} />
+          {/* Per Active User */}
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Per Active User</h2>
+            <div className="h-96">
+              <Line options={chartjs_options} data={admin["per_active_user"]} />
+            </div>
           </div>
-        </div>
 
-        {/* Messages per Thread */}
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Messages per Thread</h2>
-          <div className="h-96">
-            <Line
-              options={chartjs_options}
-              data={admin["messages_per_thread"]}
-            />
+          {/* Messages per Thread */}
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Messages per Thread</h2>
+            <div className="h-96">
+              <Line
+                options={chartjs_options}
+                data={admin["messages_per_thread"]}
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Activity Metrics */}
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Activity Metrics</h2>
-          <div className="h-96">
-            <Line options={chartjs_options} data={admin["activity"]} />
+          {/* Activity Metrics */}
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Activity Metrics</h2>
+            <div className="h-96">
+              <Line options={chartjs_options} data={admin["activity"]} />
+            </div>
           </div>
-        </div>
 
-        {/* Retention */}
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Retention</h2>
-          <div className="h-96">
-            <Line options={chartjs_options} data={admin["retention"]} />
+          {/* Retention */}
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Retention</h2>
+            <div className="h-96">
+              <Line options={chartjs_options} data={admin["retention"]} />
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
