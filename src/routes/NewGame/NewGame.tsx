@@ -15,7 +15,6 @@ import {
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
-import { i } from "react-router/dist/development/route-data-DuV3tXo2";
 
 const NewGamePage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -84,6 +83,16 @@ const NewGamePage: React.FC = () => {
     }
   }, [selectedGame]);
 
+  // Scroll to the bottom when selectedGame changes
+  useEffect(() => {
+    if (bottomRef.current && selectedCharacters.length > 0) {
+      bottomRef.current.scrollTo({
+        top: bottomRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [selectedCharacters]);
+
   useEffect(() => {
     if (
       Object.keys(games[0]?.scenario_locales ?? []).includes(
@@ -125,7 +134,7 @@ const NewGamePage: React.FC = () => {
           <div className="font-semibold text-lg mb-[20px]">
             {t("Choose a hero")}
           </div>
-          <div className="grid md:grid-cols-5 grid-cols-3 md:w-[70%] w-full flex-wrap justify-center no-scrollbar">
+          <div className="grid md:grid-cols-5 grid-cols-3 w-full flex-wrap justify-center">
             {characters.map((char) => (
               <div
                 className="flex flex-col items-center m-[10px] cursor-pointer"
@@ -198,7 +207,7 @@ const NewGamePage: React.FC = () => {
             </NavLink>
           </div>
           <div className="font-semibold text-lg mt-[40px] mb-[20px]">
-            {t("Choose a game")}
+            {t("Choose a scenario")}
           </div>
           <div className="grid gap-4 md:grid-cols-5 grid-cols-3 px-[30px]">
             {games.map((game, idx) => (

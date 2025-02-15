@@ -51,7 +51,7 @@ const GamePage: React.FC = () => {
     state.app.games.find((g) => g.threadId === params.threadId)
   );
 
-  const chooseAction = (actionTitle: string, actionDescription: string) => {
+  const chooseAction = (actionTitle: string) => {
     if (threadId) {
       const lastRequestId = chatLogs.find(
         (log) => log.threadId === threadId
@@ -60,11 +60,7 @@ const GamePage: React.FC = () => {
         stopRequestId(lastRequestId);
         dispatch(addRequestStopped(lastRequestId));
       }
-      sendMessage(
-        `${actionTitle}: ${actionDescription}`,
-        "you_are_the_hero",
-        threadId
-      );
+      sendMessage(actionTitle, "you_are_the_hero", threadId);
       dispatch(
         setGame({
           heroActions: [],
@@ -156,22 +152,14 @@ const GamePage: React.FC = () => {
               heroActions?.length === 6) &&
               !isAssistantWriting && (
                 <div className="grid md:grid-cols-2 grid-cols-1">
-                  {heroActions?.map((action) => (
+                  {heroActions?.map((action, idx) => (
                     <div
                       key={action.action_title}
                       className="flex flex-col p-[10px] m-[10px] rounded-lg border border-borderColor dark:border-darkBorderColor hover:bg-lightGray dark:hover:bg-darkLightGray cursor-pointer"
-                      onClick={() =>
-                        chooseAction(
-                          action.action_title,
-                          action.action_description
-                        )
-                      }
+                      onClick={() => chooseAction(action.action_title)}
                     >
                       <div className="group text-center">
                         {action.action_title}
-                        <div className="text-textSecondary dark:text-darkTextSecondary text-sm">
-                          {action.action_description}
-                        </div>
                       </div>
                     </div>
                   ))}
