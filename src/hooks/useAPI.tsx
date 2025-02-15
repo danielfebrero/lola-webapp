@@ -279,20 +279,23 @@ const useAPI = () => {
     }
   };
 
-  const getAdminAnalytics = async () => {
+  const getAdminAnalytics = async (timewindow: string) => {
     try {
-      const response = await fetch(`${API_URL}/analytics/admin`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-      });
+      const response = await fetch(
+        `${API_URL}/analytics/admin?timewindow=${timewindow}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            token:
+              auth?.isAuthenticated && auth.user?.id_token
+                ? auth.user?.id_token
+                : "",
+            cookie,
+            "ws-connection-id": connectionId ?? "",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(

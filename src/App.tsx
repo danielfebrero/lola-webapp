@@ -21,7 +21,7 @@ import NewStoryPage from "./routes/NewStory";
 import NewGamePage from "./routes/NewGame";
 import LoginSuccess from "./routes/LoginSuccess";
 import SilentRenew from "./routes/SilentRenew";
-import AnalyticsPage from "./routes/Analytics";
+import AnalyticsAdminPage from "./routes/Analytics/Admin";
 import ExplorePage from "./routes/Explore";
 import ExploreImagesPage from "./routes/ExploreImages";
 import PricingPage from "./routes/Pricing";
@@ -133,8 +133,8 @@ const App: React.FC<AppProps> = (props) => {
                     <Route path="/story/new" element={<NewStoryPage />} />
                     <Route path="/lola/:threadId" element={<LolaPage />} />
                     <Route
-                      path="/analytics/:type"
-                      element={<AnalyticsPage />}
+                      path="/analytics/admin"
+                      element={<AnalyticsAdminPage />}
                     />
                     <Route path="/pricing" element={<PricingPage />} />
                     <Route
