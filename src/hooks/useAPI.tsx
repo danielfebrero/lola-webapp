@@ -15,6 +15,7 @@ import {
 import useNewChatLocation from "./useNewChatLocation";
 import { setScenarios } from "../store/features/games/gamesSlice";
 import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
+import { setMyImages } from "../store/features/user/userSlice";
 
 const api_url_list = {
   "https://fabularius.ai": "https://prodapi.fabularius.ai/prod",
@@ -184,6 +185,36 @@ const useAPI = () => {
     }
   };
 
+  const getMyImages = async () => {
+    try {
+      const response = await fetch(`${API_URL}/my-images`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+      });
+
+      if (!response.ok) {
+        navigate(newChatLocation);
+        throw new Error(`Error fetching messages: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      dispatch(setMyImages(data));
+      return;
+    } catch (error) {
+      navigate(newChatLocation);
+      console.error(error);
+      throw error;
+    }
+  };
+
   const getGameScenarios = async () => {
     try {
       const response = await fetch(`${API_URL}/game_scenarios?mode=${mode}`, {
@@ -321,6 +352,7 @@ const useAPI = () => {
     getExploreLatest,
     getExploreBest,
     getAdminAnalytics,
+    getMyImages,
   };
 };
 

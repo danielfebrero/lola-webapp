@@ -33,7 +33,7 @@ const StoryPage: React.FC<StoryPageProps> = ({ serverData }) => {
         <meta itemProp="image" content={image} />
         <meta
           property="og:url"
-          content={`https://fabularius.ai/story/${serverData.threadId}`}
+          content={`https://fabularius.ai/story/${serverData?.threadId}`}
         />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />

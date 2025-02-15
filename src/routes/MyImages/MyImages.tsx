@@ -1,35 +1,37 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
+import { useAuth } from "react-oidc-context";
 
 import Meta from "../../components/Meta";
-import useWebSocket from "../../hooks/useWebSocket";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import useGA from "../../hooks/useGA";
 import ImageSlider from "../../components/ImageSlider";
-import { setExploreImages } from "../../store/features/app/appSlice";
+import useAPI from "../../hooks/useAPI";
+import { setMyImages } from "../../store/features/user/userSlice";
 
-const ExploreImagesPage: React.FC = (props) => {
+const MyImagesPage: React.FC = () => {
   const { t } = useTranslation();
   const [imageViewingUrl, setImageViewingUrl] = useState<string | null>(null);
-  const { explore } = useAppSelector((state) => state.app);
+  const { images } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const auth = useAuth();
 
-  const { getExploreImages, socketConnection } = useWebSocket({});
+  const imagesMultisize = images.map((i) => i.image_url);
 
+  const { getMyImages } = useAPI();
   const { sendEvent } = useGA();
 
   useEffect(() => {
-    dispatch(setExploreImages([]));
-    if (socketConnection?.readyState === socketConnection?.OPEN) {
-      getExploreImages();
-    }
-  }, [socketConnection?.readyState]);
+    dispatch(setMyImages([]));
+    if (!auth.user?.access_token) return;
+    getMyImages();
+  }, [auth.user?.access_token]);
 
   return (
     <>
-      <Meta title={t("Images")} />
+      <Meta title={t("My images")} />
       <ImageSlider
-        images={explore.images}
+        images={imagesMultisize}
         imageViewingUrl={imageViewingUrl}
         hide={() => setImageViewingUrl(null)}
       />
@@ -37,7 +39,7 @@ const ExploreImagesPage: React.FC = (props) => {
         <div className="grow flex flex-col h-[calc(100vh-110px)] items-center">
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col w-full items-center">
             <div className="grid md:grid-cols-5 grid grid-cols-2 gap-4">
-              {explore.images?.map((i, idx) => (
+              {imagesMultisize?.map((i) => (
                 <div
                   className="w-[120px] h-[120px] cursor-pointer"
                   onClick={() => {
@@ -56,4 +58,4 @@ const ExploreImagesPage: React.FC = (props) => {
   );
 };
 
-export default ExploreImagesPage;
+export default MyImagesPage;

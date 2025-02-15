@@ -27,10 +27,12 @@ import ExploreImagesPage from "./routes/ExploreImages";
 import PricingPage from "./routes/Pricing";
 import OrderReceivedPage from "./routes/Checkout/OrderReceived";
 import OrderCanceledPage from "./routes/Checkout/OrderCanceled";
+import MyImagesPage from "./routes/MyImages";
 
 import { store, persistor } from "./store/store";
 
 import "./i18n";
+
 import { CharacterServerData } from "./types/characters";
 import { StoryServerData } from "./types/stories";
 
@@ -145,6 +147,7 @@ const App: React.FC<AppProps> = (props) => {
                       path="/checkout/order-canceled/:orderId"
                       element={<OrderCanceledPage />}
                     />
+                    <Route path="/my-images" element={<MyImagesPage />} />
                   </Route>
 
                   <Route

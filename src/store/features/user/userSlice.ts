@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { ImagesMultisize } from "../../../types/characters";
+
 // Define a type for the slice state
 interface UserState {
   settings: {
@@ -8,6 +10,11 @@ interface UserState {
   clickedUpvotes: string[];
   clickedDownvotes: string[];
   plan: string;
+  images: {
+    image_url: ImagesMultisize;
+    thread_id: string;
+    created_at: string;
+  }[];
 }
 
 // Define the initial state using that type
@@ -18,6 +25,7 @@ const initialState: UserState = {
   clickedUpvotes: [],
   clickedDownvotes: [],
   plan: "free",
+  images: [],
 };
 
 export const userSlice = createSlice({
@@ -25,6 +33,10 @@ export const userSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    setMyImages: (state, action) => {
+      state.images = action.payload;
+    },
+
     setClickedUpvotes: (state, action) => {
       state.clickedUpvotes = action.payload;
     },
@@ -45,6 +57,7 @@ export const {
   setClickedDownvotes,
   setClickedUpvotes,
   setUserPlan,
+  setMyImages,
 } = userSlice.actions;
 
 export default userSlice.reducer;
