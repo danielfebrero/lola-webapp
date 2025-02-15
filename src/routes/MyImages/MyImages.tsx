@@ -8,15 +8,15 @@ import useGA from "../../hooks/useGA";
 import ImageSlider from "../../components/ImageSlider";
 import useAPI from "../../hooks/useAPI";
 import { setMyImages } from "../../store/features/user/userSlice";
+import { ImagesMultisize } from "../../types/characters";
 
 const MyImagesPage: React.FC = () => {
   const { t } = useTranslation();
   const [imageViewingUrl, setImageViewingUrl] = useState<string | null>(null);
+  const [imagesMultisize, setImagesMultisize] = useState<ImagesMultisize[]>([]);
   const { images } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const auth = useAuth();
-
-  const imagesMultisize = images?.map((i) => i.image_url);
 
   const { getMyImages } = useAPI();
   const { sendEvent } = useGA();
@@ -26,6 +26,10 @@ const MyImagesPage: React.FC = () => {
     if (!auth.user?.access_token) return;
     getMyImages();
   }, [auth.user?.access_token]);
+
+  useEffect(() => {
+    setImagesMultisize(images?.map((i) => i.image_url));
+  }, [images]);
 
   return (
     <>
