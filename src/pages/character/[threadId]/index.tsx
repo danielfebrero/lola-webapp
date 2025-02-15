@@ -23,13 +23,14 @@ const CharacterPage: NextPage<CharacterPageProps> = ({ serverData }) => {
     ? serverData?.data.json?.name + " on Fabularius AI"
     : "New character on Fabularius AI";
   const description =
-    serverData?.data?.chatLog?.[0]?.content ?? META_DESCRIPTION;
+    serverData?.data?.chatLog?.[1]?.content ?? META_DESCRIPTION;
   const image = serverData?.data.imagesMultisize?.[0].original ?? "";
 
   return (
     <>
       <Head>
         <title>{title}</title>
+        <meta name="description" content={description} />
         <meta itemProp="image" content={image} />
 
         <meta itemProp="name" content={title} />
