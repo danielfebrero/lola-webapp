@@ -56,7 +56,7 @@ const GamePage: React.FC = () => {
       const lastRequestId = chatLogs.find(
         (log) => log.threadId === threadId
       )?.lastRequestId;
-      if (lastRequestId && (heroActions?.length ?? 0) < 6) {
+      if (lastRequestId && (heroActions?.length ?? 0) < 4) {
         stopRequestId(lastRequestId);
         dispatch(addRequestStopped(lastRequestId));
       }
