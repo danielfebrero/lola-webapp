@@ -15,6 +15,7 @@ import LoadingIcon from "../../icons/loading";
 import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
 import useAutoScroll from "../../hooks/useAutoScroll";
+import { HERO_ACTIONS_COUNT } from "../../utils/constants";
 
 const GamePage: React.FC = () => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const GamePage: React.FC = () => {
       const lastRequestId = chatLogs.find(
         (log) => log.threadId === threadId
       )?.lastRequestId;
-      if (lastRequestId && (heroActions?.length ?? 0) < 4) {
+      if (lastRequestId && (heroActions?.length ?? 0) < HERO_ACTIONS_COUNT) {
         stopRequestId(lastRequestId);
         dispatch(addRequestStopped(lastRequestId));
       }

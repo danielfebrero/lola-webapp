@@ -58,3 +58,5 @@ export const ALL_IN_LANGUAUES = {
   zh: "in Chinese",
   th: "in Thai",
 };
+
+export const HERO_ACTIONS_COUNT = 4;
