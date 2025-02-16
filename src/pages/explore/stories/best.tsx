@@ -1,29 +1,31 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
-
-import PageLayout from "../../components/Layouts/Page";
-import ExploreFeedLayout from "../../components/Layouts/ExploreFeed";
 import { GetServerSideProps } from "next";
-import { Character } from "../../types/characters";
-import { getAPIUrlFromContext } from "../../utils/ssr";
-import { Story } from "../../types/stories";
-import { ChatLog } from "../../types/chat";
-import { META_DESCRIPTION } from "../../utils/constants";
 
-const App = dynamic(() => import("../../App"), {
+import PageLayout from "../../../components/Layouts/Page";
+import ExploreFeedLayout from "../../../components/Layouts/ExploreFeed";
+import { Character } from "../../../types/characters";
+import { getAPIUrlFromContext } from "../../../utils/ssr";
+import { Story } from "../../../types/stories";
+import { ChatLog } from "../../../types/chat";
+import { META_DESCRIPTION } from "../../../utils/constants";
+
+const App = dynamic(() => import("../../../App"), {
   ssr: false,
 });
 
-interface ExploreBestPageProps {
+interface ExploreBestStoriesPageProps {
   data: {
     thread: ChatLog;
-    character: Character;
-    story: Story;
+    character?: Character;
+    story?: Story;
   }[];
 }
 
-const ExploreBestPage: React.FC<ExploreBestPageProps> = ({ data }) => {
-  const title = "Explore best content on Fabularius AI";
+const ExploreBestStoriesPage: React.FC<ExploreBestStoriesPageProps> = ({
+  data,
+}) => {
+  const title = "Explore best stories on Fabularius AI";
   const description = META_DESCRIPTION;
   const image = "/logo512.png";
   return (
@@ -36,7 +38,7 @@ const ExploreBestPage: React.FC<ExploreBestPageProps> = ({ data }) => {
         <meta itemProp="image" content={image} />
         <meta
           property="og:url"
-          content={`https://fabularius.ai/explore/best`}
+          content={`https://fabularius.ai/explore/best/stories`}
         />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
@@ -51,7 +53,7 @@ const ExploreBestPage: React.FC<ExploreBestPageProps> = ({ data }) => {
         id="ssr-root"
         className="no-scrollbar overflow-hidden h-screen w-screen"
       >
-        <PageLayout headerDropdownLabel="Best Content">
+        <PageLayout headerDropdownLabel="Stories">
           <ExploreFeedLayout data={data} />
         </PageLayout>
       </div>
@@ -65,10 +67,11 @@ const ExploreBestPage: React.FC<ExploreBestPageProps> = ({ data }) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query } = context;
   const adult = query.adult;
-  const fetchQuery = adult === "1" ? "?mode=adult" : "?mode=minor";
+  let fetchQuery = adult === "1" ? "?mode=adult" : "?mode=minor";
+  fetchQuery += "&exploreType=stories&exploreMode=best";
 
   const res = await fetch(
-    getAPIUrlFromContext(context) + "/explore/best" + fetchQuery
+    getAPIUrlFromContext(context) + "/explore" + fetchQuery
   );
 
   if (!res.ok) {
@@ -84,4 +87,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default ExploreBestPage;
+export default ExploreBestStoriesPage;

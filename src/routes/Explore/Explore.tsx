@@ -31,7 +31,7 @@ const ExplorePage: React.FC = (props) => {
   const { upvote, downvote, getClickedVotes, socketConnection } = useWebSocket(
     {}
   );
-  const { getExploreLatest, getExploreBest } = useAPI();
+  const { getExplore } = useAPI();
   const params = useParams();
   const { explore, exploreLanguage, isLeftPanelOpen } = useAppSelector(
     (state) => state.app
@@ -47,11 +47,12 @@ const ExplorePage: React.FC = (props) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (socketConnection?.readyState === socketConnection?.OPEN) {
-      console.log({ params });
-      params.exploreMode === "best"
-        ? getExploreBest()
-        : getExploreLatest(params.type);
+    if (
+      socketConnection?.readyState === socketConnection?.OPEN &&
+      params.exploreMode &&
+      params.type
+    ) {
+      getExplore(params.exploreMode, params.type);
       getClickedVotes();
     }
   }, [socketConnection, params.exploreMode, params.type, exploreLanguage]);
@@ -75,10 +76,7 @@ const ExplorePage: React.FC = (props) => {
       <div className="grow pt-2.5 pb-5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-110px)] items-center max-w-full">
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col w-full items-center">
-            {(params.exploreMode === "best"
-              ? explore.best
-              : explore.latest
-            ).map((c) => (
+            {explore.items?.map((c) => (
               <div
                 className={clsx(
                   "h-auto p-[10px] hover:bg-lightGray rounded-lg dark:hover:bg-darkMainSurfaceSecondary border-b border-borderColor dark:border-darkBorderColor w-full items-center flex flex-col"
@@ -147,15 +145,17 @@ const ExplorePage: React.FC = (props) => {
                             <div
                               className={clsx(
                                 {
-                                  "w-[calc(50vw-550px)]": isLeftPanelOpen,
-                                  "w-[calc(50vw-420px)]": !isLeftPanelOpen,
+                                  "md:w-[calc(50vw-550px)] w-[calc(50vw-590px)]":
+                                    isLeftPanelOpen,
+                                  "md:w-[calc(50vw-420px)] w-[calc(50vw-460px)]":
+                                    !isLeftPanelOpen,
                                 },
-                                "min-w-[120px] md:mr-0 mr-[20px] transition-all duration-500 justify-center flex"
+                                "md:min-w-[120px] min-w-[80px] md:mr-0 mr-[20px] transition-all duration-500 justify-center flex"
                               )}
                             >
                               <div
                                 className={clsx(
-                                  "h-[120px] w-[120px] rounded-full bg-slate-200 items-center flex flex-shrink-0 ml-[15px]"
+                                  "md:h-[120px] md:w-[120px] h-[80px] w-[80px] rounded-full bg-slate-200 items-center flex flex-shrink-0 ml-[15px]"
                                 )}
                               >
                                 {c.character?.imagesMultisize &&

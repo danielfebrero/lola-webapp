@@ -137,41 +137,28 @@ const LeftPanel: React.FC = () => {
 
             <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
               <NavLink
-                to={`/explore/latest/characters`}
+                to={`/explore/characters/latest`}
                 className="h-full grow flex items-center w-[calc(100%-40px)]"
                 onClick={() => {
                   if (isSmallScreen && isLeftPanelOpen)
                     dispatch(toggleLeftPanel());
-                  sendEvent("click_explore_latest_characters", "left_panel");
+                  sendEvent("click_explore_characters", "left_panel");
                 }}
               >
-                <div className="truncate">{t("Latest characters")}</div>
+                <div className="truncate">{t("Characters")}</div>
               </NavLink>
             </div>
             <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
               <NavLink
-                to={`/explore/latest/stories`}
+                to={`/explore/stories/latest`}
                 className="h-full grow flex items-center w-[calc(100%-40px)]"
                 onClick={() => {
                   if (isSmallScreen && isLeftPanelOpen)
                     dispatch(toggleLeftPanel());
-                  sendEvent("click_explore_latest_stories", "left_panel");
+                  sendEvent("click_explore_stories", "left_panel");
                 }}
               >
-                <div className="truncate">{t("Latest stories")}</div>
-              </NavLink>
-            </div>
-            <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-              <NavLink
-                to={`/explore/best`}
-                className="h-full grow flex items-center w-[calc(100%-40px)]"
-                onClick={() => {
-                  if (isSmallScreen && isLeftPanelOpen)
-                    dispatch(toggleLeftPanel());
-                  sendEvent("click_explore_best", "left_panel");
-                }}
-              >
-                <div className="truncate">{t("Best content")}</div>
+                <div className="truncate">{t("Stories")}</div>
               </NavLink>
             </div>
             <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">

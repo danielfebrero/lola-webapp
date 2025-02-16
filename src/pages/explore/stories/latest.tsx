@@ -14,16 +14,18 @@ const App = dynamic(() => import("../../../App"), {
   ssr: false,
 });
 
-interface ExploreLatestPageProps {
+interface ExploreLatestStoriesPageProps {
   data: {
     thread: ChatLog;
-    character: Character;
-    story: Story;
+    character?: Character;
+    story?: Story;
   }[];
 }
 
-const ExploreLatestPage: React.FC<ExploreLatestPageProps> = ({ data }) => {
-  const title = "Explore latest content on Fabularius AI";
+const ExploreLatestStoriesPage: React.FC<ExploreLatestStoriesPageProps> = ({
+  data,
+}) => {
+  const title = "Explore latest stories on Fabularius AI";
   const description = META_DESCRIPTION;
   const image = "/logo512.png";
   return (
@@ -36,7 +38,7 @@ const ExploreLatestPage: React.FC<ExploreLatestPageProps> = ({ data }) => {
         <meta itemProp="image" content={image} />
         <meta
           property="og:url"
-          content={`https://fabularius.ai/explore/latest`}
+          content={`https://fabularius.ai/explore/latest/stories`}
         />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
@@ -51,7 +53,7 @@ const ExploreLatestPage: React.FC<ExploreLatestPageProps> = ({ data }) => {
         id="ssr-root"
         className="no-scrollbar overflow-hidden h-screen w-screen"
       >
-        <PageLayout headerDropdownLabel="Latest">
+        <PageLayout headerDropdownLabel="Stories">
           <ExploreFeedLayout data={data} />
         </PageLayout>
       </div>
@@ -65,10 +67,11 @@ const ExploreLatestPage: React.FC<ExploreLatestPageProps> = ({ data }) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query } = context;
   const adult = query.adult;
-  const fetchQuery = adult === "1" ? "?mode=adult" : "?mode=minor";
+  let fetchQuery = adult === "1" ? "?mode=adult" : "?mode=minor";
+  fetchQuery += "&exploreType=stories&exploreMode=latest";
 
   const res = await fetch(
-    getAPIUrlFromContext(context) + "/explore/latest" + fetchQuery
+    getAPIUrlFromContext(context) + "/explore" + fetchQuery
   );
 
   if (!res.ok) {
@@ -84,4 +87,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default ExploreLatestPage;
+export default ExploreLatestStoriesPage;

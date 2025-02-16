@@ -11,8 +11,8 @@ import { ChatLog } from "../../types/chat";
 interface ExploreFeedLayoutProps {
   data: {
     thread: ChatLog;
-    character: Character;
-    story: Story;
+    character?: Character;
+    story?: Story;
   }[];
 }
 
@@ -22,7 +22,7 @@ const ExploreFeedLayout: React.FC<ExploreFeedLayoutProps> = ({ data }) => {
       <div className="grow pt-2.5 pb-5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-110px)] items-center max-w-full">
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col w-full items-center">
-            {data.map((c) => (
+            {data?.map((c) => (
               <div
                 className={clsx(
                   "p-[10px] hover:bg-lightGray rounded-lg dark:hover:bg-darkMainSurfaceSecondary border-b border-borderColor dark:border-darkBorderColor w-full items-center flex flex-col"

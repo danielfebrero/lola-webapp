@@ -27,8 +27,7 @@ interface AppState {
   stories: Story[];
   languages: Record<string, string>;
   explore: {
-    latest: { thread: ChatLog; character?: Character; story?: Story }[];
-    best: { thread: ChatLog; character?: Character; story?: Story }[];
+    items: { thread: ChatLog; character?: Character; story?: Story }[];
     images: ImagesMultisize[];
   };
   exploreLanguage: string;
@@ -58,8 +57,7 @@ const initialState: AppState = {
   stories: [],
   languages: {},
   explore: {
-    latest: [],
-    best: [],
+    items: [],
     images: [],
   },
   exploreLanguage: "all",
@@ -107,35 +105,24 @@ export const appSlice = createSlice({
     setExploreLanguage: (state, action) => {
       state.exploreLanguage = action.payload;
     },
-    setExploreLatest: (state, action) => {
-      state.explore.latest = action.payload;
-    },
-    setExploreBest: (state, action) => {
-      state.explore.best = action.payload;
+    setExplore: (state, action) => {
+      state.explore.items = action.payload;
     },
     upvoteExplore: (state, action) => {
-      const threadBest = state.explore.best.find(
+      const thread = state.explore.items.find(
         (t) => t.thread.threadId === action.payload
       );
-      const threadLatest = state.explore.latest.find(
-        (t) => t.thread.threadId === action.payload
-      );
-      if (threadBest)
-        threadBest.thread.votes = (threadBest?.thread.votes ?? 0) + 1;
-      if (threadLatest)
-        threadLatest.thread.votes = (threadLatest?.thread.votes ?? 0) + 1;
+      if (thread) {
+        thread.thread.votes = (thread?.thread.votes ?? 0) + 1;
+      }
     },
     downvoteExplore: (state, action) => {
-      const threadBest = state.explore.best.find(
+      const thread = state.explore.items.find(
         (t) => t.thread.threadId === action.payload
       );
-      const threadLatest = state.explore.latest.find(
-        (t) => t.thread.threadId === action.payload
-      );
-      if (threadBest)
-        threadBest.thread.votes = (threadBest?.thread.votes ?? 0) - 1;
-      if (threadLatest)
-        threadLatest.thread.votes = (threadLatest?.thread.votes ?? 0) - 1;
+      if (thread) {
+        thread.thread.votes = (thread?.thread.votes ?? 0) - 1;
+      }
     },
     setMode: (state, action) => {
       state.mode = action.payload;
@@ -439,8 +426,7 @@ export const {
   setStory,
   setMode,
   setPrevMode,
-  setExploreBest,
-  setExploreLatest,
+  setExplore,
   setExploreImages,
   upvoteExplore,
   downvoteExplore,

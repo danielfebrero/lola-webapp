@@ -84,7 +84,7 @@ const App: React.FC<AppProps> = (props) => {
                       path="/"
                       element={
                         <Navigate
-                          to="/explore/latest/characters"
+                          to="/explore/characters/latest"
                           replace={true}
                         />
                       }
@@ -93,7 +93,7 @@ const App: React.FC<AppProps> = (props) => {
                       path="/18"
                       element={
                         <Navigate
-                          to="/explore/latest/characters?adult=1"
+                          to="/explore/characters/latest?adult=1"
                           replace={true}
                         />
                       }
@@ -108,11 +108,7 @@ const App: React.FC<AppProps> = (props) => {
                       element={<ExploreImagesPage />}
                     />
                     <Route
-                      path="/explore/:exploreMode"
-                      element={<ExplorePage />}
-                    />
-                    <Route
-                      path="/explore/:exploreMode/:type"
+                      path="/explore/:type/:exploreMode"
                       element={<ExplorePage />}
                     />
                     <Route

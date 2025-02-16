@@ -1,9 +1,9 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { GetServerSideProps } from "next";
 
 import PageLayout from "../../../components/Layouts/Page";
 import ExploreFeedLayout from "../../../components/Layouts/ExploreFeed";
+import { GetServerSideProps } from "next";
 import { Character } from "../../../types/characters";
 import { getAPIUrlFromContext } from "../../../utils/ssr";
 import { Story } from "../../../types/stories";
@@ -14,16 +14,18 @@ const App = dynamic(() => import("../../../App"), {
   ssr: false,
 });
 
-interface ExploreLatestPageProps {
+interface ExploreLatestCharactersPageProps {
   data: {
     thread: ChatLog;
-    character: Character;
-    story: Story;
+    character?: Character;
+    story?: Story;
   }[];
 }
 
-const ExploreLatestPage: React.FC<ExploreLatestPageProps> = ({ data }) => {
-  const title = "Explore latest stories on Fabularius AI";
+const ExploreLatestCharactersPage: React.FC<
+  ExploreLatestCharactersPageProps
+> = ({ data }) => {
+  const title = "Explore latest characters on Fabularius AI";
   const description = META_DESCRIPTION;
   const image = "/logo512.png";
   return (
@@ -36,7 +38,7 @@ const ExploreLatestPage: React.FC<ExploreLatestPageProps> = ({ data }) => {
         <meta itemProp="image" content={image} />
         <meta
           property="og:url"
-          content={`https://fabularius.ai/explore/latest/stories`}
+          content={`https://fabularius.ai/explore/characters/latest`}
         />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
@@ -51,7 +53,7 @@ const ExploreLatestPage: React.FC<ExploreLatestPageProps> = ({ data }) => {
         id="ssr-root"
         className="no-scrollbar overflow-hidden h-screen w-screen"
       >
-        <PageLayout headerDropdownLabel="Latest">
+        <PageLayout headerDropdownLabel="Characters">
           <ExploreFeedLayout data={data} />
         </PageLayout>
       </div>
@@ -66,11 +68,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query } = context;
   const adult = query.adult;
   let fetchQuery = adult === "1" ? "?mode=adult" : "?mode=minor";
-
-  fetchQuery += "&type=stories";
+  fetchQuery += "&exploreMode=latest&exploreType=characters";
 
   const res = await fetch(
-    getAPIUrlFromContext(context) + "/explore/latest" + fetchQuery
+    getAPIUrlFromContext(context) + "/explore" + fetchQuery
   );
 
   if (!res.ok) {
@@ -86,4 +87,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default ExploreLatestPage;
+export default ExploreLatestCharactersPage;

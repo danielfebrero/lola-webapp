@@ -16,6 +16,8 @@ import useGA from "../../hooks/useGA";
 import ExploreLanguageDropdown from "../ExploreLanguageDropdown";
 import ShieldIcon from "../../icons/shield";
 import { ALL_IN_LANGUAUES } from "../../utils/constants";
+import { capitalizeFirstLetter } from "../../utils/string";
+import LatestBestWorstDropdown from "../LatestBestWorstDropdown";
 
 const languages = ALL_IN_LANGUAUES;
 
@@ -26,6 +28,8 @@ const Header: React.FC = () => {
   const [exploreLanguageDropdownOpen, setExploreLanguageDropdownOpen] =
     useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [latestBestWorstDropdown, setLatestBestWorstDropdown] =
+    useState<boolean>(false);
   const [headerLabel, setHeaderLabel] = useState<string>("Character");
   const [threadTitle, setThreadTitle] = useState<string>("");
   const location = useLocation();
@@ -48,6 +52,10 @@ const Header: React.FC = () => {
 
   const toggleModeDropdown = () => {
     setModeDropdownOpen((prev) => !prev);
+  };
+
+  const toggleLatestBestWorstDropdown = () => {
+    setLatestBestWorstDropdown((prev) => !prev);
   };
 
   const toggleProfileDropdown = () => {
@@ -95,10 +103,10 @@ const Header: React.FC = () => {
       ? setHeaderLabel("Story")
       : location.pathname.indexOf("/lola") === 0
       ? setHeaderLabel("Lola")
-      : location.pathname.indexOf("/explore/best") === 0
-      ? setHeaderLabel(t("Best content"))
-      : location.pathname.indexOf("/explore/latest") === 0
-      ? setHeaderLabel(t("Latest"))
+      : location.pathname.indexOf("/explore/characters") === 0
+      ? setHeaderLabel(t("Characters"))
+      : location.pathname.indexOf("/explore/stories") === 0
+      ? setHeaderLabel(t("Stories"))
       : location.pathname.indexOf("/explore/images") === 0
       ? setHeaderLabel(t("Images"))
       : location.pathname.indexOf("/pricing") === 0
@@ -149,20 +157,41 @@ const Header: React.FC = () => {
                 </div>
               </div>
             )}
-          {(location.pathname.indexOf("/explore/best") === 0 ||
-            location.pathname.indexOf("/explore/latest") === 0) && (
-            <div
-              className="h-[40px] items-center flex flex-row cursor-pointer ml-[10px]"
-              onClick={toggleExploreLanguageDropdown}
-            >
-              <span className="font-bold">
-                {t(languages[exploreLanguage as "fr"])}
-              </span>
-              <div className="h-[24px] w-[24px]">
-                <ChevronDown />
-              </div>
-            </div>
-          )}
+          {location.pathname.indexOf("/explore") === 0 &&
+            location.pathname.indexOf("/explore/images") === -1 && (
+              <>
+                <div
+                  className="h-[40px] items-center flex flex-row cursor-pointer ml-[10px]"
+                  onClick={toggleLatestBestWorstDropdown}
+                >
+                  <span className="font-bold">
+                    {t(
+                      ["latest", "best", "worst"].includes(
+                        params.exploreMode ?? ""
+                      )
+                        ? capitalizeFirstLetter(params.exploreMode ?? "Latest")
+                        : "Latest"
+                    )}
+                  </span>
+                  <div className="h-[24px] w-[24px]">
+                    <ChevronDown />
+                  </div>
+                </div>
+                {!isSmallScreen && (
+                  <div
+                    className="h-[40px] items-center flex flex-row cursor-pointer ml-[10px]"
+                    onClick={toggleExploreLanguageDropdown}
+                  >
+                    <span className="font-bold">
+                      {t(languages[exploreLanguage as "fr"])}
+                    </span>
+                    <div className="h-[24px] w-[24px]">
+                      <ChevronDown />
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
           {params.threadId && (
             <div className="h-[40px] items-center flex flex-row ml-[10px]">
               <span className="font-bold">{t(threadTitle)}</span>
@@ -175,6 +204,11 @@ const Header: React.FC = () => {
         <div className={clsx({ hidden: !exploreLanguageDropdownOpen })}>
           <ExploreLanguageDropdown
             hide={() => setExploreLanguageDropdownOpen(false)}
+          />
+        </div>
+        <div className={clsx({ hidden: !latestBestWorstDropdown })}>
+          <LatestBestWorstDropdown
+            hide={() => setLatestBestWorstDropdown(false)}
           />
         </div>
       </div>

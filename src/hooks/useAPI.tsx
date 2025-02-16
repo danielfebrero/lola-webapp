@@ -9,8 +9,7 @@ import {
   setCharacters,
   setChatLog,
   setChatLogs,
-  setExploreBest,
-  setExploreLatest,
+  setExplore,
 } from "../store/features/app/appSlice";
 import useNewChatLocation from "./useNewChatLocation";
 import { setScenarios } from "../store/features/games/gamesSlice";
@@ -245,11 +244,11 @@ const useAPI = () => {
     }
   };
 
-  const getExploreLatest = async (type?: string) => {
-    if (!type) return;
+  const getExplore = async (exploreMode: string, exploreType: string) => {
+    if (!exploreMode || !exploreType) return;
     try {
       const response = await fetch(
-        `${API_URL}/explore/latest?mode=${mode}&language=${exploreLanguage}&type=${type}`,
+        `${API_URL}/explore?exploreType=${exploreType}&exploreMode=${exploreMode}&mode=${mode}&language=${exploreLanguage}`,
         {
           method: "GET",
           headers: {
@@ -271,38 +270,7 @@ const useAPI = () => {
       }
 
       const data = await response.json();
-      dispatch(setExploreLatest(data));
-      return;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  };
-
-  const getExploreBest = async () => {
-    try {
-      const response = await fetch(
-        `${API_URL}/explore/best?mode=${mode}&language=${exploreLanguage}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            token:
-              auth?.isAuthenticated && auth.user?.id_token
-                ? auth.user?.id_token
-                : "",
-            cookie,
-            "ws-connection-id": connectionId ?? "",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Error fetching explore best: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      dispatch(setExploreBest(data));
+      dispatch(setExplore(data));
       return;
     } catch (error) {
       console.error(error);
@@ -349,10 +317,9 @@ const useAPI = () => {
     getCharacter,
     getMessages,
     getGameScenarios,
-    getExploreLatest,
-    getExploreBest,
     getAdminAnalytics,
     getMyImages,
+    getExplore,
   };
 };
 
