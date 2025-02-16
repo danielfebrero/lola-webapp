@@ -38,7 +38,7 @@ const CharacterPage: NextPage<CharacterPageProps> = ({ serverData }) => {
 
         <meta
           property="og:url"
-          content={`https://fabularius.ai/character/${serverData.threadId}`}
+          content={`https://fabularius.ai/character/${serverData?.threadId}`}
         />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
