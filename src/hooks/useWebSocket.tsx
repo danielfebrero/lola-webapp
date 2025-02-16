@@ -19,8 +19,6 @@ import {
   messageSentPlusOne,
   setStory,
   removeIsFromDataLoading,
-  setExploreLatest,
-  setExploreBest,
   setExploreImages,
   setIsCryptoCheckoutUrlLoading,
   setLastRequestWaitingForThreadId,
@@ -94,12 +92,6 @@ export default function useWebSocket({
                 break;
               case "explore_images":
                 dispatch(setExploreImages(data.data));
-                break;
-              case "explore_latest":
-                dispatch(setExploreLatest(data.data));
-                break;
-              case "explore_best":
-                dispatch(setExploreBest(data.data));
                 break;
               case "settings":
                 dispatch(setSettingsAction(data.data));
