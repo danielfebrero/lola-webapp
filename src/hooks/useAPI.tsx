@@ -338,7 +338,6 @@ const useAPI = () => {
       }
 
       const data = await response.json();
-      console.log({ data });
       dispatch(
         setCharacter({
           avatar: data,
