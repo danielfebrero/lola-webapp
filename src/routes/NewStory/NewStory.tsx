@@ -133,29 +133,13 @@ const NewStoryPage: React.FC = () => {
                       alt={char.name}
                       src={
                         characters.find((c) => c.thread_id === char.thread_id)
+                          ?.avatar?.medium ??
+                        characters.find((c) => c.thread_id === char.thread_id)
                           ?.imagesMultisize?.[0].medium
                       }
                       className={clsx(
                         {
-                          "border-4 border-green-700":
-                            selectedCharacters.includes(char.thread_id),
-                        },
-                        "rounded-full h-[64px] w-[64px] object-cover"
-                      )}
-                    />
-                  </div>
-                ) : characters.find((c) => c.thread_id === char.thread_id)
-                    ?.images?.[0] ? (
-                  <div className="h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200">
-                    <img
-                      alt={char.name}
-                      src={
-                        characters.find((c) => c.thread_id === char.thread_id)
-                          ?.images?.[0]
-                      }
-                      className={clsx(
-                        {
-                          "border-4 border-green-700":
+                          "border-4 border-brandMainColor dark:border-darkBrandMainColor":
                             selectedCharacters.includes(char.thread_id),
                         },
                         "rounded-full h-[64px] w-[64px] object-cover"
@@ -166,7 +150,7 @@ const NewStoryPage: React.FC = () => {
                   <div
                     className={clsx(
                       {
-                        "border-4 border-green-700":
+                        "border-4 border-brandMainColor dark:border-darkBrandMainColor":
                           selectedCharacters.includes(char.thread_id),
                       },
                       "h-[64px] w-[64px] mb-[10px] rounded-full bg-slate-200 animate-pulse"

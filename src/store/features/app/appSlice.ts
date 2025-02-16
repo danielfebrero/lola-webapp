@@ -345,6 +345,8 @@ export const appSlice = createSlice({
       if (currentCharacter) {
         currentCharacter.name = action.payload.name ?? currentCharacter.name;
         currentCharacter.json = action.payload.json ?? currentCharacter.json;
+        currentCharacter.avatar =
+          action.payload.avatar ?? currentCharacter.avatar;
         currentCharacter.isImageProcessing =
           action.payload.isImageProcessing ??
           currentCharacter.isImageProcessing;
@@ -388,6 +390,7 @@ export const appSlice = createSlice({
             : [],
           isImageProcessing: action.payload.isImageProcessing,
           isReportProcessing: action.payload.isReportProcessing,
+          avatar: action.payload.avatar,
         });
       }
     },

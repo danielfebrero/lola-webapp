@@ -15,6 +15,7 @@ interface ReportViewProps {
   isImageGenerating: boolean;
   images?: string[];
   imagesMultisize?: ImagesMultisize[];
+  avatar?: ImagesMultisize;
 }
 
 const ReportView: React.FC<ReportViewProps> = (props) => {
@@ -49,7 +50,7 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
               {props.imagesMultisize && props.imagesMultisize.length > 0 ? (
                 <TransitionImage
                   className={clsx("rounded-full object-cover")}
-                  src={props.imagesMultisize[0].large}
+                  src={props.avatar?.large ?? props.imagesMultisize[0].large}
                 />
               ) : null}
               {props.images &&
@@ -57,7 +58,7 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
               (!props.imagesMultisize || props.imagesMultisize.length === 0) ? (
                 <TransitionImage
                   className={clsx("rounded-full object-cover")}
-                  src={props.images[0]}
+                  src={props.avatar?.large ?? props.images[0]}
                 />
               ) : null}
             </div>

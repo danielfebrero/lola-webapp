@@ -15,6 +15,7 @@ import useNewChatLocation from "./useNewChatLocation";
 import { setScenarios } from "../store/features/games/gamesSlice";
 import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
 import { setMyImages } from "../store/features/user/userSlice";
+import { ImagesMultisize } from "../types/characters";
 
 const api_url_list = {
   "https://fabularius.ai": "https://prodapi.fabularius.ai/prod",
@@ -311,6 +312,46 @@ const useAPI = () => {
     }
   };
 
+  const setCharacterAvatar = async (
+    threadId: string,
+    avatar: ImagesMultisize
+  ) => {
+    try {
+      const response = await fetch(`${API_URL}/character/avatar`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+        body: JSON.stringify({ threadId, avatar }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error setting character avatar: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      console.log({ data });
+      dispatch(
+        setCharacter({
+          avatar: data,
+          thread_id: threadId,
+        })
+      );
+      return;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   return {
     getThreads,
     getCharacters,
@@ -320,6 +361,7 @@ const useAPI = () => {
     getAdminAnalytics,
     getMyImages,
     getExplore,
+    setCharacterAvatar,
   };
 };
 

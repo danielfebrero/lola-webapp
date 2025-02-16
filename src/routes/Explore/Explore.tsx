@@ -165,7 +165,10 @@ const ExplorePage: React.FC = (props) => {
                                     className={clsx(
                                       "rounded-full object-cover"
                                     )}
-                                    src={c.character?.imagesMultisize[0].large}
+                                    src={
+                                      c.character?.avatar?.large ??
+                                      c.character?.imagesMultisize[0].large
+                                    }
                                   />
                                 ) : null}
                               </div>

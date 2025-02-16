@@ -3,24 +3,36 @@ import { useTranslation } from "react-i18next";
 
 import Loading from "../../components/Loading";
 import ImageSlider from "../../components/ImageSlider";
+import TransitionImage from "../../components/TransitionImage";
 import { ImagesMultisize } from "../../types/characters";
+import useAPI from "../../hooks/useAPI";
+import clsx from "clsx";
 
 interface ImageViewProps {
   type: "character" | "story";
-  id?: string | null;
+  id: string | null;
   isImageGenerating: boolean;
   images?: string[];
   imagesMultisize?: ImagesMultisize[];
+  avatar?: ImagesMultisize;
 }
 
 const ImageView: React.FC<ImageViewProps> = (props) => {
   const { t } = useTranslation();
-  const [selectedImgIdx, setSelectedImgIdx] = useState<number>(0);
+  const [avatar, setAvatar] = useState<ImagesMultisize | null>(
+    props.avatar ?? props.imagesMultisize?.[0] ?? null
+  );
   const [imageViewingUrl, setImageViewingUrl] = useState<string | null>(null);
+  const { setCharacterAvatar } = useAPI();
 
   useEffect(() => {
-    setSelectedImgIdx(0);
-  }, [props.imagesMultisize, props.images]);
+    if (avatar && props.id && props.avatar?.large !== avatar?.large)
+      setCharacterAvatar(props.id, avatar);
+  }, [avatar]);
+
+  useEffect(() => {
+    setAvatar(props.avatar ?? props.imagesMultisize?.[0] ?? null);
+  }, [props.avatar]);
 
   return (
     <>
@@ -31,7 +43,7 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
           hide={() => setImageViewingUrl(null)}
         />
       )}
-      <div className="w-full">
+      <div id="image-view-container" className="w-full">
         {props.isImageGenerating &&
         (!props.images || props.images?.length === 0) &&
         (!props.imagesMultisize || props.imagesMultisize?.length === 0) ? (
@@ -42,13 +54,15 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
           </div>
         ) : props.imagesMultisize && props.imagesMultisize.length > 0 ? (
           <div className="flex flex-col">
-            <img
-              src={props.imagesMultisize[selectedImgIdx].original}
+            <TransitionImage
+              fadeOutDuration={150}
+              src={(avatar ?? props.imagesMultisize?.[0])?.original}
               width="1024"
               height="1024"
+              alt="Avatar"
               onClick={() =>
                 setImageViewingUrl(
-                  props.imagesMultisize?.[selectedImgIdx].original ?? null
+                  (avatar ?? props.imagesMultisize?.[0])?.original ?? null
                 )
               }
               className="cursor-pointer"
@@ -61,8 +75,17 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
                 <img
                   key={img.large}
                   src={img.large}
-                  className="w-full h-full"
-                  onClick={() => setSelectedImgIdx(idx)}
+                  alt="Thumbnail"
+                  className={clsx(
+                    {
+                      "border-4 border-brandMainColor dark:border-darkBrandMainColor":
+                        img.large === avatar?.large,
+                    },
+                    "w-full h-full cursor-pointer"
+                  )}
+                  onClick={() => {
+                    setAvatar(img);
+                  }}
                 />
               ))}
             </div>

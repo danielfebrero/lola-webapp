@@ -239,34 +239,21 @@ const LeftPanel: React.FC = () => {
                               "bg-gray-200 rounded-full":
                                 characters.find(
                                   (c) => c.thread_id === char.threadId
-                                )?.images?.[0] === undefined,
+                                )?.imagesMultisize?.[0]?.small === undefined,
                             },
                             "h-[24px] w-[24px]"
                           )}
                         >
-                          {" "}
                           {characters.find((c) => c.thread_id === char.threadId)
                             ?.imagesMultisize?.[0] ? (
                             <img
                               src={
                                 characters.find(
                                   (c) => c.thread_id === char.threadId
+                                )?.avatar?.small ??
+                                characters.find(
+                                  (c) => c.thread_id === char.threadId
                                 )?.imagesMultisize?.[0]?.small
-                              }
-                              className="rounded-full h-[24px] w-[24px] object-cover"
-                              alt="Character"
-                            />
-                          ) : characters.find(
-                              (c) => c.thread_id === char.threadId
-                            )?.images?.[0] ? (
-                            <img
-                              src={
-                                characters.find(
-                                  (c) => c.thread_id === char.threadId
-                                )?.imagesMultisize?.[0]?.small ??
-                                characters.find(
-                                  (c) => c.thread_id === char.threadId
-                                )?.images?.[0]
                               }
                               className="rounded-full h-[24px] w-[24px] object-cover"
                               alt="Character"

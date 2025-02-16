@@ -411,6 +411,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                     id={threadId}
                     json={character.json}
                     images={character.images}
+                    avatar={character.avatar}
                     imagesMultisize={character.imagesMultisize}
                     isProcessing={character.isReportProcessing ?? false}
                     isImageGenerating={character.isImageProcessing ?? false}
@@ -435,6 +436,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                     images={character.images}
                     imagesMultisize={character.imagesMultisize}
                     isImageGenerating={character.isImageProcessing ?? false}
+                    avatar={character.avatar}
                   />
                 </div>
               )}
