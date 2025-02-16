@@ -27,14 +27,14 @@ const LeftPanelLayout: React.FC = () => {
             <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
               <div>Explore</div>
             </div>
-            <a href="/explore/latest">
+            <a href="/explore/characters/latest">
               <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                <span className="">Latest</span>
+                <span className="">Characters</span>
               </div>
             </a>
-            <a href="/explore/best">
+            <a href="/explore/stories/latest">
               <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                <span className="">Best content</span>
+                <span className="">Stories</span>
               </div>
             </a>
             <a href="/explore/images">

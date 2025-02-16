@@ -38,7 +38,7 @@ const ExploreLatestStoriesPage: React.FC<ExploreLatestStoriesPageProps> = ({
         <meta itemProp="image" content={image} />
         <meta
           property="og:url"
-          content={`https://fabularius.ai/explore/latest/stories`}
+          content={`https://fabularius.ai/explore/stories/latest`}
         />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />

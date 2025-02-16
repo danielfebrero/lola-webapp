@@ -67,7 +67,7 @@ const ExplorePage: React.FC = (props) => {
 
   useEffect(() => {
     if (params.exploreMode === "latest" && !params.type)
-      navigate("/explore/latest/characters");
+      navigate("/explore/characters/latest");
   }, [params.exploreMode, params.type]);
 
   return (
