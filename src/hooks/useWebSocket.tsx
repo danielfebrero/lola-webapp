@@ -98,7 +98,6 @@ export default function useWebSocket({
                 dispatch(removeIsFromDataLoading("settings"));
                 break;
               case "story":
-                console.log({ data });
                 dispatch(
                   setStory({
                     threadId: data.threadId,
