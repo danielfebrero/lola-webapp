@@ -108,7 +108,9 @@ const AnalyticsAdminPage: React.FC = () => {
 
           {/* Content by Type */}
           <div>
-            <h2 className="text-xl font-semibold mb-2">Content by Type</h2>
+            <h2 className="text-xl font-semibold mb-2">
+              Created Content by Type
+            </h2>
             <div className="h-96">
               <Line options={chartjs_options} data={admin["content_by_type"]} />
             </div>
