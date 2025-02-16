@@ -15,6 +15,7 @@ interface ImageViewProps {
   images?: string[];
   imagesMultisize?: ImagesMultisize[];
   avatar?: ImagesMultisize;
+  isOwner: boolean;
 }
 
 const ImageView: React.FC<ImageViewProps> = (props) => {
@@ -26,7 +27,12 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
   const { setCharacterAvatar } = useAPI();
 
   useEffect(() => {
-    if (avatar && props.id && props.avatar?.large !== avatar?.large)
+    if (
+      avatar &&
+      props.id &&
+      props.avatar?.large !== avatar?.large &&
+      props.isOwner
+    )
       setCharacterAvatar(props.id, avatar);
   }, [avatar]);
 

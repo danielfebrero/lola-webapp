@@ -437,6 +437,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                     imagesMultisize={character.imagesMultisize}
                     isImageGenerating={character.isImageProcessing ?? false}
                     avatar={character.avatar}
+                    isOwner={chatState?.isOwner ?? false}
                   />
                 </div>
               )}
