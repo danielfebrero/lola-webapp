@@ -15,6 +15,7 @@ import { Line } from "react-chartjs-2";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { setAdminAnalytics } from "../../store/features/analytics/analyticsSlice";
 import useAPI from "../../hooks/useAPI";
+import Meta from "../../components/Meta";
 
 ChartJS.register(
   CategoryScale,
@@ -62,6 +63,7 @@ const AnalyticsAdminPage: React.FC = () => {
 
   return (
     <div className="h-[calc(100vh-70px)] overflow-y-scroll no-scrollbar p-4">
+      <Meta title="Analytics - Admin" />
       <h1 className="text-2xl font-bold mb-4">Admin Analytics</h1>
 
       <div className="mb-4">
