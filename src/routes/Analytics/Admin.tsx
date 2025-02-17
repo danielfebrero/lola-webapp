@@ -48,14 +48,11 @@ const AnalyticsAdminPage: React.FC = () => {
   const { getAdminAnalytics } = useAPI();
   const { admin } = useAppSelector((state) => state.analytics);
   const dispatch = useAppDispatch();
-  const auth = useAuth();
 
   useEffect(() => {
-    if (auth.user?.access_token) {
-      dispatch(setAdminAnalytics(null));
-      getAdminAnalytics(timewindow);
-    }
-  }, [auth.user?.access_token, timewindow]);
+    dispatch(setAdminAnalytics(null));
+    getAdminAnalytics(timewindow);
+  }, [timewindow]);
 
   const handleTimeWindowChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTimewindow(e.target.value);
