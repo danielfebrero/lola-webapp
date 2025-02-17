@@ -35,7 +35,13 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { sendEvent } = useGA();
   const { plan } = useAppSelector((state) => state.user);
-  const [uncensored, setUncensored] = useState<boolean>(plan !== "free");
+  const chatState = useAppSelector((state) =>
+    state.app.chatLogs.find((log) => log.threadId === params.threadId)
+  );
+  const [uncensored, setUncensored] = useState<boolean>(
+    plan !== "free" &&
+      (params.threadId === "new" || (chatState?.is_private ?? false))
+  );
   const [newIsPrivate, setNewIsPrivate] = useState<boolean>(plan !== "free");
   const [shortMessage, setShortMessage] = useState<boolean>(true);
   const [genImage, setGenImage] = useState<boolean>(true);
@@ -60,9 +66,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       state.app.chatLogs.find((log) => log.threadId === params.threadId)
         ?.chatLog ?? newroleChat
   );
-  const chatState = useAppSelector((state) =>
-    state.app.chatLogs.find((log) => log.threadId === params.threadId)
-  );
+
   const { isSmallScreen, lastRequestIdWaitingForThreadId, isDataLoading } =
     useAppSelector((state) => state.app);
   const character = useAppSelector(
@@ -285,7 +289,11 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   showGenImage={params.threadId !== "new"}
                   setGenImage={setGenImage}
                   genImage={genImage}
-                  showUncensored={plan !== "free"}
+                  showUncensored={
+                    plan !== "free" &&
+                    (params.threadId === "new" ||
+                      (chatState?.is_private ?? false))
+                  }
                   setUncensored={setUncensored}
                   uncensored={uncensored}
                 />
@@ -388,7 +396,11 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                         showGenImage={params.threadId !== "new"}
                         setGenImage={setGenImage}
                         genImage={genImage}
-                        showUncensored={plan !== "free"}
+                        showUncensored={
+                          plan !== "free" &&
+                          (params.threadId === "new" ||
+                            (chatState?.is_private ?? false))
+                        }
                         setUncensored={setUncensored}
                         uncensored={uncensored}
                       />

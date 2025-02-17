@@ -164,7 +164,8 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
           {!props.showImageSearch &&
             !props.showPrivate &&
             !props.showGenImage &&
-            !props.showShortMessage && (
+            !props.showShortMessage &&
+            !props.showUncensored && (
               <>
                 {!props.canSendMessage && props.isChatInputAvailable ? (
                   <div

@@ -33,7 +33,12 @@ const Storypage: React.FC<StorypageProps> = (props) => {
     props.serverData ? true : false
   );
   const { plan } = useAppSelector((state) => state.user);
-  const [uncensored, setUncensored] = useState<boolean>(plan !== "free");
+  const chatState = useAppSelector((state) =>
+    state.app.chatLogs.find((log) => log.threadId === params.threadId)
+  );
+  const [uncensored, setUncensored] = useState<boolean>(
+    plan !== "free" && (chatState?.is_private ?? false)
+  );
   const [isAssistantWriting, setIsAssistantWriting] = useState<boolean>(false);
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const [serverStory, setServerStory] = useState<StoryServerData | null>(
@@ -49,10 +54,6 @@ const Storypage: React.FC<StorypageProps> = (props) => {
         ?.chatLog ?? []
   );
 
-  const chatState = useAppSelector((state) =>
-    state.app.chatLogs.find((log) => log.threadId === params.threadId)
-  );
-
   const story = useAppSelector((state) =>
     state.app.stories.find((sto) => sto.threadId === params.threadId)
   );
@@ -64,6 +65,10 @@ const Storypage: React.FC<StorypageProps> = (props) => {
       chatState?.isOwner ? !(chatState?.canSendMessage ?? true) : false
     );
   }, [chatState]);
+
+  useEffect(() => {
+    if (chatState?.is_private) setUncensored(true);
+  }, [chatState?.is_private]);
 
   useEffect(() => {
     if (params.threadId) {
@@ -201,7 +206,9 @@ const Storypage: React.FC<StorypageProps> = (props) => {
                       ? chatState?.isInputAvailable ?? true
                       : false
                   }
-                  showUncensored={plan !== "free"}
+                  showUncensored={
+                    plan !== "free" && (chatState?.is_private ?? false)
+                  }
                   setUncensored={setUncensored}
                   uncensored={uncensored}
                 />
