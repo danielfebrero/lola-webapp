@@ -179,9 +179,7 @@ const ExplorePage: React.FC = (props) => {
                                   <span className="italic">
                                     {c.character.summary}
                                   </span>
-                                ) : (
-                                  <JSONToText data={c.character?.json ?? {}} />
-                                )}
+                                ) : null}
                               </div>
                               <div className="hidden md:block max-w-[715px]">
                                 {c.thread.chatLog
