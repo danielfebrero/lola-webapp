@@ -175,11 +175,10 @@ const ExplorePage: React.FC = (props) => {
                             </div>
                             <div className="max-w-[715px] flex flex-row md:ml-[30px]">
                               <div className="flex-shrink-0 mr-[20px] md:max-w-[300px] max-w-full">
-                                {c.character?.summary ? (
-                                  <span className="italic">
-                                    {c.character.summary}
-                                  </span>
-                                ) : null}
+                                <span className="italic">
+                                  {c.character?.summary ??
+                                    t("No description yet.")}
+                                </span>
                               </div>
                               <div className="hidden md:block max-w-[715px]">
                                 {c.thread.chatLog
