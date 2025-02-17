@@ -81,7 +81,6 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
                 <img
                   key={img.large}
                   src={img.large}
-                  alt="Thumbnail"
                   className={clsx(
                     {
                       "border-4 border-brandMainColor dark:border-darkBrandMainColor":
