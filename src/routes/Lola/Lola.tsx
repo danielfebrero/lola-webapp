@@ -190,9 +190,6 @@ const LolaPage: React.FC = () => {
                     showGenImage={true}
                     setGenImage={setGenImage}
                     genImage={genImage}
-                    showUncensored={plan !== "free"}
-                    setUncensored={setUncensored}
-                    uncensored={uncensored}
                   />
                 </div>
               </div>
