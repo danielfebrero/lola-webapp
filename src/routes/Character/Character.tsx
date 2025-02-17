@@ -289,11 +289,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   showGenImage={params.threadId !== "new"}
                   setGenImage={setGenImage}
                   genImage={genImage}
-                  showUncensored={
-                    plan !== "free" &&
-                    (params.threadId === "new" ||
-                      (chatState?.is_private ?? false))
-                  }
+                  showUncensored={plan !== "free" && params.threadId === "new"}
                   setUncensored={setUncensored}
                   uncensored={uncensored}
                 />
