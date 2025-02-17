@@ -16,6 +16,7 @@ interface ReportViewProps {
   images?: string[];
   imagesMultisize?: ImagesMultisize[];
   avatar?: ImagesMultisize;
+  summary?: string;
 }
 
 const ReportView: React.FC<ReportViewProps> = (props) => {
@@ -29,6 +30,8 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
       setJson(tmpJson);
     } catch (e) {}
   }, [props.json]);
+
+  console.log({ props });
 
   return (
     <div id="ReportViewContainer">
@@ -75,6 +78,7 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
             <Loading />
           ) : (
             <div className="md:mt-[60px] mt-[40px] md:ml-[20px] pb-[40px]">
+              <div className="mb-[20px]">{props.summary}</div>
               <JSONToText data={json} />
             </div>
           )}

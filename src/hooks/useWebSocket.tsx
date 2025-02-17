@@ -76,6 +76,11 @@ export default function useWebSocket({
             break;
           case "fetch":
             switch (data.type) {
+              case "character_summary":
+                dispatch(
+                  setCharacter({ thread_id: data.threadId, ...data.data })
+                );
+                break;
               case "connection_id":
                 dispatch(setConnectionId(data.data.connectionId));
                 break;

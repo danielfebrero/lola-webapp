@@ -427,6 +427,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                     imagesMultisize={character.imagesMultisize}
                     isProcessing={character.isReportProcessing ?? false}
                     isImageGenerating={character.isImageProcessing ?? false}
+                    summary={character.summary}
                   />
                 </div>
               )}
