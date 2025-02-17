@@ -103,8 +103,6 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
       const encoder = new TextEncoder();
       const encodedMessage = encoder.encode(trimmedValue);
 
-      console.log({ length: encodedMessage.length, message: trimmedValue });
-
       if (encodedMessage.length > 16384 / 2) {
         // 16KB limit: 16384 bytes
         console.error("Message exceeds the maximum size of 8KB.");

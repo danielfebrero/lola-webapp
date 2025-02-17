@@ -31,8 +31,6 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
     } catch (e) {}
   }, [props.json]);
 
-  console.log({ props });
-
   return (
     <div id="ReportViewContainer">
       {!props.json && !props.isProcessing ? (

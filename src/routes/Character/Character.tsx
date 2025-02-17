@@ -397,9 +397,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                         setGenImage={setGenImage}
                         genImage={genImage}
                         showUncensored={
-                          plan !== "free" &&
-                          (params.threadId === "new" ||
-                            (chatState?.is_private ?? false))
+                          plan !== "free" && params.threadId === "new"
                         }
                         setUncensored={setUncensored}
                         uncensored={uncensored}

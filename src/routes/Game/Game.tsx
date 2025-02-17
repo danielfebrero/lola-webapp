@@ -98,7 +98,6 @@ const GamePage: React.FC = () => {
         })
       );
       if (socketConnection?.readyState === WebSocket.OPEN) {
-        console.log("get thread chat log");
         dispatch(
           setGame({ threadId: params.threadId, heroActionsIsLoading: true })
         );
