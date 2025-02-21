@@ -92,7 +92,7 @@ const LeftPanel: React.FC = () => {
           "min-w-[260px] w-[260px]": isLeftPanelOpen,
           "min-w-0 w-0": !isLeftPanelOpen,
         },
-        `transition-all duration-500 h-screen-real bg-lightGray dark:bg-darkLightGray`
+        `relative transition-all duration-500 h-screen-real bg-lightGray dark:bg-darkLightGray`
       )}
     >
       <div className="h-screen w-[260px] flex flex-col pl-[20px] pr-[20px] pt-[10px]">
@@ -534,7 +534,7 @@ const LeftPanel: React.FC = () => {
           if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
         }}
         to={"/pricing"}
-        className="fixed bottom-[55px] left-[10px] pl-[10px] flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[240px] py-[10px] rounded-lg flex flex-row"
+        className="absolute bottom-[55px] left-[10px] pl-[10px] flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[240px] py-[10px] rounded-lg flex flex-row"
       >
         <div className="w-[24px] h-[24px] mr-[10px]">
           <PlanIcon />
@@ -553,7 +553,7 @@ const LeftPanel: React.FC = () => {
 
           if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
         }}
-        className="fixed bottom-[10px] left-[10px] pl-[10px] dark:text-pink-200 text-rose-600 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[240px] py-[10px] rounded-lg flex flex-row"
+        className="absolute bottom-[10px] left-[10px] pl-[10px] dark:text-pink-200 text-rose-600 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[240px] py-[10px] rounded-lg flex flex-row"
       >
         <div className="w-[24px] h-[24px] mr-[10px]">
           <AdultIcon />
