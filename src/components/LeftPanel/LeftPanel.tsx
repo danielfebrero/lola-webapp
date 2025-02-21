@@ -95,7 +95,7 @@ const LeftPanel: React.FC = () => {
         `relative transition-all duration-500 h-screen-real bg-lightGray dark:bg-darkLightGray`
       )}
     >
-      <div className="h-screen w-[260px] flex flex-col pl-[20px] pr-[20px] pt-[10px]">
+      <div className="h-screen-real w-[260px] flex flex-col pl-[20px] pr-[20px] pt-[10px]">
         <div className="h-auto w-full flex flex-col">
           <div className="font-bold h-[40px] items-center flex flex-row justify-between text-textSecondary dark:text-darkTextSecondary">
             <div
