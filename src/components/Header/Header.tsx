@@ -109,6 +109,8 @@ const Header: React.FC = () => {
       ? setHeaderLabel(t("Stories"))
       : location.pathname.indexOf("/explore/images") === 0
       ? setHeaderLabel(t("Images"))
+      : location.pathname.indexOf("/images") === 0
+      ? setHeaderLabel(t("My images"))
       : location.pathname.indexOf("/pricing") === 0
       ? setHeaderLabel(t("Pricing"))
       : location.pathname.indexOf("/analytics") === 0

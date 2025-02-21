@@ -48,15 +48,15 @@ export const ALL_IN_LANGUAUES = {
   fr: "in French",
   hi: "in Hindi",
   ja: "in Japanese",
+  ko: "in Korean",
   pt: "in Portuguese",
   ru: "in Russian",
   sv: "in Swedish",
+  th: "in Thai",
   tr: "in Turkish",
   uk: "in Ukrainian",
   it: "in Italian",
-  ko: "in Korean",
   zh: "in Chinese",
-  th: "in Thai",
 };
 
 export const HERO_ACTIONS_COUNT = 4;
