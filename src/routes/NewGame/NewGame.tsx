@@ -176,7 +176,7 @@ const NewGamePage: React.FC = () => {
                   ></div>
                 )}
 
-                <div className="text-textSecondary dark:text-darkTextSecondary">
+                <div className="text-textSecondary dark:text-darkTextSecondary text-center">
                   {char.json?.name}
                 </div>
               </div>
@@ -193,7 +193,7 @@ const NewGamePage: React.FC = () => {
           <div className="font-semibold text-lg mt-[40px] mb-[20px]">
             {t("Choose a scenario")}
           </div>
-          <div className="grid gap-4 md:grid-cols-5 grid-cols-3 px-[30px]">
+          <div className="grid md:grid-cols-5 grid-cols-3 w-full flex-wrap justify-center">
             {games.map((game, idx) => (
               <div
                 className="flex flex-col items-center mx-[10px] cursor-pointer w-auto"
