@@ -1,24 +1,36 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 function useClickOutside<T extends HTMLDivElement>(
-  callback: () => void
+  callback: () => void,
+  exceptRef?: React.RefObject<HTMLDivElement> // Optional ref to exclude
 ): React.RefObject<T> {
   const ref = useRef<T>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+
+      // Check if the click is outside the main ref
+      const isOutsideMain = ref.current && !ref.current.contains(target);
+      // Check if the click is also outside the exceptRef (if provided)
+      const isOutsideExcept = exceptRef?.current
+        ? !exceptRef.current.contains(target)
+        : true;
+
+      // Trigger callback only if the click is outside both refs
+      if (isOutsideMain && isOutsideExcept) {
         callback();
-        // event.stopImmediatePropagation();
       }
     }
 
+    // Add event listener
     document.addEventListener("mousedown", handleClickOutside);
 
+    // Cleanup listener on unmount or dependency change
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [callback]);
+  }, [callback, exceptRef]); // Add exceptRef as a dependency
 
   return ref;
 }

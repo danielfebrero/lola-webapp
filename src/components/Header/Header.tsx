@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation, useParams } from "react-router";
 import { useAuth } from "react-oidc-context";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
@@ -24,6 +24,10 @@ const languages = ALL_IN_LANGUAUES;
 const Header: React.FC = () => {
   const { t } = useTranslation();
   const auth = useAuth();
+  const profileDropdownTriggerRef = useRef<HTMLDivElement>(null);
+  const modeDropdownTriggerRef = useRef<HTMLDivElement>(null);
+  const latestBestWorstDropdownTriggerRef = useRef<HTMLDivElement>(null);
+  const exploreLanguageDropdownTriggerRef = useRef<HTMLDivElement>(null);
   const [modeDropdownOpen, setModeDropdownOpen] = useState(false);
   const [exploreLanguageDropdownOpen, setExploreLanguageDropdownOpen] =
     useState(false);
@@ -143,6 +147,7 @@ const Header: React.FC = () => {
           <div
             className="h-[40px] items-center flex flex-row text-textSecondary dark:text-darkTextSecondary cursor-pointer"
             onClick={toggleModeDropdown}
+            ref={modeDropdownTriggerRef}
           >
             <span className="font-bold">{t(headerLabel)}</span>
             <div className="h-[24px] w-[24px]">
@@ -165,6 +170,7 @@ const Header: React.FC = () => {
                 <div
                   className="h-[40px] items-center flex flex-row cursor-pointer ml-[10px]"
                   onClick={toggleLatestBestWorstDropdown}
+                  ref={latestBestWorstDropdownTriggerRef}
                 >
                   <span className="font-bold">
                     {t(
@@ -183,6 +189,7 @@ const Header: React.FC = () => {
                   <div
                     className="h-[40px] items-center flex flex-row cursor-pointer ml-[10px]"
                     onClick={toggleExploreLanguageDropdown}
+                    ref={exploreLanguageDropdownTriggerRef}
                   >
                     <span className="font-bold">
                       {t(languages[exploreLanguage as "fr"])}
@@ -201,16 +208,21 @@ const Header: React.FC = () => {
           )}
         </div>
         <div className={clsx({ hidden: !modeDropdownOpen })}>
-          <ModeDropdown hide={() => setModeDropdownOpen(false)} />
+          <ModeDropdown
+            hide={() => setModeDropdownOpen(false)}
+            triggerRef={modeDropdownTriggerRef}
+          />
         </div>
         <div className={clsx({ hidden: !exploreLanguageDropdownOpen })}>
           <ExploreLanguageDropdown
             hide={() => setExploreLanguageDropdownOpen(false)}
+            triggerRef={exploreLanguageDropdownTriggerRef}
           />
         </div>
         <div className={clsx({ hidden: !latestBestWorstDropdown })}>
           <LatestBestWorstDropdown
             hide={() => setLatestBestWorstDropdown(false)}
+            triggerRef={latestBestWorstDropdownTriggerRef}
           />
         </div>
       </div>
@@ -218,6 +230,7 @@ const Header: React.FC = () => {
         <div
           className="bg-brandMainColor dark:bg-darkBrandMainColor rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer justify-center flex items-center"
           onClick={toggleProfileDropdown}
+          ref={profileDropdownTriggerRef}
         >
           {auth?.isAuthenticated ? (
             auth.user?.profile.email?.substring(0, 1).toUpperCase()
@@ -228,7 +241,10 @@ const Header: React.FC = () => {
           )}
         </div>
         <div className={clsx({ hidden: !profileDropdownOpen })}>
-          <ProfileDropdown hide={() => setProfileDropdownOpen(false)} />
+          <ProfileDropdown
+            hide={() => setProfileDropdownOpen(false)}
+            triggerRef={profileDropdownTriggerRef}
+          />
         </div>
       </div>
     </div>

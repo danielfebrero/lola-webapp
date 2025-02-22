@@ -8,6 +8,7 @@ import { ALL_LANGUAGES_BY_CODE_IN_ENGLISH } from "../../utils/constants";
 
 interface ExploreLanguageDropdownProps {
   hide: () => void;
+  triggerRef: React.RefObject<HTMLDivElement>;
 }
 
 const languages = ALL_LANGUAGES_BY_CODE_IN_ENGLISH;
@@ -21,7 +22,7 @@ const ExploreLanguageDropdown: React.FC<ExploreLanguageDropdownProps> = (
 
   const ref = useClickOutside(() => {
     props.hide();
-  });
+  }, props.triggerRef);
 
   return (
     <div

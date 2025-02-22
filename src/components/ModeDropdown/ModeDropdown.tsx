@@ -6,6 +6,7 @@ import useClickOutside from "../../hooks/useClickOutside";
 
 interface ModeDropdownProps {
   hide: () => void;
+  triggerRef: React.RefObject<HTMLDivElement>;
 }
 
 const ModeDropdown: React.FC<ModeDropdownProps> = (props) => {
@@ -14,7 +15,7 @@ const ModeDropdown: React.FC<ModeDropdownProps> = (props) => {
 
   const ref = useClickOutside(() => {
     props.hide();
-  });
+  }, props.triggerRef);
 
   return (
     <div

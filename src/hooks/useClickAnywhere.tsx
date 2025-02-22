@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 function useClickAnywhere(callback: (event: MouseEvent) => void): void {
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleClickAnywhere = (event: MouseEvent) => {
       callback(event);
     };

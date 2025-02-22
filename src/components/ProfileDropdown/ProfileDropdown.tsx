@@ -14,6 +14,7 @@ import ArtIcon from "../../icons/art";
 
 interface ProfileDropdownProps {
   hide: () => void;
+  triggerRef: React.RefObject<HTMLDivElement>;
 }
 
 const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
@@ -21,7 +22,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
   const { t } = useTranslation();
   const ref = useClickOutside(() => {
     props.hide();
-  });
+  }, props.triggerRef);
   const { mode } = useAppSelector((state) => state.app);
   const { plan } = useAppSelector((state) => state.user);
   const { sendEvent } = useGA();

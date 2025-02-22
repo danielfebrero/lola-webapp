@@ -7,6 +7,7 @@ import { capitalizeFirstLetter } from "../../utils/string";
 
 interface LatestBestWorstDropdownProps {
   hide: () => void;
+  triggerRef: React.RefObject<HTMLDivElement>;
 }
 
 const exploreModes = ["latest", "best", "worst"];
@@ -20,7 +21,7 @@ const LatestBestWorstDropdown: React.FC<LatestBestWorstDropdownProps> = (
 
   const ref = useClickOutside(() => {
     props.hide();
-  });
+  }, props.triggerRef);
 
   return (
     <div

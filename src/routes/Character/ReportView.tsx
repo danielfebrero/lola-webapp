@@ -22,6 +22,7 @@ interface ReportViewProps {
 const ReportView: React.FC<ReportViewProps> = (props) => {
   const [json, setJson] = useState<Record<string, any>>({});
   const { t } = useTranslation();
+  const [showImageDropdown, setShowImageDropdown] = useState<boolean>(false);
 
   useEffect(() => {
     try {
@@ -50,16 +51,9 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
             >
               {props.imagesMultisize && props.imagesMultisize.length > 0 ? (
                 <TransitionImage
-                  className={clsx("rounded-full object-cover")}
+                  className={clsx("rounded-full object-cover cursor-pointer")}
+                  onClick={() => setShowImageDropdown((prev) => !prev)}
                   src={props.avatar?.large ?? props.imagesMultisize[0].large}
-                />
-              ) : null}
-              {props.images &&
-              props.images.length > 0 &&
-              (!props.imagesMultisize || props.imagesMultisize.length === 0) ? (
-                <TransitionImage
-                  className={clsx("rounded-full object-cover")}
-                  src={props.avatar?.large ?? props.images[0]}
                 />
               ) : null}
             </div>
