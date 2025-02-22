@@ -75,7 +75,7 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
                       }
                     />
                     {props.isImageUploading && (
-                      <div className="mt-[-80px] z-10">
+                      <div className="mt-[-120px] z-10">
                         <LoadingIcon />
                       </div>
                     )}
