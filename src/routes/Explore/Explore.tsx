@@ -155,7 +155,7 @@ const ExplorePage: React.FC = (props) => {
                             >
                               <div
                                 className={clsx(
-                                  "md:h-[120px] md:w-[120px] h-[80px] w-[80px] rounded-full bg-slate-200 items-center flex flex-shrink-0 ml-[15px]"
+                                  "md:h-[120px] md:w-[120px] h-[80px] w-[80px] items-center flex flex-shrink-0 ml-[15px]"
                                 )}
                               >
                                 {c.character?.imagesMultisize &&
