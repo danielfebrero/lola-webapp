@@ -20,6 +20,7 @@ interface ReportViewProps {
   avatar?: ImagesMultisize;
   summary?: string;
   isImageUploading?: boolean;
+  isOwner?: boolean;
 }
 
 const ReportView: React.FC<ReportViewProps> = (props) => {
@@ -58,11 +59,16 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
                 <>
                   <div
                     ref={imageDropdownTriggerRef}
-                    onClick={() => setShowImageDropdown((prev) => !prev)}
+                    onClick={() =>
+                      props.isOwner
+                        ? setShowImageDropdown((prev) => !prev)
+                        : null
+                    }
                   >
                     <TransitionImage
                       className={clsx(
-                        "rounded-full object-cover cursor-pointer"
+                        { "cursor-pointer": props.isOwner },
+                        "rounded-full object-cover"
                       )}
                       src={
                         props.avatar?.large ?? props.imagesMultisize[0].large

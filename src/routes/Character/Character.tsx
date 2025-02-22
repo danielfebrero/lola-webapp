@@ -423,6 +423,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                     isImageGenerating={character.isImageProcessing ?? false}
                     summary={character.summary}
                     isImageUploading={character.isImageUploading ?? false}
+                    isOwner={chatState?.isOwner ?? false}
                   />
                 </div>
               )}
