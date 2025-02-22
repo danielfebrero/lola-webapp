@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 
@@ -6,6 +6,8 @@ import JSONToText from "../../components/JSONToText";
 import Loading from "../../components/Loading";
 import { ImagesMultisize } from "../../types/characters";
 import TransitionImage from "../../components/TransitionImage";
+import CharacterProfileImageDropdown from "../../components/CharacterProfileImageDropdown";
+import LoadingIcon from "../../icons/loading";
 
 interface ReportViewProps {
   type: "character";
@@ -17,11 +19,13 @@ interface ReportViewProps {
   imagesMultisize?: ImagesMultisize[];
   avatar?: ImagesMultisize;
   summary?: string;
+  isImageUploading?: boolean;
 }
 
 const ReportView: React.FC<ReportViewProps> = (props) => {
   const [json, setJson] = useState<Record<string, any>>({});
   const { t } = useTranslation();
+  const imageDropdownTriggerRef = useRef<HTMLDivElement>(null);
   const [showImageDropdown, setShowImageDropdown] = useState<boolean>(false);
 
   useEffect(() => {
@@ -44,17 +48,40 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
             <div
               className={clsx(
                 {
-                  "animate-pulse": !props.images || props.images?.length === 0,
+                  "animate-pulse rounded-full bg-slate-200":
+                    !props.images || props.images?.length === 0,
                 },
-                "h-[120px] w-[120px] rounded-full bg-slate-200 items-center flex"
+                "h-[120px] w-[120px]  items-center flex"
               )}
             >
               {props.imagesMultisize && props.imagesMultisize.length > 0 ? (
-                <TransitionImage
-                  className={clsx("rounded-full object-cover cursor-pointer")}
-                  onClick={() => setShowImageDropdown((prev) => !prev)}
-                  src={props.avatar?.large ?? props.imagesMultisize[0].large}
-                />
+                <>
+                  <div
+                    ref={imageDropdownTriggerRef}
+                    onClick={() => setShowImageDropdown((prev) => !prev)}
+                  >
+                    <TransitionImage
+                      className={clsx(
+                        "rounded-full object-cover cursor-pointer"
+                      )}
+                      src={
+                        props.avatar?.large ?? props.imagesMultisize[0].large
+                      }
+                    />
+                    {props.isImageUploading && (
+                      <div className="mt-[-80px] z-10">
+                        <LoadingIcon />
+                      </div>
+                    )}
+                  </div>
+                  {showImageDropdown && props.id && (
+                    <CharacterProfileImageDropdown
+                      hide={() => setShowImageDropdown(false)}
+                      triggerRef={imageDropdownTriggerRef}
+                      threadId={props.id}
+                    />
+                  )}
+                </>
               ) : null}
             </div>
             <span

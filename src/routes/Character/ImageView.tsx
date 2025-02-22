@@ -86,7 +86,7 @@ const ImageView: React.FC<ImageViewProps> = (props) => {
                       "border-4 border-brandMainColor dark:border-darkBrandMainColor":
                         img.large === avatar?.large,
                     },
-                    "w-full h-full cursor-pointer"
+                    "w-full h-full cursor-pointer object-cover aspect-square"
                   )}
                   onClick={() => {
                     setAvatar(img);

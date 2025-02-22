@@ -351,6 +351,61 @@ const useAPI = () => {
     }
   };
 
+  const uploadCharacterImage = async (threadId: string, file: File) => {
+    dispatch(
+      setCharacter({
+        thread_id: threadId,
+        isImageUploading: true,
+      })
+    );
+    try {
+      const formData = new FormData();
+      formData.append("threadId", threadId);
+      formData.append("image", file);
+
+      const response = await fetch(`${API_URL}/character/image`, {
+        method: "POST",
+        headers: {
+          // Note: Do NOT set "Content-Type" manually with FormData; the browser sets it with the boundary
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error uploading character image: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      dispatch(
+        setCharacter({
+          avatar: data.avatar,
+          imagesMultisize: data.imagesMultisize,
+          thread_id: threadId,
+          isImageUploading: false,
+        })
+      );
+
+      return;
+    } catch (error) {
+      console.error("Failed to upload character image:", error);
+      dispatch(
+        setCharacter({
+          thread_id: threadId,
+          isImageUploading: false,
+        })
+      );
+      throw error;
+    }
+  };
+
   return {
     getThreads,
     getCharacters,
@@ -361,6 +416,7 @@ const useAPI = () => {
     getMyImages,
     getExplore,
     setCharacterAvatar,
+    uploadCharacterImage,
   };
 };
 

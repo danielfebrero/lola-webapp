@@ -6,6 +6,7 @@ export interface Character {
   imagesMultisize?: ImagesMultisize[];
   isImageProcessing?: boolean;
   isReportProcessing?: boolean;
+  isImageUploading?: boolean;
   summary?: string;
   chatLog?: Message[];
   avatar?: ImagesMultisize;

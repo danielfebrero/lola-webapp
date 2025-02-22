@@ -355,6 +355,8 @@ export const appSlice = createSlice({
         currentCharacter.isReportProcessing =
           action.payload.isReportProcessing ??
           currentCharacter.isReportProcessing;
+        currentCharacter.isImageUploading =
+          action.payload.isImageUploading ?? currentCharacter.isImageUploading;
         if (action.payload.newImage) {
           if (!currentCharacter.images)
             currentCharacter.images = [action.payload.newImage];
@@ -392,6 +394,7 @@ export const appSlice = createSlice({
             : [],
           isImageProcessing: action.payload.isImageProcessing,
           isReportProcessing: action.payload.isReportProcessing,
+          isImageUploading: action.payload.isImageUploading,
           avatar: action.payload.avatar,
           summary: action.payload.summary,
         });
