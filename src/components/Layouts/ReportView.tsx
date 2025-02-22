@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 
 import JSONToText from "../../components/JSONToText";
@@ -14,6 +12,8 @@ interface ReportViewLayoutProps {
   isImageGenerating: boolean;
   images?: string[];
   imagesMultisize?: ImagesMultisize[];
+  avatar?: ImagesMultisize;
+  summary?: string;
 }
 
 const ReportViewLayout: React.FC<ReportViewLayoutProps> = (props) => {
@@ -41,18 +41,7 @@ const ReportViewLayout: React.FC<ReportViewLayoutProps> = (props) => {
                     { "animate-pulse": props.isImageGenerating },
                     "rounded-full object-cover"
                   )}
-                  src={props.imagesMultisize[0].large}
-                />
-              ) : null}
-              {props.images &&
-              props.images.length > 0 &&
-              (!props.imagesMultisize || props.imagesMultisize.length === 0) ? (
-                <img
-                  className={clsx(
-                    { "animate-pulse": props.isImageGenerating },
-                    "rounded-full object-cover"
-                  )}
-                  src={props.images[0]}
+                  src={props.avatar?.large ?? props.imagesMultisize[0].large}
                 />
               ) : null}
             </div>
@@ -69,6 +58,7 @@ const ReportViewLayout: React.FC<ReportViewLayoutProps> = (props) => {
             <Loading />
           ) : (
             <div className="md:mt-[60px] mt-[40px] md:ml-[20px] pb-[40px]">
+              <div className="mb-[20px]">{props.summary}</div>
               <JSONToText data={tmpJson} />
             </div>
           )}

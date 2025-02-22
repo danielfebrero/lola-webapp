@@ -22,9 +22,11 @@ const CharacterPage: NextPage<CharacterPageProps> = ({ serverData }) => {
   const title = serverData?.data.json?.name
     ? serverData?.data.json?.name + " on Fabularius AI"
     : "New character on Fabularius AI";
-  const description =
-    serverData?.data?.chatLog?.[1]?.content ?? META_DESCRIPTION;
-  const image = serverData?.data.imagesMultisize?.[0].original ?? "";
+  const description = serverData?.data?.summary ?? META_DESCRIPTION;
+  const image =
+    serverData?.data?.avatar?.original ??
+    serverData?.data.imagesMultisize?.[0].original ??
+    "";
 
   return (
     <>

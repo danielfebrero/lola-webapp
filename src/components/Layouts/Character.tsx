@@ -106,6 +106,8 @@ const CharacterLayout: React.FC<CharacterLayoutProps> = (props) => {
                 imagesMultisize={props.character?.imagesMultisize}
                 isProcessing={props.character?.isReportProcessing ?? false}
                 isImageGenerating={props.character?.isImageProcessing ?? false}
+                summary={props.character?.summary}
+                avatar={props.character?.avatar}
               />
             </div>
           </div>
