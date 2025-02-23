@@ -16,11 +16,12 @@ import { setScenarios } from "../store/features/games/gamesSlice";
 import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
 import { setMyImages } from "../store/features/user/userSlice";
 import { ImagesMultisize } from "../types/characters";
+import { HTTP_API_DEV_URL, HTTP_API_PROD_URL } from "../utils/constants";
 
 const api_url_list = {
-  "https://fabularius.ai": "https://prodapi.fabularius.ai/prod",
-  "https://lola.la": "https://prodapi.lola.la/prod",
-  rest: "https://devapi.fabularius.ai/dev",
+  "https://fabularius.ai": HTTP_API_PROD_URL,
+  "https://lola.la": HTTP_API_PROD_URL,
+  rest: HTTP_API_DEV_URL,
 };
 
 const API_URL =

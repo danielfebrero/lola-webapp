@@ -1,7 +1,8 @@
 import ReactGA from "react-ga4";
+import { GA_KEY } from "../utils/constants";
 // import { useUserLog } from "@userlog/next";
 
-ReactGA.initialize("G-43V6GGK855");
+ReactGA.initialize(GA_KEY);
 
 export default function useGA() {
   // const { track } = useUserLog();

@@ -1,4 +1,15 @@
+export const WEBSOCKET_DEV_URL =
+  "wss://6nk800sp9d.execute-api.us-east-1.amazonaws.com/dev";
+
+export const WEBSOCKET_PROD_URL =
+  "wss://ktufwkytp1.execute-api.us-east-1.amazonaws.com/prod";
+
+export const HTTP_API_DEV_URL = "https://devapi.fabularius.ai/dev";
+export const HTTP_API_PROD_URL = "https://prodapi.fabularius.ai/prod";
+
 export const AUTO_SCROLL_THRESHOLD = 25;
+
+export const GA_KEY = "G-43V6GGK855";
 
 export const LANGUES_BY_CODE = {
   ar: "العربية",

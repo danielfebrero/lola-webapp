@@ -21,14 +21,18 @@ import {
 import { setSocketConnection } from "../../store/features/socket/socketSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import { setScenarios } from "../../store/features/games/gamesSlice";
-import { LANGUES_BY_CODE } from "../../utils/constants";
+import {
+  LANGUES_BY_CODE,
+  WEBSOCKET_DEV_URL,
+  WEBSOCKET_PROD_URL,
+} from "../../utils/constants";
 
 const WEBSOCKET_URL =
   process.env.NODE_ENV === "development" ||
   (window.location.origin !== "https://lola.la" &&
     window.location.origin !== "https://fabularius.ai")
-    ? "wss://6nk800sp9d.execute-api.us-east-1.amazonaws.com/dev"
-    : "wss://ktufwkytp1.execute-api.us-east-1.amazonaws.com/prod";
+    ? WEBSOCKET_DEV_URL
+    : WEBSOCKET_PROD_URL;
 
 const RECONNECT_INTERVALS = [1000, 2000, 5000, 10000]; // Exponential backoff intervals (ms)
 
