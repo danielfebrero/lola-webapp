@@ -1,46 +1,125 @@
-# Getting Started with Create React App
+# Fabularius.ai Front-End
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Fabularius.ai is a storytelling platform where creativity meets technology. This front-end application delivers an immersive, interactive narrative experience—empowering users to explore rich stories, dynamic characters, and engaging adventures.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Table of Contents
 
-### `yarn start`
+- [Fabularius.ai Front-End](#fabulariusai-front-end)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Key Features](#key-features)
+  - [Technologies](#technologies)
+  - [Project Structure](#project-structure)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Overview
 
-### `yarn test`
+The Fabularius.ai front-end is designed to bring storytelling to life. It leverages modern web technologies to deliver a responsive, feature-rich interface where users can:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Navigate through interactive, choose-your-own-adventure narratives.
+- Engage with real-time chat interactions.
+- Browse detailed character profiles and image galleries.
+- Experience a fully internationalized interface with support for multiple languages.
 
-### `yarn build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Key Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Interactive Storytelling:** Dynamic narratives that evolve with user choices.
+- **Real-Time Chat:** Integrated chat functionality to enhance user engagement.
+- **Dynamic Character Profiles:** Detailed, visually-rich character profiles.
+- **Multilingual Support:** Internationalization (i18n) enables a global audience experience.
+- **Modular and Scalable:** A well-organized codebase with reusable components and layouts.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `yarn eject`
+## Technologies
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- **Framework:** Next.js (React-based for server-side rendering and performance optimizations)
+- **Language:** TypeScript for strong type safety
+- **Styling:** Tailwind CSS for rapid and responsive UI design
+- **State Management:** Redux (with slices organized under the `store` directory)
+- **Tooling:** Yarn for package management and modern build tools
+- **Internationalization:** Managed via a dedicated `locales` directory supporting multiple languages
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Project Structure
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The project is organized into modular directories to ensure maintainability and scalability. Below is an overview of the file structure:
 
-## Learn More
+.
+├── App.tsx
+├── components/ # Reusable UI components
+│ ├── CharacterProfileImageDropdown/
+│ ├── Chat/
+│ ├── ExploreLanguageDropdown/
+│ ├── Footer/
+│ ├── Header/
+│ ├── ImageSlider/
+│ ├── ImageViewer/
+│ ├── Init/
+│ ├── JSONToText/
+│ ├── LatestBestWorstDropdown/
+│ ├── Layouts/ # Layout components (e.g., Landing, Story, Pricing) for SSR
+│ ├── LeftPanel/
+│ ├── Loading/
+│ ├── LoginModal/
+│ ├── MainLayout/
+│ ├── MarkdownToHTML/
+│ ├── Meta/
+│ ├── ModeDropdown/
+│ ├── OptionsDropdown/
+│ ├── Overlay/
+│ ├── ProfileDropdown/
+│ ├── SendChatInput/
+│ ├── Settings/
+│ └── TransitionImage/
+├── hooks/ # Custom React hooks (API calls, auto-scroll, WebSocket, etc.)
+├── icons/ # SVG and icon components
+├── locales/ # Internationalization files for multiple languages
+├── pages/ # Next.js pages & routing (e.g., explore, story, game)
+├── routes/ # Additional routing and view components
+├── store/ # Redux store configuration and feature slices
+├── types/ # TypeScript definitions for characters, chat, games, stories, etc.
+└── utils/ # Utility functions and constants
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This structure ensures that each feature—from chat interactions to character explorations—is isolated in its own module, simplifying development and maintenance.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
+
+## Getting Started
+
+### Prerequisites
+
+Before you begin, ensure you have:
+
+- [Node.js](https://nodejs.org) (v14 or higher)
+- [Yarn](https://yarnpkg.com)
+
+### Installation
+
+1. **Clone the Repository:**
+
+```bash
+git clone https://github.com/danielfebrero/lola-webapp.git
+cd lola-webapp
+```
+
+2. **Install Dependencies:**
+
+```bash
+yarn install
+```
+
+3. **Run the development server**
+
+```bash
+yarn dev
+```
