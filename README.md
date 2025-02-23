@@ -54,6 +54,7 @@ The Fabularius.ai front-end is designed to bring storytelling to life. It levera
 
 The project is organized into modular directories to ensure maintainability and scalability. Below is an overview of the file structure:
 
+```
 .
 ├── App.tsx
 ├── components/ # Reusable UI components
@@ -89,6 +90,7 @@ The project is organized into modular directories to ensure maintainability and 
 ├── store/ # Redux store configuration and feature slices
 ├── types/ # TypeScript definitions for characters, chat, games, stories, etc.
 └── utils/ # Utility functions and constants
+```
 
 This structure ensures that each feature—from chat interactions to character explorations—is isolated in its own module, simplifying development and maintenance.
 
