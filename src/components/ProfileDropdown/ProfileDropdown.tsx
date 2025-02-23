@@ -11,6 +11,7 @@ import useGA from "../../hooks/useGA";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { toggleSettings, setMode } from "../../store/features/app/appSlice";
 import ArtIcon from "../../icons/art";
+import ArchiveIcon from "../../icons/archive";
 
 interface ProfileDropdownProps {
   hide: () => void;
@@ -80,6 +81,19 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
           <ArtIcon />
         </div>
         <div className="ml-[10px]">{t("My images")}</div>
+      </div>
+
+      <div
+        className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
+        onClick={() => {
+          navigate("/archived");
+          props.hide();
+        }}
+      >
+        <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
+          <ArchiveIcon />
+        </div>
+        <div className="ml-[10px]">{t("Archived")}</div>
       </div>
 
       <div

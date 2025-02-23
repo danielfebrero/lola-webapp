@@ -6,6 +6,8 @@ import useWebSocket from "../../hooks/useWebSocket";
 import { useAppDispatch } from "../../store/hooks";
 import { setChatLog } from "../../store/features/app/appSlice";
 import useGA from "../../hooks/useGA";
+import useAPI from "../../hooks/useAPI";
+import ArchiveIcon from "../../icons/archive";
 
 interface OptionsDropdownProps {
   hide: () => void;
@@ -21,6 +23,7 @@ const OptionsDropdown: React.FC<OptionsDropdownProps> = (props) => {
   const { deleteCharacter, deleteHeroGame, deleteStory } = useWebSocket({});
   const dispatch = useAppDispatch();
   const { sendEvent } = useGA();
+  const { archiveThread } = useAPI();
 
   const clickOnDelete = () => {
     switch (props.type) {
@@ -46,11 +49,27 @@ const OptionsDropdown: React.FC<OptionsDropdownProps> = (props) => {
     dispatch(setChatLog({ threadId: props.threadId, isBeingDeleted: true }));
   };
 
+  const clickOnArchive = () => {
+    sendEvent("click_on_archive_from_left_panel", props.type);
+    archiveThread(props.threadId);
+    dispatch(setChatLog({ threadId: props.threadId, isBeingArchived: true }));
+    props.hide();
+  };
+
   return (
     <div
       ref={ref}
       className="w-auto h-auto p-[7px] flex flex-col rounded-lg border dark:border-darkBorderLight border-borderLight absolute bg-white dark:bg-darkMainSurfaceSecondary"
     >
+      <div
+        onClick={clickOnArchive}
+        className="rounded-md w-full hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center cursor-pointer"
+      >
+        <div className="h-[20px] w-[20px] mr-[10px]">
+          <ArchiveIcon />
+        </div>
+        <span>{t("Archive")}</span>
+      </div>
       <div
         onClick={clickOnDelete}
         className="rounded-md w-full hover:bg-lightGray dark:hover:bg-darkLightGray p-[10px] flex flex-row items-center cursor-pointer text-textError"

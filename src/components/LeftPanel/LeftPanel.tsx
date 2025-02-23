@@ -273,7 +273,7 @@ const LeftPanel: React.FC = () => {
                         </span>
                       </div>
                     </NavLink>
-                    {char.isBeingDeleted ? (
+                    {char.isBeingDeleted || char.isBeingArchived ? (
                       <div className="h-[24px] w-[24px] text-textSecondar dark:text-darkTextSecondary">
                         <LoadingIcon />
                       </div>
@@ -374,7 +374,7 @@ const LeftPanel: React.FC = () => {
                     >
                       <div className="truncate">{t(story.title ?? "")}</div>
                     </NavLink>
-                    {story.isBeingDeleted ? (
+                    {story.isBeingDeleted || story.isBeingArchived ? (
                       <div className="h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary">
                         <LoadingIcon />
                       </div>
@@ -486,7 +486,7 @@ const LeftPanel: React.FC = () => {
                       </div> */}
                       <div className="truncate grow">{t(game.title ?? "")}</div>
                     </NavLink>
-                    {game.isBeingDeleted ? (
+                    {game.isBeingDeleted || game.isBeingArchived ? (
                       <div className="h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary">
                         <LoadingIcon />
                       </div>

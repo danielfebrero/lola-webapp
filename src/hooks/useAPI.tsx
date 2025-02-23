@@ -5,6 +5,7 @@ import useCookie from "./useCookie";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import {
   removeIsFromDataLoading,
+  removeThread,
   setCharacter,
   setCharacters,
   setChatLog,
@@ -352,6 +353,36 @@ const useAPI = () => {
     }
   };
 
+  const archiveThread = async (threadId: string) => {
+    try {
+      const response = await fetch(`${API_URL}/thread/archive`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+        body: JSON.stringify({ threadId }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error setting character avatar: ${response.statusText}`
+        );
+      }
+
+      dispatch(removeThread(threadId));
+      return;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   const uploadCharacterImage = async (threadId: string, file: File) => {
     dispatch(
       setCharacter({
@@ -418,6 +449,7 @@ const useAPI = () => {
     getExplore,
     setCharacterAvatar,
     uploadCharacterImage,
+    archiveThread,
   };
 };
 

@@ -70,6 +70,14 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    removeThread: (state, action) => {
+      state.chatLogs = state.chatLogs.filter(
+        (log) => log.threadId !== action.payload
+      );
+      state.characters = state.characters.filter(
+        (character) => character.thread_id !== action.payload
+      );
+    },
     addImageToMessage: (
       state,
       action: {
@@ -232,6 +240,8 @@ export const appSlice = createSlice({
         currentLog.type = action.payload.type ?? currentLog.type;
         currentLog.isBeingDeleted =
           action.payload.isBeingDeleted ?? currentLog.isBeingDeleted;
+        currentLog.isBeingArchived =
+          action.payload.isBeingArchived ?? currentLog.isBeingArchived;
         currentLog.state = action.payload.state ?? currentLog.state;
         currentLog.isOwner = action.payload.isOwner ?? currentLog.isOwner;
         currentLog.is_private =
@@ -445,6 +455,7 @@ export const {
   setLastRequestWaitingForThreadId,
   addRequestStopped,
   addImageToMessage,
+  removeThread,
 } = appSlice.actions;
 
 export default appSlice.reducer;

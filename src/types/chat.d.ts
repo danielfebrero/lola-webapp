@@ -20,6 +20,7 @@ interface ChatLog {
   title?: string;
   isLoading?: boolean;
   isBeingDeleted?: boolean;
+  isBeingArchived?: boolean;
   isInputAvailable?: boolean;
   canSendMessage?: boolean;
   state?: string;
