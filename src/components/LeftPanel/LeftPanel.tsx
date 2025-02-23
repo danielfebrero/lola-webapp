@@ -34,6 +34,8 @@ const LeftPanel: React.FC = () => {
     mode,
     isDataLoadingLeftPanel,
   } = useAppSelector((state) => state.app);
+  const { plan } = useAppSelector((state) => state.user);
+
   const { sendEvent } = useGA();
   // const games = useAppSelector((state) => state.games.scenarios);
 
@@ -527,21 +529,22 @@ const LeftPanel: React.FC = () => {
           </div>
         </div>
       </div>
-      <NavLink
-        onClick={() => {
-          sendEvent("click_upgrade", "left_panel");
+      {plan !== "early_lifetime" && (
+        <NavLink
+          onClick={() => {
+            sendEvent("click_upgrade", "left_panel");
 
-          if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
-        }}
-        to={"/pricing"}
-        className="absolute bottom-[55px] left-[10px] pl-[10px] flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[240px] py-[10px] rounded-lg flex flex-row"
-      >
-        <div className="w-[24px] h-[24px] mr-[10px]">
-          <PlanIcon />
-        </div>
-        <div className="">{t("Upgrade plan")}</div>
-      </NavLink>
-
+            if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
+          }}
+          to={"/pricing"}
+          className="absolute bottom-[55px] left-[10px] pl-[10px] flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[240px] py-[10px] rounded-lg flex flex-row"
+        >
+          <div className="w-[24px] h-[24px] mr-[10px]">
+            <PlanIcon />
+          </div>
+          <div className="">{t("Upgrade plan")}</div>
+        </NavLink>
+      )}
       <div
         onClick={() => {
           dispatch(setMode(mode === "adult" ? "minor" : "adult"));
