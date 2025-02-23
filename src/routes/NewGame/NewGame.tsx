@@ -196,7 +196,7 @@ const NewGamePage: React.FC = () => {
           <div className="grid md:grid-cols-5 grid-cols-3 w-full flex-wrap justify-center">
             {games.map((game, idx) => (
               <div
-                className="flex flex-col items-center mx-[10px] cursor-pointer w-auto"
+                className="flex flex-col items-center m-[10px] cursor-pointer w-auto"
                 onClick={() => {
                   setSelectedGame((prev) => (prev === idx ? null : idx));
                 }}
