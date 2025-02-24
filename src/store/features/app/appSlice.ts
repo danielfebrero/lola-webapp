@@ -17,6 +17,7 @@ interface AppState {
     objectId: string | null;
   };
   chatLogs: ChatLog[];
+  archivedThreads: ChatLog[];
   lastRequestIdWaitingForThreadId?: string | null;
   isDataLoaded: boolean;
   isDataLoading: string[];
@@ -70,6 +71,9 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    setArchivedThreads: (state, action) => {
+      state.archivedThreads = action.payload;
+    },
     removeThread: (state, action) => {
       state.chatLogs = state.chatLogs.filter(
         (log) => log.threadId !== action.payload
@@ -456,6 +460,7 @@ export const {
   addRequestStopped,
   addImageToMessage,
   removeThread,
+  setArchivedThreads,
 } = appSlice.actions;
 
 export default appSlice.reducer;

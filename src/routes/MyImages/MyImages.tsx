@@ -23,9 +23,9 @@ const MyImagesPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(setMyImages([]));
-    if (!auth.user?.access_token) return;
+    if (!auth.isAuthenticated) return;
     getMyImages();
-  }, [auth.user?.access_token]);
+  }, [auth.isAuthenticated]);
 
   useEffect(() => {
     setImagesMultisize(images?.map((i) => i.image_url));

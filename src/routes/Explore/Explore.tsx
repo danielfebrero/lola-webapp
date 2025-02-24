@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { Link, useParams, useNavigate } from "react-router";
 
-import JSONToText from "../../components/JSONToText";
 import Meta from "../../components/Meta";
 import UpvoteIcon from "../../icons/upvote";
 import DownvoteIcon from "../../icons/downvote";

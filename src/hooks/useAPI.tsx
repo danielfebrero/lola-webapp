@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import {
   removeIsFromDataLoading,
   removeThread,
+  setArchivedThreads,
   setCharacter,
   setCharacters,
   setChatLog,
@@ -353,6 +354,36 @@ const useAPI = () => {
     }
   };
 
+  const getArchivedThreads = async () => {
+    try {
+      const response = await fetch(`${API_URL}/threads/archived?mode=${mode}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error fetching admin analytics: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      dispatch(setArchivedThreads(data));
+      return;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   const archiveThread = async (threadId: string) => {
     try {
       const response = await fetch(`${API_URL}/thread/archive`, {
@@ -450,6 +481,7 @@ const useAPI = () => {
     setCharacterAvatar,
     uploadCharacterImage,
     archiveThread,
+    getArchivedThreads,
   };
 };
 

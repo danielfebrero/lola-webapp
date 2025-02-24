@@ -28,6 +28,7 @@ import PricingPage from "./routes/Pricing";
 import OrderReceivedPage from "./routes/Checkout/OrderReceived";
 import OrderCanceledPage from "./routes/Checkout/OrderCanceled";
 import MyImagesPage from "./routes/MyImages";
+import ArchivedPage from "./routes/Archived";
 
 import { store, persistor } from "./store/store";
 
@@ -144,6 +145,7 @@ const App: React.FC<AppProps> = (props) => {
                       element={<OrderCanceledPage />}
                     />
                     <Route path="/images" element={<MyImagesPage />} />
+                    <Route path="/archived" element={<ArchivedPage />} />
                   </Route>
 
                   <Route

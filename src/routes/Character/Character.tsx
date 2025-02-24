@@ -162,7 +162,6 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     if (
       params.threadId &&
       params.threadId !== "new" &&
-      socketConnection?.readyState === WebSocket.OPEN &&
       (isDataLoading.length === 0 || chatState?.isOwner)
     ) {
       getCharacter(params.threadId);
@@ -188,7 +187,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       );
       setServerCharacter(null);
     }
-  }, [socketConnection?.readyState, isDataLoading, params.threadId]);
+  }, [isDataLoading, params.threadId]);
 
   useEffect(() => {
     if (threadId && location.pathname !== "/character/" + threadId) {
