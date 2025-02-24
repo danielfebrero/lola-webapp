@@ -1,7 +1,5 @@
 import React from "react";
 
-import "./style.css";
-
 interface MarkdownRendererProps {
   content: string;
   showWorkerIndicator: boolean;
@@ -52,7 +50,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     // Links (this regex will now only match links since non-link bracketed text was removed above)
     html = html.replace(
       /\[([^\]]+)\]\(([^)]+)\)/gim,
-      '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+      '<a href="$2" style="text-decoration: underline;" target="_blank" rel="noopener noreferrer">$1</a>'
     );
 
     // Unordered Lists
