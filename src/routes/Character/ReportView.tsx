@@ -108,6 +108,7 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
                     onClick={() =>
                       navigate(`/story/new?characterId=${props.id}`)
                     }
+                    className="text-center"
                   >
                     {t("New story")}
                   </Button>
@@ -115,7 +116,7 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
                     onClick={() =>
                       navigate(`/game/new?characterId=${props.id}`)
                     }
-                    className="ml-[10px]"
+                    className="ml-[10px] text-center"
                   >
                     {t("New game")}
                   </Button>
