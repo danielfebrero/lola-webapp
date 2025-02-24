@@ -8,9 +8,12 @@ import PersonalizationIcon from "../../icons/personalization";
 import { toggleSettings } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import { setSettings as setSettingsAction } from "../../store/features/user/userSlice";
+import { PLANS } from "../../utils/constants";
+import AccountIcon from "../../icons/account";
 
 const Settings: React.FC = () => {
   const { isSettingsOpen, languages } = useAppSelector((state) => state.app);
+  const { plan, planValidUntil } = useAppSelector((state) => state.user);
   const { settings } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const [selectedView, setSelectedView] = useState<
@@ -23,15 +26,13 @@ const Settings: React.FC = () => {
     return null;
   }
 
-  console.log({ languages });
-
   return (
     <div
       className={clsx(
-        "bg-white dark:bg-darkMainSurfaceSecondary rounded-lg py-5 md:w-[680px] w-[80%]"
+        "bg-white dark:bg-darkMainSurfaceSecondary rounded-lg py-5 md:w-[680px] w-[80%] border border-borderColor dark:border-darkBorderColor"
       )}
     >
-      <div className="flex justify-between items-center pb-5 px-5 border-b border-borderBlack">
+      <div className="flex justify-between items-center md:pb-5 px-5">
         <div className="text-lg font-semibold">{t("Settings")}</div>
         <div
           onClick={() => dispatch(toggleSettings())}
@@ -40,7 +41,17 @@ const Settings: React.FC = () => {
           <CloseIcon />
         </div>
       </div>
-      <div className="flex flex-row">
+      <div className="md:hidden px-5 pb-5">
+        <select
+          className="bg-transparent"
+          onChange={(e) => setSelectedView(e.target.value as any)}
+          value={selectedView}
+        >
+          <option value="personalization">{t("Personalization")}</option>
+          <option value="membership">{t("Membership")}</option>
+        </select>
+      </div>
+      <div className="flex flex-row border-t border-borderColor dark:border-darkBorderColor">
         <div className="md:block hidden flex flex-col p-[10px]">
           <div
             className={clsx(
@@ -57,9 +68,24 @@ const Settings: React.FC = () => {
             </div>
             <div>{t("Personalization")}</div>
           </div>
+          <div
+            className={clsx(
+              {
+                "bg-lightGray dark:bg-darkLightGray":
+                  selectedView === "membership",
+              },
+              "rounded-lg flex flex-row items-center p-[10px] cursor-pointer min-w-[260px]"
+            )}
+            onClick={() => setSelectedView("membership")}
+          >
+            <div className="h-[16px] w-[16px] mr-2">
+              <AccountIcon />
+            </div>
+            <div>{t("Membership")}</div>
+          </div>
         </div>
         <div className="p-[20px] w-full">
-          {selectedView === "personalization" ? (
+          {selectedView === "personalization" && (
             <div className="flex flex-col w-full">
               <div className="flex flex-row justify-between w-full">
                 <span>{t("Language")}</span>
@@ -81,7 +107,21 @@ const Settings: React.FC = () => {
                 </div>
               </div>
             </div>
-          ) : null}
+          )}
+
+          {selectedView === "membership" && (
+            <div className="flex flex-col w-full">
+              <div>
+                {t("Your plan:")} {PLANS[plan as "free"].label}
+              </div>
+              {plan === "early_1_month" && (
+                <div>
+                  {t("Valid until:")}{" "}
+                  {new Date(planValidUntil as string).toLocaleDateString()}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

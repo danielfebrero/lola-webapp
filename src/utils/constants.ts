@@ -74,3 +74,15 @@ export const HERO_ACTIONS_COUNT = 4;
 
 export const META_DESCRIPTION =
   "A Choose your own adventure, storyteller, chatbot, character and image generator powered with AI. CYOA and CHYOA AI-powered. AI character, AI storyteller, AI smut generator, AI games.";
+
+export const PLANS = {
+  free: {
+    label: "Free",
+  },
+  early_1_month: {
+    label: "Plus",
+  },
+  early_lifetime: {
+    label: "Plus Lifetime",
+  },
+};

@@ -10,6 +10,7 @@ interface UserState {
   clickedUpvotes: string[];
   clickedDownvotes: string[];
   plan: string;
+  planValidUntil: string | null;
   images: {
     image_url: ImagesMultisize;
     thread_id: string;
@@ -25,6 +26,7 @@ const initialState: UserState = {
   clickedUpvotes: [],
   clickedDownvotes: [],
   plan: "free",
+  planValidUntil: null,
   images: [],
 };
 
@@ -47,7 +49,8 @@ export const userSlice = createSlice({
       state.settings = Object.assign(state.settings, action.payload);
     },
     setUserPlan: (state, action) => {
-      state.plan = action.payload;
+      state.plan = action.payload.plan;
+      state.planValidUntil = action.payload.plan_valid_until;
     },
   },
 });

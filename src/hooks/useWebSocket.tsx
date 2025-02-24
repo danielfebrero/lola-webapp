@@ -86,7 +86,7 @@ export default function useWebSocket({
                 break;
 
               case "plan":
-                dispatch(setUserPlan(data.data.plan));
+                dispatch(setUserPlan(data.data));
                 break;
               case "analytics_admin":
                 dispatch(setAdminAnalytics(data.data));
