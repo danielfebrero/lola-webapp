@@ -7,7 +7,10 @@ import Meta from "../../components/Meta";
 import useWebSocket from "../../hooks/useWebSocket";
 import LoadingIcon from "../../icons/loading";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setIsCryptoCheckoutUrlLoading } from "../../store/features/app/appSlice";
+import {
+  setCurrentlyViewing,
+  setIsCryptoCheckoutUrlLoading,
+} from "../../store/features/app/appSlice";
 import CheckOnlyIcon from "../../icons/checkOnly";
 import useGA from "../../hooks/useGA";
 
@@ -37,6 +40,10 @@ const PricingPage: React.FC = () => {
     }, 5000);
 
     return () => clearInterval(inter);
+  }, []);
+
+  useEffect(() => {
+    dispatch(setCurrentlyViewing({ objectType: null, objectId: null }));
   }, []);
 
   return (

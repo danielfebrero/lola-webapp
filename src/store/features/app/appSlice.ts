@@ -50,6 +50,7 @@ const initialState: AppState = {
     objectId: "",
   },
   chatLogs: [],
+  archivedThreads: [],
   isDataLoaded: false,
   isDataLoading: ["characters", "threads", "settings"],
   isDataLoadingLeftPanel: [],
@@ -71,16 +72,37 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    restoreArchivedThread: (state, action) => {
+      const archivedThread = state.archivedThreads.find(
+        (thread) => thread.threadId === action.payload
+      );
+      state.archivedThreads = state.archivedThreads.filter(
+        (thread) => thread.threadId !== action.payload
+      );
+      if (archivedThread) {
+        archivedThread.isBeingArchived = false;
+        state.chatLogs.unshift(archivedThread);
+      }
+    },
+    removeArchivedThread: (state, action) => {
+      state.archivedThreads = state.archivedThreads.filter(
+        (thread) => thread.threadId !== action.payload
+      );
+    },
     setArchivedThreads: (state, action) => {
       state.archivedThreads = action.payload;
     },
-    removeThread: (state, action) => {
+    archiveThread: (state, action) => {
+      const thread = state.chatLogs.find(
+        (log) => log.threadId === action.payload
+      );
       state.chatLogs = state.chatLogs.filter(
         (log) => log.threadId !== action.payload
       );
       state.characters = state.characters.filter(
         (character) => character.thread_id !== action.payload
       );
+      if (thread) state.archivedThreads.unshift(thread);
     },
     addImageToMessage: (
       state,
@@ -213,6 +235,9 @@ export const appSlice = createSlice({
       state.chatLogs = action.payload.map((cl: ChatLog) => ({
         ...state.chatLogs.find((l) => l.threadId === cl.threadId),
         ...cl,
+        isBeingArchived: false,
+        isBeingDeleted: false,
+
         chatLog: [
           ...(state.chatLogs.find((l) => l.threadId === cl.threadId)?.chatLog ??
             []),
@@ -459,8 +484,10 @@ export const {
   setLastRequestWaitingForThreadId,
   addRequestStopped,
   addImageToMessage,
-  removeThread,
+  archiveThread,
   setArchivedThreads,
+  removeArchivedThread,
+  restoreArchivedThread,
 } = appSlice.actions;
 
 export default appSlice.reducer;

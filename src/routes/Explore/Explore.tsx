@@ -10,6 +10,7 @@ import useWebSocket from "../../hooks/useWebSocket";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import {
   downvoteExplore,
+  setCurrentlyViewing,
   upvoteExplore,
 } from "../../store/features/app/appSlice";
 import useGA from "../../hooks/useGA";
@@ -68,6 +69,10 @@ const ExplorePage: React.FC = (props) => {
     if (params.exploreMode === "latest" && !params.type)
       navigate("/explore/characters/latest");
   }, [params.exploreMode, params.type]);
+
+  useEffect(() => {
+    dispatch(setCurrentlyViewing({ objectType: null, objectId: null }));
+  }, []);
 
   return (
     <>

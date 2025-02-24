@@ -9,6 +9,7 @@ import ImageSlider from "../../components/ImageSlider";
 import useAPI from "../../hooks/useAPI";
 import { setMyImages } from "../../store/features/user/userSlice";
 import { ImagesMultisize } from "../../types/characters";
+import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 
 const MyImagesPage: React.FC = () => {
   const { t } = useTranslation();
@@ -26,6 +27,10 @@ const MyImagesPage: React.FC = () => {
     if (!auth.isAuthenticated) return;
     getMyImages();
   }, [auth.isAuthenticated]);
+
+  useEffect(() => {
+    dispatch(setCurrentlyViewing({ objectType: null, objectId: null }));
+  }, []);
 
   useEffect(() => {
     setImagesMultisize(images?.map((i) => i.image_url));

@@ -5,7 +5,7 @@ import useCookie from "./useCookie";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import {
   removeIsFromDataLoading,
-  removeThread,
+  archiveThread as archiveThreadAction,
   setArchivedThreads,
   setCharacter,
   setCharacters,
@@ -406,9 +406,38 @@ const useAPI = () => {
         );
       }
 
-      dispatch(removeThread(threadId));
+      dispatch(archiveThreadAction(threadId));
       return;
     } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const restoreThread = async (threadId: string) => {
+    try {
+      const response = await fetch(`${API_URL}/thread/restore`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+        body: JSON.stringify({ threadId }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error setting character avatar: ${response.statusText}`
+        );
+      }
+      return;
+    } catch (error) {
+      dispatch(archiveThreadAction(threadId));
       console.error(error);
       throw error;
     }
@@ -482,6 +511,7 @@ const useAPI = () => {
     uploadCharacterImage,
     archiveThread,
     getArchivedThreads,
+    restoreThread,
   };
 };
 
