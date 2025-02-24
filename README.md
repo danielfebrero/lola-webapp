@@ -85,8 +85,8 @@ The project is organized into modular directories to ensure maintainability and 
 ├── hooks/ # Custom React hooks (API calls, auto-scroll, WebSocket, etc.)
 ├── icons/ # SVG and icon components
 ├── locales/ # Internationalization files for multiple languages
-├── pages/ # Next.js pages & routing (e.g., explore, story, game)
-├── routes/ # Additional routing and view components
+├── pages/ # Next.js pages & routing for SSR (e.g., explore, story, game)
+├── routes/ # Routing for React
 ├── store/ # Redux store configuration and feature slices
 ├── types/ # TypeScript definitions for characters, chat, games, stories, etc.
 └── utils/ # Utility functions and constants
