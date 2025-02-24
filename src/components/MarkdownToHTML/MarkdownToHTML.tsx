@@ -1,6 +1,6 @@
-// src/MarkdownRenderer.tsx
 import React from "react";
-// import "github-markdown-css/github-markdown.css";
+
+import "./style.css";
 
 interface MarkdownRendererProps {
   content: string;
