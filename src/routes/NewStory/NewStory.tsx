@@ -1,5 +1,5 @@
-import { use, useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate, useSearchParams } from "react-router";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
@@ -18,6 +18,7 @@ import SendChatInput from "../../components/SendChatInput";
 const NewStoryPage: React.FC = () => {
   const { plan } = useAppSelector((state) => state.user);
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
   const [AIInputValue, setAIInputValue] = useState<string>("");
   const [threadId, setThreadId] = useState<string | null>(null);
@@ -31,7 +32,7 @@ const NewStoryPage: React.FC = () => {
     (state) => state.app
   );
 
-  const gameSetThreadId = (threadId: string | null) => {
+  const storySetThreadId = (threadId: string | null) => {
     setThreadId(threadId);
     dispatch(
       setChatLog({
@@ -42,7 +43,7 @@ const NewStoryPage: React.FC = () => {
   };
 
   const { sendMessage, socketConnection } = useWebSocket({
-    setThreadId: gameSetThreadId,
+    setThreadId: storySetThreadId,
   });
   const { getCharacters } = useAPI();
   const [uncensored, setUncensored] = useState<boolean>(plan !== "free");
@@ -63,6 +64,20 @@ const NewStoryPage: React.FC = () => {
     });
     setHasSentMessage(true);
   };
+
+  useEffect(() => {
+    const charId = searchParams.get("characterId");
+    if (charId) {
+      setSelectedCharacters([charId]);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const charId = searchParams.get("characterId");
+    if (charId && selectedCharacters.includes(charId)) {
+      createStory(t("Surprise me!"));
+    }
+  }, [selectedCharacters, searchParams]);
 
   useEffect(() => {
     dispatch(setCurrentlyViewing({ objectType: "story", objectId: null }));

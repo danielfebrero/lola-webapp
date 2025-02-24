@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { NavLink, useNavigate } from "react-router";
+import { NavLink, useNavigate, useSearchParams } from "react-router";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
@@ -19,6 +19,7 @@ import useAPI from "../../hooks/useAPI";
 const NewGamePage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const games = useAppSelector((state) => state.games.scenarios);
+  const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
   const [showAIInput, setShowAIInput] = useState<boolean>(false);
@@ -57,6 +58,21 @@ const NewGamePage: React.FC = () => {
     });
     setHasSentMessage(true);
   };
+
+  useEffect(() => {
+    const charId = searchParams.get("characterId");
+    if (charId && games.length > 0) {
+      setSelectedCharacters([charId]);
+      setSelectedGame(0);
+    }
+  }, [games, searchParams]);
+
+  useEffect(() => {
+    const charId = searchParams.get("characterId");
+    if (charId && selectedCharacters.includes(charId) && games.length > 0) {
+      createGame();
+    }
+  }, [selectedCharacters, searchParams, games]);
 
   useEffect(() => {
     dispatch(setCurrentlyViewing({ objectType: "game", objectId: null }));

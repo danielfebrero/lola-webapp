@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import clsx from "clsx";
 
 import JSONToText from "../../components/JSONToText";
@@ -8,6 +9,7 @@ import { ImagesMultisize } from "../../types/characters";
 import TransitionImage from "../../components/TransitionImage";
 import CharacterProfileImageDropdown from "../../components/CharacterProfileImageDropdown";
 import LoadingIcon from "../../icons/loading";
+import Button from "../../components/Button";
 
 interface ReportViewProps {
   type: "character";
@@ -26,6 +28,7 @@ interface ReportViewProps {
 const ReportView: React.FC<ReportViewProps> = (props) => {
   const [json, setJson] = useState<Record<string, any>>({});
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const imageDropdownTriggerRef = useRef<HTMLDivElement>(null);
   const [showImageDropdown, setShowImageDropdown] = useState<boolean>(false);
 
@@ -90,14 +93,35 @@ const ReportView: React.FC<ReportViewProps> = (props) => {
                 </>
               ) : null}
             </div>
-            <span
-              className={clsx(
-                { "animate-pulse": props.isProcessing },
-                "font-bold text-4xl md:ml-[40px] ml-[20px] content-center"
+            <div className=" md:ml-[40px] ml-[20px] content-center">
+              <span
+                className={clsx(
+                  { "animate-pulse": props.isProcessing },
+                  "font-bold text-4xl"
+                )}
+              >
+                {props.json?.name}
+              </span>
+              {props.isOwner && (
+                <div className="flex flex-row mt-[15px]">
+                  <Button
+                    onClick={() =>
+                      navigate(`/story/new?characterId=${props.id}`)
+                    }
+                  >
+                    {t("New story")}
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      navigate(`/game/new?characterId=${props.id}`)
+                    }
+                    className="ml-[10px]"
+                  >
+                    {t("New game")}
+                  </Button>
+                </div>
               )}
-            >
-              {props.json?.name}
-            </span>
+            </div>
           </div>
           {props.isProcessing && !props.json ? (
             <Loading />

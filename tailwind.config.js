@@ -11,6 +11,7 @@ module.exports = {
         "screen-real": "calc(var(--vh) * 100)",
       },
       colors: {
+        mainSurfacePrimary: "#ffffff",
         lightGray: "#f9f9f9",
         textPrimary: "#0d0d0d",
         textSecondary: "#5d5d5d",
