@@ -96,10 +96,11 @@ const Settings: React.FC = () => {
                       setSettings({ language: e.target.value });
                       dispatch(setSettingsAction({ language: e.target.value }));
                     }}
+                    value={settings.language}
                   >
                     <option value="auto">{t("Auto-detect")}</option>
                     {Object.keys(languages).map((l) => (
-                      <option value={l} selected={l === settings.language}>
+                      <option value={l} key={l}>
                         {languages[l]}
                       </option>
                     ))}
