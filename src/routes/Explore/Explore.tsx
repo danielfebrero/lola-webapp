@@ -47,15 +47,15 @@ const ExplorePage: React.FC = (props) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (
-      socketConnection?.readyState === socketConnection?.OPEN &&
-      params.exploreMode &&
-      params.type
-    ) {
+    if (params.exploreMode && params.type) {
       getExplore(params.exploreMode, params.type);
-      getClickedVotes();
     }
-  }, [socketConnection, params.exploreMode, params.type, exploreLanguage]);
+  }, [params.exploreMode, params.type, exploreLanguage]);
+
+  useEffect(() => {
+    if (socketConnection?.readyState === socketConnection?.OPEN)
+      getClickedVotes();
+  }, [socketConnection?.readyState]);
 
   useEffect(() => {
     setStateClickedDownvotes(clickedDownvotes);
