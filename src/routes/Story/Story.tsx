@@ -7,7 +7,7 @@ import SendChatInput from "../../components/SendChatInput";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   setCurrentlyViewing,
-  setChatLog,
+  setThread,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
@@ -74,7 +74,7 @@ const Storypage: React.FC<StorypageProps> = (props) => {
     if (params.threadId) {
       setThreadId(params.threadId);
       dispatch(
-        setChatLog({
+        setThread({
           threadId: params.threadId,
           isInputAvailable: false || doNotShowLoading,
           isLoading: !doNotShowLoading,
@@ -92,7 +92,7 @@ const Storypage: React.FC<StorypageProps> = (props) => {
 
     if (serverStory) {
       dispatch(
-        setChatLog({
+        setThread({
           chatLog: serverStory.data.chatLog,
           threadId: serverStory.threadId,
           isInputAvailable: true,

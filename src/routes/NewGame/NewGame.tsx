@@ -9,7 +9,7 @@ import CloseIcon from "../../icons/close";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
-  setChatLog,
+  setThread,
   setCurrentlyViewing,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
@@ -37,7 +37,7 @@ const NewGamePage: React.FC = () => {
   const gameSetThreadId = (threadId: string | null) => {
     setThreadId(threadId);
     dispatch(
-      setChatLog({
+      setThread({
         threadId,
         lastRequestId: lastRequestIdWaitingForThreadId,
       })

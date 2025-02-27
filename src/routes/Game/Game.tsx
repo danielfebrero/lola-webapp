@@ -6,7 +6,7 @@ import Chat from "../../components/Chat";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   setCurrentlyViewing,
-  setChatLog,
+  setThread,
   setGame,
   addRequestStopped,
 } from "../../store/features/app/appSlice";
@@ -91,7 +91,7 @@ const GamePage: React.FC = () => {
     if (params.threadId) {
       setThreadId(params.threadId);
       dispatch(
-        setChatLog({
+        setThread({
           threadId: params.threadId,
           isInputAvailable: false,
           isLoading: true,

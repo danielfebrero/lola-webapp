@@ -6,11 +6,11 @@ import JSONToText from "../JSONToText";
 import UpvoteIcon from "../../icons/upvote";
 import DownvoteIcon from "../../icons/downvote";
 import { Story } from "../../types/stories";
-import { ChatLog } from "../../types/chat";
+import { Thread } from "../../types/chat";
 
 interface ExploreFeedLayoutProps {
   data: {
-    thread: ChatLog;
+    thread: Thread;
     character?: Character;
     story?: Story;
   }[];

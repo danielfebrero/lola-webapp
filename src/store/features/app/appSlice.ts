@@ -2,7 +2,7 @@ import { createSlice, current } from "@reduxjs/toolkit";
 import { Games } from "../../../types/games";
 import { Character, ImagesMultisize } from "../../../types/characters";
 import { Story } from "../../../types/stories";
-import { ChatLog } from "../../../types/chat";
+import { Thread } from "../../../types/chat";
 
 // Define a type for the slice state
 interface AppState {
@@ -16,8 +16,8 @@ interface AppState {
     objectType: string;
     objectId: string | null;
   };
-  chatLogs: ChatLog[];
-  archivedThreads: ChatLog[];
+  chatLogs: Thread[];
+  archivedThreads: Thread[];
   lastRequestIdWaitingForThreadId?: string | null;
   isDataLoaded: boolean;
   isDataLoading: string[];
@@ -28,7 +28,7 @@ interface AppState {
   stories: Story[];
   languages: Record<string, string>;
   explore: {
-    items: { thread: ChatLog; character?: Character; story?: Story }[];
+    items: { thread: Thread; character?: Character; story?: Story }[];
     images: ImagesMultisize[];
   };
   exploreLanguage: string;
@@ -115,7 +115,7 @@ export const appSlice = createSlice({
       }
     ) => {
       const log = state.chatLogs?.find(
-        (log: ChatLog) => log.threadId === action.payload.threadId
+        (log: Thread) => log.threadId === action.payload.threadId
       );
       const message = log?.chatLog?.find(
         (m) =>
@@ -239,8 +239,8 @@ export const appSlice = createSlice({
       );
       if (currentLog) currentLog.title = action.payload.title;
     },
-    setChatLogs: (state, action) => {
-      state.chatLogs = action.payload.map((cl: ChatLog) => ({
+    setThreads: (state, action) => {
+      state.chatLogs = action.payload.map((cl: Thread) => ({
         ...state.chatLogs.find((l) => l.threadId === cl.threadId),
         ...cl,
         isBeingArchived: false,
@@ -253,12 +253,12 @@ export const appSlice = createSlice({
         ],
       }));
     },
-    deleteChatLog: (state, action) => {
+    deleteThread: (state, action) => {
       state.chatLogs = state.chatLogs.filter(
         (log) => log.threadId !== action.payload
       );
     },
-    setChatLog: (state, action) => {
+    setThread: (state, action) => {
       if (!action.payload.threadId) return;
       const currentLog = state.chatLogs?.find(
         (log) => log.threadId === action.payload.threadId
@@ -301,9 +301,9 @@ export const appSlice = createSlice({
         });
       }
     },
-    addChatLog: (state, action) => {
+    addThread: (state, action) => {
       const currentLog = state.chatLogs?.find(
-        (log: ChatLog) => log.threadId === action.payload.threadId
+        (log: Thread) => log.threadId === action.payload.threadId
       );
       if (currentLog) {
         if (!currentLog.chatLog) currentLog.chatLog = [];
@@ -466,9 +466,9 @@ export const {
   toggleLoginModal,
   setCurrentlyViewing,
   setThreadTitle,
-  setChatLogs,
-  setChatLog,
-  addChatLog,
+  setThreads,
+  setThread,
+  addThread,
   setIsDataLoaded,
   setIsDataLoading,
   removeIsFromDataLoading,
@@ -476,7 +476,7 @@ export const {
   setCharacter,
   setCharacters,
   deleteCharacter,
-  deleteChatLog,
+  deleteThread,
   setGame,
   deleteGame,
   messageSentPlusOne,

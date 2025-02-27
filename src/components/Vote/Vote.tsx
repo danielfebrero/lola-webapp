@@ -10,10 +10,10 @@ import {
   downvoteExplore,
   upvoteExplore,
 } from "../../store/features/app/appSlice";
-import { ChatLog } from "../../types/chat";
+import { Thread } from "../../types/chat";
 
 interface VoteProps {
-  thread: ChatLog;
+  thread: Thread;
 }
 
 const Vote: React.FC<VoteProps> = (props) => {

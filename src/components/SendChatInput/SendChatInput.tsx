@@ -9,7 +9,7 @@ import useWebSocket from "../../hooks/useWebSocket";
 import { useAppDispatch } from "../../store/hooks";
 import {
   addRequestStopped,
-  setChatLog,
+  setThread,
 } from "../../store/features/app/appSlice";
 import clsx from "clsx";
 import ShieldIcon from "../../icons/shield";
@@ -72,7 +72,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
         dispatch(addRequestStopped(lastRequestId));
       }
       dispatch(
-        setChatLog({
+        setThread({
           threadId: props.threadId,
           isInputAvailable: true,
           isLoading: false,

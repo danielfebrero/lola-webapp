@@ -12,7 +12,7 @@ interface Message {
   request_id?: string;
 }
 
-interface ChatLog {
+interface Thread {
   created_at?: string;
   threadId: string;
   chatLog?: Message[];

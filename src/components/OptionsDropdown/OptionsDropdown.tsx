@@ -4,7 +4,7 @@ import useClickOutside from "../../hooks/useClickOutside";
 import DeleteIcon from "../../icons/delete";
 import useWebSocket from "../../hooks/useWebSocket";
 import { useAppDispatch } from "../../store/hooks";
-import { setChatLog } from "../../store/features/app/appSlice";
+import { setThread } from "../../store/features/app/appSlice";
 import useGA from "../../hooks/useGA";
 import useAPI from "../../hooks/useAPI";
 import ArchiveIcon from "../../icons/archive";
@@ -46,13 +46,13 @@ const OptionsDropdown: React.FC<OptionsDropdownProps> = (props) => {
         console.warn("Unhandled type:", props.type);
     }
     props.hide();
-    dispatch(setChatLog({ threadId: props.threadId, isBeingDeleted: true }));
+    dispatch(setThread({ threadId: props.threadId, isBeingDeleted: true }));
   };
 
   const clickOnArchive = () => {
     sendEvent("click_on_archive_from_left_panel", props.type);
     archiveThread(props.threadId);
-    dispatch(setChatLog({ threadId: props.threadId, isBeingArchived: true }));
+    dispatch(setThread({ threadId: props.threadId, isBeingArchived: true }));
     props.hide();
   };
 

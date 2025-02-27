@@ -6,13 +6,13 @@ import { track } from "@vercel/analytics/react";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import {
-  addChatLog,
-  setChatLogs,
-  setChatLog,
+  addThread,
+  setThreads,
+  setThread,
   setThreadTitle,
   setCharacter,
   setCharacters,
-  deleteChatLog,
+  deleteThread,
   deleteCharacter as deleteCharacterAction,
   setGame,
   deleteGame,
@@ -171,7 +171,7 @@ export default function useWebSocket({
                     }
 
                     dispatch(
-                      setChatLog({
+                      setThread({
                         threadId: data.threadId,
                         isInputAvailable: true,
                         canSendMessage: true,
@@ -199,7 +199,7 @@ export default function useWebSocket({
                     )
                       return;
                     dispatch(
-                      addChatLog({
+                      addThread({
                         threadId: data.threadId,
                         canSendMessage: false,
                         isInputAvailable: true,
@@ -214,7 +214,7 @@ export default function useWebSocket({
                   case "init":
                     if (setThreadId) setThreadId(data.threadId);
                     dispatch(
-                      setChatLog({
+                      setThread({
                         threadId: data.threadId,
                         isInputAvailable: true,
                         canSendMessage: false,
@@ -228,7 +228,7 @@ export default function useWebSocket({
                 break;
 
               case "threads":
-                dispatch(setChatLogs(data.data));
+                dispatch(setThreads(data.data));
                 dispatch(removeIsFromDataLoading("threads"));
                 break;
 
@@ -290,7 +290,7 @@ export default function useWebSocket({
               case "messages":
                 if (data.errorCode === "403") navigate(newChatLocation);
                 dispatch(
-                  setChatLog({
+                  setThread({
                     chatLog: data.data,
                     threadId: data.threadId,
                     isInputAvailable: true,
@@ -343,7 +343,7 @@ export default function useWebSocket({
                     currentlyViewing.objectId === data.threadId
                   )
                     navigate("/story/new");
-                  dispatch(deleteChatLog(data.threadId));
+                  dispatch(deleteThread(data.threadId));
                 }
 
                 break;
@@ -356,7 +356,7 @@ export default function useWebSocket({
                     navigate("/character/new");
 
                   dispatch(deleteCharacterAction(data.threadId));
-                  dispatch(deleteChatLog(data.threadId));
+                  dispatch(deleteThread(data.threadId));
                 }
                 break;
 
@@ -369,7 +369,7 @@ export default function useWebSocket({
                     navigate("/game/new");
 
                   dispatch(deleteGame(data.threadId));
-                  dispatch(deleteChatLog(data.threadId));
+                  dispatch(deleteThread(data.threadId));
                 }
                 break;
 
@@ -408,7 +408,7 @@ export default function useWebSocket({
     // Add user's message to the chat log
     if (threadId) {
       dispatch(
-        setChatLog({
+        setThread({
           threadId,
           canSendMessage: false,
           lastRequestId: requestId,
@@ -416,7 +416,7 @@ export default function useWebSocket({
         })
       );
       dispatch(
-        addChatLog({
+        addThread({
           threadId,
           content: message,
           role: "user",

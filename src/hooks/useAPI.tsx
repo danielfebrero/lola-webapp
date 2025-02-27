@@ -9,8 +9,8 @@ import {
   setArchivedThreads,
   setCharacter,
   setCharacters,
-  setChatLog,
-  setChatLogs,
+  setThread,
+  setThreads,
   setExplore,
 } from "../store/features/app/appSlice";
 import useNewChatLocation from "./useNewChatLocation";
@@ -62,7 +62,7 @@ const useAPI = () => {
 
       const data = await response.json();
       dispatch(removeIsFromDataLoading("threads"));
-      dispatch(setChatLogs(data));
+      dispatch(setThreads(data));
       return;
     } catch (error) {
       console.error(error);
@@ -131,7 +131,7 @@ const useAPI = () => {
         })
       );
       dispatch(
-        setChatLog({
+        setThread({
           chatLog: data.data.chatLog,
           threadId: data.threadId,
           isInputAvailable: true,
@@ -171,7 +171,7 @@ const useAPI = () => {
 
       const data = await response.json();
       dispatch(
-        setChatLog({
+        setThread({
           chatLog: data.data,
           threadId: data.threadId,
           isInputAvailable: true,

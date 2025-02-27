@@ -79,11 +79,11 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     if (chatLogs.length > 0) {
-      const currentChatLog = chatLogs.find(
+      const currentThread = chatLogs.find(
         (log) => log.threadId === currentlyViewing.objectId
       );
-      currentChatLog
-        ? setIsPrivate(currentChatLog.is_private ?? false)
+      currentThread
+        ? setIsPrivate(currentThread.is_private ?? false)
         : setIsPrivate(false);
     } else {
       setIsPrivate(false);

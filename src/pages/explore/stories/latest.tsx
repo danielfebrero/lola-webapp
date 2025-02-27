@@ -7,7 +7,7 @@ import ExploreFeedLayout from "../../../components/Layouts/ExploreFeed";
 import { Character } from "../../../types/characters";
 import { getAPIUrlFromContext } from "../../../utils/ssr";
 import { Story } from "../../../types/stories";
-import { ChatLog } from "../../../types/chat";
+import { Thread } from "../../../types/chat";
 import { META_DESCRIPTION } from "../../../utils/constants";
 
 const App = dynamic(() => import("../../../App"), {
@@ -16,7 +16,7 @@ const App = dynamic(() => import("../../../App"), {
 
 interface ExploreLatestStoriesPageProps {
   data: {
-    thread: ChatLog;
+    thread: Thread;
     character?: Character;
     story?: Story;
   }[];

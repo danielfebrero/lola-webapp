@@ -7,7 +7,7 @@ import SendChatInput from "../../components/SendChatInput";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   setCurrentlyViewing,
-  setChatLog as setChatLogAction,
+  setThread as setThreadAction,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import Meta from "../../components/Meta";
@@ -16,7 +16,7 @@ import useAutoScroll from "../../hooks/useAutoScroll";
 import { Message } from "../../types/chat";
 
 const LolaPage: React.FC = () => {
-  const [chatLog, setChatLog] = useState<Message[]>([]);
+  const [chatLog, setThread] = useState<Message[]>([]);
   const [threadId, setThreadId] = useState<string | null>(null);
   const params = useParams();
   const dispatch = useAppDispatch();
@@ -39,7 +39,7 @@ const LolaPage: React.FC = () => {
     (threadId: string | null) => {
       setThreadId(threadId);
       dispatch(
-        setChatLogAction({
+        setThreadAction({
           threadId,
           lastRequestId: lastRequestIdWaitingForThreadId,
         })
@@ -68,7 +68,7 @@ const LolaPage: React.FC = () => {
       turnOnImageGeneration,
       isUncensored,
     });
-    if (chatLog.length === 0) setChatLog([{ role: "user", content }]);
+    if (chatLog.length === 0) setThread([{ role: "user", content }]);
   };
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const LolaPage: React.FC = () => {
   useEffect(() => {
     if (params.threadId && params.threadId !== "new") {
       dispatch(
-        setChatLogAction({
+        setThreadAction({
           threadId: params.threadId,
           isLoading: true,
           isInputAvailable: false,
@@ -97,7 +97,7 @@ const LolaPage: React.FC = () => {
     const log =
       chatLogs.find((log) => log.threadId === params.threadId)?.chatLog ??
       chatLog;
-    setChatLog(log);
+    setThread(log);
   }, [chatLogs]);
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const LolaPage: React.FC = () => {
   useEffect(() => {
     if (params.threadId === "new") {
       setThreadId(null);
-      setChatLog([]);
+      setThread([]);
     }
   }, [params.threadId]);
 

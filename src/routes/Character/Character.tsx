@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   setCurrentlyViewing,
   setCharacter,
-  setChatLog as setChatLogAction,
+  setThread as setThreadAction,
 } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import useGA from "../../hooks/useGA";
@@ -76,7 +76,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       ({} as Character)
   );
   const [threadId, setThreadId] = useState<string | null>(null);
-  const [chatLog, setChatLog] = useState<Message[]>([]);
+  const [chatLog, setThread] = useState<Message[]>([]);
   const [serverCharacter, setServerCharacter] =
     useState<CharacterServerData | null>(props.serverData ?? null);
   const dispatch = useAppDispatch();
@@ -89,7 +89,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const characterSetThreadId = (threadId: string | null) => {
     setThreadId(threadId);
     dispatch(
-      setChatLogAction({
+      setThreadAction({
         threadId,
         lastRequestId: lastRequestIdWaitingForThreadId,
       })
@@ -148,7 +148,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       threadId !== params.threadId
     ) {
       dispatch(
-        setChatLogAction({
+        setThreadAction({
           threadId: params.threadId,
           isLoading: true,
           isInputAvailable: false,
@@ -184,7 +184,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
         })
       );
       dispatch(
-        setChatLogAction({
+        setThreadAction({
           chatLog: serverCharacter.data.chatLog,
           threadId: serverCharacter.threadId,
           isInputAvailable: true,
@@ -204,13 +204,13 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   }, [threadId]);
 
   useEffect(() => {
-    if (chatLogState && params.threadId !== "new") setChatLog(chatLogState);
+    if (chatLogState && params.threadId !== "new") setThread(chatLogState);
   }, [chatLogState, params.threadId]);
 
   useEffect(() => {
     if (params.threadId === "new") {
       setThreadId(null);
-      setChatLog(newroleChat);
+      setThread(newroleChat);
     }
   }, [newroleChat, params.threadId]);
 
