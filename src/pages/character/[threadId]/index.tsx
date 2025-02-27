@@ -65,6 +65,7 @@ const CharacterPage: NextPage<CharacterPageProps> = ({ serverData }) => {
               chatLog={serverData?.data.chatLog}
               isOwner={serverData?.isOwner}
               threadId={serverData?.threadId}
+              thread={serverData?.thread}
             />
           )}
         </PageLayout>

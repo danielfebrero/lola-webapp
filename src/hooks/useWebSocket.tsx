@@ -92,6 +92,7 @@ export default function useWebSocket({
                 dispatch(setAdminAnalytics(data.data));
                 break;
               case "clicked_votes":
+                console.log("clicked votes", data.data);
                 dispatch(setClickedUpvotes(data.data.upvotes));
                 dispatch(setClickedDownvotes(data.data.downvotes));
                 break;

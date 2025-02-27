@@ -18,6 +18,7 @@ import ImageViewer from "../../components/ImageViewer/ImageViewer";
 import MarkdownToHTML from "../../components/MarkdownToHTML";
 import useAPI from "../../hooks/useAPI";
 import ChevronDownIcon from "../../icons/chevronDown";
+import Vote from "../../components/Vote";
 
 const titleByType = {
   best: "Best content",
@@ -25,23 +26,13 @@ const titleByType = {
 };
 
 const ExplorePage: React.FC = (props) => {
-  const { sendEvent } = useGA();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { upvote, downvote, getClickedVotes, socketConnection } = useWebSocket(
-    {}
-  );
+  const { getClickedVotes, socketConnection } = useWebSocket({});
   const { getExplore } = useAPI();
   const params = useParams();
   const { explore, exploreLanguage, isLeftPanelOpen } = useAppSelector(
     (state) => state.app
-  );
-  const { clickedUpvotes, clickedDownvotes } = useAppSelector(
-    (state) => state.user
-  );
-  const [stateClickedUpvotes, setStateClickedUpvotes] = useState<string[]>([]);
-  const [stateClickedDownvotes, setStateClickedDownvotes] = useState<string[]>(
-    []
   );
   const [expandedThread, setExpandedThread] = useState<string[]>([]);
   const dispatch = useAppDispatch();
@@ -53,17 +44,11 @@ const ExplorePage: React.FC = (props) => {
   }, [params.exploreMode, params.type, exploreLanguage]);
 
   useEffect(() => {
-    if (socketConnection?.readyState === socketConnection?.OPEN)
+    if (socketConnection?.readyState === socketConnection?.OPEN) {
       getClickedVotes();
+      console.log("get clicked votes");
+    }
   }, [socketConnection?.readyState]);
-
-  useEffect(() => {
-    setStateClickedDownvotes(clickedDownvotes);
-  }, [clickedDownvotes]);
-
-  useEffect(() => {
-    setStateClickedUpvotes(clickedUpvotes);
-  }, [clickedUpvotes]);
 
   useEffect(() => {
     if (params.exploreMode === "latest" && !params.type)
@@ -229,77 +214,7 @@ const ExplorePage: React.FC = (props) => {
                 <div className="flex flex-row w-full justify-center">
                   <div className="flex flex-row w-full max-w-[715px]">
                     <div className="flex flex-row mt-[10px] grow">
-                      <div className="flex flex-row rounded-lg dark:bg-darkMainSurcaceTertiary bg-gray-200 items-center">
-                        <div
-                          onClick={() => {
-                            if (
-                              !stateClickedUpvotes.includes(c.thread.threadId)
-                            ) {
-                              upvote(c.thread.threadId);
-                              sendEvent("add_upvote", "explore");
-                              dispatch(upvoteExplore(c.thread.threadId));
-                              setStateClickedUpvotes((prev) => [
-                                ...prev,
-                                c.thread.threadId,
-                              ]);
-                              if (
-                                stateClickedDownvotes.includes(
-                                  c.thread.threadId
-                                )
-                              ) {
-                                dispatch(upvoteExplore(c.thread.threadId));
-                                setStateClickedDownvotes((prev) =>
-                                  prev.filter((t) => t !== c.thread.threadId)
-                                );
-                              }
-                            }
-                          }}
-                          className={clsx(
-                            {
-                              "dark:bg-darkMainSurfacePrimary bg-white":
-                                stateClickedUpvotes.includes(c.thread.threadId),
-                            },
-                            "cursor-pointer w-[30px] h-[30px] hover:dark:bg-darkMainSurfacePrimary hover:bg-white p-[5px] rounded-full"
-                          )}
-                        >
-                          <UpvoteIcon />
-                        </div>
-                        <span className="mx-[5px]">{c.thread.votes ?? 0}</span>
-                        <div
-                          onClick={() => {
-                            if (
-                              !stateClickedDownvotes.includes(c.thread.threadId)
-                            ) {
-                              downvote(c.thread.threadId);
-                              sendEvent("add_downvote", "explore");
-                              dispatch(downvoteExplore(c.thread.threadId));
-                              setStateClickedDownvotes((prev) => [
-                                ...prev,
-                                c.thread.threadId,
-                              ]);
-                              if (
-                                stateClickedUpvotes.includes(c.thread.threadId)
-                              ) {
-                                dispatch(downvoteExplore(c.thread.threadId));
-                                setStateClickedUpvotes((prev) =>
-                                  prev.filter((t) => t !== c.thread.threadId)
-                                );
-                              }
-                            }
-                          }}
-                          className={clsx(
-                            {
-                              "dark:bg-darkMainSurfacePrimary bg-white":
-                                stateClickedDownvotes.includes(
-                                  c.thread.threadId
-                                ),
-                            },
-                            "cursor-pointer w-[30px] h-[30px] hover:dark:bg-darkMainSurfacePrimary hover:bg-white p-[5px] rounded-full"
-                          )}
-                        >
-                          <DownvoteIcon />
-                        </div>
-                      </div>
+                      <Vote thread={c.thread} />
                     </div>
                   </div>
                 </div>

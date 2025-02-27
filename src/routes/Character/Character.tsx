@@ -21,6 +21,7 @@ import useAPI from "../../hooks/useAPI";
 import { Character, CharacterServerData } from "../../types/characters";
 import useAutoScroll from "../../hooks/useAutoScroll";
 import { Message } from "../../types/chat";
+import Vote from "../../components/Vote";
 
 interface CharacterPageProps {
   selected?: Record<string, string>;
@@ -95,7 +96,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     );
   };
 
-  const { sendMessage, socketConnection } = useWebSocket({
+  const { sendMessage, getClickedVotes, socketConnection } = useWebSocket({
     setThreadId: characterSetThreadId,
   });
 
@@ -127,6 +128,12 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   ) => {
     setSelectedRightViewType(viewType);
   };
+
+  useEffect(() => {
+    if (socketConnection?.readyState === WebSocket.OPEN) {
+      getClickedVotes();
+    }
+  }, [socketConnection?.readyState]);
 
   useEffect(() => {
     setIsAssistantWriting(
@@ -294,12 +301,15 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 />
               </div>
             )}
-            {!chatState?.isOwner && params.threadId !== "new" && (
-              <div
-                className="rounded-full border border-borderColor dark:border-darkBorderColor text-center py-[5px] cursor-pointer"
-                onClick={() => navigate("/character/new")}
-              >
-                {t("Create a character")}
+            {!chatState?.isOwner && params.threadId !== "new" && chatState && (
+              <div className="flex flex-row w-full">
+                <div
+                  className="grow mr-[20px] rounded-full border border-borderColor dark:border-darkBorderColor text-center py-[5px] cursor-pointer"
+                  onClick={() => navigate("/character/new")}
+                >
+                  {t("Create a character")}
+                </div>
+                <Vote thread={chatState} />
               </div>
             )}
           </div>
@@ -399,14 +409,19 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                       />
                     </div>
                   )}
-                  {!chatState?.isOwner && params.threadId !== "new" && (
-                    <div
-                      className="rounded-full border border-borderColor dark:border-darkBorderColor text-center py-[5px] cursor-pointer"
-                      onClick={() => navigate("/character/new")}
-                    >
-                      {t("Create a character")}
-                    </div>
-                  )}
+                  {!chatState?.isOwner &&
+                    params.threadId !== "new" &&
+                    chatState && (
+                      <div className="flex flex-row w-full">
+                        <div
+                          className="grow mr-[20px] rounded-full border border-borderColor dark:border-darkBorderColor text-center py-[5px] cursor-pointer"
+                          onClick={() => navigate("/character/new")}
+                        >
+                          {t("Create a character")}
+                        </div>
+                        <Vote thread={chatState} />
+                      </div>
+                    )}
                 </div>
               )}
               {selectedRightViewType === "report" && (

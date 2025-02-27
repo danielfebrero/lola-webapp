@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { Games } from "../../../types/games";
 import { Character, ImagesMultisize } from "../../../types/characters";
 import { Story } from "../../../types/stories";
@@ -143,19 +143,27 @@ export const appSlice = createSlice({
       state.explore.items = action.payload;
     },
     upvoteExplore: (state, action) => {
-      const thread = state.explore.items.find(
+      const exploreThread = state.explore.items.find(
         (t) => t.thread.threadId === action.payload
       );
+      if (exploreThread) {
+        exploreThread.thread.votes = (exploreThread?.thread.votes ?? 0) + 1;
+      }
+      const thread = state.chatLogs.find((t) => t.threadId === action.payload);
       if (thread) {
-        thread.thread.votes = (thread?.thread.votes ?? 0) + 1;
+        thread.votes = (thread?.votes ?? 0) + 1;
       }
     },
     downvoteExplore: (state, action) => {
-      const thread = state.explore.items.find(
+      const exploreThread = state.explore.items.find(
         (t) => t.thread.threadId === action.payload
       );
+      if (exploreThread) {
+        exploreThread.thread.votes = (exploreThread?.thread.votes ?? 0) - 1;
+      }
+      const thread = state.chatLogs.find((t) => t.threadId === action.payload);
       if (thread) {
-        thread.thread.votes = (thread?.thread.votes ?? 0) - 1;
+        thread.votes = (thread?.votes ?? 0) - 1;
       }
     },
     setMode: (state, action) => {
@@ -275,6 +283,7 @@ export const appSlice = createSlice({
         currentLog.isOwner = action.payload.isOwner ?? currentLog.isOwner;
         currentLog.is_private =
           action.payload.is_private ?? currentLog.is_private;
+        currentLog.votes = action.payload.votes ?? currentLog.votes;
       } else {
         state.chatLogs.unshift({
           threadId: action.payload.threadId,
@@ -284,7 +293,7 @@ export const appSlice = createSlice({
           canSendMessage: action.payload.canSendMessage,
           isLoading: action.payload.isLoading,
           state: action.payload.state,
-          votes: 0,
+          votes: action.payload.votes ?? 0,
           isOwner: action.payload.isOwner ?? true,
           is_private: action.payload.is_private ?? false,
           lastRequestId: action.payload.lastRequestId ?? null,

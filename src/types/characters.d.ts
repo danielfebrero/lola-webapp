@@ -23,4 +23,5 @@ export interface CharacterServerData {
   data: Character;
   isOwner: boolean;
   threadId: string;
+  thread: ChatLog;
 }
