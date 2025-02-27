@@ -3,13 +3,15 @@ import ChatLayout from "./Chat";
 import SendChatInputLayout from "./SendChatInput";
 import { Character } from "../../types/characters";
 import ReportViewLayout from "./ReportView";
-import { Message } from "../../types/chat";
+import { ChatLog, Message } from "../../types/chat";
+import VoteLayout from "./Vote";
 
 interface CharacterLayoutProps {
   chatLog?: Message[];
   isOwner?: boolean;
   threadId?: string;
   character?: Character;
+  thread?: ChatLog;
 }
 
 const CharacterLayout: React.FC<CharacterLayoutProps> = (props) => {
@@ -35,8 +37,11 @@ const CharacterLayout: React.FC<CharacterLayoutProps> = (props) => {
             </div>
           )}
           {!props.isOwner && props.threadId !== "new" && (
-            <div className="rounded-full border border-borderColor dark:border-darkBorderColor text-center py-[5px] cursor-pointer">
-              Create a character
+            <div className="flex flex-row w-full">
+              <div className="grow mr-[20px] rounded-full border border-borderColor dark:border-darkBorderColor text-center py-[5px] cursor-pointer">
+                Create a character
+              </div>
+              <VoteLayout votes={props.thread?.votes ?? 0} />
             </div>
           )}
         </div>
@@ -92,8 +97,11 @@ const CharacterLayout: React.FC<CharacterLayoutProps> = (props) => {
                 </div>
               )}
               {!props.isOwner && props.threadId !== "new" && (
-                <div className="rounded-full border border-borderColor dark:border-darkBorderColor text-center py-[5px] cursor-pointer">
-                  Create a character
+                <div className="flex flex-row w-full">
+                  <div className="grow mr-[20px] rounded-full border border-borderColor dark:border-darkBorderColor text-center py-[5px] cursor-pointer">
+                    Create a character
+                  </div>
+                  <VoteLayout votes={props.thread?.votes ?? 0} />
                 </div>
               )}
             </div>
