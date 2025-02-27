@@ -3,7 +3,7 @@ import ChatLayout from "./Chat";
 import SendChatInputLayout from "./SendChatInput";
 import { Character } from "../../types/characters";
 import ReportViewLayout from "./ReportView";
-import { ChatLog, Message } from "../../types/chat";
+import { Thread, Message } from "../../types/chat";
 import VoteLayout from "./Vote";
 
 interface CharacterLayoutProps {
@@ -11,7 +11,7 @@ interface CharacterLayoutProps {
   isOwner?: boolean;
   threadId?: string;
   character?: Character;
-  thread?: ChatLog;
+  thread?: Thread;
 }
 
 const CharacterLayout: React.FC<CharacterLayoutProps> = (props) => {
