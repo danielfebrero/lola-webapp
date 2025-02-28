@@ -121,7 +121,7 @@ const ExploreImagesPage: React.FC = () => {
     <>
       <Meta title={t("Images")} />
       <ImageSlider
-        images={explore.images.items}
+        images={explore.images.items ?? []}
         imageViewingUrl={imageViewingUrl}
         hide={() => setImageViewingUrl(null)}
       />
