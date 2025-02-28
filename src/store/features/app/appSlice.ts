@@ -142,7 +142,6 @@ export const appSlice = createSlice({
     resetExploreImages: (state) => {
       state.explore.images = {
         items: [],
-        nextItem: null,
         isLoading: false,
       };
     },
