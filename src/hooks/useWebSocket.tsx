@@ -19,7 +19,6 @@ import {
   messageSentPlusOne,
   setStory,
   removeIsFromDataLoading,
-  setExploreImages,
   setIsCryptoCheckoutUrlLoading,
   setLastRequestWaitingForThreadId,
   addImageToMessage,
@@ -95,9 +94,6 @@ export default function useWebSocket({
                 console.log("clicked votes", data.data);
                 dispatch(setClickedUpvotes(data.data.upvotes));
                 dispatch(setClickedDownvotes(data.data.downvotes));
-                break;
-              case "explore_images":
-                dispatch(setExploreImages(data.data));
                 break;
               case "settings":
                 dispatch(setSettingsAction(data.data));
