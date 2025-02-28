@@ -282,9 +282,11 @@ const useAPI = () => {
     }
   };
 
-  const getExploreImages = async () => {
+  const getExploreImages = async (nextItem?: string) => {
     try {
-      const response = await fetch(`${API_URL}/explore/images?mode=${mode}`, {
+      let url = `${API_URL}/explore/images?mode=${mode}`;
+      if (nextItem) url += `&nextItem=${nextItem}`;
+      const response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -304,8 +306,7 @@ const useAPI = () => {
       }
 
       const data = await response.json();
-      dispatch(setExploreImages(data));
-      return;
+      return data;
     } catch (error) {
       console.error(error);
       throw error;

@@ -194,7 +194,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
     <div
       className={clsx(
         { hidden: currentIdx === null },
-        "fixed h-screen w-screen top-0 left-0 bg-black py-[50px] overflow-hidden"
+        "fixed h-screen w-screen top-0 left-0 bg-black py-[50px] overflow-hidden z-10"
       )}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}

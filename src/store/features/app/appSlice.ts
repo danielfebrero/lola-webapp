@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { Games } from "../../../types/games";
 import { Character, ImagesMultisize } from "../../../types/characters";
 import { Story } from "../../../types/stories";
@@ -29,7 +29,10 @@ interface AppState {
   languages: Record<string, string>;
   explore: {
     items: { thread: Thread; character?: Character; story?: Story }[];
-    images: ImagesMultisize[];
+    images: {
+      items: ImagesMultisize[];
+      isLoading: boolean;
+    };
   };
   exploreLanguage: string;
   isCryptoPricingCheckoutUrlLoading: boolean;
@@ -60,7 +63,10 @@ const initialState: AppState = {
   languages: {},
   explore: {
     items: [],
-    images: [],
+    images: {
+      items: [],
+      isLoading: false,
+    },
   },
   exploreLanguage: "all",
   isCryptoPricingCheckoutUrlLoading: false,
@@ -133,8 +139,21 @@ export const appSlice = createSlice({
     setLanguages: (state, action) => {
       state.languages = action.payload;
     },
-    setExploreImages: (state, action) => {
-      state.explore.images = action.payload;
+    resetExploreImages: (state) => {
+      state.explore.images = {
+        items: [],
+        nextItem: null,
+        isLoading: false,
+      };
+    },
+    appendExploreImages: (state, action) => {
+      state.explore.images.items = [
+        ...state.explore.images.items,
+        ...action.payload.images,
+      ];
+    },
+    setExploreImagesLoading: (state, action) => {
+      state.explore.images.isLoading = action.payload;
     },
     setExploreLanguage: (state, action) => {
       state.exploreLanguage = action.payload;
@@ -484,7 +503,9 @@ export const {
   setMode,
   setPrevMode,
   setExplore,
-  setExploreImages,
+  resetExploreImages,
+  appendExploreImages,
+  setExploreImagesLoading,
   upvoteExplore,
   downvoteExplore,
   setExploreLanguage,
