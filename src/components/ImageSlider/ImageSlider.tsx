@@ -106,7 +106,7 @@ const ImageSlider: React.FC<ImageSliderProps> = (props) => {
 
   useEffect(() => {
     if (props.imageViewingUrl || props.imageViewingUrl === null) {
-      const idx = props.images.findIndex(
+      const idx = props.images?.findIndex(
         (i) => i.original === props.imageViewingUrl
       );
       if (idx > -1) setCurrentIdx(idx);

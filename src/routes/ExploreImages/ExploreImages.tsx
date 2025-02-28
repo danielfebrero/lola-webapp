@@ -2,28 +2,24 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 
 import Meta from "../../components/Meta";
-import useWebSocket from "../../hooks/useWebSocket";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import useGA from "../../hooks/useGA";
 import ImageSlider from "../../components/ImageSlider";
 import { setExploreImages } from "../../store/features/app/appSlice";
+import useAPI from "../../hooks/useAPI";
 
 const ExploreImagesPage: React.FC = (props) => {
   const { t } = useTranslation();
   const [imageViewingUrl, setImageViewingUrl] = useState<string | null>(null);
   const { explore } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
-
-  const { getExploreImages, socketConnection } = useWebSocket({});
-
+  const { getExploreImages } = useAPI();
   const { sendEvent } = useGA();
 
   useEffect(() => {
     dispatch(setExploreImages([]));
-    if (socketConnection?.readyState === socketConnection?.OPEN) {
-      getExploreImages();
-    }
-  }, [socketConnection?.readyState]);
+    getExploreImages();
+  }, []);
 
   return (
     <>

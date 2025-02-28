@@ -12,6 +12,7 @@ import {
   setThread,
   setThreads,
   setExplore,
+  setExploreImages,
 } from "../store/features/app/appSlice";
 import useNewChatLocation from "./useNewChatLocation";
 import { setScenarios } from "../store/features/games/gamesSlice";
@@ -269,13 +270,41 @@ const useAPI = () => {
       );
 
       if (!response.ok) {
-        throw new Error(
-          `Error fetching explore latest: ${response.statusText}`
-        );
+        throw new Error(`Error fetching explore: ${response.statusText}`);
       }
 
       const data = await response.json();
       dispatch(setExplore(data));
+      return;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const getExploreImages = async () => {
+    try {
+      const response = await fetch(`${API_URL}/explore/images?mode=${mode}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error fetching explore images: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      dispatch(setExploreImages(data));
       return;
     } catch (error) {
       console.error(error);
@@ -508,6 +537,7 @@ const useAPI = () => {
     getAdminAnalytics,
     getMyImages,
     getExplore,
+    getExploreImages,
     setCharacterAvatar,
     uploadCharacterImage,
     archiveThread,
