@@ -107,11 +107,7 @@ const ExploreImagesPage: React.FC = () => {
             sendEvent("clicked_on_image_from_explore_image");
           }}
         >
-          <img
-            src={image.large}
-            alt={image.original}
-            className="w-full h-full object-cover"
-          />
+          <img src={image.large} className="w-full h-full object-cover" />
         </div>
       </div>
     );
