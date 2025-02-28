@@ -12,7 +12,6 @@ import {
   setThread,
   setThreads,
   setExplore,
-  setExploreImages,
 } from "../store/features/app/appSlice";
 import useNewChatLocation from "./useNewChatLocation";
 import { setScenarios } from "../store/features/games/gamesSlice";
