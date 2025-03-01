@@ -30,7 +30,7 @@ const breakpoints = {
 const ExploreImagesPage: React.FC = () => {
   const { t } = useTranslation();
   const [imageViewingUrl, setImageViewingUrl] = useState<string | null>(null);
-  const { explore } = useAppSelector((state) => state.app);
+  const { explore, mode } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   const { getExploreImages } = useAPI();
   const { sendEvent } = useGA();
@@ -84,8 +84,9 @@ const ExploreImagesPage: React.FC = () => {
   // Load the initial set of images on mount
   useEffect(() => {
     dispatch(resetExploreImages());
-    // loadMoreItems(); // Fetch the first page
-  }, []); // Added dependencies
+    setHasNextPage(true);
+    setNextItem(undefined);
+  }, [mode]); // Added dependencies
 
   // Check if a row is loaded
   const isRowLoaded = (index: number) =>

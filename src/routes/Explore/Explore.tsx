@@ -4,16 +4,9 @@ import clsx from "clsx";
 import { Link, useParams, useNavigate } from "react-router";
 
 import Meta from "../../components/Meta";
-import UpvoteIcon from "../../icons/upvote";
-import DownvoteIcon from "../../icons/downvote";
 import useWebSocket from "../../hooks/useWebSocket";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import {
-  downvoteExplore,
-  setCurrentlyViewing,
-  upvoteExplore,
-} from "../../store/features/app/appSlice";
-import useGA from "../../hooks/useGA";
+import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 import ImageViewer from "../../components/ImageViewer/ImageViewer";
 import MarkdownToHTML from "../../components/MarkdownToHTML";
 import useAPI from "../../hooks/useAPI";
@@ -31,7 +24,7 @@ const ExplorePage: React.FC = (props) => {
   const { getClickedVotes, socketConnection } = useWebSocket({});
   const { getExplore } = useAPI();
   const params = useParams();
-  const { explore, exploreLanguage, isLeftPanelOpen } = useAppSelector(
+  const { explore, exploreLanguage, isLeftPanelOpen, mode } = useAppSelector(
     (state) => state.app
   );
   const [expandedThread, setExpandedThread] = useState<string[]>([]);
@@ -41,7 +34,7 @@ const ExplorePage: React.FC = (props) => {
     if (params.exploreMode && params.type) {
       getExplore(params.exploreMode, params.type);
     }
-  }, [params.exploreMode, params.type, exploreLanguage]);
+  }, [params.exploreMode, params.type, exploreLanguage, mode]);
 
   useEffect(() => {
     if (socketConnection?.readyState === socketConnection?.OPEN) {

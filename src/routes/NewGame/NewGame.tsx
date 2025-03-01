@@ -27,7 +27,7 @@ const NewGamePage: React.FC = () => {
   const [selectedGame, setSelectedGame] = useState<number | null>(null);
   const [locale, setLocale] = useState<string>("en");
   const dispatch = useAppDispatch();
-  const { characters, lastRequestIdWaitingForThreadId } = useAppSelector(
+  const { characters, lastRequestIdWaitingForThreadId, mode } = useAppSelector(
     (state) => state.app
   );
   const [hasSentMessage, setHasSentMessage] = useState<boolean>(false);
@@ -81,7 +81,7 @@ const NewGamePage: React.FC = () => {
   useEffect(() => {
     getCharacters();
     getGameScenarios();
-  }, []);
+  }, [mode]);
 
   useEffect(() => {
     if (threadId) {

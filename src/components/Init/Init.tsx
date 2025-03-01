@@ -46,6 +46,7 @@ const Init: React.FC = () => {
     mode,
     prevMode,
     isDataLoading,
+    currentlyViewing,
   } = useAppSelector((state) => state.app);
   const { socketConnection, connectionId } = useAppSelector(
     (state) => state.socket
@@ -139,7 +140,8 @@ const Init: React.FC = () => {
       dispatch(
         setIsDataLoadingLeftPanel(["characters", "threads", "settings"])
       );
-      navigate(newChatLocation);
+      if (currentlyViewing.objectType && currentlyViewing.objectId)
+        navigate(newChatLocation);
     }
   }, [mode, prevMode, location.pathname]);
 
