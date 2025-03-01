@@ -122,8 +122,6 @@ const Init: React.FC = () => {
   useEffect(() => {
     dispatch(setLanguages(LANGUES_BY_CODE));
     dispatch(setScenarios([]));
-    dispatch(setIsDataLoading(["characters", "threads", "settings"]));
-    dispatch(setIsDataLoaded(false));
   }, []);
 
   useEffect(() => {

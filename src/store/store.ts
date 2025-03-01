@@ -33,6 +33,7 @@ const persistConfig = {
         app: {
           ...persistedState.app,
           isDataLoading: ["characters", "threads", "settings"],
+          isDataLoaded: false,
         },
       });
     }
