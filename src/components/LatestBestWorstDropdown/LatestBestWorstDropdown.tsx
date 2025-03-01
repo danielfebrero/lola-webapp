@@ -10,7 +10,7 @@ interface LatestBestWorstDropdownProps {
   triggerRef: React.RefObject<HTMLDivElement>;
 }
 
-const exploreModes = ["latest", "best", "worst"];
+const exploreModes = ["latest", "best"];
 
 const LatestBestWorstDropdown: React.FC<LatestBestWorstDropdownProps> = (
   props
