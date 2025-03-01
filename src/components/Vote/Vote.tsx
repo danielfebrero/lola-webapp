@@ -14,6 +14,7 @@ import { Thread } from "../../types/chat";
 
 interface VoteProps {
   thread: Thread;
+  pageContext: string;
 }
 
 const Vote: React.FC<VoteProps> = (props) => {
@@ -44,7 +45,7 @@ const Vote: React.FC<VoteProps> = (props) => {
         onClick={() => {
           if (!isUpvoted) {
             upvote(props.thread.threadId);
-            sendEvent("upvote", "explore");
+            sendEvent("upvote", props.pageContext);
             dispatch(upvoteExplore(props.thread.threadId));
             setIsUpvoted(true);
             if (isDownvoted) {
@@ -68,7 +69,7 @@ const Vote: React.FC<VoteProps> = (props) => {
         onClick={() => {
           if (!isDownvoted) {
             downvote(props.thread.threadId);
-            sendEvent("downvote", "explore");
+            sendEvent("downvote", props.pageContext);
             dispatch(downvoteExplore(props.thread.threadId));
             setIsDownvoted(true);
             if (isUpvoted) {

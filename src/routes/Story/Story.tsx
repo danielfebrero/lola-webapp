@@ -176,7 +176,7 @@ const Storypage: React.FC<StorypageProps> = (props) => {
                   <div
                     onClick={() => {
                       sendMessage(t("Continue"), "story", threadId);
-                      sendEvent("clicked_on_continue_from_story");
+                      sendEvent("clicked_on_continue", "story");
                     }}
                     className="rounded-lg p-[15px] py-[7px] w-fit border border-borderColor dark:border-darkBorderColor hover:bg-lightGray dark:hover:bg-darkLightGray cursor-pointer"
                   >

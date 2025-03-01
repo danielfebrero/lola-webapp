@@ -309,7 +309,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                 >
                   {t("Create a character")}
                 </div>
-                <Vote thread={chatState} />
+                <Vote thread={chatState} pageContext="character" />
               </div>
             )}
           </div>
@@ -419,7 +419,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                         >
                           {t("Create a character")}
                         </div>
-                        <Vote thread={chatState} />
+                        <Vote thread={chatState} pageContext="character" />
                       </div>
                     )}
                 </div>

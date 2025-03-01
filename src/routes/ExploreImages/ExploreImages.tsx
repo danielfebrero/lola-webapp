@@ -104,7 +104,7 @@ const ExploreImagesPage: React.FC = () => {
           className="w-full h-full cursor-pointer"
           onClick={() => {
             setImageViewingUrl(image.original);
-            sendEvent("clicked_on_image_from_explore_image");
+            sendEvent("clicked_on_image", "explore_images");
           }}
         >
           <img src={image.large} className="w-full h-full object-cover" />

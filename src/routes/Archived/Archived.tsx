@@ -34,17 +34,17 @@ const ArchivedPage: React.FC = () => {
   const deleteThread = (threadId: string, type: string) => {
     switch (type) {
       case "character":
-        sendEvent("click_delete_char_from_archived", type);
+        sendEvent("click_delete_char", "archived");
         deleteCharacter(threadId);
         break;
 
       case "you_are_the_hero":
-        sendEvent("click_delete_game_from_archived", type);
+        sendEvent("click_delete_game", "archived");
         deleteHeroGame(threadId);
         break;
 
       case "story":
-        sendEvent("click_delete_story_from_archived", type);
+        sendEvent("click_delete_story", "archived");
         deleteStory(threadId);
         break;
 

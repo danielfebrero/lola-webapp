@@ -25,7 +25,7 @@ const ImageViewer: React.FC<ImageViewerProps> = (props) => {
           <div
             onClick={() => {
               setImageViewingIdx(idx);
-              sendEvent("clicked_on_image_from_image_viewer");
+              sendEvent("clicked_on_image", "image_viewer");
             }}
             key={img.original}
             className="h-[100px] flex-shrink-0 snap-center cursor-pointer"

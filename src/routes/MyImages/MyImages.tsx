@@ -53,7 +53,7 @@ const MyImagesPage: React.FC = () => {
                   className="w-[120px] h-[120px] cursor-pointer"
                   onClick={() => {
                     setImageViewingUrl(i.original);
-                    sendEvent("clicked_on_image_from_explore_image");
+                    sendEvent("clicked_on_image", "my_images");
                   }}
                 >
                   <img src={i.large} alt={i.original} />

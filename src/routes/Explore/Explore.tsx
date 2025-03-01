@@ -214,7 +214,7 @@ const ExplorePage: React.FC = (props) => {
                 <div className="flex flex-row w-full justify-center">
                   <div className="flex flex-row w-full max-w-[715px]">
                     <div className="flex flex-row mt-[10px] grow">
-                      <Vote thread={c.thread} />
+                      <Vote thread={c.thread} pageContext="explore" />
                     </div>
                   </div>
                 </div>

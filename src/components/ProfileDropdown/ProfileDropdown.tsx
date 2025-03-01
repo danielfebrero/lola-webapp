@@ -31,7 +31,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
   const navigate = useNavigate();
 
   const signOutRedirect = () => {
-    sendEvent("click_signout");
+    sendEvent("click_signout", "profile_dropdown");
     const clientId = "6hg2ttnt7v00aflhj0qbgm0dgj";
     const logoutUri = window.location.origin;
     const cognitoDomain =

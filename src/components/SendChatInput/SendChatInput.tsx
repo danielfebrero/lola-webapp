@@ -17,6 +17,7 @@ import GlobeIcon from "../../icons/globe";
 import ArtIcon from "../../icons/art";
 import SpreadIcon from "../../icons/spread";
 import AdultIcon from "../../icons/adult";
+import useGA from "../../hooks/useGA";
 
 interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
@@ -53,6 +54,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [turnOnImageSearch, setTurnOnImageSearch] = useState<boolean>(false);
+  const { sendEvent } = useGA();
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = event.target;
@@ -244,7 +246,10 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                         ? () =>
                             props.setPrivate &&
                             props.setPrivate(!props.isPrivate)
-                        : () => navigate("/pricing")
+                        : () => {
+                            sendEvent("click_private", "chat_input");
+                            navigate("/pricing");
+                          }
                     }
                     className={clsx(
                       {

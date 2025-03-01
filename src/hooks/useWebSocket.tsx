@@ -397,7 +397,7 @@ export default function useWebSocket({
     const requestId = v4();
 
     track("sent_message");
-    sendEvent("send_message_" + endpoint, endpoint);
+    sendEvent("send_message", endpoint);
 
     dispatch(messageSentPlusOne());
 

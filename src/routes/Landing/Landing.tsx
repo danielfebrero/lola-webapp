@@ -84,9 +84,7 @@ const LandingPage: React.FC = () => {
             <div className="flex flex-col mt-[40px] w-[60%]">
               <Link
                 to={"/character/new"}
-                onClick={() =>
-                  sendEvent("click_new_char_from_landing_page", "character")
-                }
+                onClick={() => sendEvent("click_new_char", "landing")}
               >
                 <div className="bg-lightGray dark:bg-darkLightGray rounded-lg px-[10px] py-[5px] cursor-pointer border border-borderLight dark:border-darkBorderLight text-center">
                   {t("New character")}
@@ -94,9 +92,7 @@ const LandingPage: React.FC = () => {
               </Link>
               <Link
                 to={"/story/new"}
-                onClick={() =>
-                  sendEvent("click_new_story_from_landing_page", "story")
-                }
+                onClick={() => sendEvent("click_new_story", "landing")}
               >
                 <div className="bg-lightGray dark:bg-darkLightGray rounded-lg px-[10px] py-[5px] md:mx-[20px] my-[5px] md:my-0 cursor-pointer border border-borderLight dark:border-darkBorderLight text-center">
                   {t("New story")}
@@ -104,12 +100,7 @@ const LandingPage: React.FC = () => {
               </Link>
               <Link
                 to={"/game/new"}
-                onClick={() =>
-                  sendEvent(
-                    "click_new_game_from_landing_page",
-                    "you_are_the_hero"
-                  )
-                }
+                onClick={() => sendEvent("click_new_game", "landing")}
               >
                 <div className="bg-lightGray dark:bg-darkLightGray rounded-lg px-[10px] py-[5px] cursor-pointer border border-borderLight dark:border-darkBorderLight text-center">
                   {t("New game")}
@@ -143,9 +134,7 @@ const LandingPage: React.FC = () => {
               <div className="flex md:flex-row flex-col mt-[40px]">
                 <Link
                   to={"/character/new"}
-                  onClick={() =>
-                    sendEvent("click_new_char_from_landing_page", "character")
-                  }
+                  onClick={() => sendEvent("click_new_char", "landing")}
                 >
                   <div className="bg-lightGray dark:bg-darkLightGray rounded-lg px-[10px] py-[5px] cursor-pointer border border-borderLight dark:border-darkBorderLight text-center">
                     {t("New character")}
@@ -153,9 +142,7 @@ const LandingPage: React.FC = () => {
                 </Link>
                 <Link
                   to={"/story/new"}
-                  onClick={() =>
-                    sendEvent("click_new_story_from_landing_page", "story")
-                  }
+                  onClick={() => sendEvent("click_new_story", "landing")}
                 >
                   <div className="bg-lightGray dark:bg-darkLightGray rounded-lg px-[10px] py-[5px] md:mx-[20px] my-[20px] md:my-0 cursor-pointer border border-borderLight dark:border-darkBorderLight text-center">
                     {t("New story")}
@@ -163,12 +150,7 @@ const LandingPage: React.FC = () => {
                 </Link>
                 <Link
                   to={"/game/new"}
-                  onClick={() =>
-                    sendEvent(
-                      "click_new_game_from_landing_page",
-                      "you_are_the_hero"
-                    )
-                  }
+                  onClick={() => sendEvent("click_new_game", "landing")}
                 >
                   <div className="bg-lightGray dark:bg-darkLightGray rounded-lg px-[10px] py-[5px] cursor-pointer border border-borderLight dark:border-darkBorderLight text-center">
                     {t("New game")}

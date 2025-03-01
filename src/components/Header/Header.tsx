@@ -91,11 +91,11 @@ const Header: React.FC = () => {
   }, [currentlyViewing, chatLogs]);
 
   useEffect(() => {
-    if (modeDropdownOpen) sendEvent("open_mode_dropdown");
+    if (modeDropdownOpen) sendEvent("open_mode_dropdown", "header");
   }, [modeDropdownOpen]);
 
   useEffect(() => {
-    if (profileDropdownOpen) sendEvent("open_profile_dropdown");
+    if (profileDropdownOpen) sendEvent("open_profile_dropdown", "header");
   }, [profileDropdownOpen]);
 
   useEffect(() => {
