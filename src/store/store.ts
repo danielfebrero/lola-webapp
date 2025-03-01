@@ -1,4 +1,8 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  combineReducers,
+  configureStore,
+  UnknownAction,
+} from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { persistReducer, persistStore } from "redux-persist";
 
@@ -21,9 +25,20 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  // You can whitelist or blacklist reducers as needed:
-  // whitelist: ['user'], // only user will be persisted
-  blacklist: ["socket"], // counter will not be persisted
+  blacklist: ["socket"],
+  migrate: (persistedState: any, currentVersion: number) => {
+    if (persistedState && persistedState._persist.version === currentVersion) {
+      return Promise.resolve({
+        ...persistedState,
+        app: {
+          ...persistedState.app,
+          isDataLoading: ["characters", "threads", "settings"],
+        },
+      });
+    }
+    // If no persisted state or version mismatch, return initial state
+    return Promise.resolve(rootReducer(undefined, {} as UnknownAction));
+  },
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
