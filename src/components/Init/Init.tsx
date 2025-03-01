@@ -67,13 +67,11 @@ const Init: React.FC = () => {
     const websocket = new WebSocket(WEBSOCKET_URL);
 
     websocket.onopen = () => {
-      console.log("WebSocket connected");
       dispatch(setSocketConnection(websocket));
     };
 
     setTimeout(() => {
       websocket.onclose = () => {
-        console.log("WebSocket closed. Attempting to reconnect...");
         dispatch(setSocketConnection(null)); // Clear the connection state
         attemptReconnect();
       };

@@ -56,7 +56,6 @@ const ExploreImagesPage: React.FC = () => {
 
   // Function to load more images
   const loadMoreItems = useCallback(async () => {
-    console.log({ hasNextPage, nextItem });
     if (!hasNextPage) return;
 
     dispatch(setExploreImagesLoading(true));

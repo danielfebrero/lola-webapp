@@ -65,7 +65,6 @@ export default function useWebSocket({
           case "plan":
             switch (data.type) {
               case "cancel_crypto_order":
-                console.log({ data });
                 break;
               case "get_crypto_checkout_url":
                 dispatch(setIsCryptoCheckoutUrlLoading(false));
@@ -91,7 +90,6 @@ export default function useWebSocket({
                 dispatch(setAdminAnalytics(data.data));
                 break;
               case "clicked_votes":
-                console.log("clicked votes", data.data);
                 dispatch(setClickedUpvotes(data.data.upvotes));
                 dispatch(setClickedDownvotes(data.data.downvotes));
                 break;
@@ -446,7 +444,6 @@ export default function useWebSocket({
   };
 
   const initData = () => {
-    console.log("Fetching initData");
     api.getThreads();
     api.getCharacters();
     getSettings();
@@ -477,7 +474,6 @@ export default function useWebSocket({
   };
 
   const getCharacter = (threadId: string) => {
-    console.log("Fetching Character for thread: ", threadId);
     socketConnection?.send(
       JSON.stringify({
         action: "fetchData",
@@ -490,7 +486,6 @@ export default function useWebSocket({
   };
 
   const deleteCharacter = (threadId: string) => {
-    console.log("Deleting Character for thread: ", threadId);
     socketConnection?.send(
       JSON.stringify({
         action: "deleteData",
@@ -504,7 +499,6 @@ export default function useWebSocket({
   };
 
   const getHeroActions = (threadId: string) => {
-    console.log("Fetching Hero Actions");
     socketConnection?.send(
       JSON.stringify({
         action: "fetchData",
@@ -517,7 +511,6 @@ export default function useWebSocket({
   };
 
   const deleteHeroGame = (threadId: string) => {
-    console.log("Deleting Hero Game for thread: ", threadId);
     socketConnection?.send(
       JSON.stringify({
         action: "deleteData",
@@ -530,7 +523,6 @@ export default function useWebSocket({
   };
 
   const deleteStory = (threadId: string) => {
-    console.log("Deleting story for thread: ", threadId);
     socketConnection?.send(
       JSON.stringify({
         action: "deleteData",
@@ -543,7 +535,6 @@ export default function useWebSocket({
   };
 
   const getStory = (threadId: string) => {
-    console.log("Fetching Story for thread: ", threadId);
     socketConnection?.send(
       JSON.stringify({
         action: "fetchData",

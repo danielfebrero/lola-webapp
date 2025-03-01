@@ -46,7 +46,6 @@ const ExplorePage: React.FC = (props) => {
   useEffect(() => {
     if (socketConnection?.readyState === socketConnection?.OPEN) {
       getClickedVotes();
-      console.log("get clicked votes");
     }
   }, [socketConnection?.readyState]);
 
