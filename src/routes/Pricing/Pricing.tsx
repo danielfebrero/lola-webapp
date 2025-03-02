@@ -72,19 +72,34 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>{t('5 "classic+" images per day')}</span>
+                  <span>{t('10 "classic+" images per day')}</span>
                 </div>
                 {plan === "free" && (
                   <div
+                    onClick={() => {
+                      if (!auth?.isAuthenticated) {
+                        auth.signinRedirect();
+                        return;
+                      }
+                      sendEvent("choose_free", "pricing");
+                    }}
                     className={clsx(
-                      { "cursor-pointer": plan !== "free" },
                       {
-                        "bg-lightGray dark:bg-darkLightGray": plan !== "free",
+                        "cursor-pointer":
+                          plan !== "free" || !auth?.isAuthenticated,
+                      },
+                      {
+                        "bg-lightGray dark:bg-darkLightGray":
+                          plan !== "free" || !auth?.isAuthenticated,
                       },
                       "px-[20px] py-[10px] rounded-full border border-borderColor dark:border-darkBorderColor mt-[20px] md:mt-auto text-center"
                     )}
                   >
-                    {t(plan === "free" ? "Your current plan" : "Choose")}
+                    {t(
+                      plan === "free" && auth?.isAuthenticated
+                        ? "Your current plan"
+                        : "Choose"
+                    )}
                   </div>
                 )}
               </div>

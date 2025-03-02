@@ -51,7 +51,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -80,7 +80,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -111,7 +111,7 @@ const useAPI = () => {
               auth?.isAuthenticated && auth.user?.id_token
                 ? auth.user?.id_token
                 : "",
-            cookie,
+            madeleine: cookie,
             "ws-connection-id": connectionId ?? "",
           },
         }
@@ -159,7 +159,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -199,7 +199,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -229,7 +229,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -262,7 +262,7 @@ const useAPI = () => {
               auth?.isAuthenticated && auth.user?.id_token
                 ? auth.user?.id_token
                 : "",
-            cookie,
+            madeleine: cookie,
             "ws-connection-id": connectionId ?? "",
           },
         }
@@ -293,7 +293,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -324,7 +324,7 @@ const useAPI = () => {
               auth?.isAuthenticated && auth.user?.id_token
                 ? auth.user?.id_token
                 : "",
-            cookie,
+            madeleine: cookie,
             "ws-connection-id": connectionId ?? "",
           },
         }
@@ -358,7 +358,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
         body: JSON.stringify({ threadId, avatar }),
@@ -394,7 +394,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -424,7 +424,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -452,7 +452,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
         body: JSON.stringify({ threadId }),
@@ -482,7 +482,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
         body: JSON.stringify({ threadId }),
@@ -521,7 +521,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
         body: formData,

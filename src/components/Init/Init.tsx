@@ -171,6 +171,7 @@ const Init: React.FC = () => {
       connectionId
     ) {
       initData();
+      getQuotas();
       dispatch(setIsDataLoaded(true));
     }
   }, [socketConnection, isDataLoaded, dispatch, connectionId]);

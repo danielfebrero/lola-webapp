@@ -170,6 +170,15 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
       props.setUncensored(false);
   }, [props.isPrivate]);
 
+  useEffect(() => {
+    if (
+      props.setGenImageModel &&
+      props.genImageModel === "classic+" &&
+      quotas.images_classic_plus === 0
+    )
+      props.setGenImageModel("classic");
+  }, [quotas.images_classic_plus]);
+
   return (
     <div className="w-full h-auto flex justify-center items-center">
       <div className="w-full flex flex-col items-center bg-lightGray dark:bg-darkMessageBackground rounded-2xl p-[10px]">
