@@ -25,7 +25,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
     props.hide();
   }, props.triggerRef);
   const { mode } = useAppSelector((state) => state.app);
-  const { plan } = useAppSelector((state) => state.user);
+  const { plan, quotas } = useAppSelector((state) => state.user);
   const { sendEvent } = useGA();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -132,7 +132,9 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
           props.hide();
         }}
       >
-        <div className="ml-[10px]">{t("Classic+ images left:")} 5</div>
+        <div className="ml-[10px]">
+          {t("Classic+ images left:")} {quotas?.images_classic_plus}
+        </div>
       </div>
       {auth?.isAuthenticated ? (
         <div

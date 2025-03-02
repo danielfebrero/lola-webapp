@@ -22,6 +22,7 @@ import { Character, CharacterServerData } from "../../types/characters";
 import useAutoScroll from "../../hooks/useAutoScroll";
 import { Message } from "../../types/chat";
 import Vote from "../../components/Vote";
+import { reduceOneImageClassicPlus } from "../../store/features/user/userSlice";
 
 interface CharacterPageProps {
   selected?: Record<string, string>;
@@ -127,6 +128,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
       isUncensored,
       imageModelType,
     });
+    if (imageModelType === "classic+") dispatch(reduceOneImageClassicPlus());
   };
 
   const handleViewTypeChange = (

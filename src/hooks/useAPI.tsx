@@ -16,7 +16,7 @@ import {
 import useNewChatLocation from "./useNewChatLocation";
 import { setScenarios } from "../store/features/games/gamesSlice";
 import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
-import { setMyImages } from "../store/features/user/userSlice";
+import { setMyImages, setQuotas } from "../store/features/user/userSlice";
 import { ImagesMultisize } from "../types/characters";
 import { HTTP_API_DEV_URL, HTTP_API_PROD_URL } from "../utils/constants";
 
@@ -414,6 +414,36 @@ const useAPI = () => {
     }
   };
 
+  const getQuotas = async () => {
+    try {
+      const response = await fetch(`${API_URL}/quotas`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error fetching admin analytics: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      dispatch(setQuotas(data));
+      return;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   const archiveThread = async (threadId: string) => {
     try {
       const response = await fetch(`${API_URL}/thread/archive`, {
@@ -543,6 +573,7 @@ const useAPI = () => {
     archiveThread,
     getArchivedThreads,
     restoreThread,
+    getQuotas,
   };
 };
 

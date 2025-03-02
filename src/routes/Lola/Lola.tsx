@@ -14,6 +14,7 @@ import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
 import useAutoScroll from "../../hooks/useAutoScroll";
 import { Message } from "../../types/chat";
+import { reduceOneImageClassicPlus } from "../../store/features/user/userSlice";
 
 const LolaPage: React.FC = () => {
   const { plan } = useAppSelector((state) => state.user);
@@ -72,6 +73,7 @@ const LolaPage: React.FC = () => {
       imageModelType,
     });
     if (chatLog.length === 0) setThread([{ role: "user", content }]);
+    if (imageModelType === "classic+") dispatch(reduceOneImageClassicPlus());
   };
 
   useEffect(() => {

@@ -21,6 +21,7 @@ import {
 import { setSocketConnection } from "../../store/features/socket/socketSlice";
 import useWebSocket from "../../hooks/useWebSocket";
 import { setScenarios } from "../../store/features/games/gamesSlice";
+import useAPI from "../../hooks/useAPI";
 import {
   LANGUES_BY_CODE,
   WEBSOCKET_DEV_URL,
@@ -39,6 +40,7 @@ const RECONNECT_INTERVALS = [1000, 2000, 5000, 10000]; // Exponential backoff in
 const Init: React.FC = () => {
   const dispatch = useAppDispatch();
   const auth = useAuth();
+  const { getQuotas } = useAPI();
   const {
     isDataLoaded,
     messagesSent,
@@ -122,6 +124,7 @@ const Init: React.FC = () => {
   useEffect(() => {
     dispatch(setLanguages(LANGUES_BY_CODE));
     dispatch(setScenarios([]));
+    getQuotas();
   }, []);
 
   useEffect(() => {
@@ -187,11 +190,11 @@ const Init: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (settings.language === "auto") return;
-    else i18n.changeLanguage(settings.language);
+    if (settings?.language === "auto") return;
+    else i18n.changeLanguage(settings?.language);
 
     if (i18n.language.indexOf("en") === 0) dispatch(setExploreLanguage("en"));
-  }, [settings.language]);
+  }, [settings?.language]);
 
   useEffect(() => {
     if (

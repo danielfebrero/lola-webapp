@@ -56,6 +56,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const { isSmallScreen, lastRequestIdWaitingForThreadId, chatLogs } =
     useAppSelector((state) => state.app);
+  const { quotas } = useAppSelector((state) => state.user);
   const { stopRequestId } = useWebSocket({});
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -102,6 +103,19 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
     chatLogs,
     dispatch,
   ]);
+
+  const setImageGenModelBasedOnQuotas = () => {
+    if (quotas.images_classic_plus > 0) {
+      props.setGenImageModel &&
+        props.setGenImageModel(
+          props.genImageModel === "classic" ? "classic+" : "classic"
+        );
+    } else {
+      props.genImageModel === "classic"
+        ? navigate("/pricing")
+        : props.setGenImageModel && props.setGenImageModel("classic");
+    }
+  };
 
   const handleSend = () => {
     const trimmedValue = value.trim();
@@ -329,14 +343,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                           <div className="absolute bg-lightGray dark:bg-darkMessageBackground rounded-2xl p-[10px] ml-[-10px]">
                             <div
                               className="flex flex-row items-center"
-                              onClick={() =>
-                                props.setGenImageModel &&
-                                props.setGenImageModel(
-                                  props.genImageModel === "classic"
-                                    ? "classic+"
-                                    : "classic"
-                                )
-                              }
+                              onClick={setImageGenModelBasedOnQuotas}
                             >
                               <span>
                                 {t(
