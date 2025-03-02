@@ -27,6 +27,7 @@ const LolaPage: React.FC = () => {
   const { t } = useTranslation();
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const [genImage, setGenImage] = useState<boolean>(false);
+  const [genImageModel, setGenImageModel] = useState<string>("classic");
 
   const { plan } = useAppSelector((state) => state.user);
 
@@ -190,6 +191,8 @@ const LolaPage: React.FC = () => {
                     showGenImage={true}
                     setGenImage={setGenImage}
                     genImage={genImage}
+                    genImageModel={genImageModel}
+                    setGenImageModel={setGenImageModel}
                     showUncensored={plan !== "free"}
                     uncensored={uncensored}
                     setUncensored={setUncensored}

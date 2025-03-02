@@ -62,6 +62,18 @@ const PricingPage: React.FC = () => {
                   </div>
                   <span>{t("Unlimited use")}</span>
                 </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>{t('Unlimited "classic" images')}</span>
+                </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>{t('5 "classic+" images per day')}</span>
+                </div>
                 {plan === "free" && (
                   <div
                     className={clsx(
@@ -98,6 +110,18 @@ const PricingPage: React.FC = () => {
                   <span>
                     <div>{t("Uncensored")}</div>
                   </span>
+                </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>{t('Unlimited "classic" images')}</span>
+                </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>{t('Unlimited "classic+" images')}</span>
                 </div>
                 {plan !== "early_lifetime" && (
                   <div
@@ -163,6 +187,18 @@ const PricingPage: React.FC = () => {
                   <span>
                     <div>{t("Uncensored")}</div>
                   </span>
+                </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>{t('Unlimited "classic" images')}</span>
+                </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>{t('Unlimited "classic+" images')}</span>
                 </div>
                 <div
                   onClick={() => {

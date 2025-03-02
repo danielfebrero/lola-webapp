@@ -18,6 +18,8 @@ import ArtIcon from "../../icons/art";
 import SpreadIcon from "../../icons/spread";
 import AdultIcon from "../../icons/adult";
 import useGA from "../../hooks/useGA";
+import ChevronDownIcon from "../../icons/chevronDown";
+import { capitalizeFirstLetter } from "../../utils/string";
 
 interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
@@ -36,6 +38,8 @@ interface SendChatInputProps {
   showGenImage?: boolean;
   setGenImage?: (val: boolean) => void;
   genImage?: boolean;
+  genImageModel?: string;
+  setGenImageModel?: (val: string) => void;
   showShortMessage?: boolean;
   setShortMessage?: (val: boolean) => void;
   shortMessage?: boolean;
@@ -46,6 +50,8 @@ interface SendChatInputProps {
 
 const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const [value, setValue] = useState<string>("");
+  const [showImageModelSelector, setShowImageModelSelector] =
+    useState<boolean>(false);
   const { t } = useTranslation();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const { isSmallScreen, lastRequestIdWaitingForThreadId, chatLogs } =
@@ -62,6 +68,10 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
     textarea.style.height = `${Math.min(200, textarea.scrollHeight)}px`;
     setValue(textarea.value);
     if (props.onChange) props.onChange(textarea.value);
+  };
+
+  const toggleImageModelSelector = () => {
+    setShowImageModelSelector(!showImageModelSelector);
   };
 
   const handleStop = useCallback(() => {
@@ -286,9 +296,6 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
 
                 {props.showGenImage && (
                   <div
-                    onClick={() =>
-                      props.setGenImage && props.setGenImage(!props.genImage)
-                    }
                     className={clsx(
                       {
                         "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
@@ -297,11 +304,54 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                       "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
                     )}
                   >
-                    <div className="w-[18px] h-[18px] mr-[5px]">
-                      <ArtIcon />
+                    <div
+                      className="flex flex-row items-center"
+                      onClick={() =>
+                        props.setGenImage && props.setGenImage(!props.genImage)
+                      }
+                    >
+                      <div className="w-[18px] h-[18px] mr-[5px]">
+                        <ArtIcon />
+                      </div>
+                      <span className="whitespace-nowrap">
+                        {t("Generate image")}
+                      </span>
                     </div>
-                    <div className="whitespace-nowrap">
-                      {t("Generate image")}
+                    <div
+                      className="flex flex-row items-center"
+                      onClick={toggleImageModelSelector}
+                    >
+                      <div className="text-textSecondary dark:text-darkTextSecondary ml-[5px]">
+                        <span>
+                          {t(capitalizeFirstLetter(props.genImageModel ?? ""))}
+                        </span>
+                        {showImageModelSelector && (
+                          <div className="absolute bg-lightGray dark:bg-darkMessageBackground rounded-2xl p-[10px] ml-[-10px]">
+                            <div
+                              className="flex flex-row items-center"
+                              onClick={() =>
+                                props.setGenImageModel &&
+                                props.setGenImageModel(
+                                  props.genImageModel === "classic"
+                                    ? "classic+"
+                                    : "classic"
+                                )
+                              }
+                            >
+                              <span>
+                                {t(
+                                  props.genImageModel === "classic"
+                                    ? "Classic+"
+                                    : "Classic"
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className="h–[20px] w-[20px] ml-[5px]">
+                        <ChevronDownIcon />
+                      </div>
                     </div>
                   </div>
                 )}
