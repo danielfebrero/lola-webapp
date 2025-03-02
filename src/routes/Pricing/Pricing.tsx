@@ -122,14 +122,6 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>
-                    <div>{t("Uncensored")}</div>
-                  </span>
-                </div>
-                <div className="flex flex-row items-center mt-[5px]">
-                  <div className="w-[18px] h-[18px]">
-                    <CheckOnlyIcon />
-                  </div>
                   <span>{t('Unlimited "classic" images')}</span>
                 </div>
                 <div className="flex flex-row items-center mt-[5px]">
@@ -194,14 +186,6 @@ const PricingPage: React.FC = () => {
                     <CheckOnlyIcon />
                   </div>
                   <span>{t("Make your content private")}</span>
-                </div>
-                <div className="flex flex-row items-center mt-[5px]">
-                  <div className="w-[18px] h-[18px]">
-                    <CheckOnlyIcon />
-                  </div>
-                  <span>
-                    <div>{t("Uncensored")}</div>
-                  </span>
                 </div>
                 <div className="flex flex-row items-center mt-[5px]">
                   <div className="w-[18px] h-[18px]">
