@@ -430,9 +430,7 @@ const useAPI = () => {
       });
 
       if (!response.ok) {
-        throw new Error(
-          `Error fetching admin analytics: ${response.statusText}`
-        );
+        throw new Error(`Error fetching quotas: ${response.statusText}`);
       }
 
       const data = await response.json();

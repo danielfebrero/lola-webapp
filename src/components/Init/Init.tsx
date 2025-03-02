@@ -124,7 +124,6 @@ const Init: React.FC = () => {
   useEffect(() => {
     dispatch(setLanguages(LANGUES_BY_CODE));
     dispatch(setScenarios([]));
-    getQuotas();
   }, []);
 
   useEffect(() => {
@@ -179,7 +178,7 @@ const Init: React.FC = () => {
   useEffect(() => {
     dispatch(setIsDataLoaded(false));
     if (auth?.isAuthenticated) {
-      setUserId(auth.user?.profile?.email ?? "auth_user_no_email");
+      getQuotas();
     }
   }, [auth?.isAuthenticated, dispatch]);
 
