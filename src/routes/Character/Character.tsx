@@ -44,7 +44,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     plan !== "free" &&
       (params.threadId === "new" || (chatState?.is_private ?? false))
   );
-  const [newIsPrivate, setNewIsPrivate] = useState<boolean>(plan !== "free");
+  const [newIsPrivate, setNewIsPrivate] = useState<boolean>(
+    chatState?.is_private ?? plan !== "free"
+  );
   const [shortMessage, setShortMessage] = useState<boolean>(true);
   const [genImage, setGenImage] = useState<boolean>(true);
   const [genImageModel, setGenImageModel] = useState<string>(
@@ -147,6 +149,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     setIsAssistantWriting(
       chatState?.isOwner ? !(chatState?.canSendMessage ?? true) : false
     );
+    setNewIsPrivate(chatState?.is_private ?? false);
   }, [chatState]);
 
   useEffect(() => {
