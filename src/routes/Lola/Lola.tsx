@@ -17,7 +17,7 @@ import { Message } from "../../types/chat";
 import { reduceOneImageClassicPlus } from "../../store/features/user/userSlice";
 
 const LolaPage: React.FC = () => {
-  const { plan } = useAppSelector((state) => state.user);
+  const { plan, quotas } = useAppSelector((state) => state.user);
   const [chatLog, setThread] = useState<Message[]>([]);
   const [threadId, setThreadId] = useState<string | null>(null);
   const params = useParams();
@@ -30,7 +30,7 @@ const LolaPage: React.FC = () => {
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const [genImage, setGenImage] = useState<boolean>(false);
   const [genImageModel, setGenImageModel] = useState<string>(
-    plan !== "free" ? "classic+" : "classic"
+    plan !== "free" || quotas?.images_classic_plus > 0 ? "classic+" : "classic"
   );
   const [uncensored, setUncensored] = useState<boolean>(plan !== "free");
   const { lastRequestIdWaitingForThreadId } = useAppSelector(

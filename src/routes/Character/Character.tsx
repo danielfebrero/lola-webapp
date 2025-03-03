@@ -36,7 +36,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const location = useLocation();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { sendEvent } = useGA();
-  const { plan } = useAppSelector((state) => state.user);
+  const { plan, quotas } = useAppSelector((state) => state.user);
   const chatState = useAppSelector((state) =>
     state.app.chatLogs.find((log) => log.threadId === params.threadId)
   );
@@ -48,7 +48,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const [shortMessage, setShortMessage] = useState<boolean>(true);
   const [genImage, setGenImage] = useState<boolean>(true);
   const [genImageModel, setGenImageModel] = useState<string>(
-    plan !== "free" ? "classic+" : "classic"
+    plan !== "free" || quotas?.images_classic_plus > 0 ? "classic+" : "classic"
   );
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const { getCharacter } = useAPI();
