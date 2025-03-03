@@ -74,6 +74,9 @@ export default function useWebSocket({
             break;
           case "fetch":
             switch (data.type) {
+              case "judge":
+                console.log("judge", data);
+                break;
               case "character_summary":
                 dispatch(
                   setCharacter({ thread_id: data.threadId, ...data.data })
