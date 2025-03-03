@@ -25,7 +25,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
     props.hide();
   }, props.triggerRef);
   const { mode } = useAppSelector((state) => state.app);
-  const { plan } = useAppSelector((state) => state.user);
+  const { plan, quotas } = useAppSelector((state) => state.user);
   const { sendEvent } = useGA();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -124,6 +124,20 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
           {t(plan !== "early_lifetime" ? "Upgrade plan" : "Pricing")}
         </div>
       </div>
+      {plan === "free" && (
+        <div
+          className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center border-b border-t border-borderLight dark:border-darkBorderLight"
+          onClick={() => {
+            navigate("/pricing");
+            sendEvent("click_images_classic_plus_left", "profile_dropdown");
+            props.hide();
+          }}
+        >
+          <div className="ml-[10px]">
+            {t("Classic+ images left:")} {quotas?.images_classic_plus}
+          </div>
+        </div>
+      )}
       {auth?.isAuthenticated ? (
         <div
           className="rounded-lg cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"

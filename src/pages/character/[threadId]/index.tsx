@@ -25,7 +25,7 @@ const CharacterPage: NextPage<CharacterPageProps> = ({ serverData }) => {
   const description = serverData?.data?.summary ?? META_DESCRIPTION;
   const image =
     serverData?.data?.avatar?.original ??
-    serverData?.data.imagesMultisize?.[0].original ??
+    serverData?.data.imagesMultisize?.[0]?.original ??
     "";
 
   return (

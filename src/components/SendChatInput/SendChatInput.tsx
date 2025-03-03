@@ -18,6 +18,8 @@ import ArtIcon from "../../icons/art";
 import SpreadIcon from "../../icons/spread";
 import AdultIcon from "../../icons/adult";
 import useGA from "../../hooks/useGA";
+import SwitchIcon from "../../icons/switch";
+import { capitalizeFirstLetter } from "../../utils/string";
 
 interface SendChatInputProps {
   type: "character" | "story" | "game" | "lola";
@@ -36,6 +38,8 @@ interface SendChatInputProps {
   showGenImage?: boolean;
   setGenImage?: (val: boolean) => void;
   genImage?: boolean;
+  genImageModel?: string;
+  setGenImageModel?: (val: string) => void;
   showShortMessage?: boolean;
   setShortMessage?: (val: boolean) => void;
   shortMessage?: boolean;
@@ -50,6 +54,7 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const { isSmallScreen, lastRequestIdWaitingForThreadId, chatLogs } =
     useAppSelector((state) => state.app);
+  const { quotas } = useAppSelector((state) => state.user);
   const { stopRequestId } = useWebSocket({});
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -92,6 +97,19 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
     chatLogs,
     dispatch,
   ]);
+
+  const setImageGenModelBasedOnQuotas = () => {
+    if (quotas.images_classic_plus > 0) {
+      props.setGenImageModel &&
+        props.setGenImageModel(
+          props.genImageModel === "classic" ? "classic+" : "classic"
+        );
+    } else {
+      props.genImageModel === "classic"
+        ? navigate("/pricing")
+        : props.setGenImageModel && props.setGenImageModel("classic");
+    }
+  };
 
   const handleSend = () => {
     const trimmedValue = value.trim();
@@ -145,6 +163,15 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
     if (props.setUncensored && props.isPrivate === false)
       props.setUncensored(false);
   }, [props.isPrivate]);
+
+  useEffect(() => {
+    if (
+      props.setGenImageModel &&
+      props.genImageModel === "classic+" &&
+      quotas.images_classic_plus === 0
+    )
+      props.setGenImageModel("classic");
+  }, [quotas.images_classic_plus]);
 
   return (
     <div className="w-full h-auto flex justify-center items-center">
@@ -286,9 +313,6 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
 
                 {props.showGenImage && (
                   <div
-                    onClick={() =>
-                      props.setGenImage && props.setGenImage(!props.genImage)
-                    }
                     className={clsx(
                       {
                         "text-textOptionSelected dark:text-darkTextOptionSelected bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected":
@@ -297,11 +321,31 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                       "rounded-full border border-borderColor dark:border-darkBorderColor py-[5px] px-[10px] mr-[10px] cursor-pointer flex flex-row items-center"
                     )}
                   >
-                    <div className="w-[18px] h-[18px] mr-[5px]">
-                      <ArtIcon />
+                    <div
+                      className="flex flex-row items-center"
+                      onClick={() =>
+                        props.setGenImage && props.setGenImage(!props.genImage)
+                      }
+                    >
+                      <div className="w-[18px] h-[18px] mr-[5px]">
+                        <ArtIcon />
+                      </div>
+                      <span className="whitespace-nowrap">
+                        {t("Generate image")}
+                      </span>
                     </div>
-                    <div className="whitespace-nowrap">
-                      {t("Generate image")}
+                    <div
+                      className="flex flex-row items-center"
+                      onClick={setImageGenModelBasedOnQuotas}
+                    >
+                      <div className="text-textSecondary dark:text-darkTextSecondary ml-[5px]">
+                        <span>
+                          {t(capitalizeFirstLetter(props.genImageModel ?? ""))}
+                        </span>
+                      </div>
+                      <div className="h–[20px] w-[20px] ml-[5px]">
+                        <SwitchIcon />
+                      </div>
                     </div>
                   </div>
                 )}

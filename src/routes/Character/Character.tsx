@@ -22,6 +22,7 @@ import { Character, CharacterServerData } from "../../types/characters";
 import useAutoScroll from "../../hooks/useAutoScroll";
 import { Message } from "../../types/chat";
 import Vote from "../../components/Vote";
+import { reduceOneImageClassicPlus } from "../../store/features/user/userSlice";
 
 interface CharacterPageProps {
   selected?: Record<string, string>;
@@ -46,6 +47,9 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
   const [newIsPrivate, setNewIsPrivate] = useState<boolean>(plan !== "free");
   const [shortMessage, setShortMessage] = useState<boolean>(true);
   const [genImage, setGenImage] = useState<boolean>(true);
+  const [genImageModel, setGenImageModel] = useState<string>(
+    plan !== "free" ? "classic+" : "classic"
+  );
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const { getCharacter } = useAPI();
 
@@ -107,6 +111,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     isShortMessage,
     turnOnImageGeneration,
     isUncensored,
+    imageModelType,
   }: {
     content: string;
     threadId: string | null;
@@ -114,13 +119,16 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
     isShortMessage: boolean;
     turnOnImageGeneration: boolean;
     isUncensored: boolean;
+    imageModelType: string;
   }) => {
     sendMessage(content, "character", threadId, {
       isPrivate,
       isShortMessage,
       turnOnImageGeneration,
       isUncensored,
+      imageModelType,
     });
+    if (imageModelType === "classic+") dispatch(reduceOneImageClassicPlus());
   };
 
   const handleViewTypeChange = (
@@ -283,6 +291,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                       isShortMessage: shortMessage,
                       turnOnImageGeneration: genImage,
                       isUncensored: uncensored,
+                      imageModelType: genImageModel,
                     })
                   }
                   canMakePrivate={plan !== "free"}
@@ -295,6 +304,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                   showGenImage={params.threadId !== "new"}
                   setGenImage={setGenImage}
                   genImage={genImage}
+                  genImageModel={genImageModel}
+                  setGenImageModel={setGenImageModel}
                   showUncensored={plan !== "free" && params.threadId === "new"}
                   setUncensored={setUncensored}
                   uncensored={uncensored}
@@ -389,6 +400,7 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                             isShortMessage: shortMessage,
                             turnOnImageGeneration: genImage,
                             isUncensored: uncensored,
+                            imageModelType: genImageModel,
                           })
                         }
                         canMakePrivate={plan !== "free"}
@@ -401,6 +413,8 @@ const CharacterPage: React.FC<CharacterPageProps> = (props) => {
                         showGenImage={params.threadId !== "new"}
                         setGenImage={setGenImage}
                         genImage={genImage}
+                        genImageModel={genImageModel}
+                        setGenImageModel={setGenImageModel}
                         showUncensored={
                           plan !== "free" && params.threadId === "new"
                         }

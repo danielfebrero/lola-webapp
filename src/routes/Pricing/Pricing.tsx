@@ -62,17 +62,44 @@ const PricingPage: React.FC = () => {
                   </div>
                   <span>{t("Unlimited use")}</span>
                 </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>{t('Unlimited "Classic" images')}</span>
+                </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>{t('10 "Classic+" images per day')}</span>
+                </div>
                 {plan === "free" && (
                   <div
+                    onClick={() => {
+                      if (!auth?.isAuthenticated) {
+                        auth.signinRedirect();
+                        return;
+                      }
+                      sendEvent("choose_free", "pricing");
+                    }}
                     className={clsx(
-                      { "cursor-pointer": plan !== "free" },
                       {
-                        "bg-lightGray dark:bg-darkLightGray": plan !== "free",
+                        "cursor-pointer":
+                          plan !== "free" || !auth?.isAuthenticated,
+                      },
+                      {
+                        "bg-lightGray dark:bg-darkLightGray":
+                          plan !== "free" || !auth?.isAuthenticated,
                       },
                       "px-[20px] py-[10px] rounded-full border border-borderColor dark:border-darkBorderColor mt-[20px] md:mt-auto text-center"
                     )}
                   >
-                    {t(plan === "free" ? "Your current plan" : "Choose")}
+                    {t(
+                      plan === "free" && auth?.isAuthenticated
+                        ? "Your current plan"
+                        : "Choose"
+                    )}
                   </div>
                 )}
               </div>
@@ -95,9 +122,13 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>
-                    <div>{t("Uncensored")}</div>
-                  </span>
+                  <span>{t('Unlimited "Classic" images')}</span>
+                </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>{t('Unlimited "Classic+" images')}</span>
                 </div>
                 {plan !== "early_lifetime" && (
                   <div
@@ -160,9 +191,13 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>
-                    <div>{t("Uncensored")}</div>
-                  </span>
+                  <span>{t('Unlimited "Classic" images')}</span>
+                </div>
+                <div className="flex flex-row items-center mt-[5px]">
+                  <div className="w-[18px] h-[18px]">
+                    <CheckOnlyIcon />
+                  </div>
+                  <span>{t('Unlimited "Classic+" images')}</span>
                 </div>
                 <div
                   onClick={() => {

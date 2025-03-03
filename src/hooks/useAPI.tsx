@@ -16,7 +16,7 @@ import {
 import useNewChatLocation from "./useNewChatLocation";
 import { setScenarios } from "../store/features/games/gamesSlice";
 import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
-import { setMyImages } from "../store/features/user/userSlice";
+import { setMyImages, setQuotas } from "../store/features/user/userSlice";
 import { ImagesMultisize } from "../types/characters";
 import { HTTP_API_DEV_URL, HTTP_API_PROD_URL } from "../utils/constants";
 
@@ -51,7 +51,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -80,7 +80,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -111,7 +111,7 @@ const useAPI = () => {
               auth?.isAuthenticated && auth.user?.id_token
                 ? auth.user?.id_token
                 : "",
-            cookie,
+            madeleine: cookie,
             "ws-connection-id": connectionId ?? "",
           },
         }
@@ -159,7 +159,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -199,7 +199,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -229,7 +229,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -262,7 +262,7 @@ const useAPI = () => {
               auth?.isAuthenticated && auth.user?.id_token
                 ? auth.user?.id_token
                 : "",
-            cookie,
+            madeleine: cookie,
             "ws-connection-id": connectionId ?? "",
           },
         }
@@ -293,7 +293,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -324,7 +324,7 @@ const useAPI = () => {
               auth?.isAuthenticated && auth.user?.id_token
                 ? auth.user?.id_token
                 : "",
-            cookie,
+            madeleine: cookie,
             "ws-connection-id": connectionId ?? "",
           },
         }
@@ -358,7 +358,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
         body: JSON.stringify({ threadId, avatar }),
@@ -394,7 +394,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
       });
@@ -414,6 +414,34 @@ const useAPI = () => {
     }
   };
 
+  const getQuotas = async () => {
+    try {
+      const response = await fetch(`${API_URL}/quotas`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          madeleine: cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error fetching quotas: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      dispatch(setQuotas(data));
+      return;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   const archiveThread = async (threadId: string) => {
     try {
       const response = await fetch(`${API_URL}/thread/archive`, {
@@ -424,7 +452,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
         body: JSON.stringify({ threadId }),
@@ -454,7 +482,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
         body: JSON.stringify({ threadId }),
@@ -493,7 +521,7 @@ const useAPI = () => {
             auth?.isAuthenticated && auth.user?.id_token
               ? auth.user?.id_token
               : "",
-          cookie,
+          madeleine: cookie,
           "ws-connection-id": connectionId ?? "",
         },
         body: formData,
@@ -543,6 +571,7 @@ const useAPI = () => {
     archiveThread,
     getArchivedThreads,
     restoreThread,
+    getQuotas,
   };
 };
 

@@ -14,8 +14,10 @@ import Meta from "../../components/Meta";
 import useAPI from "../../hooks/useAPI";
 import useAutoScroll from "../../hooks/useAutoScroll";
 import { Message } from "../../types/chat";
+import { reduceOneImageClassicPlus } from "../../store/features/user/userSlice";
 
 const LolaPage: React.FC = () => {
+  const { plan } = useAppSelector((state) => state.user);
   const [chatLog, setThread] = useState<Message[]>([]);
   const [threadId, setThreadId] = useState<string | null>(null);
   const params = useParams();
@@ -27,9 +29,9 @@ const LolaPage: React.FC = () => {
   const { t } = useTranslation();
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const [genImage, setGenImage] = useState<boolean>(false);
-
-  const { plan } = useAppSelector((state) => state.user);
-
+  const [genImageModel, setGenImageModel] = useState<string>(
+    plan !== "free" ? "classic+" : "classic"
+  );
   const [uncensored, setUncensored] = useState<boolean>(plan !== "free");
   const { lastRequestIdWaitingForThreadId } = useAppSelector(
     (state) => state.app
@@ -62,13 +64,16 @@ const LolaPage: React.FC = () => {
     content: string,
     threadId: string | null,
     turnOnImageGeneration: boolean,
-    isUncensored: boolean
+    isUncensored: boolean,
+    imageModelType: string
   ) => {
     sendMessage(content, "lola", threadId, {
       turnOnImageGeneration,
       isUncensored,
+      imageModelType,
     });
     if (chatLog.length === 0) setThread([{ role: "user", content }]);
+    if (imageModelType === "classic+") dispatch(reduceOneImageClassicPlus());
   };
 
   useEffect(() => {
@@ -160,13 +165,21 @@ const LolaPage: React.FC = () => {
                     type="lola"
                     threadId={threadId}
                     onSend={(message) =>
-                      sendMessageToLola(message, threadId, genImage, uncensored)
+                      sendMessageToLola(
+                        message,
+                        threadId,
+                        genImage,
+                        uncensored,
+                        genImageModel
+                      )
                     }
                     canSendMessage={chatState?.canSendMessage ?? true}
                     isChatInputAvailable={chatState?.isInputAvailable ?? true}
                     showGenImage={true}
                     setGenImage={setGenImage}
                     genImage={genImage}
+                    genImageModel={genImageModel}
+                    setGenImageModel={setGenImageModel}
                     showUncensored={plan !== "free"}
                     uncensored={uncensored}
                     setUncensored={setUncensored}
@@ -183,13 +196,21 @@ const LolaPage: React.FC = () => {
                     type="lola"
                     threadId={threadId}
                     onSend={(message) =>
-                      sendMessageToLola(message, threadId, genImage, uncensored)
+                      sendMessageToLola(
+                        message,
+                        threadId,
+                        genImage,
+                        uncensored,
+                        genImageModel
+                      )
                     }
                     canSendMessage={true}
                     isChatInputAvailable={true}
                     showGenImage={true}
                     setGenImage={setGenImage}
                     genImage={genImage}
+                    genImageModel={genImageModel}
+                    setGenImageModel={setGenImageModel}
                     showUncensored={plan !== "free"}
                     uncensored={uncensored}
                     setUncensored={setUncensored}
