@@ -124,18 +124,20 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = (props) => {
           {t(plan !== "early_lifetime" ? "Upgrade plan" : "Pricing")}
         </div>
       </div>
-      <div
-        className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center border-b border-t border-borderLight dark:border-darkBorderLight"
-        onClick={() => {
-          navigate("/pricing");
-          sendEvent("click_upgrade", "profile_dropdown");
-          props.hide();
-        }}
-      >
-        <div className="ml-[10px]">
-          {t("Classic+ images left:")} {quotas?.images_classic_plus}
+      {plan === "free" && (
+        <div
+          className="cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center border-b border-t border-borderLight dark:border-darkBorderLight"
+          onClick={() => {
+            navigate("/pricing");
+            sendEvent("click_images_classic_plus_left", "profile_dropdown");
+            props.hide();
+          }}
+        >
+          <div className="ml-[10px]">
+            {t("Classic+ images left:")} {quotas?.images_classic_plus}
+          </div>
         </div>
-      </div>
+      )}
       {auth?.isAuthenticated ? (
         <div
           className="rounded-lg cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary p-[10px] flex flex-row items-center"
