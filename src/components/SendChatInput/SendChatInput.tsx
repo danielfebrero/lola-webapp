@@ -43,7 +43,7 @@ interface SendChatInputProps {
   setUncensored?: (val: boolean) => void;
   uncensored?: boolean;
 }
-
+//dummy
 const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const [value, setValue] = useState<string>("");
   const { t } = useTranslation();
