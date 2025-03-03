@@ -18,7 +18,7 @@ import ArtIcon from "../../icons/art";
 import SpreadIcon from "../../icons/spread";
 import AdultIcon from "../../icons/adult";
 import useGA from "../../hooks/useGA";
-import ChevronDownIcon from "../../icons/chevronDown";
+import SwitchIcon from "../../icons/switch";
 import { capitalizeFirstLetter } from "../../utils/string";
 
 interface SendChatInputProps {
@@ -50,8 +50,6 @@ interface SendChatInputProps {
 
 const SendChatInput: React.FC<SendChatInputProps> = (props) => {
   const [value, setValue] = useState<string>("");
-  const [showImageModelSelector, setShowImageModelSelector] =
-    useState<boolean>(false);
   const { t } = useTranslation();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const { isSmallScreen, lastRequestIdWaitingForThreadId, chatLogs } =
@@ -69,10 +67,6 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
     textarea.style.height = `${Math.min(200, textarea.scrollHeight)}px`;
     setValue(textarea.value);
     if (props.onChange) props.onChange(textarea.value);
-  };
-
-  const toggleImageModelSelector = () => {
-    setShowImageModelSelector(!showImageModelSelector);
   };
 
   const handleStop = useCallback(() => {
@@ -342,31 +336,15 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                     </div>
                     <div
                       className="flex flex-row items-center"
-                      onClick={toggleImageModelSelector}
+                      onClick={setImageGenModelBasedOnQuotas}
                     >
                       <div className="text-textSecondary dark:text-darkTextSecondary ml-[5px]">
                         <span>
                           {t(capitalizeFirstLetter(props.genImageModel ?? ""))}
                         </span>
-                        {showImageModelSelector && (
-                          <div className="absolute bg-lightGray dark:bg-darkMessageBackground rounded-2xl p-[10px] ml-[-10px]">
-                            <div
-                              className="flex flex-row items-center"
-                              onClick={setImageGenModelBasedOnQuotas}
-                            >
-                              <span>
-                                {t(
-                                  props.genImageModel === "classic"
-                                    ? "Classic+"
-                                    : "Classic"
-                                )}
-                              </span>
-                            </div>
-                          </div>
-                        )}
                       </div>
                       <div className="h–[20px] w-[20px] ml-[5px]">
-                        <ChevronDownIcon />
+                        <SwitchIcon />
                       </div>
                     </div>
                   </div>
