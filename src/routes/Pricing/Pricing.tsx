@@ -66,13 +66,13 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>{t('Unlimited "classic" images')}</span>
+                  <span>{t('Unlimited "Classic" images')}</span>
                 </div>
                 <div className="flex flex-row items-center mt-[5px]">
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>{t('10 "classic+" images per day')}</span>
+                  <span>{t('10 "Classic+" images per day')}</span>
                 </div>
                 {plan === "free" && (
                   <div
@@ -122,13 +122,13 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>{t('Unlimited "classic" images')}</span>
+                  <span>{t('Unlimited "Classic" images')}</span>
                 </div>
                 <div className="flex flex-row items-center mt-[5px]">
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>{t('Unlimited "classic+" images')}</span>
+                  <span>{t('Unlimited "Classic+" images')}</span>
                 </div>
                 {plan !== "early_lifetime" && (
                   <div
@@ -191,13 +191,13 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>{t('Unlimited "classic" images')}</span>
+                  <span>{t('Unlimited "Classic" images')}</span>
                 </div>
                 <div className="flex flex-row items-center mt-[5px]">
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>{t('Unlimited "classic+" images')}</span>
+                  <span>{t('Unlimited "Classic+" images')}</span>
                 </div>
                 <div
                   onClick={() => {
