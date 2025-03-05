@@ -36,6 +36,7 @@ import "./i18n";
 
 import { CharacterServerData } from "./types/characters";
 import { StoryServerData } from "./types/stories";
+import ChatPage from "./routes/Chat";
 
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_GGRb4RlVb",
@@ -146,6 +147,11 @@ const App: React.FC<AppProps> = (props) => {
                     />
                     <Route path="/images" element={<MyImagesPage />} />
                     <Route path="/archived" element={<ArchivedPage />} />
+                    <Route path="/collaborate/chat" element={<ChatPage />} />
+                    <Route
+                      path="/collaborate/chat/:threadId"
+                      element={<ChatPage />}
+                    />
                   </Route>
 
                   <Route

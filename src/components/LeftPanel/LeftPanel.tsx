@@ -18,34 +18,425 @@ import AdultIcon from "../../icons/adult";
 import Loading from "../Loading";
 import PlanIcon from "../../icons/plan";
 
+// Common Components
+const SectionHeader = ({
+  title,
+  showAddButton,
+  onAddClick,
+}: {
+  title: string;
+  showAddButton: boolean;
+  onAddClick?: {
+    path: string;
+    onClick: () => void;
+  };
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
+      <div>{t(title)}</div>
+      {showAddButton && onAddClick && (
+        <NavLink to={onAddClick.path} onClick={onAddClick.onClick}>
+          <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
+            <PlusIcon />
+          </div>
+        </NavLink>
+      )}
+    </div>
+  );
+};
+
+const EmptySection = ({
+  title,
+  path,
+  onClick,
+}: {
+  title: string;
+  path: string;
+  onClick: () => void;
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <NavLink to={path} onClick={onClick}>
+      <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+        <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
+          <PlusIcon />
+        </div>
+        <span className="pl-[10px]">{t(title)}</span>
+      </div>
+    </NavLink>
+  );
+};
+
+const NavItem = ({
+  to,
+  label,
+  onClick,
+}: {
+  to: string;
+  label: string;
+  onClick: () => void;
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+      <NavLink
+        to={to}
+        className="h-full grow flex items-center w-[calc(100%-40px)]"
+        onClick={onClick}
+      >
+        <div className="truncate">{t(label)}</div>
+      </NavLink>
+    </div>
+  );
+};
+
+// Section Components
+const ExploreSection = ({ onNavigate }: { onNavigate: () => void }) => {
+  const { sendEvent } = useGA();
+
+  return (
+    <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
+      <SectionHeader title="Explore" showAddButton={false} />
+
+      <NavItem
+        to="/explore/characters/latest"
+        label="Characters"
+        onClick={() => {
+          onNavigate();
+          sendEvent("click_explore_characters", "left_panel");
+        }}
+      />
+
+      <NavItem
+        to="/explore/stories/latest"
+        label="Stories"
+        onClick={() => {
+          onNavigate();
+          sendEvent("click_explore_stories", "left_panel");
+        }}
+      />
+
+      <NavItem
+        to="/explore/images"
+        label="Images"
+        onClick={() => {
+          onNavigate();
+          sendEvent("click_explore_images", "left_panel");
+        }}
+      />
+    </div>
+  );
+};
+
+// Section Components
+const CollaborateSection = ({ onNavigate }: { onNavigate: () => void }) => {
+  const { sendEvent } = useGA();
+
+  return (
+    <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
+      <SectionHeader title="Collaborate" showAddButton={false} />
+
+      <NavItem
+        to="/collaborate/chat"
+        label="Chat"
+        onClick={() => {
+          onNavigate();
+          sendEvent("click_group_chat", "left_panel");
+        }}
+      />
+
+      <NavItem
+        to="/collaborate/story"
+        label="Stories"
+        onClick={() => {
+          onNavigate();
+          sendEvent("click_group_chat", "left_panel");
+        }}
+      />
+    </div>
+  );
+};
+
+const ContentSection = ({
+  title,
+  type,
+  items,
+  isLoading,
+  onNavigate,
+  onHandleDropdown,
+  displayOptionDropdownId,
+  dropdownPosition,
+  setDisplayOptionDropdownId,
+  characters,
+}: {
+  title: string;
+  type: string;
+  items: any[];
+  isLoading: boolean;
+  onNavigate: () => void;
+  onHandleDropdown: (event: React.MouseEvent, threadId: string) => void;
+  displayOptionDropdownId: string | null;
+  dropdownPosition: { top: number; left: number } | null;
+  setDisplayOptionDropdownId: (threadId: string | null) => void;
+  characters?: any[];
+}) => {
+  const { t } = useTranslation();
+  const { sendEvent } = useGA();
+  const dispatch = useAppDispatch();
+  const { isSmallScreen } = useAppSelector((state) => state.app);
+
+  const newPath = `/${type}/new`;
+  const detailPath = `/${type}/`;
+
+  const handleAdd = () => {
+    if (isSmallScreen) dispatch(toggleLeftPanel());
+    sendEvent(`click_new_${type}`, "left_panel");
+  };
+
+  if (isLoading) {
+    return (
+      <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
+        <SectionHeader
+          title={title}
+          showAddButton={items.length > 0}
+          onAddClick={{ path: newPath, onClick: handleAdd }}
+        />
+        <Loading />
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
+      <SectionHeader
+        title={title}
+        showAddButton={items.length > 0}
+        onAddClick={{ path: newPath, onClick: handleAdd }}
+      />
+
+      {items.length === 0 ? (
+        <EmptySection
+          title={`New ${type}`}
+          path={newPath}
+          onClick={handleAdd}
+        />
+      ) : (
+        items.map((item) => (
+          <ContentItem
+            key={item.threadId}
+            item={item}
+            type={type}
+            detailPath={detailPath}
+            onHandleDropdown={onHandleDropdown}
+            displayOptionDropdownId={displayOptionDropdownId}
+            dropdownPosition={dropdownPosition}
+            setDisplayOptionDropdownId={setDisplayOptionDropdownId}
+            characters={characters}
+          />
+        ))
+      )}
+    </div>
+  );
+};
+
+const ContentItem = ({
+  item,
+  type,
+  detailPath,
+  onHandleDropdown,
+  displayOptionDropdownId,
+  dropdownPosition,
+  setDisplayOptionDropdownId,
+  characters,
+}: {
+  item: any;
+  type: string;
+  detailPath: string;
+  onHandleDropdown: (event: React.MouseEvent, threadId: string) => void;
+  displayOptionDropdownId: string | null;
+  dropdownPosition: { top: number; left: number } | null;
+  setDisplayOptionDropdownId: (threadId: string | null) => void;
+  characters?: any[];
+}) => {
+  const { t } = useTranslation();
+  const { isSmallScreen } = useAppSelector((state) => state.app);
+  const dispatch = useAppDispatch();
+
+  const handleClick = isSmallScreen
+    ? () => dispatch(toggleLeftPanel())
+    : undefined;
+
+  return (
+    <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+      <NavLink
+        to={`${detailPath}${item.threadId}`}
+        className="h-full grow flex items-center w-[calc(100%-40px)]"
+        onClick={handleClick}
+      >
+        {type === "character" && (
+          <div className="flex flex-row">
+            <div
+              className={clsx(
+                {
+                  "bg-gray-200 rounded-full":
+                    characters?.find((c) => c.thread_id === item.threadId)
+                      ?.imagesMultisize?.[0]?.small === undefined,
+                },
+                "h-[24px] w-[24px]"
+              )}
+            >
+              {characters?.find((c) => c.thread_id === item.threadId)
+                ?.imagesMultisize?.[0] && (
+                <img
+                  src={
+                    characters.find((c) => c.thread_id === item.threadId)
+                      ?.avatar?.small ??
+                    characters.find((c) => c.thread_id === item.threadId)
+                      ?.imagesMultisize?.[0]?.small
+                  }
+                  className="rounded-full h-[24px] w-[24px] object-cover"
+                  alt="Character"
+                />
+              )}
+            </div>
+            <span className="pl-[10px] truncate">
+              {t(
+                characters?.find((c) => c.thread_id === item.threadId)?.json
+                  ?.name ??
+                  item.title ??
+                  ""
+              )}
+            </span>
+          </div>
+        )}
+
+        {type !== "character" && (
+          <div className="truncate">{t(item.title ?? "")}</div>
+        )}
+      </NavLink>
+
+      {item.isBeingDeleted || item.isBeingArchived ? (
+        <div className="h-[24px] w-[24px] text-textSecondar dark:text-darkTextSecondary">
+          <LoadingIcon />
+        </div>
+      ) : (
+        <div
+          className={clsx(
+            {
+              hidden: displayOptionDropdownId !== item.threadId,
+            },
+            "group-hover:block cursor-pointer ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
+          )}
+          onClick={(event) => onHandleDropdown(event, item.threadId)}
+        >
+          <OptionsIcon />
+        </div>
+      )}
+
+      {displayOptionDropdownId === item.threadId && dropdownPosition && (
+        <div
+          style={{
+            position: "fixed",
+            top: dropdownPosition.top,
+            left: dropdownPosition.left,
+          }}
+          className="z-20"
+        >
+          <OptionsDropdown
+            type={type}
+            threadId={item.threadId}
+            hide={() => setDisplayOptionDropdownId(null)}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+const FooterLinks = () => {
+  const { t } = useTranslation();
+  const { sendEvent } = useGA();
+  const dispatch = useAppDispatch();
+  const { isSmallScreen, isLeftPanelOpen, mode } = useAppSelector(
+    (state) => state.app
+  );
+  const { plan } = useAppSelector((state) => state.user);
+
+  const handleUpgradeClick = () => {
+    sendEvent("click_upgrade", "left_panel");
+    if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
+  };
+
+  const handleModeToggle = () => {
+    dispatch(setMode(mode === "adult" ? "minor" : "adult"));
+    sendEvent(
+      mode === "adult"
+        ? "click_exit_lola18_from_left_panel"
+        : "click_enter_lola18_from_left_panel"
+    );
+    if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
+  };
+
+  return (
+    <>
+      {plan !== "early_lifetime" && (
+        <NavLink
+          onClick={handleUpgradeClick}
+          to="/pricing"
+          className="absolute bottom-[55px] left-[10px] pl-[10px] flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[240px] py-[10px] rounded-lg"
+        >
+          <div className="w-[24px] h-[24px] mr-[10px]">
+            <PlanIcon />
+          </div>
+          <div>{t("Upgrade plan")}</div>
+        </NavLink>
+      )}
+
+      <div
+        onClick={handleModeToggle}
+        className="absolute bottom-[10px] left-[10px] pl-[10px] dark:text-pink-200 text-rose-600 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[240px] py-[10px] rounded-lg"
+      >
+        <div className="w-[24px] h-[24px] mr-[10px]">
+          <AdultIcon />
+        </div>
+        <div>
+          {t(mode === "minor" ? "Enter Fabularius" : "Exit Fabularius")}
+        </div>
+      </div>
+    </>
+  );
+};
+
+// Main Component
 const LeftPanel: React.FC = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const { sendEvent } = useGA();
+  const newChatLocation = useNewChatLocation();
   const [displayOptionDropdownId, setDisplayOptionDropdownId] = useState<
     string | null
   >(null);
   const [clickedElement, setClickedElement] = useState<DOMRect | null>(null);
-  const newChatLocation = useNewChatLocation();
+  const [dropdownPosition, setDropdownPosition] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
+
   const {
     isLeftPanelOpen,
     chatLogs,
     characters,
     isSmallScreen,
-    mode,
     isDataLoadingLeftPanel,
   } = useAppSelector((state) => state.app);
-  const { plan } = useAppSelector((state) => state.user);
-
-  const { sendEvent } = useGA();
-  // const games = useAppSelector((state) => state.games.scenarios);
 
   const outsideRef = useClickOutside(() =>
     isLeftPanelOpen && isSmallScreen ? dispatch(toggleLeftPanel()) : null
   );
-  const [dropdownPosition, setDropdownPosition] = useState<{
-    top: number;
-    left: number;
-  } | null>(null);
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
@@ -67,6 +458,10 @@ const LeftPanel: React.FC = () => {
     setDisplayOptionDropdownId(threadId);
   };
 
+  const handlePanelNavigate = () => {
+    if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (displayOptionDropdownId && dropdownPosition && scrollRef.current) {
@@ -86,6 +481,16 @@ const LeftPanel: React.FC = () => {
     setDropdownPosition,
   ]);
 
+  const characterItems = chatLogs.filter(
+    (log) => log.type === "character" && log.isOwner
+  );
+
+  const storyItems = chatLogs.filter(
+    (log) => log.type === "story" && log.isOwner
+  );
+
+  const gameItems = chatLogs.filter((log) => log.type === "you_are_the_hero");
+
   return (
     <div
       ref={outsideRef}
@@ -98,6 +503,7 @@ const LeftPanel: React.FC = () => {
       )}
     >
       <div className="h-screen-real w-[260px] flex flex-col pl-[20px] pr-[20px] pt-[10px]">
+        {/* Header */}
         <div className="h-auto w-full flex flex-col">
           <div className="font-bold h-[40px] items-center flex flex-row justify-between text-textSecondary dark:text-darkTextSecondary">
             <div
@@ -106,8 +512,8 @@ const LeftPanel: React.FC = () => {
                 sendEvent("click_toggle_left_panel", "left_panel");
               }}
             >
-              <div className="ml-[-5px]  hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
-                <div className="h-[24px] w-[24px] ">
+              <div className="ml-[-5px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
+                <div className="h-[24px] w-[24px]">
                   <PanelIcon />
                 </div>
               </div>
@@ -120,458 +526,63 @@ const LeftPanel: React.FC = () => {
                 sendEvent("click_new_chat", "left_panel");
               }}
             >
-              <div className="mr-[-5px]  hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
-                <div className="h-[24px] w-[24px] ">
+              <div className="mr-[-5px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
+                <div className="h-[24px] w-[24px]">
                   <NewChatIcon />
                 </div>
               </div>
             </NavLink>
           </div>
         </div>
+
+        {/* Main Content */}
         <div
           ref={scrollRef}
           className="h-[calc(100%-150px)] w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-clip ml-[-10px] mr-[-10px] no-scrollbar"
         >
-          <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
-            <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
-              <div>{t("Explore")}</div>
-            </div>
+          <ExploreSection onNavigate={handlePanelNavigate} />
+          <CollaborateSection onNavigate={handlePanelNavigate} />
 
-            <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-              <NavLink
-                to={`/explore/characters/latest`}
-                className="h-full grow flex items-center w-[calc(100%-40px)]"
-                onClick={() => {
-                  if (isSmallScreen && isLeftPanelOpen)
-                    dispatch(toggleLeftPanel());
-                  sendEvent("click_explore_characters", "left_panel");
-                }}
-              >
-                <div className="truncate">{t("Characters")}</div>
-              </NavLink>
-            </div>
-            <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-              <NavLink
-                to={`/explore/stories/latest`}
-                className="h-full grow flex items-center w-[calc(100%-40px)]"
-                onClick={() => {
-                  if (isSmallScreen && isLeftPanelOpen)
-                    dispatch(toggleLeftPanel());
-                  sendEvent("click_explore_stories", "left_panel");
-                }}
-              >
-                <div className="truncate">{t("Stories")}</div>
-              </NavLink>
-            </div>
-            <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-              <NavLink
-                to={`/explore/images`}
-                className="h-full grow flex items-center w-[calc(100%-40px)]"
-                onClick={() => {
-                  if (isSmallScreen && isLeftPanelOpen)
-                    dispatch(toggleLeftPanel());
-                  sendEvent("click_explore_images", "left_panel");
-                }}
-              >
-                <div className="truncate">{t("Images")}</div>
-              </NavLink>
-            </div>
-          </div>
-          <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
-            <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
-              <div>{t("Characters")}</div>
+          <ContentSection
+            title="Characters"
+            type="character"
+            items={characterItems}
+            isLoading={isDataLoadingLeftPanel.includes("threads")}
+            onNavigate={handlePanelNavigate}
+            onHandleDropdown={handleDropdownClick}
+            displayOptionDropdownId={displayOptionDropdownId}
+            dropdownPosition={dropdownPosition}
+            setDisplayOptionDropdownId={setDisplayOptionDropdownId}
+            characters={characters}
+          />
 
-              {chatLogs.filter((log) => log.type === "character" && log.isOwner)
-                .length > 0 ? (
-                <NavLink
-                  to="/character/new"
-                  onClick={() => {
-                    if (isSmallScreen && isLeftPanelOpen)
-                      dispatch(toggleLeftPanel());
-                    sendEvent("click_new_character", "left_panel");
-                  }}
-                >
-                  <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
-                    <PlusIcon />
-                  </div>
-                </NavLink>
-              ) : null}
-            </div>
-            {isDataLoadingLeftPanel.includes("threads") ? (
-              <Loading />
-            ) : chatLogs.filter(
-                (log) => log.type === "character" && log.isOwner
-              ).length === 0 ? (
-              <NavLink
-                to="/character/new"
-                onClick={() => {
-                  if (isSmallScreen) dispatch(toggleLeftPanel());
-                  sendEvent("click_new_character", "left_panel");
-                }}
-              >
-                <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                  <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
-                    <PlusIcon />
-                  </div>
-                  <span className="pl-[10px]">{t("New character")}</span>
-                </div>
-              </NavLink>
-            ) : (
-              chatLogs
-                .filter((log) => log.type === "character" && log.isOwner)
-                .map((char) => (
-                  <div
-                    key={char.threadId}
-                    className="group flex flex-row items-center h-[40px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] justify-between"
-                  >
-                    <NavLink
-                      key={char.threadId}
-                      className="h-full grow flex items-center w-[calc(100%-40px)]"
-                      onClick={
-                        isSmallScreen
-                          ? () => dispatch(toggleLeftPanel())
-                          : undefined
-                      }
-                      to={`/character/${char.threadId}`}
-                    >
-                      <div className="flex flex-row">
-                        <div
-                          className={clsx(
-                            {
-                              "bg-gray-200 rounded-full":
-                                characters.find(
-                                  (c) => c.thread_id === char.threadId
-                                )?.imagesMultisize?.[0]?.small === undefined,
-                            },
-                            "h-[24px] w-[24px]"
-                          )}
-                        >
-                          {characters.find((c) => c.thread_id === char.threadId)
-                            ?.imagesMultisize?.[0] ? (
-                            <img
-                              src={
-                                characters.find(
-                                  (c) => c.thread_id === char.threadId
-                                )?.avatar?.small ??
-                                characters.find(
-                                  (c) => c.thread_id === char.threadId
-                                )?.imagesMultisize?.[0]?.small
-                              }
-                              className="rounded-full h-[24px] w-[24px] object-cover"
-                              alt="Character"
-                            />
-                          ) : null}
-                        </div>
-                        <span className="pl-[10px] truncate">
-                          {t(
-                            characters.find(
-                              (c) => c.thread_id === char.threadId
-                            )?.json?.name ??
-                              char.title ??
-                              ""
-                          )}
-                        </span>
-                      </div>
-                    </NavLink>
-                    {char.isBeingDeleted || char.isBeingArchived ? (
-                      <div className="h-[24px] w-[24px] text-textSecondar dark:text-darkTextSecondary">
-                        <LoadingIcon />
-                      </div>
-                    ) : (
-                      <div
-                        className={clsx(
-                          {
-                            hidden: displayOptionDropdownId !== char.threadId,
-                          },
-                          "group-hover:block cursor-pointer ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
-                        )}
-                        onClick={(event) =>
-                          handleDropdownClick(event, char.threadId)
-                        }
-                      >
-                        <OptionsIcon />
-                      </div>
-                    )}
+          <ContentSection
+            title="Stories"
+            type="story"
+            items={storyItems}
+            isLoading={isDataLoadingLeftPanel.includes("threads")}
+            onNavigate={handlePanelNavigate}
+            onHandleDropdown={handleDropdownClick}
+            displayOptionDropdownId={displayOptionDropdownId}
+            dropdownPosition={dropdownPosition}
+            setDisplayOptionDropdownId={setDisplayOptionDropdownId}
+          />
 
-                    {displayOptionDropdownId === char.threadId &&
-                      dropdownPosition && (
-                        <div
-                          style={{
-                            // position: "fixed",
-                            top: dropdownPosition.top,
-                            left: dropdownPosition.left,
-                          }}
-                          className="z-20 absolute"
-                        >
-                          <OptionsDropdown
-                            type="character"
-                            threadId={char.threadId}
-                            hide={() => setDisplayOptionDropdownId(null)}
-                          />
-                        </div>
-                      )}
-                  </div>
-                ))
-            )}
-          </div>
-
-          <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
-            <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
-              <div className="font-bold h-[40px] content-center">
-                {t("Stories")}
-              </div>
-              {chatLogs.filter((log) => log.type === "story" && log.isOwner)
-                .length > 0 ? (
-                <NavLink
-                  to="/story/new"
-                  onClick={() => {
-                    if (isSmallScreen && isLeftPanelOpen)
-                      dispatch(toggleLeftPanel());
-                    sendEvent("click_new_story", "left_panel");
-                  }}
-                >
-                  <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
-                    <PlusIcon />
-                  </div>
-                </NavLink>
-              ) : null}
-            </div>
-            {isDataLoadingLeftPanel.includes("threads") ? (
-              <Loading />
-            ) : chatLogs.filter((log) => log.type === "story" && log.isOwner)
-                .length === 0 ? (
-              <NavLink
-                to="/story/new"
-                onClick={() => {
-                  if (isSmallScreen) dispatch(toggleLeftPanel());
-                  sendEvent("click_new_story", "left_panel");
-                }}
-              >
-                <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                  <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
-                    <PlusIcon />
-                  </div>
-                  <span className="pl-[10px]">{t("New story")}</span>
-                </div>
-              </NavLink>
-            ) : (
-              chatLogs
-                .filter((log) => log.type === "story" && log.isOwner)
-                .map((story) => (
-                  <div
-                    key={story.threadId}
-                    className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]"
-                  >
-                    <NavLink
-                      to={`/story/${story.threadId}`}
-                      key={story.threadId}
-                      className="h-full grow flex items-center w-[calc(100%-40px)]"
-                      onClick={
-                        isSmallScreen
-                          ? () => dispatch(toggleLeftPanel())
-                          : undefined
-                      }
-                    >
-                      <div className="truncate">{t(story.title ?? "")}</div>
-                    </NavLink>
-                    {story.isBeingDeleted || story.isBeingArchived ? (
-                      <div className="h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary">
-                        <LoadingIcon />
-                      </div>
-                    ) : (
-                      <div
-                        className={clsx(
-                          {
-                            hidden: displayOptionDropdownId !== story.threadId,
-                          },
-                          "group-hover:block cursor-pointer  ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
-                        )}
-                        onClick={(event) =>
-                          handleDropdownClick(event, story.threadId)
-                        }
-                      >
-                        <OptionsIcon />
-                      </div>
-                    )}
-
-                    {displayOptionDropdownId === story.threadId &&
-                      dropdownPosition && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: dropdownPosition.top,
-                            left: dropdownPosition.left,
-                          }}
-                          className="z-20"
-                        >
-                          <OptionsDropdown
-                            type="story"
-                            threadId={story.threadId}
-                            hide={() => setDisplayOptionDropdownId(null)}
-                          />
-                        </div>
-                      )}
-                  </div>
-                ))
-            )}
-          </div>
-          <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
-            <div className="font-bold h-[40px] content-center flex flex-row justify-between items-center">
-              <div className="font-bold h-[40px] content-center">
-                {t("Games")}
-              </div>
-              {chatLogs.filter((log) => log.type === "you_are_the_hero")
-                .length > 0 ? (
-                <NavLink
-                  to="/game/new"
-                  onClick={() => {
-                    if (isSmallScreen && isLeftPanelOpen)
-                      dispatch(toggleLeftPanel());
-                    sendEvent("click_new_game", "left_panel");
-                  }}
-                >
-                  <div className="w-[24px] h-[24px] hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer p-[5px] text-textSecondary dark:text-darkTextSecondary">
-                    <PlusIcon />
-                  </div>
-                </NavLink>
-              ) : null}
-            </div>
-            {isDataLoadingLeftPanel.includes("threads") ? (
-              <Loading />
-            ) : chatLogs.filter((log) => log.type === "you_are_the_hero")
-                .length === 0 ? (
-              <NavLink
-                to="/game/new"
-                onClick={() => {
-                  if (isSmallScreen) dispatch(toggleLeftPanel());
-                  sendEvent("click_new_game", "left_panel");
-                }}
-              >
-                <div className="flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
-                  <div className="h-[20px] w-[20px] text-textSecondary dark:text-darkTextSecondary">
-                    <PlusIcon />
-                  </div>
-                  <span className="pl-[10px]">{t("New game")}</span>
-                </div>
-              </NavLink>
-            ) : (
-              chatLogs
-                .filter((log) => log.type === "you_are_the_hero")
-                .map((game) => (
-                  <div
-                    key={game.threadId}
-                    className="group flex flex-row justify-between items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]"
-                  >
-                    <NavLink
-                      to={`/game/${game.threadId}`}
-                      key={game.threadId}
-                      className="h-full grow flex items-center w-[calc(100%-40px)]"
-                      onClick={
-                        isSmallScreen
-                          ? () => dispatch(toggleLeftPanel())
-                          : undefined
-                      }
-                    >
-                      {/* <div className={clsx("h-[24px] w-[24px]")}>
-                        <img
-                          src={
-                            games.find((g) => g.id === char.threadId)
-                              ?.imagesMultisize?.[0]?.small ??
-                            characters.find((c) => c.threadId === char.threadId)
-                              ?.images?.[0] ??
-                            imageDani
-                          }
-                          className="rounded-full h-[24px] w-[24px] object-cover"
-                        />
-                      </div> */}
-                      <div className="truncate grow">{t(game.title ?? "")}</div>
-                    </NavLink>
-                    {game.isBeingDeleted || game.isBeingArchived ? (
-                      <div className="h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary">
-                        <LoadingIcon />
-                      </div>
-                    ) : (
-                      <div
-                        className={clsx(
-                          {
-                            hidden: displayOptionDropdownId !== game.threadId,
-                          },
-                          "group-hover:block cursor-pointer ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
-                        )}
-                        onClick={(event) =>
-                          handleDropdownClick(event, game.threadId)
-                        }
-                      >
-                        <OptionsIcon />
-                      </div>
-                    )}
-
-                    {displayOptionDropdownId === game.threadId &&
-                      dropdownPosition && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: dropdownPosition.top,
-                            left: dropdownPosition.left,
-                          }}
-                          className="z-20"
-                        >
-                          <OptionsDropdown
-                            type="you_are_the_hero"
-                            threadId={game.threadId}
-                            hide={() => setDisplayOptionDropdownId(null)}
-                          />
-                        </div>
-                      )}
-                  </div>
-                ))
-            )}
-          </div>
+          <ContentSection
+            title="Games"
+            type="game"
+            items={gameItems}
+            isLoading={isDataLoadingLeftPanel.includes("threads")}
+            onNavigate={handlePanelNavigate}
+            onHandleDropdown={handleDropdownClick}
+            displayOptionDropdownId={displayOptionDropdownId}
+            dropdownPosition={dropdownPosition}
+            setDisplayOptionDropdownId={setDisplayOptionDropdownId}
+          />
         </div>
       </div>
-      {plan !== "early_lifetime" && (
-        <NavLink
-          onClick={() => {
-            sendEvent("click_upgrade", "left_panel");
 
-            if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
-          }}
-          to={"/pricing"}
-          className="absolute bottom-[55px] left-[10px] pl-[10px] flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[240px] py-[10px] rounded-lg flex flex-row"
-        >
-          <div className="w-[24px] h-[24px] mr-[10px]">
-            <PlanIcon />
-          </div>
-          <div className="">{t("Upgrade plan")}</div>
-        </NavLink>
-      )}
-      <div
-        onClick={() => {
-          dispatch(setMode(mode === "adult" ? "minor" : "adult"));
-          sendEvent(
-            mode === "adult"
-              ? "click_exit_lola18_from_left_panel"
-              : "click_enter_lola18_from_left_panel"
-          );
-
-          if (isSmallScreen && isLeftPanelOpen) dispatch(toggleLeftPanel());
-        }}
-        className="absolute bottom-[10px] left-[10px] pl-[10px] dark:text-pink-200 text-rose-600 flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[240px] py-[10px] rounded-lg flex flex-row"
-      >
-        <div className="w-[24px] h-[24px] mr-[10px]">
-          <AdultIcon />
-        </div>
-        <div className="">
-          {t(mode === "minor" ? "Enter Fabularius" : "Exit Fabularius")}
-        </div>
-      </div>
-      {/* <a href="https://t.me/lola_storyteller" target="_blank" rel="noreferrer">
-        <div className="fixed bottom-[10px] pl-[10px] left-[200px] w-[44px] py-[10px] rounded-lg flex flex-row cursor-pointer hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary w-[230px] flex flex-row">
-          <div className="w-[24px] h-[24px]">
-            <TelegramIcon />
-          </div>
-        </div>
-      </a> */}
+      <FooterLinks />
     </div>
   );
 };
