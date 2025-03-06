@@ -333,11 +333,11 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                       <span className="whitespace-nowrap">
                         {t("Generate image")}
                       </span>
-                    </div>
+                      {/* </div>
                     <div
                       className="flex flex-row items-center"
-                      // onClick={setImageGenModelBasedOnQuotas}
-                    >
+                      onClick={setImageGenModelBasedOnQuotas}
+                    > */}
                       <div className="text-textSecondary dark:text-darkTextSecondary ml-[5px]">
                         <span>
                           {/* {t(capitalizeFirstLetter(props.genImageModel ?? ""))} */}
