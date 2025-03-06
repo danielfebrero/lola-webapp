@@ -66,13 +66,7 @@ const PricingPage: React.FC = () => {
                   <div className="w-[18px] h-[18px]">
                     <CheckOnlyIcon />
                   </div>
-                  <span>{t('Unlimited "Classic" images')}</span>
-                </div>
-                <div className="flex flex-row items-center mt-[5px]">
-                  <div className="w-[18px] h-[18px]">
-                    <CheckOnlyIcon />
-                  </div>
-                  <span>{t('10 "Classic+" images per day')}</span>
+                  <span>{t('20 "Classic+" images per day')}</span>
                 </div>
                 {plan === "free" && (
                   <div
@@ -117,12 +111,6 @@ const PricingPage: React.FC = () => {
                     <CheckOnlyIcon />
                   </div>
                   <span>{t("Make your content private")}</span>
-                </div>
-                <div className="flex flex-row items-center mt-[5px]">
-                  <div className="w-[18px] h-[18px]">
-                    <CheckOnlyIcon />
-                  </div>
-                  <span>{t('Unlimited "Classic" images')}</span>
                 </div>
                 <div className="flex flex-row items-center mt-[5px]">
                   <div className="w-[18px] h-[18px]">
@@ -186,12 +174,6 @@ const PricingPage: React.FC = () => {
                     <CheckOnlyIcon />
                   </div>
                   <span>{t("Make your content private")}</span>
-                </div>
-                <div className="flex flex-row items-center mt-[5px]">
-                  <div className="w-[18px] h-[18px]">
-                    <CheckOnlyIcon />
-                  </div>
-                  <span>{t('Unlimited "Classic" images')}</span>
                 </div>
                 <div className="flex flex-row items-center mt-[5px]">
                   <div className="w-[18px] h-[18px]">

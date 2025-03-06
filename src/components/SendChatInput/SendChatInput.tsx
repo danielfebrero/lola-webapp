@@ -336,16 +336,17 @@ const SendChatInput: React.FC<SendChatInputProps> = (props) => {
                     </div>
                     <div
                       className="flex flex-row items-center"
-                      onClick={setImageGenModelBasedOnQuotas}
+                      // onClick={setImageGenModelBasedOnQuotas}
                     >
                       <div className="text-textSecondary dark:text-darkTextSecondary ml-[5px]">
                         <span>
-                          {t(capitalizeFirstLetter(props.genImageModel ?? ""))}
+                          {/* {t(capitalizeFirstLetter(props.genImageModel ?? ""))} */}
+                          {t("Classic+")}
                         </span>
                       </div>
-                      <div className="h–[20px] w-[20px] ml-[5px]">
+                      {/* <div className="h–[20px] w-[20px] ml-[5px]">
                         <SwitchIcon />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 )}
