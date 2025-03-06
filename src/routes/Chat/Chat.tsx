@@ -151,7 +151,7 @@ const ChatPage: React.FC = () => {
               {
                 "w-full": isSmallScreen,
                 "w-[320px]": !isSmallScreen,
-                hidden: params.threadId === "new" && isSmallScreen,
+                hidden: params.threadId && isSmallScreen,
               },
               "flex flex-col h-full border-r border-borderColor dark:border-darkBorderColor overflow-y-scroll no-scrollbar"
             )}
