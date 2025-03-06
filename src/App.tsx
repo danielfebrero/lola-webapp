@@ -147,9 +147,9 @@ const App: React.FC<AppProps> = (props) => {
                     />
                     <Route path="/images" element={<MyImagesPage />} />
                     <Route path="/archived" element={<ArchivedPage />} />
-                    <Route path="/collaborate/chat" element={<ChatPage />} />
+                    <Route path="/social/chat" element={<ChatPage />} />
                     <Route
-                      path="/collaborate/chat/:threadId"
+                      path="/social/chat/:threadId"
                       element={<ChatPage />}
                     />
                   </Route>

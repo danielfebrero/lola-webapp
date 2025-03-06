@@ -133,15 +133,15 @@ const ExploreSection = ({ onNavigate }: { onNavigate: () => void }) => {
 };
 
 // Section Components
-const CollaborateSection = ({ onNavigate }: { onNavigate: () => void }) => {
+const SocialSection = ({ onNavigate }: { onNavigate: () => void }) => {
   const { sendEvent } = useGA();
 
   return (
     <div className="h-auto w-full flex flex-col ml-[10px] pr-[20px]">
-      <SectionHeader title="Collaborate" showAddButton={false} />
+      <SectionHeader title="Social" showAddButton={false} />
 
       <NavItem
-        to="/collaborate/chat"
+        to="/social/chat"
         label="Chat"
         onClick={() => {
           onNavigate();
@@ -150,7 +150,7 @@ const CollaborateSection = ({ onNavigate }: { onNavigate: () => void }) => {
       />
 
       <NavItem
-        to="/collaborate/story"
+        to="/social/story"
         label="Stories"
         onClick={() => {
           onNavigate();
@@ -541,7 +541,7 @@ const LeftPanel: React.FC = () => {
           className="h-[calc(100%-150px)] w-[calc(100%+20px)] flex flex-col overflow-y-scroll overflow-x-clip ml-[-10px] mr-[-10px] no-scrollbar"
         >
           <ExploreSection onNavigate={handlePanelNavigate} />
-          <CollaborateSection onNavigate={handlePanelNavigate} />
+          <SocialSection onNavigate={handlePanelNavigate} />
 
           <ContentSection
             title="Characters"
