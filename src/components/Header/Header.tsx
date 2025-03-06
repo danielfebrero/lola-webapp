@@ -123,7 +123,7 @@ const Header: React.FC = () => {
       ? setHeaderLabel(t("Checkout"))
       : location.pathname.indexOf("/archived") === 0
       ? setHeaderLabel(t("Archived"))
-      : location.pathname.indexOf("/collaborate/chat") === 0
+      : location.pathname.indexOf("/social/chat") === 0
       ? setHeaderLabel(t("Chat"))
       : setHeaderLabel("Story");
     setModeDropdownOpen(false);

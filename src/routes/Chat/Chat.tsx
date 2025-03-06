@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router";
 import { useState } from "react";
 
 import Meta from "../../components/Meta";
+import { useAppSelector } from "../../store/hooks";
+import clsx from "clsx";
 
 const convos = [
   {
@@ -109,30 +111,32 @@ const ChatPage: React.FC = () => {
   const navigate = useNavigate();
   const params = useParams();
 
+  const { isSmallScreen } = useAppSelector((state) => state.app);
+
   // Form state for new chat
   const [groupName, setGroupName] = useState("");
-  const [email, setEmail] = useState("");
-  const [emails, setEmails] = useState<string[]>([]);
+  const [participant, setParticipant] = useState("");
+  const [participants, setParticipants] = useState<string[]>([]);
   const [isPublic, setIsPublic] = useState(false);
   const [participation, setParticipation] = useState<
     "onlyMe" | "participants" | "custom" | "everyone"
   >("participants");
 
   // Email handling functions
-  const addEmail = () => {
-    if (email && !emails.includes(email)) {
-      setEmails([...emails, email]);
-      setEmail("");
+  const addParticipant = () => {
+    if (participant && !participants.includes(participant)) {
+      setParticipants([...participants, participant]);
+      setParticipant("");
     }
   };
 
-  const removeEmail = (emailToRemove: string) => {
-    setEmails(emails.filter((e) => e !== emailToRemove));
+  const removeParticipant = (emailToRemove: string) => {
+    setParticipants(participants.filter((e) => e !== emailToRemove));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ groupName, emails, isPublic, participation });
+    console.log({ groupName, participants, isPublic, participation });
     // Here you would handle the creation of a new chat
     // and navigate to the new chat thread
   };
@@ -142,7 +146,16 @@ const ChatPage: React.FC = () => {
       <Meta title={t("Chat")} />
       <div className="grow pt-2.5 pb-2.5 flex flex-row">
         <div className="grow flex flex-row h-[calc(100vh-110px)] max-w-full">
-          <div className="flex flex-col w-[320px] h-full md:block hidden border-r border-borderColor dark:border-darkBorderColor overflow-y-scroll no-scrollbar">
+          <div
+            className={clsx(
+              {
+                "w-full": isSmallScreen,
+                "w-[320px]": !isSmallScreen,
+                hidden: params.threadId === "new" && isSmallScreen,
+              },
+              "flex flex-col h-full border-r border-borderColor dark:border-darkBorderColor overflow-y-scroll no-scrollbar"
+            )}
+          >
             {convos.map((convo, index) => {
               return (
                 <div
@@ -154,7 +167,17 @@ const ChatPage: React.FC = () => {
                     <img src={convo.profileImage} alt="" />
                   </div>
                   <div className="flex flex-col ml-[10px]">
-                    <div className="w-[220px] truncate">{convo.title}</div>
+                    <div
+                      className={clsx(
+                        {
+                          "w-[220px]": !isSmallScreen,
+                          "w-[calc(100vw-100px)]": isSmallScreen,
+                        },
+                        "truncate"
+                      )}
+                    >
+                      {convo.title}
+                    </div>
                     <div className="text-textSecondary dark:text-darkTextSecondary text-xs">
                       {moment(convo.dateLastMessage).fromNow()}
                     </div>
@@ -163,7 +186,7 @@ const ChatPage: React.FC = () => {
               );
             })}
           </div>
-          {!params.threadId && (
+          {!params.threadId && !isSmallScreen && (
             <div className="flex flex-col items-center justify-center flex-grow">
               <div className="text-textSecondary dark:text-darkTextSecondary">
                 {t("Select a chat to start messaging")}
@@ -171,11 +194,11 @@ const ChatPage: React.FC = () => {
             </div>
           )}
           {params.threadId === "new" && (
-            <div className="flex flex-col items-center justify-center flex-grow">
+            <div className="flex flex-col items-center justify-center flex-grow min-w-0 p-[10px]">
               <div className="w-full max-w-md p-6 bg-white dark:bg-darkMainSurfaceSecondary rounded-lg shadow">
-                <h2 className="text-xl font-semibold mb-6">
+                <div className="text-xl font-semibold mb-6">
                   {t("Create a New Chat Group")}
-                </h2>
+                </div>
                 <form onSubmit={handleSubmit}>
                   {/* Group Name */}
                   <div className="mb-4">
@@ -203,15 +226,21 @@ const ChatPage: React.FC = () => {
                     </label>
                     <div className="flex">
                       <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="flex-1 px-3 py-2 border border-borderColor dark:border-darkBorderColor dark:bg-darkBrandMainColorDarker bg-brandMainColorDarker rounded-l-md focus:outline-none focus:ring-0"
-                        placeholder={t("Enter email address")}
+                        type="text"
+                        value={participant}
+                        onChange={(e) => setParticipant(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            addParticipant();
+                          }
+                        }}
+                        className="w-full px-3 py-2 border border-borderColor dark:border-darkBorderColor dark:bg-darkBrandMainColorDarker bg-brandMainColorDarker rounded-l-md focus:outline-none focus:ring-0"
+                        placeholder={t("Enter email address or username")}
                       />
                       <button
                         type="button"
-                        onClick={addEmail}
+                        onClick={addParticipant}
                         className="px-4 py-2 bg-brandMainColor dark:bg-darkBrandMainColor text-white rounded-r-md hover:bg-brandMainColorHover dark:hover:bg-darkBrandMainColorHover"
                       >
                         {t("Add")}
@@ -219,17 +248,17 @@ const ChatPage: React.FC = () => {
                     </div>
 
                     {/* Email list */}
-                    {emails.length > 0 && (
+                    {participants.length > 0 && (
                       <div className="mt-2 space-y-1">
-                        {emails.map((email, index) => (
+                        {participants.map((p, index) => (
                           <div
                             key={index}
                             className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded"
                           >
-                            <span className="text-sm">{email}</span>
+                            <span className="text-sm">{p}</span>
                             <button
                               type="button"
-                              onClick={() => removeEmail(email)}
+                              onClick={() => removeParticipant(p)}
                               className="text-red-500 hover:text-red-700"
                             >
                               &times;
@@ -240,12 +269,20 @@ const ChatPage: React.FC = () => {
                     )}
                   </div>
 
-                  {/* Who can participate? */}
+                  {/* Who can send messages? */}
                   <div className="mb-4">
                     <span className="block text-sm font-medium mb-1">
-                      {t("Who can participate?")}
+                      {t("Who can send messages?")}
                     </span>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div
+                      className={clsx(
+                        {
+                          "grid-cols-1": isSmallScreen,
+                          "grid-cols-3": !isSmallScreen,
+                        },
+                        "grid gap-2"
+                      )}
+                    >
                       <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
                         <input
                           type="radio"
@@ -265,16 +302,6 @@ const ChatPage: React.FC = () => {
                           name="participation"
                         />
                         <span className="ml-2">{t("Participants")}</span>
-                      </label>
-                      <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
-                        <input
-                          type="radio"
-                          checked={participation === "custom"}
-                          onChange={() => setParticipation("custom")}
-                          className="form-radio text-brandMainColor"
-                          name="participation"
-                        />
-                        <span className="ml-2">{t("Custom")}</span>
                       </label>
                       <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
                         <input
