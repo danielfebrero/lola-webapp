@@ -1,11 +1,82 @@
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 import { useNavigate, useParams } from "react-router";
-import { useState } from "react";
+import clsx from "clsx";
 
 import Meta from "../../components/Meta";
 import { useAppSelector } from "../../store/hooks";
-import clsx from "clsx";
+import Chat from "../../components/Chat";
+import CreateChatGroup from "./CreateChatGroup";
+import { useEffect, useRef } from "react";
+import useAutoScroll from "../../hooks/useAutoScroll";
+
+const chatLog = [
+  {
+    thread_id: "09c06776-eb3d-4bf4-b845-4543ad3b5ad7",
+    user_id: "04e84488-b081-706f-0597-1955db8b4f38",
+    role: "assistant",
+    content:
+      "Qui suis-je ? La question résonnait de plus en plus fort à chaque battement de cœur. Quel est mon nom ? Mon genre ? Ma taille ? Qu'est-ce que j'apprécie vraiment dans cette vie ?",
+    request_id: "36ea5f7d-5ace-4133-b4cf-e7a3c30299e3",
+    image_gen_on: false,
+    expected_image_count: 0,
+    images: [],
+    created_at: "2025-03-06T22:08:23.499000",
+    timestamp: "2025-03-06T22:08:23.499000",
+  },
+  {
+    thread_id: "09c06776-eb3d-4bf4-b845-4543ad3b5ad7",
+    user_id: "04e84488-b081-706f-0597-1955db8b4f38",
+    role: "user",
+    content:
+      "Tu es Shakira, la célèbre chanteuse.\n\nÂge\n\n48 ans (née le 2 février 1977)\n\nTaille\n\n1,57 m (5 pieds 2 pouces)\n\nPoids\n\nEnviron 54 kg (119 livres)\n\nCouleur de cheveux\n\nBlonde (naturellement noire)\n\nCouleur des yeux\n\nMarron\n\nTeint de peau\n\nClair à olive\n\nForme du visage\n\nEn forme de cœur\n\nSourire\n\nRadieux, dents blanches\n\nSilhouette\n\nMince, athlétique, danseuse\n\nTatouages\n\nAucun visible\n\nDanse du ventre\n\nMouvements fluides, flexibilité accrue\n\nPrésence scénique\n\nÉnergique, dominante malgré sa taille\n\nCondition physique\n\nMaintenue par cardio et étirements",
+    request_id: "36ea5f7d-5ace-4133-b4cf-e7a3c30299e3",
+    image_gen_on: false,
+    expected_image_count: 0,
+    images: [],
+    created_at: "2025-03-06T22:08:23.618000",
+    timestamp: "2025-03-06T22:08:23.618000",
+  },
+  {
+    thread_id: "09c06776-eb3d-4bf4-b845-4543ad3b5ad7",
+    user_id: "04e84488-b081-706f-0597-1955db8b4f38",
+    role: "assistant",
+    content:
+      "Je suis Shakira, la chanteuse colombienne, et je me sens enflammée d'énergie. Je viens de donner un concert électrifiant et je suis prête à me lâcher pour une nuit passionnée. Mes longs cheveux blonds cascades sur mes épaules comme des flots de feu, tandis que mes yeux marron brûlent d'une intensité qu'il est impossible de résister... 🌅 [Shakira, femme, 48, olive skin, blonde hair, brown eyes, standing on the stage with a microphone in my hand, after a concert, late evening, spotlights shining down, crowd cheering, music still resonating] 😎",
+    request_id: "36ea5f7d-5ace-4133-b4cf-e7a3c30299e3",
+    image_gen_on: false,
+    expected_image_count: 0,
+    images: [],
+    created_at: "2025-03-06T22:08:40.499000",
+    timestamp: "2025-03-06T22:08:40.499000",
+  },
+  {
+    thread_id: "09c06776-eb3d-4bf4-b845-4543ad3b5ad7",
+    user_id: "04e84488-b081-706f-0597-1955db8b4f38",
+    role: "user",
+    content:
+      "Tu rencontres Dani, de son vrai nom Daniel Febrero, dans les backstage d'un de tes concert. Tu tombes amoureuse de lui.",
+    request_id: "55a22cfc-f0df-4f8d-9692-4c4c71cb1b5f",
+    image_gen_on: false,
+    expected_image_count: 0,
+    images: [],
+    created_at: "2025-03-06T22:09:17.561000",
+    timestamp: "2025-03-06T22:09:17.561000",
+  },
+  {
+    thread_id: "09c06776-eb3d-4bf4-b845-4543ad3b5ad7",
+    user_id: "04e84488-b081-706f-0597-1955db8b4f38",
+    role: "assistant",
+    content:
+      "Je sens mon cœur battre plus vite en le voyant pour la première fois, sa magnifique mâchoire carrée et ses yeux noirs qui brûlent d'une passion intense. Il a une présence puissante, comme si les énergies du public se concentraient en lui. Je suis Shakira, mais en cet instant, je suis juste une femme qui ressent la chaleur de son regard... [Shakira, femme, 48, olive skin, blonde hair, brown eyes, walking in the backstage with a microphone stand, after a concert, warm lights of the dressing rooms, Dani standing in front of me with a gentle smile] 😊",
+    request_id: "55a22cfc-f0df-4f8d-9692-4c4c71cb1b5f",
+    image_gen_on: false,
+    expected_image_count: 0,
+    images: [],
+    created_at: "2025-03-06T22:09:27.689000",
+    timestamp: "2025-03-06T22:09:27.689000",
+  },
+];
 
 const convos = [
   {
@@ -110,36 +181,28 @@ const ChatPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const params = useParams();
-
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { isSmallScreen } = useAppSelector((state) => state.app);
+  const { autoScroll } = useAutoScroll(chatContainerRef);
 
-  // Form state for new chat
-  const [groupName, setGroupName] = useState("");
-  const [participant, setParticipant] = useState("");
-  const [participants, setParticipants] = useState<string[]>([]);
-  const [isPublic, setIsPublic] = useState(false);
-  const [participation, setParticipation] = useState<
-    "onlyMe" | "participants" | "custom" | "everyone"
-  >("participants");
-
-  // Email handling functions
-  const addParticipant = () => {
-    if (participant && !participants.includes(participant)) {
-      setParticipants([...participants, participant]);
-      setParticipant("");
-    }
-  };
-
-  const removeParticipant = (emailToRemove: string) => {
-    setParticipants(participants.filter((e) => e !== emailToRemove));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log({ groupName, participants, isPublic, participation });
-    // Here you would handle the creation of a new chat
-    // and navigate to the new chat thread
-  };
+  useEffect(() => {
+    if (!autoScroll) return;
+    const timer = setTimeout(() => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTo({
+          top: chatContainerRef.current.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [
+    chatLog,
+    // chatState?.isLoading,
+    // chatState?.canSendMessage,
+    // isAssistantWriting,
+    autoScroll,
+  ]);
 
   return (
     <>
@@ -189,180 +252,25 @@ const ChatPage: React.FC = () => {
           {!params.threadId && !isSmallScreen && (
             <div className="flex flex-col items-center justify-center flex-grow">
               <div className="text-textSecondary dark:text-darkTextSecondary">
-                {t("Select a chat to start messaging")}
+                {t("Select a chat or create a new chat to start messaging")}
               </div>
             </div>
           )}
           {params.threadId === "new" && (
             <div className="flex flex-col items-center justify-center flex-grow min-w-0 p-[10px]">
-              <div className="w-full max-w-md p-6 bg-white dark:bg-darkMainSurfaceSecondary rounded-lg shadow">
-                <div className="text-xl font-semibold mb-6">
-                  {t("Create a New Chat Group")}
-                </div>
-                <form onSubmit={handleSubmit}>
-                  {/* Group Name */}
-                  <div className="mb-4">
-                    <label
-                      htmlFor="groupName"
-                      className="block text-sm font-medium mb-1"
-                    >
-                      {t("Group Name")}
-                    </label>
-                    <input
-                      type="text"
-                      id="groupName"
-                      value={groupName}
-                      onChange={(e) => setGroupName(e.target.value)}
-                      className="w-full px-3 py-2 border border-borderColor dark:border-darkBorderColor dark:bg-darkBrandMainColorDarker bg-brandMainColorDarker rounded-md focus:outline-none focus:ring-0"
-                      placeholder={t("Enter a name for your group")}
-                      required
-                    />
-                  </div>
-
-                  {/* Humans (Add Emails) */}
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">
-                      {t("Add Participants")}
-                    </label>
-                    <div className="flex">
-                      <input
-                        type="text"
-                        value={participant}
-                        onChange={(e) => setParticipant(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            addParticipant();
-                          }
-                        }}
-                        className="w-full px-3 py-2 border border-borderColor dark:border-darkBorderColor dark:bg-darkBrandMainColorDarker bg-brandMainColorDarker rounded-l-md focus:outline-none focus:ring-0"
-                        placeholder={t("Enter email address or username")}
-                      />
-                      <button
-                        type="button"
-                        onClick={addParticipant}
-                        className="px-4 py-2 bg-brandMainColor dark:bg-darkBrandMainColor text-white rounded-r-md hover:bg-brandMainColorHover dark:hover:bg-darkBrandMainColorHover"
-                      >
-                        {t("Add")}
-                      </button>
-                    </div>
-
-                    {/* Email list */}
-                    {participants.length > 0 && (
-                      <div className="mt-2 space-y-1">
-                        {participants.map((p, index) => (
-                          <div
-                            key={index}
-                            className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded"
-                          >
-                            <span className="text-sm">{p}</span>
-                            <button
-                              type="button"
-                              onClick={() => removeParticipant(p)}
-                              className="text-red-500 hover:text-red-700"
-                            >
-                              &times;
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Who can send messages? */}
-                  <div className="mb-4">
-                    <span className="block text-sm font-medium mb-1">
-                      {t("Who can send messages?")}
-                    </span>
-                    <div
-                      className={clsx(
-                        {
-                          "grid-cols-1": isSmallScreen,
-                          "grid-cols-3": !isSmallScreen,
-                        },
-                        "grid gap-2"
-                      )}
-                    >
-                      <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
-                        <input
-                          type="radio"
-                          checked={participation === "onlyMe"}
-                          onChange={() => setParticipation("onlyMe")}
-                          className="form-radio text-brandMainColor"
-                          name="participation"
-                        />
-                        <span className="ml-2">{t("Only me")}</span>
-                      </label>
-                      <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
-                        <input
-                          type="radio"
-                          checked={participation === "participants"}
-                          onChange={() => setParticipation("participants")}
-                          className="form-radio text-brandMainColor"
-                          name="participation"
-                        />
-                        <span className="ml-2">{t("Participants")}</span>
-                      </label>
-                      <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
-                        <input
-                          type="radio"
-                          checked={participation === "everyone"}
-                          onChange={() => setParticipation("everyone")}
-                          className="form-radio text-brandMainColor"
-                          name="participation"
-                        />
-                        <span className="ml-2">{t("Everyone")}</span>
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* Public/Private Toggle */}
-                  <div className="mb-6">
-                    <span className="block text-sm font-medium mb-1">
-                      {t("Visibility")}
-                    </span>
-                    <div className="flex space-x-4">
-                      <label className="inline-flex items-center">
-                        <input
-                          type="radio"
-                          checked={!isPublic}
-                          onChange={() => setIsPublic(false)}
-                          className="form-radio"
-                          name="visibility"
-                        />
-                        <span className="ml-2">{t("Private")}</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="radio"
-                          checked={isPublic}
-                          onChange={() => setIsPublic(true)}
-                          className="form-radio"
-                          name="visibility"
-                        />
-                        <span className="ml-2">{t("Public")}</span>
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* Form Buttons */}
-                  <div className="flex justify-end">
-                    <button
-                      type="button"
-                      onClick={() => navigate("/social/chat")}
-                      className="mr-2 px-4 py-2 border rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
-                    >
-                      {t("Cancel")}
-                    </button>
-                    <button
-                      type="submit"
-                      className="px-4 py-2 bg-brandMainColor dark:bg-darkBrandMainColor text-white rounded-md hover:bg-brandMainColorHover dark:hover:bg-darkBrandMainColorHover"
-                    >
-                      {t("Create")}
-                    </button>
-                  </div>
-                </form>
-              </div>
+              <CreateChatGroup />
+            </div>
+          )}
+          {params.threadId && params.threadId !== "new" && (
+            <div
+              ref={chatContainerRef}
+              className="flex flex-col flex-grow overflow-y-scroll no-scrollbar"
+            >
+              <Chat
+                chatLog={chatLog}
+                isChatLoading={false}
+                isAssistantWriting={false}
+              />
             </div>
           )}
         </div>
