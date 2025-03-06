@@ -260,7 +260,11 @@ export default function useWebSocket({
                 break;
 
               case "image_generation":
-                if (data.featureType === "lola") {
+                if (
+                  data.featureType === "lola" ||
+                  data.featureType === "story" ||
+                  data.featureType === "you_are_the_hero"
+                ) {
                   dispatch(
                     addImageToMessage({
                       threadId: data.threadId,

@@ -42,8 +42,19 @@ const Chat: React.FC<ChatProps> = (props) => {
                 />
                 {message.role !== "user" &&
                   message.image_gen_on &&
-                  message.expected_image_count === 2 && (
-                    <div className="grid grid-cols-2 gap-4 mb-[20px]">
+                  (message.expected_image_count === 1 ||
+                    message.expected_image_count === 2) && (
+                    <div
+                      className={clsx(
+                        {
+                          "grid grid-cols-2 gap-4":
+                            message.expected_image_count === 2,
+                          "flex flex-grow justify-center":
+                            message.expected_image_count === 1,
+                        },
+                        "mb-[20px]"
+                      )}
+                    >
                       {/* Image handling logic remains unchanged */}
                       {message.images && (
                         <ImageSlider
@@ -54,7 +65,7 @@ const Chat: React.FC<ChatProps> = (props) => {
                       )}
                       <div
                         className={clsx(
-                          "cursor-pointer aspect-square flex justify-center items-center bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground"
+                          "h-[330px] w-[330px] cursor-pointer aspect-square flex justify-center items-center bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground"
                         )}
                         onClick={
                           message.images?.[0]
@@ -77,29 +88,31 @@ const Chat: React.FC<ChatProps> = (props) => {
                           </div>
                         )}
                       </div>
-                      <div
-                        onClick={
-                          message.images?.[1]
-                            ? () =>
-                                setImageViewingUrl(
-                                  message.images?.[1].original ?? ""
-                                )
-                            : undefined
-                        }
-                        className="cursor-pointer aspect-square flex justify-center items-center bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground"
-                      >
-                        {message.images?.[1] ? (
-                          <img
-                            src={message.images?.[1].original}
-                            alt="Generated on fabularius.ai"
-                            className="object-cover"
-                          />
-                        ) : (
-                          <div className="w-[72px] h-[72px]">
-                            <LoadingIcon />
-                          </div>
-                        )}
-                      </div>
+                      {message.expected_image_count === 2 && (
+                        <div
+                          onClick={
+                            message.images?.[1]
+                              ? () =>
+                                  setImageViewingUrl(
+                                    message.images?.[1].original ?? ""
+                                  )
+                              : undefined
+                          }
+                          className="cursor-pointer aspect-square flex justify-center items-center bg-black rounded-lg bg-lightGray dark:bg-darkMessageBackground"
+                        >
+                          {message.images?.[1] ? (
+                            <img
+                              src={message.images?.[1].original}
+                              alt="Generated on fabularius.ai"
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="w-[72px] h-[72px]">
+                              <LoadingIcon />
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
               </React.Fragment>
