@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "react-oidc-context";
 
@@ -13,6 +13,9 @@ import { PLANS } from "../../utils/constants";
 import AccountIcon from "../../icons/account";
 import TextInput from "../TextInput";
 import FileUpload from "../FileUpload";
+import useAPI from "../../hooks/useAPI";
+import { useDebounce } from "../../hooks/useDebounce";
+import LoadingIcon from "../../icons/loading";
 
 const Settings: React.FC = () => {
   const auth = useAuth();
@@ -25,23 +28,44 @@ const Settings: React.FC = () => {
   >("account");
   const { t } = useTranslation();
   const { setSettings } = useWebSocket({});
-  const [username, setUsername] = useState<string>(user.username || "");
+  const [username, setUsername] = useState<string>(
+    user.settings.username || ""
+  );
   const [isUsernameTaken, setIsUsernameTaken] = useState<boolean>(true);
+  const { setUserProfilePicture, checkIsUsernameTaken } = useAPI();
+  const debouncedUsername = useDebounce(username, 300);
 
   const onUsernameChange = (value: string) => {
     setUsername(value);
   };
 
+  useEffect(() => {
+    const checkUsername = async () => {
+      const isUsernameTakenResponse = await checkIsUsernameTaken(
+        debouncedUsername
+      );
+      setIsUsernameTaken(isUsernameTakenResponse.isTaken);
+    };
+
+    if (
+      debouncedUsername !== "" &&
+      debouncedUsername !== user.settings.username
+    )
+      checkUsername();
+  }, [debouncedUsername, user.settings.username]);
+
   if (!isSettingsOpen) {
     return null;
   }
 
-  const changeProfilePicture = async (file: File) => {};
+  const changeProfilePicture = async (file: File) => {
+    setUserProfilePicture(file);
+  };
 
   const FileUploadTriggerButton = (
     <div className="rounded-full w-20 h-20 bg-brandMainColor dark:bg-darkBrandMainColor flex items-center justify-center mt-[10px]">
       <img
-        src={user.profilePicture}
+        src={user.settings.profile_picture}
         className={clsx({ "text-4xl": auth.isAuthenticated })}
         alt={
           auth?.isAuthenticated
@@ -148,10 +172,17 @@ const Settings: React.FC = () => {
                 <label className="block text-sm font-medium mb-1">
                   {t("Profile picture")}
                 </label>
-                <FileUpload
-                  triggerButton={FileUploadTriggerButton}
-                  onUpload={changeProfilePicture}
-                />
+                {user.isProfilePictureUpdating && (
+                  <div className="rounded-full w-20 h-20 bg-brandMainColor dark:bg-darkBrandMainColor flex items-center justify-center mt-[10px]">
+                    <LoadingIcon />
+                  </div>
+                )}
+                {!user.isProfilePictureUpdating && (
+                  <FileUpload
+                    triggerButton={FileUploadTriggerButton}
+                    onUpload={changeProfilePicture}
+                  />
+                )}
               </div>
               <div className="flex flex-col mb-[20px]">
                 <label className="block text-sm font-medium mb-1">

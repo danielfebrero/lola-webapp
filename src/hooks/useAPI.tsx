@@ -16,7 +16,12 @@ import {
 import useNewChatLocation from "./useNewChatLocation";
 import { setScenarios } from "../store/features/games/gamesSlice";
 import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
-import { setMyImages, setQuotas } from "../store/features/user/userSlice";
+import {
+  setMyImages,
+  setProfilePicture,
+  setProfilePictureIsUpdating,
+  setQuotas,
+} from "../store/features/user/userSlice";
 import { ImagesMultisize } from "../types/characters";
 import { HTTP_API_DEV_URL, HTTP_API_PROD_URL } from "../utils/constants";
 import {
@@ -521,7 +526,7 @@ const useAPI = () => {
     charactersParticipation: CharactersPariticipationType;
   }) => {
     try {
-      const response = await fetch(`${API_URL}/chat-group/create`, {
+      const response = await fetch(`${API_URL}/chat-group`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -609,6 +614,77 @@ const useAPI = () => {
     }
   };
 
+  const setUserProfilePicture = async (file: File) => {
+    dispatch(setProfilePictureIsUpdating(true));
+
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const response = await fetch(`${API_URL}/user/profile-picture`, {
+        method: "POST",
+        headers: {
+          // Note: Do NOT set "Content-Type" manually with FormData; the browser sets it with the boundary
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          madeleine: cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error uploading profile picture image: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      dispatch(setProfilePicture(data));
+      dispatch(setProfilePictureIsUpdating(false));
+
+      return;
+    } catch (error) {
+      console.error("Failed to upload profile picture image:", error);
+      dispatch(setProfilePictureIsUpdating(false));
+      throw error;
+    }
+  };
+
+  const checkIsUsernameTaken = async (username: string) => {
+    try {
+      const response = await fetch(
+        `${API_URL}/user/is-username-taken?username=${username}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            token:
+              auth?.isAuthenticated && auth.user?.id_token
+                ? auth.user?.id_token
+                : "",
+            madeleine: cookie,
+            "ws-connection-id": connectionId ?? "",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Error fetching is username taken: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   return {
     getThreads,
     getCharacters,
@@ -626,6 +702,8 @@ const useAPI = () => {
     restoreThread,
     getQuotas,
     createChatGroup,
+    setUserProfilePicture,
+    checkIsUsernameTaken,
   };
 };
 

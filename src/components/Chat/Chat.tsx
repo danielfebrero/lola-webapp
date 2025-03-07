@@ -62,7 +62,8 @@ const Chat: React.FC<ChatProps> = (props) => {
                       : undefined
                   }
                   isCurrentUser={
-                    message.role === "user" && message.user_id === user?.id
+                    message.role === "user" &&
+                    message.user_id === user?.settings.user_id
                   }
                   profilePicture={getProfilePicture(message)}
                 />

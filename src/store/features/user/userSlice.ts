@@ -5,7 +5,10 @@ import { ImagesMultisize } from "../../../types/characters";
 // Define a type for the slice state
 interface UserState {
   settings: {
+    user_id?: string;
     language: string;
+    username?: string;
+    profile_picture?: string;
   };
   clickedUpvotes: string[];
   clickedDownvotes: string[];
@@ -19,9 +22,8 @@ interface UserState {
   quotas: {
     images_classic_plus: number;
   };
-  id: string;
-  profilePicture?: string;
-  username?: string;
+
+  isProfilePictureUpdating?: boolean;
 }
 
 // Define the initial state using that type
@@ -37,7 +39,6 @@ const initialState: UserState = {
   quotas: {
     images_classic_plus: 2,
   },
-  id: "",
 };
 
 export const userSlice = createSlice({
@@ -45,6 +46,18 @@ export const userSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    setProfilePictureIsUpdating: (state, action) => {
+      state.isProfilePictureUpdating = action.payload;
+    },
+    setProfilePicture: (state, action) => {
+      state.settings.profile_picture = action.payload;
+    },
+    setUsername: (state, action) => {
+      state.settings.username = action.payload;
+    },
+    setId: (state, action) => {
+      state.settings.user_id = action.payload;
+    },
     reduceOneImageClassicPlus: (state) => {
       state.quotas.images_classic_plus -= 1;
     },
@@ -79,6 +92,10 @@ export const {
   setMyImages,
   setQuotas,
   reduceOneImageClassicPlus,
+  setId,
+  setUsername,
+  setProfilePicture,
+  setProfilePictureIsUpdating,
 } = userSlice.actions;
 
 export default userSlice.reducer;
