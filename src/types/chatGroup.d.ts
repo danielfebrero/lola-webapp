@@ -17,3 +17,5 @@ export type PariticipationType =
   | "participants"
   | "custom"
   | "everyone";
+
+export type CharactersPariticipationType = "automatically" | "onMention";

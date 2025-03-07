@@ -19,7 +19,10 @@ import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
 import { setMyImages, setQuotas } from "../store/features/user/userSlice";
 import { ImagesMultisize } from "../types/characters";
 import { HTTP_API_DEV_URL, HTTP_API_PROD_URL } from "../utils/constants";
-import { PariticipationType } from "../types/chatGroup";
+import {
+  CharactersPariticipationType,
+  PariticipationType,
+} from "../types/chatGroup";
 
 const api_url_list = {
   "https://fabularius.ai": HTTP_API_PROD_URL,
@@ -508,12 +511,14 @@ const useAPI = () => {
     isPublic,
     participation,
     characters,
+    charactersParticipation,
   }: {
     groupName: string;
     participants: string[];
     isPublic: boolean;
     participation: PariticipationType;
     characters: string[];
+    charactersParticipation: CharactersPariticipationType;
   }) => {
     try {
       const response = await fetch(`${API_URL}/chat-group/create`, {
@@ -532,6 +537,8 @@ const useAPI = () => {
           groupName,
           isPublic,
           participation,
+          characters,
+          charactersParticipation,
         }),
       });
 

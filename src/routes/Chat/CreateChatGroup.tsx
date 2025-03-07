@@ -5,7 +5,10 @@ import clsx from "clsx";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import useAPI from "../../hooks/useAPI";
-import { PariticipationType } from "../../types/chatGroup";
+import {
+  CharactersPariticipationType,
+  PariticipationType,
+} from "../../types/chatGroup";
 import { setChatGroup, setThread } from "../../store/features/app/appSlice";
 
 const CreateChatGroup: React.FC = () => {
@@ -22,6 +25,8 @@ const CreateChatGroup: React.FC = () => {
   const [isPublic, setIsPublic] = useState(false);
   const [participation, setParticipation] =
     useState<PariticipationType>("participants");
+  const [charactersParticipation, setCharactersParticipation] =
+    useState<CharactersPariticipationType>("automatically");
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const [characterSearch, setCharacterSearch] = useState("");
 
@@ -81,6 +86,7 @@ const CreateChatGroup: React.FC = () => {
       characters: selectedCharacters,
       isPublic,
       participation,
+      charactersParticipation,
     });
     dispatch(setThread(chatGroupEntity.thread));
     dispatch(setChatGroup(chatGroupEntity.chatGroup));
@@ -157,6 +163,53 @@ const CreateChatGroup: React.FC = () => {
           )}
         </div>
 
+        {/* Who can send messages? */}
+        <div className="mb-4">
+          <span className="block text-sm font-medium mb-1">
+            {t("Who can send messages?")}
+          </span>
+          <div
+            className={clsx(
+              {
+                "grid-cols-1": isSmallScreen,
+                "grid-cols-3": !isSmallScreen,
+              },
+              "grid gap-2"
+            )}
+          >
+            <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
+              <input
+                type="radio"
+                checked={participation === "onlyMe"}
+                onChange={() => setParticipation("onlyMe")}
+                className="form-radio text-brandMainColor"
+                name="participation"
+              />
+              <span className="ml-2">{t("Only me")}</span>
+            </label>
+            <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
+              <input
+                type="radio"
+                checked={participation === "participants"}
+                onChange={() => setParticipation("participants")}
+                className="form-radio text-brandMainColor"
+                name="participation"
+              />
+              <span className="ml-2">{t("Participants")}</span>
+            </label>
+            <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
+              <input
+                type="radio"
+                checked={participation === "everyone"}
+                onChange={() => setParticipation("everyone")}
+                className="form-radio text-brandMainColor"
+                name="participation"
+              />
+              <span className="ml-2">{t("Everyone")}</span>
+            </label>
+          </div>
+        </div>
+
         {/* Characters */}
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">
@@ -218,16 +271,16 @@ const CreateChatGroup: React.FC = () => {
           </div>
         </div>
 
-        {/* Who can send messages? */}
+        {/* Characters will participate? */}
         <div className="mb-4">
           <span className="block text-sm font-medium mb-1">
-            {t("Who can send messages?")}
+            {t("When characters participate?")}
           </span>
           <div
             className={clsx(
               {
                 "grid-cols-1": isSmallScreen,
-                "grid-cols-3": !isSmallScreen,
+                "grid-cols-2": !isSmallScreen,
               },
               "grid gap-2"
             )}
@@ -235,32 +288,23 @@ const CreateChatGroup: React.FC = () => {
             <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
               <input
                 type="radio"
-                checked={participation === "onlyMe"}
-                onChange={() => setParticipation("onlyMe")}
+                checked={charactersParticipation === "automatically"}
+                onChange={() => setCharactersParticipation("automatically")}
                 className="form-radio text-brandMainColor"
-                name="participation"
+                name="automatically"
               />
-              <span className="ml-2">{t("Only me")}</span>
+              <span className="ml-2">{t("Automatically")}</span>
             </label>
+
             <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
               <input
                 type="radio"
-                checked={participation === "participants"}
-                onChange={() => setParticipation("participants")}
+                checked={charactersParticipation === "onMention"}
+                onChange={() => setCharactersParticipation("onMention")}
                 className="form-radio text-brandMainColor"
-                name="participation"
+                name="onMention"
               />
-              <span className="ml-2">{t("Participants")}</span>
-            </label>
-            <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
-              <input
-                type="radio"
-                checked={participation === "everyone"}
-                onChange={() => setParticipation("everyone")}
-                className="form-radio text-brandMainColor"
-                name="participation"
-              />
-              <span className="ml-2">{t("Everyone")}</span>
+              <span className="ml-2">{t("On mention")}</span>
             </label>
           </div>
         </div>
