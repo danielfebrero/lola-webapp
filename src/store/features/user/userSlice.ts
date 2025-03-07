@@ -49,15 +49,6 @@ export const userSlice = createSlice({
     setProfilePictureIsUpdating: (state, action) => {
       state.isProfilePictureUpdating = action.payload;
     },
-    setProfilePicture: (state, action) => {
-      state.settings.profile_picture = action.payload;
-    },
-    setUsername: (state, action) => {
-      state.settings.username = action.payload;
-    },
-    setId: (state, action) => {
-      state.settings.user_id = action.payload;
-    },
     reduceOneImageClassicPlus: (state) => {
       state.quotas.images_classic_plus -= 1;
     },
@@ -92,9 +83,6 @@ export const {
   setMyImages,
   setQuotas,
   reduceOneImageClassicPlus,
-  setId,
-  setUsername,
-  setProfilePicture,
   setProfilePictureIsUpdating,
 } = userSlice.actions;
 

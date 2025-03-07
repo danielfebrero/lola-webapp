@@ -128,7 +128,7 @@ const Header: React.FC = () => {
       ? setHeaderLabel(t("Chat"))
       : setHeaderLabel("Story");
     setModeDropdownOpen(false);
-  }, [location]);
+  }, [location, isSmallScreen]);
 
   return (
     <div className="pl-[20px] pr-[20px] pt-[10px] flex flex-row justify-between items-center">

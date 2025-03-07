@@ -21,6 +21,7 @@ import {
   setProfilePicture,
   setProfilePictureIsUpdating,
   setQuotas,
+  setSettings,
 } from "../store/features/user/userSlice";
 import { ImagesMultisize } from "../types/characters";
 import { HTTP_API_DEV_URL, HTTP_API_PROD_URL } from "../utils/constants";
@@ -660,7 +661,7 @@ const useAPI = () => {
       }
 
       const data = await response.json();
-      dispatch(setProfilePicture(data.imagesMultisize));
+      dispatch(setSettings({ profile_picture: data.imagesMultisize }));
       dispatch(setProfilePictureIsUpdating(false));
 
       return;
@@ -671,35 +672,33 @@ const useAPI = () => {
     }
   };
 
-  const checkIsUsernameTaken = async (username: string) => {
+  const changeUsername = async (username: string) => {
     try {
-      const response = await fetch(
-        `${API_URL}/user/is-username-taken?username=${username}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            token:
-              auth?.isAuthenticated && auth.user?.id_token
-                ? auth.user?.id_token
-                : "",
-            madeleine: cookie,
-            "ws-connection-id": connectionId ?? "",
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/user/username`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          madeleine: cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+        body: JSON.stringify({
+          username,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error(
-          `Error fetching is username taken: ${JSON.stringify(response.json())}`
+          `Error setting changing username: ${JSON.stringify(response.json())}`
         );
       }
-
-      const data = await response.json();
-      return data;
+      return await response.json();
     } catch (error) {
       console.error(error);
-      throw error;
+      return { success: false };
     }
   };
 
@@ -721,7 +720,7 @@ const useAPI = () => {
     getQuotas,
     createChatGroup,
     setUserProfilePicture,
-    checkIsUsernameTaken,
+    changeUsername,
   };
 };
 

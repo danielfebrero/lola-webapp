@@ -16,6 +16,7 @@ import FileUpload from "../FileUpload";
 import useAPI from "../../hooks/useAPI";
 import { useDebounce } from "../../hooks/useDebounce";
 import LoadingIcon from "../../icons/loading";
+import CheckIcon from "../../icons/check";
 
 const Settings: React.FC = () => {
   const auth = useAuth();
@@ -31,27 +32,37 @@ const Settings: React.FC = () => {
   const [username, setUsername] = useState<string>(
     user.settings.username || ""
   );
-  const [isUsernameTaken, setIsUsernameTaken] = useState<boolean>(true);
-  const { setUserProfilePicture, checkIsUsernameTaken } = useAPI();
+  const [isUsernameTaken, setIsUsernameTaken] = useState<boolean>(false);
+  const [isUsernameChangedWithSuccess, setIsUsernameChangedWithSuccess] =
+    useState<boolean | null>(null);
+  const { setUserProfilePicture, changeUsername } = useAPI();
   const debouncedUsername = useDebounce(username, 300);
 
   const onUsernameChange = (value: string) => {
     setUsername(value);
+    setIsUsernameChangedWithSuccess(null);
+    setIsUsernameTaken(false);
   };
 
   useEffect(() => {
-    const checkUsername = async () => {
-      const isUsernameTakenResponse = await checkIsUsernameTaken(
-        debouncedUsername
-      );
-      setIsUsernameTaken(isUsernameTakenResponse.isTaken);
+    const changeUsernameAsync = async () => {
+      const changeUsernameResponse = await changeUsername(debouncedUsername);
+      setIsUsernameTaken(changeUsernameResponse.isTaken);
+      setIsUsernameChangedWithSuccess(changeUsernameResponse.success);
+      if (changeUsernameResponse.success) {
+        dispatch(
+          setSettingsAction({
+            username: debouncedUsername,
+          })
+        );
+      }
     };
 
     if (
       debouncedUsername !== "" &&
       debouncedUsername !== user.settings.username
     )
-      checkUsername();
+      changeUsernameAsync();
   }, [debouncedUsername, user.settings.username]);
 
   const FileUploadTriggerButton = useMemo(
@@ -195,13 +206,23 @@ const Settings: React.FC = () => {
                 <label className="block text-sm font-medium mb-1">
                   {t("Set your unsername")}
                 </label>
-                <div>
+                <div className="flex flex-row items-center">
                   <TextInput
                     value={username}
                     onChange={onUsernameChange}
                     disabled={!auth?.isAuthenticated}
                   />
+                  {isUsernameChangedWithSuccess === true && (
+                    <div className="text-green-500 text-sm mt-1 w-[24px] h-[24px] ml-[10px]">
+                      <CheckIcon />
+                    </div>
+                  )}
                 </div>
+                {isUsernameChangedWithSuccess === false && (
+                  <div className="text-red-500 text-sm mt-1">
+                    {t("An error occurred while changing the username.")}
+                  </div>
+                )}
                 {isUsernameTaken && (
                   <div className="text-red-500 text-sm mt-1">
                     {t("This username is already taken.")}
