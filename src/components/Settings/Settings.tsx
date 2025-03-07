@@ -48,6 +48,12 @@ const Settings: React.FC = () => {
   };
 
   useEffect(() => {
+    setIsUsernameChangedWithSuccess(null);
+    setIsUsernameTaken(false);
+    setUsername(user.settings.username ?? "");
+  }, [isSettingsOpen]);
+
+  useEffect(() => {
     const changeUsernameAsync = async () => {
       dispatch(setIsUsernameUpdating(true));
       const changeUsernameResponse = await changeUsername(debouncedUsername);
