@@ -28,7 +28,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ dropdownLabel }) => {
         </div>
       </div>
       <div className="flex flex-row">
-        <div className="bg-sky-700 rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer"></div>
+        <div className="bg-brandMainColor rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer"></div>
       </div>
     </div>
   );
