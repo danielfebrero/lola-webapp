@@ -2,18 +2,20 @@ import { useTranslation } from "react-i18next";
 import moment from "moment";
 import { useNavigate, useParams } from "react-router";
 import clsx from "clsx";
+import { useEffect, useRef, useState } from "react";
 
 import Meta from "../../components/Meta";
 import { useAppSelector } from "../../store/hooks";
 import Chat from "../../components/Chat";
 import CreateChatGroup from "./CreateChatGroup";
-import { useEffect, useRef } from "react";
 import useAutoScroll from "../../hooks/useAutoScroll";
 import ExploreChatGroups from "./ExploreChatGroups";
 import ArrowBackIcon from "../../icons/arrowBack";
 import LeaveIcon from "../../icons/leave";
 import ExploreIcon from "../../icons/explore";
 import NewChatIcon from "../../icons/newChat";
+import SpreadIcon from "../../icons/spread";
+import useClickAnywhere from "../../hooks/useClickAnywhere";
 
 const chatLog = [
   {
@@ -189,8 +191,24 @@ const ChatPage: React.FC = () => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { isSmallScreen } = useAppSelector((state) => state.app);
   const { autoScroll } = useAutoScroll(chatContainerRef);
+  const [isMoreOptionsOpen, setIsMoreOptionsOpen] = useState(false);
 
-  const leaveGroup = () => {};
+  useClickAnywhere(() => {
+    setIsMoreOptionsOpen(false);
+  });
+
+  const handleJoinGroup = () => {
+    // Implement join group functionality
+    console.log(`Joining group ${params.threadId}`);
+    // After join logic, you might want to refresh the page or update state
+  };
+
+  const handleLeaveGroup = () => {
+    // Implement leave group functionality
+    console.log(`Leaving group ${params.threadId}`);
+    setIsMoreOptionsOpen(false);
+    navigate("/social/chat");
+  };
 
   useEffect(() => {
     if (!autoScroll) return;
@@ -229,7 +247,7 @@ const ChatPage: React.FC = () => {
             <div className="w-full flex items-center justify-center">
               <div
                 onClick={() => navigate("/social/chat/explore")}
-                className="flex flex-row px-[10px] py-[5px] border border-borderColor dark:border-darkBorderColor rounded-lg w-fit cursor-pointer hover:bg-white dark:hover:bg-darkMainSurfaceSecondary items-center"
+                className="flex flex-row px-[10px] py-[5px] border border-borderColor dark:border-darkBorderColor rounded-lg w-fit cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary items-center"
               >
                 <div className="w-[18px] h-[18px] mr-[10px]">
                   <ExploreIcon />
@@ -240,7 +258,7 @@ const ChatPage: React.FC = () => {
               </div>
               <div
                 onClick={() => navigate("/social/chat/new")}
-                className="flex flex-row px-[10px] py-[5px] ml-[10px] border border-borderColor dark:border-darkBorderColor rounded-lg w-fit cursor-pointer hover:bg-white dark:hover:bg-darkMainSurfaceSecondary items-center"
+                className="flex flex-row px-[10px] py-[5px] ml-[10px] border border-borderColor dark:border-darkBorderColor rounded-lg w-fit cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary items-center"
               >
                 <div className="w-[18px] h-[18px] mr-[10px]">
                   <NewChatIcon />
@@ -314,12 +332,26 @@ const ChatPage: React.FC = () => {
                     <ArrowBackIcon />
                   </div>
                   <div
-                    className="w-[24px] h-[24px] mr-[20px] cursor-pointer"
-                    onClick={leaveGroup}
+                    onClick={() => setIsMoreOptionsOpen(!isMoreOptionsOpen)}
+                    className="mr-[20px] w-[24px] h-[24px] border border-borderColor dark:border-darkBorderColor rounded-full flex items-center justify-center cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary"
                   >
-                    <LeaveIcon />
+                    <SpreadIcon />
                   </div>
+                  {isMoreOptionsOpen && (
+                    <div className="absolute right-0 mt-[30px] mr-[20px] w-[150px] bg-white dark:bg-darkMainSurfacePrimary border border-borderColor dark:border-darkBorderColor rounded-lg shadow-lg z-10">
+                      <div
+                        className="flex items-center px-4 py-2 text-red-600 dark:text-red-400 cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary"
+                        onClick={handleLeaveGroup}
+                      >
+                        <div className="w-[18px] h-[18px] mr-[10px]">
+                          <LeaveIcon />
+                        </div>
+                        <span>{t("Leave")}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
+
                 <div
                   ref={chatContainerRef}
                   className="flex flex-col flex-grow overflow-y-scroll no-scrollbar px-[10px] items-center w-full"
@@ -329,6 +361,14 @@ const ChatPage: React.FC = () => {
                     isChatLoading={false}
                     isAssistantWriting={false}
                   />
+                </div>
+                <div className="w-full flex justify-center pt-[10px]">
+                  <div
+                    onClick={handleJoinGroup}
+                    className="cursor-pointer w-fit px-[20px] py-[5px] border border-borderColor dark:border-darkBorderColor rounded-lg flex flex-row items-center hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary"
+                  >
+                    {t("Join")}
+                  </div>
                 </div>
               </div>
             )}
