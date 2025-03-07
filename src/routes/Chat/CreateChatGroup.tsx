@@ -10,6 +10,7 @@ import {
   PariticipationType,
 } from "../../types/chatGroup";
 import { setChatGroup, setThread } from "../../store/features/app/appSlice";
+import TextInput from "../../components/TextInput";
 
 const CreateChatGroup: React.FC = () => {
   const { t } = useTranslation();
@@ -102,14 +103,13 @@ const CreateChatGroup: React.FC = () => {
           <label htmlFor="groupName" className="block text-sm font-medium mb-1">
             {t("Group Name")}
           </label>
-          <input
-            type="text"
-            id="groupName"
+          <TextInput
             value={groupName}
-            onChange={(e) => setGroupName(e.target.value)}
-            className="w-full px-3 py-2 border border-borderColor dark:border-darkBorderColor dark:bg-darkMainSurfacePrimary bg-white rounded-md focus:outline-none focus:ring-0"
+            onChange={setGroupName}
+            id="groupName"
+            className="w-full"
             placeholder={t("Enter a name for your group")}
-            required
+            required={true}
           />
         </div>
 
@@ -119,17 +119,16 @@ const CreateChatGroup: React.FC = () => {
             {t("Add Participants")}
           </label>
           <div className="flex">
-            <input
-              type="text"
+            <TextInput
               value={participant}
-              onChange={(e) => setParticipant(e.target.value)}
+              onChange={setParticipant}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
                   addParticipant();
                 }
               }}
-              className="w-full px-3 py-2 border border-borderColor dark:border-darkBorderColor dark:bg-darkMainSurfacePrimary bg-white rounded-l-md focus:outline-none focus:ring-0"
+              className="w-full"
               placeholder={t("Enter email address or username")}
             />
             <button
@@ -216,11 +215,10 @@ const CreateChatGroup: React.FC = () => {
             {t("Add Characters")}
           </label>
           <div className="mb-2">
-            <input
-              type="text"
+            <TextInput
               value={characterSearch}
-              onChange={(e) => setCharacterSearch(e.target.value)}
-              className="w-full px-3 py-2 border border-borderColor dark:border-darkBorderColor dark:bg-darkMainSurfacePrimary bg-white rounded-md focus:outline-none focus:ring-0"
+              onChange={setCharacterSearch}
+              className="w-full"
               placeholder={t("Search characters")}
             />
           </div>

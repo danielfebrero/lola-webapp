@@ -20,6 +20,8 @@ interface UserState {
     images_classic_plus: number;
   };
   id: string;
+  profilePicture?: string;
+  username?: string;
 }
 
 // Define the initial state using that type
