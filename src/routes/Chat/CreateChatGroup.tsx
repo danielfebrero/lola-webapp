@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
@@ -22,6 +22,44 @@ const CreateChatGroup: React.FC = () => {
   const [isPublic, setIsPublic] = useState(false);
   const [participation, setParticipation] =
     useState<PariticipationType>("participants");
+  const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
+  const [characterSearch, setCharacterSearch] = useState("");
+
+  // Get characters from store
+  const { chatLogs, characters } = useAppSelector((state) => state.app);
+  const availableCharacters = useMemo(() => {
+    return chatLogs
+      .filter((log) => log.type === "character" && log.isOwner)
+      .map((log) => {
+        const characterDetails = characters.find(
+          (char) => char.thread_id === log.threadId
+        );
+        return {
+          threadId: log.threadId,
+          name: characterDetails?.name || log.title || "Unknown Character",
+          avatar:
+            characterDetails?.avatar || characterDetails?.imagesMultisize?.[0],
+        };
+      });
+  }, [chatLogs, characters]);
+
+  const filteredCharacters = useMemo(() => {
+    return availableCharacters.filter((character) =>
+      character.name.toLowerCase().includes(characterSearch.toLowerCase())
+    );
+  }, [availableCharacters, characterSearch]);
+
+  const addCharacter = (characterId: string) => {
+    if (!selectedCharacters.includes(characterId)) {
+      setSelectedCharacters([...selectedCharacters, characterId]);
+    }
+  };
+
+  const removeCharacter = (characterId: string) => {
+    setSelectedCharacters(
+      selectedCharacters.filter((id) => id !== characterId)
+    );
+  };
 
   // Email handling functions
   const addParticipant = () => {
@@ -40,6 +78,7 @@ const CreateChatGroup: React.FC = () => {
     const chatGroupEntity = await createChatGroup({
       groupName,
       participants,
+      characters: selectedCharacters,
       isPublic,
       participation,
     });
@@ -116,6 +155,67 @@ const CreateChatGroup: React.FC = () => {
               ))}
             </div>
           )}
+        </div>
+
+        {/* Characters */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">
+            {t("Add Characters")}
+          </label>
+          <div className="mb-2">
+            <input
+              type="text"
+              value={characterSearch}
+              onChange={(e) => setCharacterSearch(e.target.value)}
+              className="w-full px-3 py-2 border border-borderColor dark:border-darkBorderColor dark:bg-darkMainSurfacePrimary bg-white rounded-md focus:outline-none focus:ring-0"
+              placeholder={t("Search characters")}
+            />
+          </div>
+          <div className="mt-2 h-48 overflow-y-auto border border-borderColor dark:border-darkBorderColor rounded-md">
+            {filteredCharacters.length === 0 ? (
+              <div className="text-center p-4 text-gray-500 dark:text-gray-400">
+                {characterSearch
+                  ? t("No characters match your search")
+                  : t("No characters available")}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2">
+                {filteredCharacters.map((character) => (
+                  <div
+                    key={character.threadId}
+                    className={clsx(
+                      "flex items-center p-2 border rounded-md cursor-pointer",
+                      selectedCharacters.includes(character.threadId)
+                        ? "border-brandMainColor bg-blue-50 dark:bg-blue-900"
+                        : "border-borderColor dark:border-darkBorderColor"
+                    )}
+                    onClick={() => {
+                      if (selectedCharacters.includes(character.threadId)) {
+                        removeCharacter(character.threadId);
+                      } else {
+                        addCharacter(character.threadId);
+                      }
+                    }}
+                  >
+                    {character.avatar ? (
+                      <img
+                        src={character.avatar.medium}
+                        alt={character.name}
+                        className="w-10 h-10 rounded-full object-cover mr-2"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full mr-2 flex items-center justify-center">
+                        <span className="text-gray-500">
+                          {character.name.charAt(0)}
+                        </span>
+                      </div>
+                    )}
+                    <span className="text-sm truncate">{character.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Who can send messages? */}

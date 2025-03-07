@@ -507,11 +507,13 @@ const useAPI = () => {
     participants,
     isPublic,
     participation,
+    characters,
   }: {
     groupName: string;
     participants: string[];
     isPublic: boolean;
     participation: PariticipationType;
+    characters: string[];
   }) => {
     try {
       const response = await fetch(`${API_URL}/chat-group/create`, {
