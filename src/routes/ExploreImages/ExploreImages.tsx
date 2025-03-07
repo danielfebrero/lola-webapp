@@ -121,7 +121,7 @@ const ExploreImagesPage: React.FC = () => {
         imageViewingUrl={imageViewingUrl}
         hide={() => setImageViewingUrl(null)}
       />
-      <div className="grow pt-2.5 pb-5 flex flex-row justify-center w-full no-scrollbar">
+      <div className="grow pt-2.5 pb-2.5 flex flex-row justify-center w-full no-scrollbar">
         <div
           className="flex flex-col h-[calc(100vh-90px)]"
           style={{ width: `${columnCount * COLUMN_WIDTH}px`, maxWidth: "100%" }}

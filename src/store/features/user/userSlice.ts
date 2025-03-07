@@ -19,6 +19,7 @@ interface UserState {
   quotas: {
     images_classic_plus: number;
   };
+  id: string;
 }
 
 // Define the initial state using that type
@@ -34,6 +35,7 @@ const initialState: UserState = {
   quotas: {
     images_classic_plus: 2,
   },
+  id: "",
 };
 
 export const userSlice = createSlice({

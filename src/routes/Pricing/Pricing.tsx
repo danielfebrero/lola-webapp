@@ -49,7 +49,7 @@ const PricingPage: React.FC = () => {
   return (
     <>
       <Meta title={t("Pricing")} />
-      <div className="grow pt-2.5 pb-5 flex flex-row">
+      <div className="grow pt-2.5 pb-2.5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-90px)] items-center">
           <div className="grow overflow-y-scroll no-scrollbar flex flex-col w-full items-center">
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4">

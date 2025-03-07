@@ -7,6 +7,7 @@ import Message from "../Message";
 import { Message as MessageType } from "../../types/chat";
 import ImageSlider from "../ImageSlider";
 import LoadingIcon from "../../icons/loading";
+import { useAppSelector } from "../../store/hooks";
 
 interface ChatProps {
   type?: "character" | "story" | "game" | "lola";
@@ -19,6 +20,27 @@ interface ChatProps {
 const Chat: React.FC<ChatProps> = (props) => {
   const location = useLocation();
   const [imageViewingUrl, setImageViewingUrl] = useState<string | null>(null);
+  const user = useAppSelector((state) => state.user);
+  const { characters } = useAppSelector((state) => state.app);
+
+  // Function to get profile picture based on message type
+  const getProfilePicture = (message: MessageType) => {
+    if (message.role === "user") {
+      // Return user avatar or placeholder
+      return null;
+    } else if (message.role === "character") {
+      // Return character avatar
+      return (
+        characters.find((c) => c.thread_id === message.threadId)?.avatar
+          ?.large ||
+        characters.find((c) => c.thread_id === message.threadId)
+          ?.imagesMultisize?.[0]?.large ||
+        null
+      );
+    }
+    // Assistant default
+    return null;
+  };
 
   return (
     <div className="w-full max-w-[715px]">
@@ -39,6 +61,10 @@ const Chat: React.FC<ChatProps> = (props) => {
                       ? "max-w-[60%]"
                       : undefined
                   }
+                  isCurrentUser={
+                    message.role === "user" && message.user_id === user?.id
+                  }
+                  profilePicture={getProfilePicture(message)}
                 />
                 {message.role !== "user" &&
                   message.image_gen_on &&

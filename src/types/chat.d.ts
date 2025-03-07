@@ -10,6 +10,7 @@ interface Message {
   expected_image_count?: number;
   images?: ImagesMultisize[];
   request_id?: string;
+  user_id: string;
 }
 
 interface Thread {

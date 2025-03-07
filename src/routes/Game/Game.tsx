@@ -136,7 +136,7 @@ const GamePage: React.FC = () => {
   return (
     <>
       <Meta title={t(chatState?.title ?? "You are the hero")} />
-      <div className="grow pl-5 pr-5 pt-2.5 pb-5 flex flex-row">
+      <div className="grow pl-5 pr-5 pt-2.5 pb-2.5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-90px)]">
           <div
             className="grow overflow-y-scroll no-scrollbar items-center flex flex-col"

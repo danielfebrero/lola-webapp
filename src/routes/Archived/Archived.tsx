@@ -68,7 +68,7 @@ const ArchivedPage: React.FC = () => {
   return (
     <>
       <Meta title={t("Archived")} />
-      <div className="grow pt-2.5 pb-5 flex flex-row">
+      <div className="grow pt-2.5 pb-2.5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-90px)] items-center max-w-full">
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col w-full items-center">
             {(!archivedThreads || archivedThreads.length === 0) && (

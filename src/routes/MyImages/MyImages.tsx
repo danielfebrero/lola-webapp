@@ -44,7 +44,7 @@ const MyImagesPage: React.FC = () => {
         imageViewingUrl={imageViewingUrl}
         hide={() => setImageViewingUrl(null)}
       />
-      <div className="grow pt-2.5 pb-5 flex flex-row">
+      <div className="grow pt-2.5 pb-2.5 flex flex-row">
         <div className="grow flex flex-col h-[calc(100vh-90px)] items-center">
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col w-full items-center">
             <div className="grid md:grid-cols-5 grid grid-cols-2 gap-4">

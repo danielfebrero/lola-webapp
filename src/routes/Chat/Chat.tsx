@@ -257,7 +257,7 @@ const ChatPage: React.FC = () => {
                   className="flex flex-row m-2 p-2 hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary cursor-pointer rounded-lg"
                   onClick={() => navigate(`/social/chat/${convo.id}`)}
                 >
-                  <div className="w-[50px] h-[50px] rounded-full bg-black overflow-hidden">
+                  <div className="w-[50px] h-[50px] rounded-full bg-black overflow-hidden flex-shrink-0">
                     <img src={convo.profileImage} alt="" />
                   </div>
                   <div className="flex flex-col ml-[10px]">
@@ -298,7 +298,7 @@ const ChatPage: React.FC = () => {
               </div>
             )}
           {params.threadId === "new" && (
-            <div className="flex flex-col items-center justify-center flex-grow min-w-0 p-[10px]">
+            <div className="flex flex-col items-center flex-grow min-w-0 p-[10px] overflow-y-scroll no-scrollbar">
               <CreateChatGroup />
             </div>
           )}
