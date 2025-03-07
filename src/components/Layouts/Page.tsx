@@ -12,9 +12,9 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   headerDropdownLabel,
 }) => {
   return (
-    <div className="text-textPrimary dark:text-darkTextPrimary h-screen w-screen flex flex-row">
+    <div className="text-textPrimary dark:text-darkTextPrimary h-screen-real w-screen flex flex-row">
       <LeftPanelLayout />
-      <div className="flex flex-col h-screen overflow-y-scroll w-full bg-white dark:bg-darkMainSurfacePrimary no-scrollbar w-full">
+      <div className="flex flex-col h-screen-real overflow-y-scroll w-full bg-white dark:bg-darkMainSurfacePrimary no-scrollbar w-full">
         <div className="flex flex-col grow overflow-y-scroll no-scrollbar">
           {headerDropdownLabel && (
             <HeaderLayout dropdownLabel={headerDropdownLabel} />
