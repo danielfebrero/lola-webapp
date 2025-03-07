@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "react-oidc-context";
 
@@ -54,6 +54,27 @@ const Settings: React.FC = () => {
       checkUsername();
   }, [debouncedUsername, user.settings.username]);
 
+  const FileUploadTriggerButton = useMemo(
+    () => (
+      <div className="rounded-full overflow-hidden w-20 h-20 bg-brandMainColor dark:bg-darkBrandMainColor flex items-center justify-center mt-[10px]">
+        <img
+          src={user.settings.profile_picture?.large}
+          className={clsx({ "text-4xl": auth.isAuthenticated })}
+          alt={
+            auth?.isAuthenticated
+              ? auth.user?.profile.email?.substring(0, 1).toUpperCase()
+              : "Profile"
+          }
+        />
+      </div>
+    ),
+    [
+      user.settings.profile_picture?.large,
+      auth.isAuthenticated,
+      auth.user?.profile.email,
+    ]
+  );
+
   if (!isSettingsOpen) {
     return null;
   }
@@ -61,20 +82,6 @@ const Settings: React.FC = () => {
   const changeProfilePicture = async (file: File) => {
     setUserProfilePicture(file);
   };
-
-  const FileUploadTriggerButton = (
-    <div className="rounded-full w-20 h-20 bg-brandMainColor dark:bg-darkBrandMainColor flex items-center justify-center mt-[10px]">
-      <img
-        src={user.settings.profile_picture}
-        className={clsx({ "text-4xl": auth.isAuthenticated })}
-        alt={
-          auth?.isAuthenticated
-            ? auth.user?.profile.email?.substring(0, 1).toUpperCase()
-            : "Profile"
-        }
-      />
-    </div>
-  );
 
   return (
     <div

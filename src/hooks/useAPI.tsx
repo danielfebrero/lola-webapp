@@ -66,7 +66,9 @@ const useAPI = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`Error fetching threads: ${response.statusText}`);
+        throw new Error(
+          `Error fetching threads: ${JSON.stringify(response.json())}`
+        );
       }
 
       const data = await response.json();
@@ -95,7 +97,9 @@ const useAPI = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`Error fetching characters: ${response.statusText}`);
+        throw new Error(
+          `Error fetching characters: ${JSON.stringify(response.json())}`
+        );
       }
 
       const data = await response.json();
@@ -127,7 +131,9 @@ const useAPI = () => {
       );
 
       if (!response.ok) {
-        throw new Error(`Error fetching character: ${response.statusText}`);
+        throw new Error(
+          `Error fetching character: ${JSON.stringify(response.json())}`
+        );
       }
 
       const data = await response.json();
@@ -175,7 +181,9 @@ const useAPI = () => {
 
       if (!response.ok) {
         navigate(newChatLocation);
-        throw new Error(`Error fetching messages: ${response.statusText}`);
+        throw new Error(
+          `Error fetching messages: ${JSON.stringify(response.json())}`
+        );
       }
 
       const data = await response.json();
@@ -215,7 +223,9 @@ const useAPI = () => {
 
       if (!response.ok) {
         navigate(newChatLocation);
-        throw new Error(`Error fetching messages: ${response.statusText}`);
+        throw new Error(
+          `Error fetching messages: ${JSON.stringify(response.json())}`
+        );
       }
 
       const data = await response.json();
@@ -245,7 +255,7 @@ const useAPI = () => {
 
       if (!response.ok) {
         throw new Error(
-          `Error fetching game scenarios: ${response.statusText}`
+          `Error fetching game scenarios: ${JSON.stringify(response.json())}`
         );
       }
 
@@ -278,7 +288,9 @@ const useAPI = () => {
       );
 
       if (!response.ok) {
-        throw new Error(`Error fetching explore: ${response.statusText}`);
+        throw new Error(
+          `Error fetching explore: ${JSON.stringify(response.json())}`
+        );
       }
 
       const data = await response.json();
@@ -309,7 +321,7 @@ const useAPI = () => {
 
       if (!response.ok) {
         throw new Error(
-          `Error fetching explore images: ${response.statusText}`
+          `Error fetching explore images: ${JSON.stringify(response.json())}`
         );
       }
 
@@ -341,7 +353,7 @@ const useAPI = () => {
 
       if (!response.ok) {
         throw new Error(
-          `Error fetching admin analytics: ${response.statusText}`
+          `Error fetching admin analytics: ${JSON.stringify(response.json())}`
         );
       }
 
@@ -375,7 +387,7 @@ const useAPI = () => {
 
       if (!response.ok) {
         throw new Error(
-          `Error setting character avatar: ${response.statusText}`
+          `Error setting character avatar: ${JSON.stringify(response.json())}`
         );
       }
 
@@ -410,7 +422,7 @@ const useAPI = () => {
 
       if (!response.ok) {
         throw new Error(
-          `Error fetching admin analytics: ${response.statusText}`
+          `Error fetching admin analytics: ${JSON.stringify(response.json())}`
         );
       }
 
@@ -439,7 +451,9 @@ const useAPI = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`Error fetching quotas: ${response.statusText}`);
+        throw new Error(
+          `Error fetching quotas: ${JSON.stringify(response.json())}`
+        );
       }
 
       const data = await response.json();
@@ -469,7 +483,7 @@ const useAPI = () => {
 
       if (!response.ok) {
         throw new Error(
-          `Error setting character avatar: ${response.statusText}`
+          `Error setting character avatar: ${JSON.stringify(response.json())}`
         );
       }
 
@@ -499,7 +513,7 @@ const useAPI = () => {
 
       if (!response.ok) {
         throw new Error(
-          `Error setting character avatar: ${response.statusText}`
+          `Error setting character avatar: ${JSON.stringify(response.json())}`
         );
       }
       return;
@@ -549,7 +563,9 @@ const useAPI = () => {
 
       if (!response.ok) {
         throw new Error(
-          `Error setting creating chat group: ${response.statusText}`
+          `Error setting creating chat group: ${JSON.stringify(
+            response.json()
+          )}`
         );
       }
       return await response.json();
@@ -587,7 +603,7 @@ const useAPI = () => {
 
       if (!response.ok) {
         throw new Error(
-          `Error uploading character image: ${response.statusText}`
+          `Error uploading character image: ${JSON.stringify(response.json())}`
         );
       }
 
@@ -637,12 +653,14 @@ const useAPI = () => {
 
       if (!response.ok) {
         throw new Error(
-          `Error uploading profile picture image: ${response.statusText}`
+          `Error uploading profile picture image: ${JSON.stringify(
+            response.json()
+          )}`
         );
       }
 
       const data = await response.json();
-      dispatch(setProfilePicture(data));
+      dispatch(setProfilePicture(data.imagesMultisize));
       dispatch(setProfilePictureIsUpdating(false));
 
       return;
@@ -673,7 +691,7 @@ const useAPI = () => {
 
       if (!response.ok) {
         throw new Error(
-          `Error fetching is username taken: ${response.statusText}`
+          `Error fetching is username taken: ${JSON.stringify(response.json())}`
         );
       }
 

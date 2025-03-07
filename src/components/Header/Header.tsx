@@ -45,6 +45,7 @@ const Header: React.FC = () => {
     chatLogs,
     isSmallScreen,
   } = useAppSelector((state) => state.app);
+  const user = useAppSelector((state) => state.user);
   const newChatLocation = useNewChatLocation();
   const { sendEvent } = useGA();
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
@@ -232,12 +233,18 @@ const Header: React.FC = () => {
       </div>
       <div className="flex flex-row">
         <div
-          className="bg-brandMainColor dark:bg-darkBrandMainColor hover:bg-brandMainColorHover dark:hover:bg-darkBrandMainColorHover rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer justify-center flex items-center"
+          className="bg-brandMainColor dark:bg-darkBrandMainColor hover:bg-brandMainColorHover dark:hover:bg-darkBrandMainColorHover rounded-full h-[34px] w-[34px] text-white text-center content-center cursor-pointer justify-center flex items-center overflow-hidden"
           onClick={toggleProfileDropdown}
           ref={profileDropdownTriggerRef}
         >
-          {auth?.isAuthenticated ? (
+          {auth?.isAuthenticated && !user.settings.profile_picture ? (
             auth.user?.profile.email?.substring(0, 1).toUpperCase()
+          ) : auth?.isAuthenticated && user.settings.profile_picture ? (
+            <img
+              src={user.settings.profile_picture?.large}
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
           ) : (
             <div className="w-[20px] h-[20px]">
               <ChevronDown />

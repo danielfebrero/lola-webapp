@@ -39,6 +39,10 @@ interface AppState {
   exploreLanguage: string;
   isCryptoPricingCheckoutUrlLoading: boolean;
   requestsStopped: string[];
+  users: {
+    user_id: string;
+    profile_picture: ImagesMultisize;
+  }[];
 }
 
 // Define the initial state using that type
@@ -75,6 +79,7 @@ const initialState: AppState = {
   isCryptoPricingCheckoutUrlLoading: false,
   lastRequestIdWaitingForThreadId: null,
   requestsStopped: [],
+  users: [],
 };
 
 export const appSlice = createSlice({

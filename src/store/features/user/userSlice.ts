@@ -8,7 +8,7 @@ interface UserState {
     user_id?: string;
     language: string;
     username?: string;
-    profile_picture?: string;
+    profile_picture?: ImagesMultisize;
   };
   clickedUpvotes: string[];
   clickedDownvotes: string[];

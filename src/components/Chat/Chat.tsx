@@ -21,13 +21,22 @@ const Chat: React.FC<ChatProps> = (props) => {
   const location = useLocation();
   const [imageViewingUrl, setImageViewingUrl] = useState<string | null>(null);
   const user = useAppSelector((state) => state.user);
-  const { characters } = useAppSelector((state) => state.app);
+  const { characters, users } = useAppSelector((state) => state.app);
 
   // Function to get profile picture based on message type
   const getProfilePicture = (message: MessageType) => {
-    if (message.role === "user") {
-      // Return user avatar or placeholder
-      return null;
+    if (message.role === "user" && message.user_id === user?.settings.user_id) {
+      // Return user profile picture
+      return user?.settings.profile_picture?.medium || null;
+    } else if (
+      message.role === "user" &&
+      message.user_id !== user?.settings.user_id
+    ) {
+      // Return user profile picture
+      return (
+        users.find((u) => u.user_id === message.user_id)?.profile_picture
+          ?.medium || null
+      );
     } else if (message.role === "character") {
       // Return character avatar
       return (

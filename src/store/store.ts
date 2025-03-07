@@ -34,6 +34,7 @@ const persistConfig = {
           ...persistedState.app,
           isDataLoading: ["characters", "threads", "settings"],
           isDataLoaded: false,
+          users: [],
         },
       });
     }
