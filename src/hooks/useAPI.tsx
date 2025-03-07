@@ -19,6 +19,7 @@ import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
 import { setMyImages, setQuotas } from "../store/features/user/userSlice";
 import { ImagesMultisize } from "../types/characters";
 import { HTTP_API_DEV_URL, HTTP_API_PROD_URL } from "../utils/constants";
+import { PariticipationType } from "../types/chatGroup";
 
 const api_url_list = {
   "https://fabularius.ai": HTTP_API_PROD_URL,
@@ -501,6 +502,49 @@ const useAPI = () => {
     }
   };
 
+  const createChatGroup = async ({
+    groupName,
+    participants,
+    isPublic,
+    participation,
+  }: {
+    groupName: string;
+    participants: string[];
+    isPublic: boolean;
+    participation: PariticipationType;
+  }) => {
+    try {
+      const response = await fetch(`${API_URL}/chat-group/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          token:
+            auth?.isAuthenticated && auth.user?.id_token
+              ? auth.user?.id_token
+              : "",
+          madeleine: cookie,
+          "ws-connection-id": connectionId ?? "",
+        },
+        body: JSON.stringify({
+          participants,
+          groupName,
+          isPublic,
+          participation,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error setting creating chat group: ${response.statusText}`
+        );
+      }
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   const uploadCharacterImage = async (threadId: string, file: File) => {
     dispatch(
       setCharacter({
@@ -572,6 +616,7 @@ const useAPI = () => {
     getArchivedThreads,
     restoreThread,
     getQuotas,
+    createChatGroup,
   };
 };
 

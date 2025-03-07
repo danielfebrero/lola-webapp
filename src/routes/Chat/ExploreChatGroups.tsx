@@ -82,7 +82,7 @@ const ExploreChatGroups: React.FC = () => {
         ) : chatGroups.length > 0 ? (
           <div className="grid grid-cols-1 gap-4">
             {chatGroups.map((group) => (
-              <ChatGroupCard key={group.id} group={group} />
+              <ChatGroupCard key={group.threadId} group={group} />
             ))}
           </div>
         ) : (

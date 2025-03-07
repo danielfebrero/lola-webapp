@@ -3,21 +3,25 @@ import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import useAPI from "../../hooks/useAPI";
+import { PariticipationType } from "../../types/chatGroup";
+import { setChatGroup, setThread } from "../../store/features/app/appSlice";
 
 const CreateChatGroup: React.FC = () => {
   const { t } = useTranslation();
   const { isSmallScreen } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
+  const { createChatGroup } = useAPI();
+  const dispatch = useAppDispatch();
 
   // Form state for new chat
   const [groupName, setGroupName] = useState("");
   const [participant, setParticipant] = useState("");
   const [participants, setParticipants] = useState<string[]>([]);
   const [isPublic, setIsPublic] = useState(false);
-  const [participation, setParticipation] = useState<
-    "onlyMe" | "participants" | "custom" | "everyone"
-  >("participants");
+  const [participation, setParticipation] =
+    useState<PariticipationType>("participants");
 
   // Email handling functions
   const addParticipant = () => {
@@ -31,11 +35,16 @@ const CreateChatGroup: React.FC = () => {
     setParticipants(participants.filter((e) => e !== emailToRemove));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ groupName, participants, isPublic, participation });
-    // Here you would handle the creation of a new chat
-    // and navigate to the new chat thread
+    const chatGroupEntity = await createChatGroup({
+      groupName,
+      participants,
+      isPublic,
+      participation,
+    });
+    dispatch(setThread(chatGroupEntity.thread));
+    dispatch(setChatGroup(chatGroupEntity.chatGroup));
   };
   return (
     <div className="w-full max-w-md p-6 bg-white dark:bg-darkMainSurfaceSecondary rounded-lg shadow">

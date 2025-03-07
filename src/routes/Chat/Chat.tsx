@@ -13,6 +13,7 @@ import ExploreChatGroups from "./ExploreChatGroups";
 import ArrowBackIcon from "../../icons/arrowBack";
 import LeaveIcon from "../../icons/leave";
 import ExploreIcon from "../../icons/explore";
+import NewChatIcon from "../../icons/newChat";
 
 const chatLog = [
   {
@@ -84,100 +85,100 @@ const chatLog = [
 
 const convos = [
   {
-    title: "Very long title what is this title that is so long",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
+    title: "Spicy Roleplay Ideas That Get Me Going Every Time",
+    dateLastMessage: "2025-03-07T00:00:00.000Z",
+    profileImage: "https://picsum.photos/id/1/120/120",
     id: "1",
   },
   {
-    title: "General",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
-    id: "1",
+    title: "Late Night Sexting",
+    dateLastMessage: "2025-03-06T22:30:00.000Z",
+    profileImage: "https://picsum.photos/id/2/120/120",
+    id: "2",
   },
   {
-    title: "General",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
-    id: "1",
+    title: "Kinky Confessions",
+    dateLastMessage: "2025-03-06T20:15:00.000Z",
+    profileImage: "https://picsum.photos/id/3/120/120",
+    id: "3",
   },
   {
-    title: "General",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
-    id: "1",
+    title: "Naughty Hookups",
+    dateLastMessage: "2025-03-06T18:45:00.000Z",
+    profileImage: "https://picsum.photos/id/4/120/120",
+    id: "4",
   },
   {
-    title: "General",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
-    id: "1",
+    title: "Erotic Fantasies Unleashed",
+    dateLastMessage: "2025-03-06T16:20:00.000Z",
+    profileImage: "https://picsum.photos/id/5/120/120",
+    id: "5",
   },
   {
-    title: "General",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
-    id: "1",
+    title: "Seduction Tips & Tricks",
+    dateLastMessage: "2025-03-06T14:00:00.000Z",
+    profileImage: "https://picsum.photos/id/6/120/120",
+    id: "6",
   },
   {
-    title: "General",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    id: "1",
-    profileImage: "https://randomuser.me/api/portraits",
+    title: "Steamy Shower Thoughts",
+    dateLastMessage: "2025-03-06T12:30:00.000Z",
+    id: "7",
+    profileImage: "https://picsum.photos/id/7/120/120",
   },
   {
-    title: "General",
-    id: "1",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
+    title: "Fetish Friday",
+    id: "8",
+    dateLastMessage: "2025-03-06T10:15:00.000Z",
+    profileImage: "https://picsum.photos/id/8/120/120",
   },
   {
-    id: "1",
-    title: "General",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
+    id: "9",
+    title: "Playful Teasing",
+    dateLastMessage: "2025-03-06T08:00:00.000Z",
+    profileImage: "https://picsum.photos/id/9/120/120",
   },
   {
-    title: "General",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    id: "1",
-    profileImage: "https://randomuser.me/api/portraits",
+    title: "Tantric Playtime",
+    dateLastMessage: "2025-03-06T06:45:00.000Z",
+    id: "10",
+    profileImage: "https://picsum.photos/id/10/120/120",
   },
   {
-    title: "General",
-    id: "1",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
+    title: "After Hours Flirt Fest",
+    id: "11",
+    dateLastMessage: "2025-03-06T04:20:00.000Z",
+    profileImage: "https://picsum.photos/id/11/120/120",
   },
   {
-    id: "1",
-    title: "General",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
+    id: "12",
+    title: "Dirty Talk 101",
+    dateLastMessage: "2025-03-06T02:10:00.000Z",
+    profileImage: "https://picsum.photos/id/12/120/120",
   },
   {
-    title: "General",
-    id: "1",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
+    title: "BDSM Beginners",
+    id: "13",
+    dateLastMessage: "2025-03-06T00:00:00.000Z",
+    profileImage: "https://picsum.photos/id/13/120/120",
   },
   {
-    id: "1",
-    title: "General",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
+    id: "14",
+    title: "Sensual Massage Chat",
+    dateLastMessage: "2025-03-05T22:30:00.000Z",
+    profileImage: "https://picsum.photos/id/14/120/120",
   },
   {
-    title: "General",
-    id: "1",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
+    title: "X-Rated Daydreams",
+    id: "15",
+    dateLastMessage: "2025-03-05T20:15:00.000Z",
+    profileImage: "https://picsum.photos/id/15/120/120",
   },
   {
-    title: "General",
-    id: "1",
-    dateLastMessage: "2021-09-01T00:00:00.000Z",
-    profileImage: "https://randomuser.me/api/portraits",
+    title: "Pleasure Seekers Anonymous",
+    id: "16",
+    dateLastMessage: "2025-03-05T18:00:00.000Z",
+    profileImage: "https://picsum.photos/id/16/120/120",
   },
 ];
 
@@ -228,13 +229,24 @@ const ChatPage: React.FC = () => {
             <div className="w-full flex items-center justify-center">
               <div
                 onClick={() => navigate("/social/chat/explore")}
-                className="flex flex-row px-[10px] py-[5px] border border-borderColor dark:border-darkBorderColor rounded-lg w-fit cursor-pointer hover:bg-white dark:hover:bg-darkMainSurfaceSecondary"
+                className="flex flex-row px-[10px] py-[5px] border border-borderColor dark:border-darkBorderColor rounded-lg w-fit cursor-pointer hover:bg-white dark:hover:bg-darkMainSurfaceSecondary items-center"
               >
-                <div className="w-[24px] h-[24px] mr-[10px]">
+                <div className="w-[18px] h-[18px] mr-[10px]">
                   <ExploreIcon />
                 </div>
                 <div className="text-textSecondary dark:text-darkTextSecondary">
-                  {t("Explore Chat Groups")}
+                  {t("Explore")}
+                </div>
+              </div>
+              <div
+                onClick={() => navigate("/social/chat/new")}
+                className="flex flex-row px-[10px] py-[5px] ml-[10px] border border-borderColor dark:border-darkBorderColor rounded-lg w-fit cursor-pointer hover:bg-white dark:hover:bg-darkMainSurfaceSecondary items-center"
+              >
+                <div className="w-[18px] h-[18px] mr-[10px]">
+                  <NewChatIcon />
+                </div>
+                <div className="text-textSecondary dark:text-darkTextSecondary">
+                  {t("Create")}
                 </div>
               </div>
             </div>
@@ -245,7 +257,7 @@ const ChatPage: React.FC = () => {
                   className="flex flex-row m-2 p-2 hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary cursor-pointer rounded-lg"
                   onClick={() => navigate(`/social/chat/${convo.id}`)}
                 >
-                  <div className="w-[50px] h-[50px] rounded-full bg-black">
+                  <div className="w-[50px] h-[50px] rounded-full bg-black overflow-hidden">
                     <img src={convo.profileImage} alt="" />
                   </div>
                   <div className="flex flex-col ml-[10px]">
@@ -271,7 +283,7 @@ const ChatPage: React.FC = () => {
           {(!params.threadId || params.threadId === "explore") &&
             (!isSmallScreen ||
               (isSmallScreen && params.threadId === "explore")) && (
-              <div className="flex flex-col">
+              <div className="flex flex-col flex-grow">
                 {isSmallScreen && params.threadId === "explore" && (
                   <div
                     className="w-[24px] h-[24px] ml-[20px] mb-[10px] cursor-pointer"
@@ -280,7 +292,7 @@ const ChatPage: React.FC = () => {
                     <ArrowBackIcon />
                   </div>
                 )}
-                <div className="flex flex-col flex-grow overflow-y-scroll no-scrollbar">
+                <div className="flex flex-col flex-grow overflow-y-scroll no-scrollbar w-full items-center">
                   <ExploreChatGroups />
                 </div>
               </div>
@@ -293,7 +305,7 @@ const ChatPage: React.FC = () => {
           {params.threadId &&
             params.threadId !== "new" &&
             params.threadId !== "explore" && (
-              <div className="flex flex-col">
+              <div className="flex flex-col flex-grow">
                 <div className="flex flex-row justify-between flex-grow mb-[10px]">
                   <div
                     className="w-[24px] h-[24px] ml-[20px] cursor-pointer"
@@ -310,7 +322,7 @@ const ChatPage: React.FC = () => {
                 </div>
                 <div
                   ref={chatContainerRef}
-                  className="flex flex-col flex-grow overflow-y-scroll no-scrollbar px-[10px]"
+                  className="flex flex-col flex-grow overflow-y-scroll no-scrollbar px-[10px] items-center w-full"
                 >
                   <Chat
                     chatLog={chatLog}

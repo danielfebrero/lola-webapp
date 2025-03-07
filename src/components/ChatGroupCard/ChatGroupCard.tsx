@@ -11,7 +11,7 @@ const ChatGroupCard: React.FC<ChatGroupCardProps> = ({ group }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/social/chat/${group.id}`);
+    navigate(`/social/chat/${group.threadId}`);
   };
 
   return (

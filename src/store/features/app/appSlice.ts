@@ -3,6 +3,7 @@ import { Games } from "../../../types/games";
 import { Character, ImagesMultisize } from "../../../types/characters";
 import { Story } from "../../../types/stories";
 import { Thread } from "../../../types/chat";
+import { ChatGroup } from "../../../types/chatGroup";
 
 // Define a type for the slice state
 interface AppState {
@@ -26,6 +27,7 @@ interface AppState {
   isSmallScreen: boolean;
   games: Games[];
   stories: Story[];
+  chatGroups: ChatGroup[];
   languages: Record<string, string>;
   explore: {
     items: { thread: Thread; character?: Character; story?: Story }[];
@@ -60,6 +62,7 @@ const initialState: AppState = {
   characters: [],
   games: [],
   stories: [],
+  chatGroups: [],
   languages: {},
   explore: {
     items: [],
@@ -78,6 +81,15 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    setChatGroup: (state, action) => {
+      state.chatGroups = state.chatGroups.filter(
+        (group) => group.threadId !== action.payload.threadId
+      );
+      state.chatGroups.push(action.payload);
+    },
+    setChatGroups: (state, action) => {
+      state.chatGroups = action.payload;
+    },
     restoreArchivedThread: (state, action) => {
       const archivedThread = state.archivedThreads.find(
         (thread) => thread.threadId === action.payload
@@ -517,6 +529,8 @@ export const {
   setArchivedThreads,
   removeArchivedThread,
   restoreArchivedThread,
+  setChatGroup,
+  setChatGroups,
 } = appSlice.actions;
 
 export default appSlice.reducer;

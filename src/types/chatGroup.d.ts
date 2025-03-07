@@ -1,5 +1,5 @@
 export interface ChatGroup {
-  id: string;
+  threadId: string;
   title: string;
   description: string;
   memberCount: number;
@@ -11,3 +11,9 @@ export interface ChatGroup {
 }
 
 export type SortOption = "newest" | "active" | "trending" | "members";
+
+export type PariticipationType =
+  | "onlyMe"
+  | "participants"
+  | "custom"
+  | "everyone";
