@@ -39,9 +39,9 @@ const ExplorePage: React.FC = () => {
           <PricingLayout />
         </PageLayout>
       </div>
-      <div className="fixed w-screen h-screen top-0 left-0 z-1">
+      {/* <div className="fixed w-screen h-screen top-0 left-0 z-1">
         <App />
-      </div>
+      </div> */}
     </>
   );
 };

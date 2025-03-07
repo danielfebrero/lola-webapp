@@ -16,12 +16,18 @@ const PricingLayout: React.FC = () => {
                 </div>
                 <span>Unlimited use</span>
               </div>
+              <div className="flex flex-row items-center mt-[5px]">
+                <div className="w-[18px] h-[18px]">
+                  <CheckOnlyIcon />
+                </div>
+                <span>20 Classic+ images per day</span>
+              </div>
               <div
                 className={clsx(
-                  "px-[20px] py-[10px] rounded-full border border-borderColor dark:border-darkBorderColor mt-[20px] md:mt-auto text-center"
+                  "bg-lightGray dark:bg-darkLightGray cursor-pointer px-[20px] py-[10px] rounded-full border border-borderColor dark:border-darkBorderColor mt-[20px] md:mt-auto text-center flex flex-row justify-center"
                 )}
               >
-                Your current plan
+                Choose
               </div>
             </div>
             <div className="border border-borderColor dark:border-darkBorderColor rounded-lg flex p-[20px] flex-col">
@@ -38,6 +44,12 @@ const PricingLayout: React.FC = () => {
                   <CheckOnlyIcon />
                 </div>
                 <span>Make your content private</span>
+              </div>
+              <div className="flex flex-row items-center mt-[5px]">
+                <div className="w-[18px] h-[18px]">
+                  <CheckOnlyIcon />
+                </div>
+                <span>Unlimited Classic+ images</span>
               </div>
               <div
                 className={clsx(
@@ -66,10 +78,7 @@ const PricingLayout: React.FC = () => {
                 <div className="w-[18px] h-[18px]">
                   <CheckOnlyIcon />
                 </div>
-                <span>
-                  Plus Trophy
-                  <span className="text-xs">(soon)</span>
-                </span>
+                <span>Unlimited Classic+ images</span>
               </div>
               <div
                 className={clsx(
