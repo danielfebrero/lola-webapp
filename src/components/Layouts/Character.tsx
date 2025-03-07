@@ -46,7 +46,7 @@ const CharacterLayout: React.FC<CharacterLayoutProps> = (props) => {
           )}
         </div>
 
-        <div className="grow md:w-1/2 md:pl-5 flex items-center flex-col h-[calc(100vh-110px)]">
+        <div className="grow md:w-1/2 md:pl-5 flex items-center flex-col h-[calc(100vh-90px)]">
           <div className="bg-lightGray dark:bg-darkLightGray p-[5px] rounded-lg w-fit flex flex-row">
             {["chat", "report", "images"].map((viewType) => (
               <div

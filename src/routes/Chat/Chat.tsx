@@ -9,6 +9,10 @@ import Chat from "../../components/Chat";
 import CreateChatGroup from "./CreateChatGroup";
 import { useEffect, useRef } from "react";
 import useAutoScroll from "../../hooks/useAutoScroll";
+import ExploreChatGroups from "./ExploreChatGroups";
+import ArrowBackIcon from "../../icons/arrowBack";
+import LeaveIcon from "../../icons/leave";
+import ExploreIcon from "../../icons/explore";
 
 const chatLog = [
   {
@@ -185,6 +189,8 @@ const ChatPage: React.FC = () => {
   const { isSmallScreen } = useAppSelector((state) => state.app);
   const { autoScroll } = useAutoScroll(chatContainerRef);
 
+  const leaveGroup = () => {};
+
   useEffect(() => {
     if (!autoScroll) return;
     const timer = setTimeout(() => {
@@ -208,7 +214,7 @@ const ChatPage: React.FC = () => {
     <>
       <Meta title={t("Chat")} />
       <div className="grow pt-2.5 pb-2.5 flex flex-row">
-        <div className="grow flex flex-row h-[calc(100vh-110px)] max-w-full">
+        <div className="grow flex flex-row h-[calc(100vh-90px)] max-w-full">
           <div
             className={clsx(
               {
@@ -219,6 +225,19 @@ const ChatPage: React.FC = () => {
               "flex flex-col h-full border-r border-borderColor dark:border-darkBorderColor overflow-y-scroll no-scrollbar"
             )}
           >
+            <div className="w-full flex items-center justify-center">
+              <div
+                onClick={() => navigate("/social/chat/explore")}
+                className="flex flex-row px-[10px] py-[5px] border border-borderColor dark:border-darkBorderColor rounded-lg w-fit cursor-pointer hover:bg-white dark:hover:bg-darkMainSurfaceSecondary"
+              >
+                <div className="w-[24px] h-[24px] mr-[10px]">
+                  <ExploreIcon />
+                </div>
+                <div className="text-textSecondary dark:text-darkTextSecondary">
+                  {t("Explore Chat Groups")}
+                </div>
+              </div>
+            </div>
             {convos.map((convo, index) => {
               return (
                 <div
@@ -249,30 +268,58 @@ const ChatPage: React.FC = () => {
               );
             })}
           </div>
-          {!params.threadId && !isSmallScreen && (
-            <div className="flex flex-col items-center justify-center flex-grow">
-              <div className="text-textSecondary dark:text-darkTextSecondary">
-                {t("Select a chat or create a new chat to start messaging")}
+          {(!params.threadId || params.threadId === "explore") &&
+            (!isSmallScreen ||
+              (isSmallScreen && params.threadId === "explore")) && (
+              <div className="flex flex-col">
+                {isSmallScreen && params.threadId === "explore" && (
+                  <div
+                    className="w-[24px] h-[24px] ml-[20px] mb-[10px] cursor-pointer"
+                    onClick={() => navigate("/social/chat")}
+                  >
+                    <ArrowBackIcon />
+                  </div>
+                )}
+                <div className="flex flex-col flex-grow overflow-y-scroll no-scrollbar">
+                  <ExploreChatGroups />
+                </div>
               </div>
-            </div>
-          )}
+            )}
           {params.threadId === "new" && (
             <div className="flex flex-col items-center justify-center flex-grow min-w-0 p-[10px]">
               <CreateChatGroup />
             </div>
           )}
-          {params.threadId && params.threadId !== "new" && (
-            <div
-              ref={chatContainerRef}
-              className="flex flex-col flex-grow overflow-y-scroll no-scrollbar"
-            >
-              <Chat
-                chatLog={chatLog}
-                isChatLoading={false}
-                isAssistantWriting={false}
-              />
-            </div>
-          )}
+          {params.threadId &&
+            params.threadId !== "new" &&
+            params.threadId !== "explore" && (
+              <div className="flex flex-col">
+                <div className="flex flex-row justify-between flex-grow mb-[10px]">
+                  <div
+                    className="w-[24px] h-[24px] ml-[20px] cursor-pointer"
+                    onClick={() => navigate("/social/chat")}
+                  >
+                    <ArrowBackIcon />
+                  </div>
+                  <div
+                    className="w-[24px] h-[24px] mr-[20px] cursor-pointer"
+                    onClick={leaveGroup}
+                  >
+                    <LeaveIcon />
+                  </div>
+                </div>
+                <div
+                  ref={chatContainerRef}
+                  className="flex flex-col flex-grow overflow-y-scroll no-scrollbar px-[10px]"
+                >
+                  <Chat
+                    chatLog={chatLog}
+                    isChatLoading={false}
+                    isAssistantWriting={false}
+                  />
+                </div>
+              </div>
+            )}
         </div>
       </div>
     </>

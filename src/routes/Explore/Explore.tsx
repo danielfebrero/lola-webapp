@@ -55,7 +55,7 @@ const ExplorePage: React.FC = (props) => {
     <>
       <Meta title={t(titleByType[params.exploreMode as "best"])} />
       <div className="grow pt-2.5 pb-5 flex flex-row">
-        <div className="grow flex flex-col h-[calc(100vh-110px)] items-center max-w-full">
+        <div className="grow flex flex-col h-[calc(100vh-90px)] items-center max-w-full">
           <div className="grow overflow-y-scroll no-scrollbar flex px-5 flex-col w-full items-center">
             {explore.items
               ?.filter(

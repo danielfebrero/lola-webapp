@@ -123,7 +123,7 @@ const ExploreImagesPage: React.FC = () => {
       />
       <div className="grow pt-2.5 pb-5 flex flex-row justify-center w-full no-scrollbar">
         <div
-          className="flex flex-col h-[calc(100vh-110px)]"
+          className="flex flex-col h-[calc(100vh-90px)]"
           style={{ width: `${columnCount * COLUMN_WIDTH}px`, maxWidth: "100%" }}
         >
           <AutoSizer>

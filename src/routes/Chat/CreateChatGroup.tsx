@@ -53,7 +53,7 @@ const CreateChatGroup: React.FC = () => {
             id="groupName"
             value={groupName}
             onChange={(e) => setGroupName(e.target.value)}
-            className="w-full px-3 py-2 border border-borderColor dark:border-darkBorderColor dark:bg-darkBrandMainColorDarker bg-brandMainColorDarker rounded-md focus:outline-none focus:ring-0"
+            className="w-full px-3 py-2 border border-borderColor dark:border-darkBorderColor dark:bg-darkMainSurfacePrimary bg-white rounded-md focus:outline-none focus:ring-0"
             placeholder={t("Enter a name for your group")}
             required
           />
@@ -75,7 +75,7 @@ const CreateChatGroup: React.FC = () => {
                   addParticipant();
                 }
               }}
-              className="w-full px-3 py-2 border border-borderColor dark:border-darkBorderColor dark:bg-darkBrandMainColorDarker bg-brandMainColorDarker rounded-l-md focus:outline-none focus:ring-0"
+              className="w-full px-3 py-2 border border-borderColor dark:border-darkBorderColor dark:bg-darkMainSurfacePrimary bg-white rounded-l-md focus:outline-none focus:ring-0"
               placeholder={t("Enter email address or username")}
             />
             <button
@@ -190,7 +190,7 @@ const CreateChatGroup: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate("/social/chat")}
-            className="mr-2 px-4 py-2 border rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="mr-2 px-4 py-2 border rounded-md hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary"
           >
             {t("Cancel")}
           </button>

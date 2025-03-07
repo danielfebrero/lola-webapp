@@ -151,7 +151,7 @@ const SocialSection = ({ onNavigate }: { onNavigate: () => void }) => {
 
       <NavItem
         to="/social/story"
-        label="Stories"
+        label="Collaborative stories"
         onClick={() => {
           onNavigate();
           sendEvent("click_group_chat", "left_panel");
