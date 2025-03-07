@@ -8,7 +8,10 @@ import CloseIcon from "../../icons/close";
 import PersonalizationIcon from "../../icons/personalization";
 import { toggleSettings } from "../../store/features/app/appSlice";
 import useWebSocket from "../../hooks/useWebSocket";
-import { setSettings as setSettingsAction } from "../../store/features/user/userSlice";
+import {
+  setIsUsernameUpdating,
+  setSettings as setSettingsAction,
+} from "../../store/features/user/userSlice";
 import { PLANS } from "../../utils/constants";
 import AccountIcon from "../../icons/account";
 import TextInput from "../TextInput";
@@ -30,7 +33,7 @@ const Settings: React.FC = () => {
   const { t } = useTranslation();
   const { setSettings } = useWebSocket({});
   const [username, setUsername] = useState<string>(
-    user.settings.username || ""
+    user.settings.username ?? ""
   );
   const [isUsernameTaken, setIsUsernameTaken] = useState<boolean>(false);
   const [isUsernameChangedWithSuccess, setIsUsernameChangedWithSuccess] =
@@ -46,7 +49,9 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     const changeUsernameAsync = async () => {
+      dispatch(setIsUsernameUpdating(true));
       const changeUsernameResponse = await changeUsername(debouncedUsername);
+      dispatch(setIsUsernameUpdating(false));
       setIsUsernameTaken(changeUsernameResponse.isTaken);
       setIsUsernameChangedWithSuccess(changeUsernameResponse.success);
       if (changeUsernameResponse.success) {
@@ -215,6 +220,11 @@ const Settings: React.FC = () => {
                   {isUsernameChangedWithSuccess === true && (
                     <div className="text-green-500 text-sm mt-1 w-[24px] h-[24px] ml-[10px]">
                       <CheckIcon />
+                    </div>
+                  )}
+                  {user.isUsernameUpdating && (
+                    <div className="text-sm mt-1 w-[24px] h-[24px] ml-[10px]">
+                      <LoadingIcon />
                     </div>
                   )}
                 </div>

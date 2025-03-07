@@ -18,7 +18,6 @@ import { setScenarios } from "../store/features/games/gamesSlice";
 import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
 import {
   setMyImages,
-  setProfilePicture,
   setProfilePictureIsUpdating,
   setQuotas,
   setSettings,

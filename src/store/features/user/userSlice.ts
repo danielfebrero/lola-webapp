@@ -24,6 +24,7 @@ interface UserState {
   };
 
   isProfilePictureUpdating?: boolean;
+  isUsernameUpdating?: boolean;
 }
 
 // Define the initial state using that type
@@ -43,9 +44,11 @@ const initialState: UserState = {
 
 export const userSlice = createSlice({
   name: "user",
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    setIsUsernameUpdating: (state, action) => {
+      state.isUsernameUpdating = action.payload;
+    },
     setProfilePictureIsUpdating: (state, action) => {
       state.isProfilePictureUpdating = action.payload;
     },
@@ -84,6 +87,7 @@ export const {
   setQuotas,
   reduceOneImageClassicPlus,
   setProfilePictureIsUpdating,
+  setIsUsernameUpdating,
 } = userSlice.actions;
 
 export default userSlice.reducer;
