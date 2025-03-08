@@ -35,6 +35,7 @@ const CreateChatGroup: React.FC = () => {
   const [selectedParticipants, setSelectedParticipants] = useState<string[]>(
     []
   );
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Get characters from store
   const { chatLogs, characters } = useAppSelector((state) => state.app);
@@ -99,6 +100,22 @@ const CreateChatGroup: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Reset error message first
+    setErrorMessage(null);
+
+    // Validation check for private chats
+    if (
+      !isPublic &&
+      Object.keys(participants).length === 0 &&
+      selectedCharacters.length === 0
+    ) {
+      setErrorMessage(
+        t("Private chat groups must have at least one participant or character")
+      );
+      return;
+    }
+
     const chatGroupEntity = await createChatGroup({
       groupName,
       participants,
@@ -370,7 +387,7 @@ const CreateChatGroup: React.FC = () => {
                     ) : (
                       <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full mr-2 flex items-center justify-center">
                         <span className="text-gray-500">
-                          {character.name.charAt(0)}
+                          {character.name?.charAt(0)}
                         </span>
                       </div>
                     )}
@@ -419,6 +436,13 @@ const CreateChatGroup: React.FC = () => {
             </label>
           </div>
         </div>
+
+        {/* Display error message if there's any */}
+        {errorMessage && (
+          <div className="mb-4 p-3 bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 rounded-md">
+            {errorMessage}
+          </div>
+        )}
 
         {/* Form Buttons */}
         <div className="flex justify-end">
