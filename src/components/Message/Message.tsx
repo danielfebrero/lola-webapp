@@ -55,7 +55,7 @@ const Message: React.FC<MessageProps> = ({
               "bg-brandMainColorDarker":
                 !isCurrentUser && message.role === "user",
             },
-            "w-8 h-8 rounded-full overflow-hidden flex-shrink-0"
+            "w-8 h-8 rounded-full overflow-hidden flex-shrink-0 mt-[5px]"
           )}
         >
           {profilePicture ? (
@@ -79,7 +79,7 @@ const Message: React.FC<MessageProps> = ({
         className={clsx(
           "rounded-lg p-[10px]",
           getMessageColor(),
-          maxWidth || "md:max-w-[80%]"
+          maxWidth || message.role !== "assistant" ? "md:max-w-[80%]" : null
         )}
       >
         <MarkdownToHTML
