@@ -12,10 +12,6 @@ export interface ChatGroup {
 
 export type SortOption = "newest" | "active" | "trending" | "members";
 
-export type PariticipationType =
-  | "onlyMe"
-  | "participants"
-  | "custom"
-  | "everyone";
+export type PariticipationType = "onlyMe" | "custom" | "participants";
 
 export type CharactersPariticipationType = "automatically" | "onMention";

@@ -531,6 +531,7 @@ const useAPI = () => {
     participation,
     characters,
     charactersParticipation,
+    selectedParticipants,
   }: {
     groupName: string;
     participants: string[];
@@ -538,6 +539,7 @@ const useAPI = () => {
     participation: PariticipationType;
     characters: string[];
     charactersParticipation: CharactersPariticipationType;
+    selectedParticipants: string[];
   }) => {
     try {
       const response = await fetch(`${API_URL}/chat-group`, {
@@ -558,6 +560,7 @@ const useAPI = () => {
           participation,
           characters,
           charactersParticipation,
+          selectedParticipants,
         }),
       });
 

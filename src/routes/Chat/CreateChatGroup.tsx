@@ -30,6 +30,9 @@ const CreateChatGroup: React.FC = () => {
     useState<CharactersPariticipationType>("automatically");
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const [characterSearch, setCharacterSearch] = useState("");
+  const [selectedParticipants, setSelectedParticipants] = useState<string[]>(
+    []
+  );
 
   // Get characters from store
   const { chatLogs, characters } = useAppSelector((state) => state.app);
@@ -79,6 +82,16 @@ const CreateChatGroup: React.FC = () => {
     setParticipants(participants.filter((e) => e !== emailToRemove));
   };
 
+  const toggleParticipantSelection = (participant: string) => {
+    if (selectedParticipants.includes(participant)) {
+      setSelectedParticipants(
+        selectedParticipants.filter((p) => p !== participant)
+      );
+    } else {
+      setSelectedParticipants([...selectedParticipants, participant]);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const chatGroupEntity = await createChatGroup({
@@ -88,9 +101,12 @@ const CreateChatGroup: React.FC = () => {
       isPublic,
       participation,
       charactersParticipation,
+      selectedParticipants:
+        participation === "custom" ? selectedParticipants : [],
     });
     dispatch(setThread(chatGroupEntity.thread));
     dispatch(setChatGroup(chatGroupEntity.chatGroup));
+    navigate(`/social/chat/${chatGroupEntity.thread.threadId}`);
   };
   return (
     <div className="w-full max-w-md p-6 bg-white dark:bg-darkMainSurfaceSecondary rounded-lg shadow">
@@ -98,6 +114,35 @@ const CreateChatGroup: React.FC = () => {
         {t("Create a New Chat Group")}
       </div>
       <form onSubmit={handleSubmit}>
+        {/* Public/Private Toggle */}
+        <div className="mb-6">
+          <span className="block text-sm font-medium mb-1">
+            {t("Visibility")}
+          </span>
+          <div className="flex space-x-4">
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                checked={!isPublic}
+                onChange={() => setIsPublic(false)}
+                className="form-radio"
+                name="visibility"
+              />
+              <span className="ml-2">{t("Private")}</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                checked={isPublic}
+                onChange={() => setIsPublic(true)}
+                className="form-radio"
+                name="visibility"
+              />
+              <span className="ml-2">{t("Public")}</span>
+            </label>
+          </div>
+        </div>
+
         {/* Group Name */}
         <div className="mb-4">
           <label htmlFor="groupName" className="block text-sm font-medium mb-1">
@@ -134,7 +179,7 @@ const CreateChatGroup: React.FC = () => {
             <button
               type="button"
               onClick={addParticipant}
-              className="px-4 py-2 bg-brandMainColor dark:bg-darkBrandMainColor text-white rounded-r-md hover:bg-brandMainColorHover dark:hover:bg-darkBrandMainColorHover"
+              className="px-4 py-2 bg-textOptionSelected dark:bg-darkTextOptionSelected text-white rounded-r-md hover:bg-backgroundOptionSelected dark:hover:bg-darkBackgroundOptionSelected  hover:border-textOptionSelected dark:hover:border-darkTextOptionSelected border border-textOptionSelected dark:border-darkTextOptionSelected dark:border-darkTextOptionSelected"
             >
               {t("Add")}
             </button>
@@ -179,16 +224,6 @@ const CreateChatGroup: React.FC = () => {
             <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
               <input
                 type="radio"
-                checked={participation === "onlyMe"}
-                onChange={() => setParticipation("onlyMe")}
-                className="form-radio text-brandMainColor"
-                name="participation"
-              />
-              <span className="ml-2">{t("Only me")}</span>
-            </label>
-            <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
-              <input
-                type="radio"
                 checked={participation === "participants"}
                 onChange={() => setParticipation("participants")}
                 className="form-radio text-brandMainColor"
@@ -199,15 +234,63 @@ const CreateChatGroup: React.FC = () => {
             <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
               <input
                 type="radio"
-                checked={participation === "everyone"}
-                onChange={() => setParticipation("everyone")}
+                checked={participation === "onlyMe"}
+                onChange={() => setParticipation("onlyMe")}
                 className="form-radio text-brandMainColor"
                 name="participation"
               />
-              <span className="ml-2">{t("Everyone")}</span>
+              <span className="ml-2">{t("Only me")}</span>
+            </label>
+            <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
+              <input
+                type="radio"
+                checked={participation === "custom"}
+                onChange={() => setParticipation("custom")}
+                className="form-radio text-brandMainColor"
+                name="custom"
+              />
+              <span className="ml-2">{t("Custom")}</span>
             </label>
           </div>
         </div>
+
+        {/* Custom Participant Selection */}
+        {participation === "custom" && (
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">
+              {t("Select participants who can send messages")}
+            </label>
+            <div className="mt-2 border border-borderColor dark:border-darkBorderColor rounded-md p-2 max-h-48 overflow-y-auto">
+              {participants.length === 0 ? (
+                <div className="text-center p-4 text-gray-500 dark:text-gray-400">
+                  {t("No participants added yet")}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {participants.map((participant, index) => (
+                    <div
+                      key={index}
+                      className={clsx(
+                        "flex items-center p-2 border rounded-md cursor-pointer",
+                        selectedParticipants.includes(participant)
+                          ? "border-brandMainColor bg-blue-50 dark:bg-blue-900"
+                          : "border-borderColor dark:border-darkBorderColor"
+                      )}
+                      onClick={() => toggleParticipantSelection(participant)}
+                    >
+                      <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full mr-2 flex items-center justify-center">
+                        <span className="text-gray-500">
+                          {participant.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <span className="text-sm truncate">{participant}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Characters */}
         <div className="mb-4">
@@ -307,35 +390,6 @@ const CreateChatGroup: React.FC = () => {
           </div>
         </div>
 
-        {/* Public/Private Toggle */}
-        <div className="mb-6">
-          <span className="block text-sm font-medium mb-1">
-            {t("Visibility")}
-          </span>
-          <div className="flex space-x-4">
-            <label className="inline-flex items-center">
-              <input
-                type="radio"
-                checked={!isPublic}
-                onChange={() => setIsPublic(false)}
-                className="form-radio"
-                name="visibility"
-              />
-              <span className="ml-2">{t("Private")}</span>
-            </label>
-            <label className="inline-flex items-center">
-              <input
-                type="radio"
-                checked={isPublic}
-                onChange={() => setIsPublic(true)}
-                className="form-radio"
-                name="visibility"
-              />
-              <span className="ml-2">{t("Public")}</span>
-            </label>
-          </div>
-        </div>
-
         {/* Form Buttons */}
         <div className="flex justify-end">
           <button
@@ -347,7 +401,7 @@ const CreateChatGroup: React.FC = () => {
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-brandMainColor dark:bg-darkBrandMainColor text-white rounded-md hover:bg-brandMainColorHover dark:hover:bg-darkBrandMainColorHover"
+            className="px-4 py-2 bg-textOptionSelected dark:bg-darkTextOptionSelected text-white rounded-md hover:bg-backgroundOptionSelected dark:hover:bg-darkBackgroundOptionSelected hover:border-textOptionSelected dark:hover:border-darkTextOptionSelected border border-textOptionSelected dark:border-darkTextOptionSelected dark:border-darkTextOptionSelected"
           >
             {t("Create")}
           </button>

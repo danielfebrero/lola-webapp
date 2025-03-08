@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 
 import Meta from "../../components/Meta";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Chat from "../../components/Chat";
 import CreateChatGroup from "./CreateChatGroup";
 import useAutoScroll from "../../hooks/useAutoScroll";
@@ -16,6 +16,7 @@ import ExploreIcon from "../../icons/explore";
 import NewChatIcon from "../../icons/newChat";
 import SpreadIcon from "../../icons/spread";
 import useClickAnywhere from "../../hooks/useClickAnywhere";
+import { setCurrentlyViewing } from "../../store/features/app/appSlice";
 
 const chatLog = [
   {
@@ -188,10 +189,13 @@ const ChatPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const params = useParams();
+  const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { isSmallScreen } = useAppSelector((state) => state.app);
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const [isMoreOptionsOpen, setIsMoreOptionsOpen] = useState(false);
+
+  const threadId = params.threadId;
 
   useClickAnywhere(() => {
     setIsMoreOptionsOpen(false);
@@ -209,6 +213,12 @@ const ChatPage: React.FC = () => {
     setIsMoreOptionsOpen(false);
     navigate("/social/chat");
   };
+
+  useEffect(() => {
+    dispatch(
+      setCurrentlyViewing({ objectType: "chatgroup", objectId: threadId })
+    );
+  }, [threadId]);
 
   useEffect(() => {
     if (!autoScroll) return;
@@ -269,29 +279,49 @@ const ChatPage: React.FC = () => {
               </div>
             </div>
             {convos.map((convo, index) => {
+              const isActive = threadId === convo.id;
               return (
                 <div
                   key={index}
-                  className="flex flex-row m-2 p-2 hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary cursor-pointer rounded-lg"
+                  className={clsx(
+                    "flex flex-row items-center m-2 p-2.5 rounded-lg transition-all duration-200 border",
+                    isActive
+                      ? "bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected border-textOptionSelected dark:border-darkTextOptionSelected"
+                      : "border-transparent hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary",
+                    "cursor-pointer"
+                  )}
                   onClick={() => navigate(`/social/chat/${convo.id}`)}
                 >
-                  <div className="w-[50px] h-[50px] rounded-full bg-black overflow-hidden flex-shrink-0">
-                    <img src={convo.profileImage} alt="" />
+                  <div className="w-[50px] h-[50px] rounded-full overflow-hidden flex-shrink-0 shadow-sm">
+                    <img
+                      src={convo.profileImage}
+                      alt=""
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src =
+                          "https://picsum.photos/id/0/120/120";
+                      }}
+                    />
                   </div>
-                  <div className="flex flex-col ml-[10px]">
+                  <div className="flex flex-col ml-3 flex-grow">
                     <div
                       className={clsx(
+                        "font-medium truncate",
                         {
                           "w-[220px]": !isSmallScreen,
-                          "w-[calc(100vw-100px)]": isSmallScreen,
+                          "w-[calc(100vw-120px)]": isSmallScreen,
                         },
-                        "truncate"
+                        isActive
+                          ? "text-textOptionSelected dark:text-darkTextOptionSelected"
+                          : "text-textPrimary dark:text-darkTextPrimary"
                       )}
                     >
                       {convo.title}
                     </div>
-                    <div className="text-textSecondary dark:text-darkTextSecondary text-xs">
-                      {moment(convo.dateLastMessage).fromNow()}
+                    <div className="text-textSecondary dark:text-darkTextSecondary text-xs mt-0.5 flex items-center">
+                      <span className="truncate">
+                        {moment(convo.dateLastMessage).fromNow()}
+                      </span>
                     </div>
                   </div>
                 </div>

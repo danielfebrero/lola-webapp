@@ -1,31 +1,25 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { useAppSelector } from "../store/hooks";
 
 const useNewChatLocation = (): string => {
-  const [newChatLocation, setNewChatLocation] = useState<string>("/story/new");
-  const location = useLocation();
+  const { currentlyViewing } = useAppSelector((state) => state.app);
+  const [newChatLocation, setNewChatLocation] = useState<string>("/lola/new");
 
   useEffect(() => {
-    if (location.pathname.indexOf("/character") === 0) {
-      setNewChatLocation("/character/new");
-    } else if (location.pathname.indexOf("/game") === 0) {
-      setNewChatLocation("/game/new");
-    } else if (location.pathname.indexOf("/story") === 0) {
-      setNewChatLocation("/story/new");
-    } else if (location.pathname.indexOf("/lola") === 0) {
-      setNewChatLocation("/lola/new");
-    } else if (location.pathname.indexOf("/explore/images") === 0) {
-      setNewChatLocation("/lola/new");
-    } else if (location.pathname.indexOf("/explore/characters") === 0) {
-      setNewChatLocation("/character/new");
-    } else if (location.pathname.indexOf("/explore/stories") === 0) {
-      setNewChatLocation("/story/new");
-    } else if (location.pathname.indexOf("/social/chat") === 0) {
-      setNewChatLocation("/social/chat/new");
-    } else {
-      setNewChatLocation("/story/new");
-    }
-  }, [location]);
+    setNewChatLocation(
+      currentlyViewing.objectType === "character"
+        ? "/character/new"
+        : currentlyViewing.objectType === "game"
+        ? "/game/new"
+        : currentlyViewing.objectType === "story"
+        ? "/story/new"
+        : currentlyViewing.objectType === "lola"
+        ? "/lola/new"
+        : currentlyViewing.objectType === "chatgroup"
+        ? "/social/chat/new"
+        : "/lola/new"
+    );
+  }, [currentlyViewing]);
 
   return newChatLocation;
 };

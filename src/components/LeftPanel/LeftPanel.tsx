@@ -263,15 +263,27 @@ const ContentItem = ({
   characters?: any[];
 }) => {
   const { t } = useTranslation();
-  const { isSmallScreen } = useAppSelector((state) => state.app);
+  const { isSmallScreen, currentlyViewing } = useAppSelector(
+    (state) => state.app
+  );
   const dispatch = useAppDispatch();
 
+  const isSelected =
+    currentlyViewing.objectType === type &&
+    currentlyViewing.objectId === item.threadId;
   const handleClick = isSmallScreen
     ? () => dispatch(toggleLeftPanel())
     : undefined;
 
   return (
-    <div className="group flex flex-row items-center hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]">
+    <div
+      className={clsx(
+        "group flex flex-row items-center rounded-lg cursor-pointer pl-[10px] pr-[10px] ml-[-10px] mr-[-10px] h-[40px]",
+        isSelected
+          ? "bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected border border-textOptionSelected dark:border-darkTextOptionSelected"
+          : "hover:bg-gray-200 dark:hover:bg-darkMainSurfacePrimary border border-transparent"
+      )}
+    >
       <NavLink
         to={`${detailPath}${item.threadId}`}
         className="h-full grow flex items-center w-[calc(100%-40px)]"
@@ -282,7 +294,7 @@ const ContentItem = ({
             <div
               className={clsx(
                 {
-                  "bg-gray-200 rounded-full":
+                  "bg-gray-200 dark:bg-darkMainSurfaceSecondary rounded-full":
                     characters?.find((c) => c.thread_id === item.threadId)
                       ?.imagesMultisize?.[0]?.small === undefined,
                 },
@@ -303,7 +315,14 @@ const ContentItem = ({
                 />
               )}
             </div>
-            <span className="pl-[10px] truncate">
+            <span
+              className={clsx(
+                "pl-[10px] truncate",
+                isSelected
+                  ? "text-textOptionSelected dark:text-darkTextOptionSelected font-medium"
+                  : ""
+              )}
+            >
               {t(
                 characters?.find((c) => c.thread_id === item.threadId)?.json
                   ?.name ??
@@ -315,7 +334,16 @@ const ContentItem = ({
         )}
 
         {type !== "character" && (
-          <div className="truncate">{t(item.title ?? "")}</div>
+          <div
+            className={clsx(
+              "truncate",
+              isSelected
+                ? "text-textOptionSelected dark:text-darkTextOptionSelected font-medium"
+                : ""
+            )}
+          >
+            {t(item.title ?? "")}
+          </div>
         )}
       </NavLink>
 
@@ -327,9 +355,12 @@ const ContentItem = ({
         <div
           className={clsx(
             {
-              hidden: displayOptionDropdownId !== item.threadId,
+              hidden: displayOptionDropdownId !== item.threadId && !isSelected,
             },
-            "group-hover:block cursor-pointer ml-[5px] h-[24px] w-[24px] text-textSecondary dark:text-darkTextSecondary"
+            "cursor-pointer ml-[5px] h-[24px] w-[24px]",
+            isSelected
+              ? "text-textOptionSelected dark:text-darkTextOptionSelected"
+              : "text-textSecondary dark:text-darkTextSecondary group-hover:block"
           )}
           onClick={(event) => onHandleDropdown(event, item.threadId)}
         >
