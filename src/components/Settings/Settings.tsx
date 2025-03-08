@@ -38,11 +38,19 @@ const Settings: React.FC = () => {
   const [isUsernameTaken, setIsUsernameTaken] = useState<boolean>(false);
   const [isUsernameChangedWithSuccess, setIsUsernameChangedWithSuccess] =
     useState<boolean | null>(null);
+  const [isUsernameInvalid, setIsUsernameInvalid] = useState<boolean>(false);
+
   const { setUserProfilePicture, changeUsername } = useAPI();
   const debouncedUsername = useDebounce(username, 300);
 
   const onUsernameChange = (value: string) => {
-    setUsername(value);
+    // Allow only alphanumeric characters
+    if (value === "" || /^[a-zA-Z0-9]*$/.test(value)) {
+      setUsername(value);
+      setIsUsernameInvalid(false);
+    } else {
+      setIsUsernameInvalid(true);
+    }
     setIsUsernameChangedWithSuccess(null);
     setIsUsernameTaken(false);
   };
@@ -234,6 +242,11 @@ const Settings: React.FC = () => {
                     </div>
                   )}
                 </div>
+                {isUsernameInvalid && (
+                  <div className="text-red-500 text-sm mt-1">
+                    {t("Username can only contain letters and numbers.")}
+                  </div>
+                )}
                 {isUsernameChangedWithSuccess === false && (
                   <div className="text-red-500 text-sm mt-1">
                     {t("An error occurred while changing the username.")}

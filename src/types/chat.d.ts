@@ -5,7 +5,7 @@ interface Message {
   role: string;
   content: string;
   threadId?: string;
-  timestamp?: string;
+  created_at?: string;
   image_gen_on?: boolean;
   expected_image_count?: number;
   images?: ImagesMultisize[];

@@ -86,6 +86,18 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    mergeUsers: (state, action) => {
+      for (const user of action.payload) {
+        const existingUser = state.users.find(
+          (u) => u.user_id === user.user_id
+        );
+        if (existingUser) {
+          existingUser.profile_picture = user.profile_picture;
+        } else {
+          state.users.push(user);
+        }
+      }
+    },
     setChatGroup: (state, action) => {
       state.chatGroups = state.chatGroups.filter(
         (group) => group.threadId !== action.payload.threadId
@@ -370,6 +382,8 @@ export const appSlice = createSlice({
             expected_image_count: action.payload.expected_image_count,
             images: action.payload.images ?? [],
             request_id: action.payload.request_id,
+            user_id: action.payload.user_id,
+            created_at: action.payload.created_at,
           });
         }
       } else {
@@ -382,7 +396,7 @@ export const appSlice = createSlice({
               id: action.payload.id,
               content: action.payload.content,
               role: action.payload.role,
-              timestamp: Date.now().toString(),
+              created_at: Date.now().toString(),
               threadId: action.payload.threadId,
               image_gen_on: action.payload.image_gen_on,
               expected_image_count: action.payload.expected_image_count,
@@ -536,6 +550,7 @@ export const {
   restoreArchivedThread,
   setChatGroup,
   setChatGroups,
+  mergeUsers,
 } = appSlice.actions;
 
 export default appSlice.reducer;

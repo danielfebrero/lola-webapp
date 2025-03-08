@@ -1,8 +1,8 @@
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router";
-
-import useCookie from "./useCookie";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import useCookie from "./useCookie";
+import useNewChatLocation from "./useNewChatLocation";
 import {
   removeIsFromDataLoading,
   archiveThread as archiveThreadAction,
@@ -12,8 +12,8 @@ import {
   setThread,
   setThreads,
   setExplore,
+  mergeUsers,
 } from "../store/features/app/appSlice";
-import useNewChatLocation from "./useNewChatLocation";
 import { setScenarios } from "../store/features/games/gamesSlice";
 import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
 import {
@@ -29,17 +29,15 @@ import {
   PariticipationType,
 } from "../types/chatGroup";
 
-const api_url_list = {
-  "https://fabularius.ai": HTTP_API_PROD_URL,
-  "https://lola.la": HTTP_API_PROD_URL,
-  rest: HTTP_API_DEV_URL,
-};
-
-const API_URL =
-  process.env.NODE_ENV === "development" ||
-  !Object.keys(api_url_list).includes(window.location.origin)
-    ? api_url_list.rest
-    : api_url_list[window.location.origin as "https://fabularius.ai"];
+// Determine API URL based on environment and hostname
+const API_URL = (() => {
+  if (process.env.NODE_ENV === "development") return HTTP_API_DEV_URL;
+  return ["https://fabularius.ai", "https://lola.la"].includes(
+    window.location.origin
+  )
+    ? HTTP_API_PROD_URL
+    : HTTP_API_DEV_URL;
+})();
 
 const useAPI = () => {
   const auth = useAuth();
@@ -50,476 +48,208 @@ const useAPI = () => {
   const { connectionId } = useAppSelector((state) => state.socket);
   const newChatLocation = useNewChatLocation();
 
-  const getThreads = async () => {
+  // Create standard request headers
+  const getHeaders = (isFormData = false) => {
+    const headers: Record<string, string> = {
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
+      token:
+        auth?.isAuthenticated && auth.user?.id_token ? auth.user?.id_token : "",
+      madeleine: cookie,
+      "ws-connection-id": connectionId ?? "",
+    };
+    return headers;
+  };
+
+  // Create URL with query parameters
+  const createUrl = (endpoint: string, params: Record<string, any> = {}) => {
+    const url = new URL(`${API_URL}${endpoint}`);
+
+    // Add mode parameter to all requests
+    if (mode) url.searchParams.append("mode", mode);
+
+    // Add all other parameters
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        url.searchParams.append(key, String(value));
+      }
+    });
+
+    return url.toString();
+  };
+
+  // Generic API request handler
+  const apiRequest = async <T,>(
+    endpoint: string,
+    options: RequestInit,
+    params: Record<string, any> = {},
+    navigateOnError = false
+  ): Promise<any> => {
     try {
-      const response = await fetch(`${API_URL}/threads?mode=${mode}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-      });
+      const url = createUrl(endpoint, params);
+      const response = await fetch(url, options);
 
       if (!response.ok) {
-        throw new Error(
-          `Error fetching threads: ${JSON.stringify(response.json())}`
-        );
+        throw new Error(`API Error: ${response.status}`);
       }
 
-      const data = await response.json();
-      dispatch(removeIsFromDataLoading("threads"));
-      dispatch(setThreads(data));
-      return;
+      return (await response.json()) as any;
     } catch (error) {
-      console.error(error);
+      console.error(`API Error with ${endpoint}:`, error);
+      if (navigateOnError) navigate(newChatLocation);
       throw error;
     }
+  };
+
+  // GET request helper
+  const apiGet = <T,>(endpoint: string, params = {}, navigateOnError = false) =>
+    apiRequest<T>(
+      endpoint,
+      { method: "GET", headers: getHeaders() },
+      params,
+      navigateOnError
+    );
+
+  // POST request helper with JSON body
+  const apiPost = <T,>(
+    endpoint: string,
+    body = {},
+    params = {},
+    navigateOnError = false
+  ) =>
+    apiRequest<T>(
+      endpoint,
+      { method: "POST", headers: getHeaders(), body: JSON.stringify(body) },
+      params,
+      navigateOnError
+    );
+
+  // POST request helper with FormData body
+  const apiPostFormData = <T,>(
+    endpoint: string,
+    formData: FormData,
+    params = {},
+    navigateOnError = false
+  ) =>
+    apiRequest<T>(
+      endpoint,
+      { method: "POST", headers: getHeaders(true), body: formData },
+      params,
+      navigateOnError
+    );
+
+  // API methods
+  const getThreads = async () => {
+    const data = await apiGet("/threads");
+    dispatch(removeIsFromDataLoading("threads"));
+    dispatch(setThreads(data));
   };
 
   const getCharacters = async () => {
-    try {
-      const response = await fetch(`${API_URL}/characters?mode=${mode}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Error fetching characters: ${JSON.stringify(response.json())}`
-        );
-      }
-
-      const data = await response.json();
-      dispatch(removeIsFromDataLoading("characters"));
-      dispatch(setCharacters(data));
-      return;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    const data = await apiGet("/characters");
+    dispatch(removeIsFromDataLoading("characters"));
+    dispatch(setCharacters(data));
   };
 
   const getCharacter = async (threadId: string) => {
-    try {
-      const response = await fetch(
-        `${API_URL}/character?threadId=${threadId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            token:
-              auth?.isAuthenticated && auth.user?.id_token
-                ? auth.user?.id_token
-                : "",
-            madeleine: cookie,
-            "ws-connection-id": connectionId ?? "",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          `Error fetching character: ${JSON.stringify(response.json())}`
-        );
-      }
-
-      const data = await response.json();
-      dispatch(
-        setCharacter({
-          ...data.data,
-          thread_id: data.threadId,
-          isReportProcessing: false,
-          isImageProcessing: false,
-        })
-      );
-      dispatch(
-        setThread({
-          chatLog: data.data.chatLog,
-          threadId: data.threadId,
-          isInputAvailable: true,
-          isLoading: false,
-          type: data.feature_type,
-          isOwner: data.isOwner,
-          is_private: data.is_private,
-          votes: data.thread.votes,
-        })
-      );
-      return;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    const data = await apiGet("/character", { threadId });
+    dispatch(
+      setCharacter({
+        ...data.data,
+        thread_id: data.threadId,
+        isReportProcessing: false,
+        isImageProcessing: false,
+      })
+    );
+    dispatch(
+      setThread({
+        chatLog: data.data.chatLog,
+        threadId: data.threadId,
+        isInputAvailable: true,
+        isLoading: false,
+        type: data.feature_type,
+        isOwner: data.isOwner,
+        is_private: data.is_private,
+        votes: data.thread.votes,
+      })
+    );
   };
 
   const getMessages = async (threadId: string) => {
-    try {
-      const response = await fetch(`${API_URL}/messages?threadId=${threadId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-      });
-
-      if (!response.ok) {
-        navigate(newChatLocation);
-        throw new Error(
-          `Error fetching messages: ${JSON.stringify(response.json())}`
-        );
-      }
-
-      const data = await response.json();
-      dispatch(
-        setThread({
-          chatLog: data.data,
-          threadId: data.threadId,
-          isInputAvailable: true,
-          isLoading: false,
-          type: data.feature_type,
-          isOwner: data.isOwner,
-          is_private: data.is_private,
-        })
-      );
-      return;
-    } catch (error) {
-      navigate(newChatLocation);
-      console.error(error);
-      throw error;
-    }
+    const data = await apiGet("/messages", { threadId }, true);
+    dispatch(
+      setThread({
+        chatLog: data.data,
+        threadId: data.threadId,
+        isInputAvailable: true,
+        isLoading: false,
+        type: data.feature_type,
+        isOwner: data.isOwner,
+        is_private: data.is_private,
+      })
+    );
   };
 
   const getMyImages = async () => {
-    try {
-      const response = await fetch(`${API_URL}/my-images`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-      });
-
-      if (!response.ok) {
-        navigate(newChatLocation);
-        throw new Error(
-          `Error fetching messages: ${JSON.stringify(response.json())}`
-        );
-      }
-
-      const data = await response.json();
-      dispatch(setMyImages(data));
-      return;
-    } catch (error) {
-      navigate(newChatLocation);
-      console.error(error);
-      throw error;
-    }
+    const data = await apiGet("/my-images", {}, true);
+    dispatch(setMyImages(data));
   };
 
   const getGameScenarios = async () => {
-    try {
-      const response = await fetch(`${API_URL}/game_scenarios?mode=${mode}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Error fetching game scenarios: ${JSON.stringify(response.json())}`
-        );
-      }
-
-      const data = await response.json();
-      dispatch(setScenarios(data));
-      return;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    const data = await apiGet("/game_scenarios");
+    dispatch(setScenarios(data));
   };
 
   const getExplore = async (exploreMode: string, exploreType: string) => {
     if (!exploreMode || !exploreType) return;
-    try {
-      const response = await fetch(
-        `${API_URL}/explore?exploreType=${exploreType}&exploreMode=${exploreMode}&mode=${mode}&language=${exploreLanguage}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            token:
-              auth?.isAuthenticated && auth.user?.id_token
-                ? auth.user?.id_token
-                : "",
-            madeleine: cookie,
-            "ws-connection-id": connectionId ?? "",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          `Error fetching explore: ${JSON.stringify(response.json())}`
-        );
-      }
-
-      const data = await response.json();
-      dispatch(setExplore(data));
-      return;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    const data = await apiGet("/explore", {
+      exploreType,
+      exploreMode,
+      language: exploreLanguage,
+    });
+    dispatch(setExplore(data));
   };
 
-  const getExploreImages = async (nextItem?: string) => {
-    try {
-      let url = `${API_URL}/explore/images?mode=${mode}`;
-      if (nextItem) url += `&nextItem=${nextItem}`;
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Error fetching explore images: ${JSON.stringify(response.json())}`
-        );
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  };
+  const getExploreImages = async (nextItem?: string) =>
+    apiGet("/explore/images", { nextItem });
 
   const getAdminAnalytics = async (timewindow: string) => {
-    try {
-      const response = await fetch(
-        `${API_URL}/analytics/admin?timewindow=${timewindow}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            token:
-              auth?.isAuthenticated && auth.user?.id_token
-                ? auth.user?.id_token
-                : "",
-            madeleine: cookie,
-            "ws-connection-id": connectionId ?? "",
-          },
-        }
-      );
+    const data = await apiGet("/analytics/admin", { timewindow });
+    dispatch(setAdminAnalytics(data));
+  };
 
-      if (!response.ok) {
-        throw new Error(
-          `Error fetching admin analytics: ${JSON.stringify(response.json())}`
-        );
-      }
+  const getArchivedThreads = async () => {
+    const data = await apiGet("/threads/archived");
+    dispatch(setArchivedThreads(data));
+  };
 
-      const data = await response.json();
-      dispatch(setAdminAnalytics(data));
-      return;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+  const getQuotas = async () => {
+    const data = await apiGet("/quotas");
+    dispatch(setQuotas(data));
   };
 
   const setCharacterAvatar = async (
     threadId: string,
     avatar: ImagesMultisize
   ) => {
-    try {
-      const response = await fetch(`${API_URL}/character/avatar`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-        body: JSON.stringify({ threadId, avatar }),
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Error setting character avatar: ${JSON.stringify(response.json())}`
-        );
-      }
-
-      const data = await response.json();
-      dispatch(
-        setCharacter({
-          avatar: data,
-          thread_id: threadId,
-        })
-      );
-      return;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  };
-
-  const getArchivedThreads = async () => {
-    try {
-      const response = await fetch(`${API_URL}/threads/archived?mode=${mode}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Error fetching admin analytics: ${JSON.stringify(response.json())}`
-        );
-      }
-
-      const data = await response.json();
-      dispatch(setArchivedThreads(data));
-      return;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  };
-
-  const getQuotas = async () => {
-    try {
-      const response = await fetch(`${API_URL}/quotas`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Error fetching quotas: ${JSON.stringify(response.json())}`
-        );
-      }
-
-      const data = await response.json();
-      dispatch(setQuotas(data));
-      return;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    const data = await apiPost("/character/avatar", { threadId, avatar });
+    dispatch(
+      setCharacter({
+        avatar: data,
+        thread_id: threadId,
+      })
+    );
   };
 
   const archiveThread = async (threadId: string) => {
-    try {
-      const response = await fetch(`${API_URL}/thread/archive`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-        body: JSON.stringify({ threadId }),
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Error setting character avatar: ${JSON.stringify(response.json())}`
-        );
-      }
-
-      dispatch(archiveThreadAction(threadId));
-      return;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    await apiPost("/thread/archive", { threadId });
+    dispatch(archiveThreadAction(threadId));
   };
 
   const restoreThread = async (threadId: string) => {
     try {
-      const response = await fetch(`${API_URL}/thread/restore`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-        body: JSON.stringify({ threadId }),
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Error setting character avatar: ${JSON.stringify(response.json())}`
-        );
-      }
-      return;
+      await apiPost("/thread/restore", { threadId });
     } catch (error) {
       dispatch(archiveThreadAction(threadId));
-      console.error(error);
       throw error;
     }
   };
@@ -541,76 +271,27 @@ const useAPI = () => {
     charactersParticipation: CharactersPariticipationType;
     selectedParticipants: string[];
   }) => {
-    try {
-      const response = await fetch(`${API_URL}/chat-group`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-        body: JSON.stringify({
-          participants,
-          groupName,
-          isPublic,
-          participation,
-          characters,
-          charactersParticipation,
-          selectedParticipants,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Error setting creating chat group: ${JSON.stringify(
-            response.json()
-          )}`
-        );
-      }
-      return await response.json();
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    return apiPost("/chat-group", {
+      groupName,
+      participants,
+      isPublic,
+      participation,
+      characters,
+      charactersParticipation,
+      selectedParticipants,
+    });
   };
 
   const uploadCharacterImage = async (threadId: string, file: File) => {
-    dispatch(
-      setCharacter({
-        thread_id: threadId,
-        isImageUploading: true,
-      })
-    );
+    dispatch(setCharacter({ thread_id: threadId, isImageUploading: true }));
+
     try {
       const formData = new FormData();
       formData.append("threadId", threadId);
       formData.append("image", file);
 
-      const response = await fetch(`${API_URL}/character/image`, {
-        method: "POST",
-        headers: {
-          // Note: Do NOT set "Content-Type" manually with FormData; the browser sets it with the boundary
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-        body: formData,
-      });
+      const data = await apiPostFormData("/character/image", formData);
 
-      if (!response.ok) {
-        throw new Error(
-          `Error uploading character image: ${JSON.stringify(response.json())}`
-        );
-      }
-
-      const data = await response.json();
       dispatch(
         setCharacter({
           avatar: data.avatar,
@@ -619,16 +300,8 @@ const useAPI = () => {
           isImageUploading: false,
         })
       );
-
-      return;
     } catch (error) {
-      console.error("Failed to upload character image:", error);
-      dispatch(
-        setCharacter({
-          thread_id: threadId,
-          isImageUploading: false,
-        })
-      );
+      dispatch(setCharacter({ thread_id: threadId, isImageUploading: false }));
       throw error;
     }
   };
@@ -640,35 +313,11 @@ const useAPI = () => {
       const formData = new FormData();
       formData.append("image", file);
 
-      const response = await fetch(`${API_URL}/user/profile-picture`, {
-        method: "POST",
-        headers: {
-          // Note: Do NOT set "Content-Type" manually with FormData; the browser sets it with the boundary
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-        body: formData,
-      });
+      const data = await apiPostFormData("/user/profile-picture", formData);
 
-      if (!response.ok) {
-        throw new Error(
-          `Error uploading profile picture image: ${JSON.stringify(
-            response.json()
-          )}`
-        );
-      }
-
-      const data = await response.json();
       dispatch(setSettings({ profile_picture: data.imagesMultisize }));
       dispatch(setProfilePictureIsUpdating(false));
-
-      return;
     } catch (error) {
-      console.error("Failed to upload profile picture image:", error);
       dispatch(setProfilePictureIsUpdating(false));
       throw error;
     }
@@ -676,32 +325,15 @@ const useAPI = () => {
 
   const changeUsername = async (username: string) => {
     try {
-      const response = await fetch(`${API_URL}/user/username`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          token:
-            auth?.isAuthenticated && auth.user?.id_token
-              ? auth.user?.id_token
-              : "",
-          madeleine: cookie,
-          "ws-connection-id": connectionId ?? "",
-        },
-        body: JSON.stringify({
-          username,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Error setting changing username: ${JSON.stringify(response.json())}`
-        );
-      }
-      return await response.json();
+      return await apiPost("/user/username", { username });
     } catch (error) {
-      console.error(error);
       return { success: false };
     }
+  };
+
+  const getUsersDetails = async (users: []) => {
+    const data = await apiGet("/users/details", { users });
+    dispatch(mergeUsers(data));
   };
 
   return {
@@ -723,6 +355,7 @@ const useAPI = () => {
     createChatGroup,
     setUserProfilePicture,
     changeUsername,
+    getUsersDetails,
   };
 };
 
