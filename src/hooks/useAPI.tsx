@@ -264,7 +264,7 @@ const useAPI = () => {
     selectedParticipants,
   }: {
     groupName: string;
-    participants: string[];
+    participants: Record<string, any>;
     isPublic: boolean;
     participation: PariticipationType;
     characters: string[];
@@ -334,6 +334,7 @@ const useAPI = () => {
   const getUsersDetails = async (users: string[]) => {
     const data = await apiGet("/users/details", { users });
     dispatch(mergeUsers(data));
+    return data;
   };
 
   return {

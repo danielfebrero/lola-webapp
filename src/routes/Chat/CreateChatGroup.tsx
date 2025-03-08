@@ -11,6 +11,8 @@ import {
 } from "../../types/chatGroup";
 import { setChatGroup, setThread } from "../../store/features/app/appSlice";
 import TextInput from "../../components/TextInput";
+import { Thread } from "../../types/chat";
+import { Character } from "../../types/characters";
 
 const CreateChatGroup: React.FC = () => {
   const { t } = useTranslation();
@@ -22,7 +24,7 @@ const CreateChatGroup: React.FC = () => {
   // Form state for new chat
   const [groupName, setGroupName] = useState("");
   const [participant, setParticipant] = useState("");
-  const [participants, setParticipants] = useState<string[]>([]);
+  const [participants, setParticipants] = useState<Record<string, any>>({});
   const [isPublic, setIsPublic] = useState(false);
   const [participation, setParticipation] =
     useState<PariticipationType>("participants");
@@ -38,10 +40,10 @@ const CreateChatGroup: React.FC = () => {
   const { chatLogs, characters } = useAppSelector((state) => state.app);
   const availableCharacters = useMemo(() => {
     return chatLogs
-      .filter((log) => log.type === "character" && log.isOwner)
-      .map((log) => {
+      .filter((log: Thread) => log.type === "character" && log.isOwner)
+      .map((log: Thread) => {
         const characterDetails = characters.find(
-          (char) => char.thread_id === log.threadId
+          (char: Character) => char.thread_id === log.threadId
         );
         return {
           threadId: log.threadId,
@@ -53,8 +55,8 @@ const CreateChatGroup: React.FC = () => {
   }, [chatLogs, characters]);
 
   const filteredCharacters = useMemo(() => {
-    return availableCharacters.filter((character) =>
-      character.name.toLowerCase().includes(characterSearch.toLowerCase())
+    return availableCharacters.filter((character: Character) =>
+      character.name?.toLowerCase().includes(characterSearch.toLowerCase())
     );
   }, [availableCharacters, characterSearch]);
 
@@ -71,16 +73,18 @@ const CreateChatGroup: React.FC = () => {
   };
 
   // Email handling functions
-  const addParticipant = () => {
-    if (participant && !participants.includes(participant)) {
-      setParticipants([...participants, participant]);
-      getUsersDetails([participant]);
+  const addParticipant = async () => {
+    if (!Object.keys(participants).includes(participant)) {
+      const users_details = await getUsersDetails([participant]);
+      setParticipants({ ...participants, [participant]: users_details[0] });
       setParticipant("");
     }
   };
 
-  const removeParticipant = (emailToRemove: string) => {
-    setParticipants(participants.filter((e) => e !== emailToRemove));
+  const removeParticipant = (participant: string) => {
+    const newParticipants = { ...participants };
+    delete newParticipants[participant];
+    setParticipants(newParticipants);
   };
 
   const toggleParticipantSelection = (participant: string) => {
@@ -187,14 +191,29 @@ const CreateChatGroup: React.FC = () => {
           </div>
 
           {/* Email list */}
-          {participants.length > 0 && (
+          {Object.keys(participants).length > 0 && (
             <div className="mt-2 space-y-1">
-              {participants.map((p, index) => (
+              {Object.keys(participants).map((p, index) => (
                 <div
                   key={index}
                   className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded"
                 >
-                  <span className="text-sm">{p}</span>
+                  <div className="flex flex-row">
+                    <div className="flex items-center justify-center w-[20px] h-[20px] rounded-full bg-lightGray dark:bg-darkMainSurfaceSecondary mr-2">
+                      {participants[p].profile_picture ? (
+                        <img
+                          src={participants[p].profile_picture.small}
+                          alt={p}
+                          className="w-full h-full rounded-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-textSecondary">
+                          {p.charAt(0).toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-sm">{p}</span>
+                  </div>
                   <button
                     type="button"
                     onClick={() => removeParticipant(p)}
@@ -268,7 +287,7 @@ const CreateChatGroup: React.FC = () => {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {participants.map((participant, index) => (
+                  {Object.keys(participants).map((participant, index) => (
                     <div
                       key={index}
                       className={clsx(
@@ -279,10 +298,20 @@ const CreateChatGroup: React.FC = () => {
                       )}
                       onClick={() => toggleParticipantSelection(participant)}
                     >
-                      <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full mr-2 flex items-center justify-center">
-                        <span className="text-gray-500">
-                          {participant.charAt(0).toUpperCase()}
-                        </span>
+                      <div className="flex-shrink-0 w-8 h-8 bg-white dark:bg-darkMainSurfacePrimary rounded-full mr-2 flex items-center justify-center">
+                        {participants[participant].profile_picture ? (
+                          <img
+                            src={
+                              participants[participant].profile_picture.medium
+                            }
+                            alt={participant}
+                            className="w-full h-full rounded-full object-cover"
+                          />
+                        ) : (
+                          <span className="text-textSecondary">
+                            {participant.charAt(0).toUpperCase()}
+                          </span>
+                        )}
                       </div>
                       <span className="text-sm truncate">{participant}</span>
                     </div>
@@ -315,20 +344,20 @@ const CreateChatGroup: React.FC = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2">
-                {filteredCharacters.map((character) => (
+                {filteredCharacters.map((character: Character) => (
                   <div
-                    key={character.threadId}
+                    key={character.thread_id}
                     className={clsx(
                       "flex items-center p-2 border rounded-md cursor-pointer",
-                      selectedCharacters.includes(character.threadId)
+                      selectedCharacters.includes(character.thread_id)
                         ? "border-brandMainColor bg-blue-50 dark:bg-blue-900"
                         : "border-borderColor dark:border-darkBorderColor"
                     )}
                     onClick={() => {
-                      if (selectedCharacters.includes(character.threadId)) {
-                        removeCharacter(character.threadId);
+                      if (selectedCharacters.includes(character.thread_id)) {
+                        removeCharacter(character.thread_id);
                       } else {
-                        addCharacter(character.threadId);
+                        addCharacter(character.thread_id);
                       }
                     }}
                   >
