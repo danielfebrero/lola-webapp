@@ -63,6 +63,7 @@ const CreateChatGroup: React.FC = () => {
 
   const addCharacter = (characterId: string) => {
     if (!selectedCharacters.includes(characterId)) {
+      setErrorMessage(null);
       setSelectedCharacters([...selectedCharacters, characterId]);
     }
   };
@@ -77,8 +78,14 @@ const CreateChatGroup: React.FC = () => {
   const addParticipant = async () => {
     if (!Object.keys(participants).includes(participant)) {
       const users_details = await getUsersDetails([participant]);
-      setParticipants({ ...participants, [participant]: users_details[0] });
-      setParticipant("");
+      if (users_details.length === 0) {
+        setErrorMessage(t("User not found"));
+        return;
+      } else {
+        setErrorMessage(null);
+        setParticipants({ ...participants, [participant]: users_details[0] });
+        setParticipant("");
+      }
     }
   };
 
@@ -178,6 +185,104 @@ const CreateChatGroup: React.FC = () => {
             placeholder={t("Enter a name for your group")}
             required={true}
           />
+        </div>
+
+        {/* Characters */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">
+            {t("Add Characters")}
+          </label>
+          <div className="mb-2">
+            <TextInput
+              value={characterSearch}
+              onChange={setCharacterSearch}
+              className="w-full"
+              placeholder={t("Search characters")}
+            />
+          </div>
+          <div className="mt-2 h-48 overflow-y-auto border border-borderColor dark:border-darkBorderColor rounded-md">
+            {filteredCharacters.length === 0 ? (
+              <div className="text-center p-4 text-gray-500 dark:text-gray-400">
+                {characterSearch
+                  ? t("No characters match your search")
+                  : t("No characters available")}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2">
+                {filteredCharacters.map((character: any) => (
+                  <div
+                    key={character.threadId}
+                    className={clsx(
+                      "flex items-center p-2 border rounded-md cursor-pointer",
+                      selectedCharacters.includes(character.threadId)
+                        ? "border-brandMainColor bg-blue-50 dark:bg-blue-900"
+                        : "border-borderColor dark:border-darkBorderColor"
+                    )}
+                    onClick={() => {
+                      if (selectedCharacters.includes(character.threadId)) {
+                        removeCharacter(character.threadId);
+                      } else {
+                        addCharacter(character.threadId);
+                      }
+                    }}
+                  >
+                    {character.avatar ? (
+                      <img
+                        src={character.avatar.medium}
+                        alt={character.name}
+                        className="w-10 h-10 rounded-full object-cover mr-2"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full mr-2 flex items-center justify-center">
+                        <span className="text-gray-500">
+                          {character.name?.charAt(0)}
+                        </span>
+                      </div>
+                    )}
+                    <span className="text-sm truncate">{character.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Characters will participate? */}
+        <div className="mb-4">
+          <span className="block text-sm font-medium mb-1">
+            {t("When characters participate?")}
+          </span>
+          <div
+            className={clsx(
+              {
+                "grid-cols-1": isSmallScreen,
+                "grid-cols-2": !isSmallScreen,
+              },
+              "grid gap-2"
+            )}
+          >
+            <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
+              <input
+                type="radio"
+                checked={charactersParticipation === "automatically"}
+                onChange={() => setCharactersParticipation("automatically")}
+                className="form-radio text-brandMainColor"
+                name="automatically"
+              />
+              <span className="ml-2">{t("Automatically")}</span>
+            </label>
+
+            <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
+              <input
+                type="radio"
+                checked={charactersParticipation === "onMention"}
+                onChange={() => setCharactersParticipation("onMention")}
+                className="form-radio text-brandMainColor"
+                name="onMention"
+              />
+              <span className="ml-2">{t("On mention")}</span>
+            </label>
+          </div>
         </div>
 
         {/* Humans (Add Emails) */}
@@ -338,104 +443,6 @@ const CreateChatGroup: React.FC = () => {
             </div>
           </div>
         )}
-
-        {/* Characters */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">
-            {t("Add Characters")}
-          </label>
-          <div className="mb-2">
-            <TextInput
-              value={characterSearch}
-              onChange={setCharacterSearch}
-              className="w-full"
-              placeholder={t("Search characters")}
-            />
-          </div>
-          <div className="mt-2 h-48 overflow-y-auto border border-borderColor dark:border-darkBorderColor rounded-md">
-            {filteredCharacters.length === 0 ? (
-              <div className="text-center p-4 text-gray-500 dark:text-gray-400">
-                {characterSearch
-                  ? t("No characters match your search")
-                  : t("No characters available")}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2">
-                {filteredCharacters.map((character: Character) => (
-                  <div
-                    key={character.thread_id}
-                    className={clsx(
-                      "flex items-center p-2 border rounded-md cursor-pointer",
-                      selectedCharacters.includes(character.thread_id)
-                        ? "border-brandMainColor bg-blue-50 dark:bg-blue-900"
-                        : "border-borderColor dark:border-darkBorderColor"
-                    )}
-                    onClick={() => {
-                      if (selectedCharacters.includes(character.thread_id)) {
-                        removeCharacter(character.thread_id);
-                      } else {
-                        addCharacter(character.thread_id);
-                      }
-                    }}
-                  >
-                    {character.avatar ? (
-                      <img
-                        src={character.avatar.medium}
-                        alt={character.name}
-                        className="w-10 h-10 rounded-full object-cover mr-2"
-                      />
-                    ) : (
-                      <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full mr-2 flex items-center justify-center">
-                        <span className="text-gray-500">
-                          {character.name?.charAt(0)}
-                        </span>
-                      </div>
-                    )}
-                    <span className="text-sm truncate">{character.name}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Characters will participate? */}
-        <div className="mb-4">
-          <span className="block text-sm font-medium mb-1">
-            {t("When characters participate?")}
-          </span>
-          <div
-            className={clsx(
-              {
-                "grid-cols-1": isSmallScreen,
-                "grid-cols-2": !isSmallScreen,
-              },
-              "grid gap-2"
-            )}
-          >
-            <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
-              <input
-                type="radio"
-                checked={charactersParticipation === "automatically"}
-                onChange={() => setCharactersParticipation("automatically")}
-                className="form-radio text-brandMainColor"
-                name="automatically"
-              />
-              <span className="ml-2">{t("Automatically")}</span>
-            </label>
-
-            <label className="inline-flex items-center p-2 border border-borderColor dark:border-darkBorderColor rounded-md cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary">
-              <input
-                type="radio"
-                checked={charactersParticipation === "onMention"}
-                onChange={() => setCharactersParticipation("onMention")}
-                className="form-radio text-brandMainColor"
-                name="onMention"
-              />
-              <span className="ml-2">{t("On mention")}</span>
-            </label>
-          </div>
-        </div>
 
         {/* Display error message if there's any */}
         {errorMessage && (
