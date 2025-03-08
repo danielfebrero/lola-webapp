@@ -331,7 +331,7 @@ const useAPI = () => {
     }
   };
 
-  const getUsersDetails = async (users: []) => {
+  const getUsersDetails = async (users: string[]) => {
     const data = await apiGet("/users/details", { users });
     dispatch(mergeUsers(data));
   };

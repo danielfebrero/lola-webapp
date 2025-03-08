@@ -12,6 +12,9 @@ import userReducer from "./features/user/userSlice";
 import socketReducer from "./features/socket/socketSlice";
 import analyticsReducer from "./features/analytics/analyticsSlice";
 
+// Flag to disable persistence temporarily
+const PERSISTENCE_ENABLED = false;
+
 // Create the root reducer
 const rootReducer = combineReducers({
   app: appReducer,
@@ -43,10 +46,13 @@ const persistConfig = {
   },
 };
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// Only apply persistence if enabled
+const finalReducer = PERSISTENCE_ENABLED
+  ? persistReducer(persistConfig, rootReducer)
+  : rootReducer;
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: finalReducer as any,
   // You may need to adjust middleware:
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -64,7 +70,7 @@ export const store = configureStore({
     }),
 });
 
-// Create the persistor
+// Create the persistor (will be a no-op if persistence is disabled)
 export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;

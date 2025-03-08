@@ -16,7 +16,7 @@ const CreateChatGroup: React.FC = () => {
   const { t } = useTranslation();
   const { isSmallScreen } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
-  const { createChatGroup } = useAPI();
+  const { createChatGroup, getUsersDetails } = useAPI();
   const dispatch = useAppDispatch();
 
   // Form state for new chat
@@ -74,6 +74,7 @@ const CreateChatGroup: React.FC = () => {
   const addParticipant = () => {
     if (participant && !participants.includes(participant)) {
       setParticipants([...participants, participant]);
+      getUsersDetails([participant]);
       setParticipant("");
     }
   };

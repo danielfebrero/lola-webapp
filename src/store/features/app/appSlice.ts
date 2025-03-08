@@ -41,7 +41,8 @@ interface AppState {
   requestsStopped: string[];
   users: {
     user_id: string;
-    profile_picture: ImagesMultisize;
+    profile_picture?: ImagesMultisize;
+    username?: string;
   }[];
 }
 
