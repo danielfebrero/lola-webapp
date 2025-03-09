@@ -3,6 +3,7 @@ import moment from "moment";
 import { useNavigate, useParams } from "react-router";
 import clsx from "clsx";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useAuth } from "react-oidc-context";
 
 import Meta from "../../components/Meta";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -19,7 +20,7 @@ import {
   setCurrentlyViewing,
   mergeThreads,
   setChatGroups,
-  deleteChatGroup,
+  deleteChatGroup as deleteChatGroupAction,
 } from "../../store/features/app/appSlice";
 import useAPI from "../../hooks/useAPI";
 import { ChatGroup } from "../../types/chatGroup";
@@ -31,6 +32,7 @@ import useClickAnywhereExcept from "../../hooks/useClickAnywhereExcept";
 const ChatPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const auth = useAuth();
   const params = useParams();
   const dispatch = useAppDispatch();
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
@@ -40,7 +42,7 @@ const ChatPage: React.FC = () => {
   const threads = useAppSelector((state) => state.app.chatLogs);
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const [isMoreOptionsOpen, setIsMoreOptionsOpen] = useState(false);
-  const { getChatGroups } = useAPI();
+  const { getChatGroups, deleteChatGroup } = useAPI();
 
   const threadId = params.threadId;
   const currentThread = useMemo(
@@ -71,13 +73,15 @@ const ChatPage: React.FC = () => {
   };
 
   const handleDeleteGroup = (threadId: string) => {
-    console.log(`Deleting group ${threadId}`);
-    dispatch(deleteChatGroup(threadId));
+    deleteChatGroup(threadId);
+    dispatch(deleteChatGroupAction(threadId));
     setIsMoreOptionsOpen(false);
     navigate("/social/chat");
   };
 
   useEffect(() => {
+    if (!auth.isAuthenticated) return;
+    if (params.threadId) return;
     const getJoinedChatGroupsList = async () => {
       const joinedChatGroupsList = await getChatGroups("joined");
       dispatch(
@@ -89,7 +93,7 @@ const ChatPage: React.FC = () => {
     };
 
     getJoinedChatGroupsList();
-  }, [mode]);
+  }, [mode, auth.isAuthenticated, params.threadId]);
 
   useEffect(() => {
     dispatch(
@@ -144,7 +148,11 @@ const ChatPage: React.FC = () => {
                 </div>
               </div>
               <div
-                onClick={() => navigate("/social/chat/new")}
+                onClick={() =>
+                  auth.isAuthenticated
+                    ? navigate("/social/chat/new")
+                    : auth.signinRedirect()
+                }
                 className="flex flex-row px-[10px] py-[5px] ml-[10px] border border-borderColor dark:border-darkBorderColor rounded-lg w-fit cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary items-center"
               >
                 <div className="w-[18px] h-[18px] mr-[10px]">
@@ -176,11 +184,17 @@ const ChatPage: React.FC = () => {
                     )}
                     onClick={() => navigate(`/social/chat/${group.threadId}`)}
                   >
-                    <div className="w-[50px] h-[50px] rounded-full overflow-hidden flex-shrink-0 shadow-sm">
+                    <div className="w-[50px] h-[50px] rounded-full overflow-hidden flex-shrink-0 shadow-sm bg-brandMainColorDarker dark:bg-darkBrandMainColorDarker">
                       <img
                         src={group.imagesMultisize?.large}
-                        alt=""
-                        className="w-full h-full object-cover"
+                        alt={threads
+                          .find(
+                            (thread: Thread) =>
+                              thread.threadId === group.threadId
+                          )
+                          ?.title?.substring(0, 2)
+                          .toUpperCase()}
+                        className="w-full h-full object-cover justify-center items-center flex"
                         onError={(e) => {
                           e.currentTarget.src =
                             "https://picsum.photos/id/0/120/120";

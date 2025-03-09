@@ -13,7 +13,7 @@ import socketReducer from "./features/socket/socketSlice";
 import analyticsReducer from "./features/analytics/analyticsSlice";
 
 // Flag to disable persistence temporarily
-const PERSISTENCE_ENABLED = false;
+const PERSISTENCE_ENABLED = true;
 
 // Create the root reducer
 const rootReducer = combineReducers({

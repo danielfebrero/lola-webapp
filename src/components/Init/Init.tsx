@@ -53,7 +53,6 @@ const Init: React.FC = () => {
   const { socketConnection, connectionId } = useAppSelector(
     (state) => state.socket
   );
-  const { setUserId } = useUserLog();
   const { settings } = useAppSelector((state) => state.user);
   const { initData, getConnectionId } = useWebSocket({});
   const [reconnectAttempts, setReconnectAttempts] = useState(0);

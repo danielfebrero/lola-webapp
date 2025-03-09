@@ -12,9 +12,9 @@ import {
   setCharacter,
   setCharacters,
   setThread,
-  setThreads,
   setExplore,
   mergeUsers,
+  mergeThreads,
 } from "../store/features/app/appSlice";
 import { setScenarios } from "../store/features/games/gamesSlice";
 import { setAdminAnalytics } from "../store/features/analytics/analyticsSlice";
@@ -125,6 +125,23 @@ const useAPI = () => {
       navigateOnError
     );
 
+  const apiDelete = <T,>(
+    endpoint: string,
+    body = {},
+    params = {},
+    navigateOnError = false
+  ) =>
+    apiRequest<T>(
+      endpoint,
+      {
+        method: "DELETE",
+        headers: getHeaders(),
+        body: JSON.stringify(body),
+      },
+      params,
+      navigateOnError
+    );
+
   // POST request helper with FormData body
   const apiPostFormData = <T,>(
     endpoint: string,
@@ -143,7 +160,7 @@ const useAPI = () => {
   const getThreads = async () => {
     const data = await apiGet("/threads");
     dispatch(removeIsFromDataLoading("threads"));
-    dispatch(setThreads(data));
+    dispatch(mergeThreads(data));
   };
 
   const getCharacters = async () => {
@@ -348,6 +365,10 @@ const useAPI = () => {
     return data;
   };
 
+  const deleteChatGroup = async (threadId: string) => {
+    await apiDelete("/chat-groups", { threadId });
+  };
+
   return {
     getThreads,
     getCharacters,
@@ -369,6 +390,7 @@ const useAPI = () => {
     changeUsername,
     getUsersDetails,
     getChatGroups,
+    deleteChatGroup,
   };
 };
 
