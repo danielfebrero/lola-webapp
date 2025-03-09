@@ -17,6 +17,8 @@ import NewChatIcon from "../../icons/newChat";
 import SpreadIcon from "../../icons/spread";
 import useClickAnywhere from "../../hooks/useClickAnywhere";
 import { setCurrentlyViewing } from "../../store/features/app/appSlice";
+import { get } from "lodash";
+import useAPI from "../../hooks/useAPI";
 
 const chatLog = [
   {
@@ -194,6 +196,7 @@ const ChatPage: React.FC = () => {
   const { isSmallScreen } = useAppSelector((state) => state.app);
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const [isMoreOptionsOpen, setIsMoreOptionsOpen] = useState(false);
+  const { getChatGroups } = useAPI();
 
   const threadId = params.threadId;
 
@@ -213,6 +216,15 @@ const ChatPage: React.FC = () => {
     setIsMoreOptionsOpen(false);
     navigate("/social/chat");
   };
+
+  useEffect(() => {
+    const getJoinedChatGroupsList = async () => {
+      const joinedChatGroupsList = await getChatGroups("joined");
+      console.log({ joinedChatGroupsList });
+    };
+
+    getJoinedChatGroupsList();
+  }, []);
 
   useEffect(() => {
     dispatch(

@@ -36,6 +36,7 @@ import useCookie from "./useCookie";
 import useAPI from "./useAPI";
 import { setConnectionId } from "../store/features/socket/socketSlice";
 import { v4 } from "uuid";
+import { Thread } from "../types/chat";
 
 export default function useWebSocket({
   setThreadId,
@@ -58,7 +59,7 @@ export default function useWebSocket({
   useEffect(() => {
     if (!socketConnection) return;
 
-    socketConnection.onmessage = (event) => {
+    socketConnection.onmessage = (event: any) => {
       try {
         const data = JSON.parse(event.data);
         switch (data.action) {
@@ -152,7 +153,7 @@ export default function useWebSocket({
                       data.feature_type === "you_are_the_hero"
                     ) {
                       const chatLastRequset = chatLogs.find(
-                        (log) => log.threadId === data.threadId
+                        (log: Thread) => log.threadId === data.threadId
                       )?.lastRequestId;
                       if (data.request_id === !chatLastRequset) return;
 
@@ -188,8 +189,9 @@ export default function useWebSocket({
                   case "partial":
                     // Add assistant's message to the chat log
                     if (
-                      chatLogs.find((log) => log.threadId === data.threadId)
-                        ?.isRequestStopped
+                      chatLogs.find(
+                        (log: Thread) => log.threadId === data.threadId
+                      )?.isRequestStopped
                     )
                       return;
                     dispatch(
@@ -302,7 +304,7 @@ export default function useWebSocket({
 
               case "hero_actions":
                 const chatLastRequset = chatLogs.find(
-                  (log) => log.threadId === data.threadId
+                  (log: Thread) => log.threadId === data.threadId
                 )?.lastRequestId;
                 if (data.request_id === !chatLastRequset) return;
                 if (data.status === "init") {

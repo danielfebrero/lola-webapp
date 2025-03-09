@@ -1,13 +1,21 @@
+import { ImagesMultisize } from "./characters";
+
 export interface ChatGroup {
   threadId: string;
   title: string;
-  description: string;
+  description?: string;
   memberCount: number;
   messageCount: number;
-  lastMessageDate: string;
+  lastMessageDate?: string;
   createdAt: string;
-  imageUrl?: string;
+  imagesMultisize?: ImagesMultisize;
   tags?: string[];
+  participation: PariticipationType;
+  charactersParticipation: CharactersPariticipationType;
+  characters: string[];
+  isPublic: boolean;
+  isArchived: boolean;
+  isDeleted: boolean;
 }
 
 export type SortOption = "newest" | "active" | "trending" | "members";

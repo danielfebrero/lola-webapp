@@ -23,9 +23,9 @@ const ChatGroupCard: React.FC<ChatGroupCardProps> = ({ group }) => {
     >
       <div className="flex items-start space-x-3">
         <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-white dark:bg-darkMainSurfacePrimary">
-          {group.imageUrl ? (
+          {group.imagesMultisize?.large ? (
             <img
-              src={group.imageUrl}
+              src={group.imagesMultisize?.large}
               alt={group.title}
               className="w-full h-full object-cover"
             />
@@ -41,14 +41,19 @@ const ChatGroupCard: React.FC<ChatGroupCardProps> = ({ group }) => {
             {group.title}
           </h3>
           <p className="text-sm text-textSecondary dark:text-darkTextSecondary line-clamp-2">
-            {group.description}
+            {group.description ?? "No description"}
           </p>
         </div>
       </div>
 
       <div className="flex items-center mt-3 text-xs text-textSecondary dark:text-darkTextSecondary space-x-3">
         <div>{group.memberCount.toLocaleString()} members</div>
-        <div>Last active {moment(group.lastMessageDate).fromNow()}</div>
+        <div>
+          {" "}
+          {group.lastMessageDate
+            ? `Last active ${moment(group.lastMessageDate).fromNow()}`
+            : ""}
+        </div>
       </div>
 
       {group.tags && group.tags.length > 0 && (

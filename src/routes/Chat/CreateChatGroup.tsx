@@ -13,6 +13,10 @@ import { setChatGroup, setThread } from "../../store/features/app/appSlice";
 import TextInput from "../../components/TextInput";
 import { Thread } from "../../types/chat";
 import { Character } from "../../types/characters";
+import { objectSnakeToCamel } from "../../utils/string";
+import LoadingIcon from "../../icons/loading";
+
+const MAX_CHARACTERS = 5;
 
 const CreateChatGroup: React.FC = () => {
   const { t } = useTranslation();
@@ -25,7 +29,7 @@ const CreateChatGroup: React.FC = () => {
   const [groupName, setGroupName] = useState("");
   const [participant, setParticipant] = useState("");
   const [participants, setParticipants] = useState<Record<string, any>>({});
-  const [isPublic, setIsPublic] = useState(false);
+  const [isPublic, setIsPublic] = useState(true);
   const [participation, setParticipation] =
     useState<PariticipationType>("participants");
   const [charactersParticipation, setCharactersParticipation] =
@@ -36,6 +40,7 @@ const CreateChatGroup: React.FC = () => {
     []
   );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isGroupCreating, setIsGroupCreating] = useState(false);
 
   // Get characters from store
   const { chatLogs, characters } = useAppSelector((state) => state.app);
@@ -62,6 +67,10 @@ const CreateChatGroup: React.FC = () => {
   }, [availableCharacters, characterSearch]);
 
   const addCharacter = (characterId: string) => {
+    if (selectedCharacters.length >= MAX_CHARACTERS) {
+      return;
+    }
+
     if (!selectedCharacters.includes(characterId)) {
       setErrorMessage(null);
       setSelectedCharacters([...selectedCharacters, characterId]);
@@ -69,6 +78,8 @@ const CreateChatGroup: React.FC = () => {
   };
 
   const removeCharacter = (characterId: string) => {
+    setErrorMessage(null);
+
     setSelectedCharacters(
       selectedCharacters.filter((id) => id !== characterId)
     );
@@ -80,6 +91,9 @@ const CreateChatGroup: React.FC = () => {
       const users_details = await getUsersDetails([participant]);
       if (users_details.length === 0) {
         setErrorMessage(t("User not found"));
+        return;
+      } else if (users_details[0].is_self) {
+        setErrorMessage(t("You cannot add yourself"));
         return;
       } else {
         setErrorMessage(null);
@@ -108,6 +122,8 @@ const CreateChatGroup: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    setIsGroupCreating(true);
+
     // Reset error message first
     setErrorMessage(null);
 
@@ -123,19 +139,25 @@ const CreateChatGroup: React.FC = () => {
       return;
     }
 
-    const chatGroupEntity = await createChatGroup({
-      groupName,
-      participants,
-      characters: selectedCharacters,
-      isPublic,
-      participation,
-      charactersParticipation,
-      selectedParticipants:
-        participation === "custom" ? selectedParticipants : [],
-    });
-    dispatch(setThread(chatGroupEntity.thread));
-    dispatch(setChatGroup(chatGroupEntity.chatGroup));
-    navigate(`/social/chat/${chatGroupEntity.thread.threadId}`);
+    try {
+      const chatGroup = await createChatGroup({
+        groupName,
+        participants,
+        characters: selectedCharacters,
+        isPublic,
+        participation,
+        charactersParticipation,
+        customParticipants:
+          participation === "custom" ? selectedParticipants : [],
+      });
+      dispatch(setChatGroup(objectSnakeToCamel(chatGroup.chat_group)));
+      dispatch(setThread(chatGroup.thread));
+      setIsGroupCreating(false);
+      navigate(`/social/chat/${chatGroup.thread.threadId}`);
+    } catch (e: any) {
+      setIsGroupCreating(false);
+      setErrorMessage(e.message);
+    }
   };
   return (
     <div className="w-full max-w-md p-6 bg-white dark:bg-darkMainSurfaceSecondary rounded-lg shadow">
@@ -152,22 +174,22 @@ const CreateChatGroup: React.FC = () => {
             <label className="inline-flex items-center">
               <input
                 type="radio"
-                checked={!isPublic}
-                onChange={() => setIsPublic(false)}
-                className="form-radio"
-                name="visibility"
-              />
-              <span className="ml-2">{t("Private")}</span>
-            </label>
-            <label className="inline-flex items-center">
-              <input
-                type="radio"
                 checked={isPublic}
                 onChange={() => setIsPublic(true)}
                 className="form-radio"
                 name="visibility"
               />
               <span className="ml-2">{t("Public")}</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                checked={!isPublic}
+                onChange={() => setIsPublic(false)}
+                className="form-radio"
+                name="visibility"
+              />
+              <span className="ml-2">{t("Private")}</span>
             </label>
           </div>
         </div>
@@ -191,6 +213,9 @@ const CreateChatGroup: React.FC = () => {
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">
             {t("Add Characters")}
+            <span className="text-xs text-gray-500 ml-2">
+              ({selectedCharacters.length}/{MAX_CHARACTERS} {t("selected")})
+            </span>
           </label>
           <div className="mb-2">
             <TextInput
@@ -414,11 +439,17 @@ const CreateChatGroup: React.FC = () => {
                       key={index}
                       className={clsx(
                         "flex items-center p-2 border rounded-md cursor-pointer",
-                        selectedParticipants.includes(participant)
+                        selectedParticipants.includes(
+                          participants[participant].user_id
+                        )
                           ? "border-brandMainColor bg-blue-50 dark:bg-blue-900"
                           : "border-borderColor dark:border-darkBorderColor"
                       )}
-                      onClick={() => toggleParticipantSelection(participant)}
+                      onClick={() =>
+                        toggleParticipantSelection(
+                          participants[participant].user_id
+                        )
+                      }
                     >
                       <div className="flex-shrink-0 w-8 h-8 bg-white dark:bg-darkMainSurfacePrimary rounded-full mr-2 flex items-center justify-center">
                         {participants[participant].profile_picture ? (
@@ -455,6 +486,7 @@ const CreateChatGroup: React.FC = () => {
         <div className="flex justify-end">
           <button
             type="button"
+            disabled={isGroupCreating}
             onClick={() => navigate("/social/chat")}
             className="mr-2 px-4 py-2 border rounded-md hover:bg-lightGray dark:hover:bg-darkMainSurcaceTertiary"
           >
@@ -462,9 +494,16 @@ const CreateChatGroup: React.FC = () => {
           </button>
           <button
             type="submit"
+            disabled={isGroupCreating}
             className="px-4 py-2 bg-textOptionSelected dark:bg-darkTextOptionSelected text-white rounded-md hover:bg-backgroundOptionSelected dark:hover:bg-darkBackgroundOptionSelected hover:border-textOptionSelected dark:hover:border-darkTextOptionSelected border border-textOptionSelected dark:border-darkTextOptionSelected dark:border-darkTextOptionSelected"
           >
-            {t("Create")}
+            {isGroupCreating ? (
+              <div className="w-[24px] h-[24px]">
+                <LoadingIcon />
+              </div>
+            ) : (
+              t("Create")
+            )}
           </button>
         </div>
       </form>

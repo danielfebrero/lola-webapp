@@ -1,5 +1,7 @@
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router";
+import i18n from "i18next";
+
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import useCookie from "./useCookie";
 import useNewChatLocation from "./useNewChatLocation";
@@ -261,7 +263,7 @@ const useAPI = () => {
     participation,
     characters,
     charactersParticipation,
-    selectedParticipants,
+    customParticipants,
   }: {
     groupName: string;
     participants: Record<string, any>;
@@ -269,16 +271,20 @@ const useAPI = () => {
     participation: PariticipationType;
     characters: string[];
     charactersParticipation: CharactersPariticipationType;
-    selectedParticipants: string[];
+    customParticipants: string[];
   }) => {
-    return apiPost("/chat-group", {
+    return apiPost("/chat-groups", {
       groupName,
-      participants,
+      participants: Object.keys(participants).map(
+        (key) => participants[key].user_id
+      ),
       isPublic,
       participation,
       characters,
       charactersParticipation,
-      selectedParticipants,
+      customParticipants,
+      mode,
+      language: i18n.language,
     });
   };
 
@@ -337,6 +343,11 @@ const useAPI = () => {
     return data;
   };
 
+  const getChatGroups = async (list: string) => {
+    const data = await apiGet("/chat-groups", { list });
+    return data;
+  };
+
   return {
     getThreads,
     getCharacters,
@@ -357,6 +368,7 @@ const useAPI = () => {
     setUserProfilePicture,
     changeUsername,
     getUsersDetails,
+    getChatGroups,
   };
 };
 
