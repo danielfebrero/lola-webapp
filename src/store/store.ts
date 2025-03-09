@@ -52,7 +52,7 @@ const finalReducer = PERSISTENCE_ENABLED
   : rootReducer;
 
 export const store = configureStore({
-  reducer: finalReducer as any,
+  reducer: finalReducer as typeof rootReducer,
   // You may need to adjust middleware:
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

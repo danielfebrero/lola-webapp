@@ -291,6 +291,7 @@ const useAPI = () => {
     customParticipants: string[];
   }) => {
     return apiPost("/chat-groups", {
+      action: "create",
       groupName,
       participants: Object.keys(participants).map(
         (key) => participants[key].user_id
@@ -369,6 +370,15 @@ const useAPI = () => {
     await apiDelete("/chat-groups", { threadId });
   };
 
+  const leaveChatGroup = async (threadId: string) => {
+    await apiPost("/chat-groups", { action: "leave", threadId });
+  };
+
+  const getChatGroup = async (threadId: string) => {
+    const data = await apiGet("/chat-groups", { threadId });
+    return data;
+  };
+
   return {
     getThreads,
     getCharacters,
@@ -391,6 +401,8 @@ const useAPI = () => {
     getUsersDetails,
     getChatGroups,
     deleteChatGroup,
+    leaveChatGroup,
+    getChatGroup,
   };
 };
 

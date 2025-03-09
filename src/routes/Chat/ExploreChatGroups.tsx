@@ -8,6 +8,7 @@ import ChatGroupCard from "../../components/ChatGroupCard";
 import { chatGroupService } from "../../serices/chatGroupService";
 import { ChatGroup, SortOption } from "../../types/chatGroup";
 import { useDebounce } from "../../hooks/useDebounce";
+import Loading from "../../components/Loading";
 
 const sortOptions = [
   { id: "newest", label: "Newest" },
@@ -76,9 +77,7 @@ const ExploreChatGroups: React.FC = () => {
         </div>
 
         {isLoading ? (
-          <div className="flex justify-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary dark:border-darkPrimary"></div>
-          </div>
+          <Loading />
         ) : chatGroups.length > 0 ? (
           <div className="grid grid-cols-1 gap-4">
             {chatGroups.map((group) => (

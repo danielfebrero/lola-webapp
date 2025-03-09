@@ -12,6 +12,7 @@ import MarkdownToHTML from "../../components/MarkdownToHTML";
 import useAPI from "../../hooks/useAPI";
 import ChevronDownIcon from "../../icons/chevronDown";
 import Vote from "../../components/Vote";
+import { RootState } from "../../store/store";
 
 const titleByType = {
   best: "Best content",

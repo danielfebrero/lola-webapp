@@ -21,6 +21,8 @@ import {
   mergeThreads,
   setChatGroups,
   deleteChatGroup as deleteChatGroupAction,
+  setThread,
+  setChatGroup,
 } from "../../store/features/app/appSlice";
 import useAPI from "../../hooks/useAPI";
 import { ChatGroup } from "../../types/chatGroup";
@@ -28,6 +30,7 @@ import { Thread } from "../../types/chat";
 import { arrayOfObjectsSnakeToCamelDeep } from "../../utils/string";
 import DeleteIcon from "../../icons/delete";
 import useClickAnywhereExcept from "../../hooks/useClickAnywhereExcept";
+import Loading from "../../components/Loading";
 
 const ChatPage: React.FC = () => {
   const { t } = useTranslation();
@@ -42,7 +45,11 @@ const ChatPage: React.FC = () => {
   const threads = useAppSelector((state) => state.app.chatLogs);
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const [isMoreOptionsOpen, setIsMoreOptionsOpen] = useState(false);
-  const { getChatGroups, deleteChatGroup } = useAPI();
+  const [isChatGroupsLoading, setIsChatGroupsLoading] = useState(false);
+  const [currentGroup, setCurrentGroup] = useState<ChatGroup | null>(null);
+  const { getChatGroups, deleteChatGroup, leaveChatGroup, getChatGroup } =
+    useAPI();
+  const chatGroupOptionsRef = useRef<HTMLDivElement | null>(null);
 
   const threadId = params.threadId;
   const currentThread = useMemo(
@@ -50,10 +57,9 @@ const ChatPage: React.FC = () => {
     [threadId, threads]
   );
   const currentChatLog = useMemo(() => currentThread?.chatLog, [currentThread]);
-  const currentConvo = chatGroups?.find(
-    (group: ChatGroup) => group.threadId === threadId
-  );
-  const chatGroupOptionsRef = useRef<HTMLDivElement | null>(null);
+  const isAssistantWriting = currentThread?.isOwner
+    ? !(currentThread?.canSendMessage ?? true)
+    : false;
 
   useClickAnywhereExcept(chatGroupOptionsRef, () => {
     setIsMoreOptionsOpen(false);
@@ -65,23 +71,35 @@ const ChatPage: React.FC = () => {
     // After join logic, you might want to refresh the page or update state
   };
 
-  const handleLeaveGroup = () => {
-    // Implement leave group functionality
-    console.log(`Leaving group ${params.threadId}`);
+  const handleLeaveGroup = async () => {
+    if (!threadId) return;
+    dispatch(setThread({ threadId, isLoading: true }));
+    await leaveChatGroup(threadId);
+    dispatch(deleteChatGroupAction(threadId));
     setIsMoreOptionsOpen(false);
     navigate("/social/chat");
   };
 
-  const handleDeleteGroup = (threadId: string) => {
-    deleteChatGroup(threadId);
+  const handleDeleteGroup = async () => {
+    if (!threadId) return;
+    dispatch(setThread({ threadId, isLoading: true }));
+    await deleteChatGroup(threadId);
     dispatch(deleteChatGroupAction(threadId));
     setIsMoreOptionsOpen(false);
     navigate("/social/chat");
   };
 
   useEffect(() => {
+    setCurrentGroup(
+      chatGroups?.find((group: ChatGroup) => group.threadId === threadId) ??
+        null
+    );
+  }, [threadId]);
+
+  useEffect(() => {
     if (!auth.isAuthenticated) return;
     if (params.threadId) return;
+    setIsChatGroupsLoading(true);
     const getJoinedChatGroupsList = async () => {
       const joinedChatGroupsList = await getChatGroups("joined");
       dispatch(
@@ -90,6 +108,7 @@ const ChatPage: React.FC = () => {
         )
       );
       dispatch(mergeThreads(joinedChatGroupsList.threads));
+      setIsChatGroupsLoading(false);
     };
 
     getJoinedChatGroupsList();
@@ -99,6 +118,20 @@ const ChatPage: React.FC = () => {
     dispatch(
       setCurrentlyViewing({ objectType: "chatgroup", objectId: threadId })
     );
+
+    if (!threadId || threadId === "new" || threadId === "explore") return;
+
+    const getChatGroupFn = async () => {
+      dispatch(setThread({ threadId, isLoading: true }));
+      const chatGroupEntity = await getChatGroup(threadId);
+      dispatch(setChatGroup(chatGroupEntity.chat_group));
+      setCurrentGroup(chatGroupEntity.chat_group);
+      dispatch(
+        setThread({ ...chatGroupEntity.thread, threadId, isLoading: false })
+      );
+    };
+
+    getChatGroupFn();
   }, [threadId]);
 
   useEffect(() => {
@@ -163,74 +196,80 @@ const ChatPage: React.FC = () => {
                 </div>
               </div>
             </div>
-            {chatGroups
-              ?.filter((group: ChatGroup) => group.hasJoined)
-              ?.filter((group: ChatGroup) =>
-                threads.find(
-                  (thread: Thread) => thread.threadId === group.threadId
+            {isChatGroupsLoading ? (
+              <div className="flex h-full w-full items-center justify-center">
+                <Loading />
+              </div>
+            ) : (
+              chatGroups
+                ?.filter((group: ChatGroup) => group.hasJoined)
+                ?.filter((group: ChatGroup) =>
+                  threads.find(
+                    (thread: Thread) => thread.threadId === group.threadId
+                  )
                 )
-              )
-              ?.map((group: ChatGroup) => {
-                const isActive = threadId === group.threadId;
-                return (
-                  <div
-                    key={group.threadId}
-                    className={clsx(
-                      "flex flex-row items-center m-2 p-2.5 rounded-lg transition-all duration-200 border",
-                      isActive
-                        ? "bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected border-textOptionSelected dark:border-darkTextOptionSelected"
-                        : "border-transparent hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary",
-                      "cursor-pointer"
-                    )}
-                    onClick={() => navigate(`/social/chat/${group.threadId}`)}
-                  >
-                    <div className="w-[50px] h-[50px] rounded-full overflow-hidden flex-shrink-0 shadow-sm bg-brandMainColorDarker dark:bg-darkBrandMainColorDarker">
-                      <img
-                        src={group.imagesMultisize?.large}
-                        alt={threads
-                          .find(
-                            (thread: Thread) =>
-                              thread.threadId === group.threadId
-                          )
-                          ?.title?.substring(0, 2)
-                          .toUpperCase()}
-                        className="w-full h-full object-cover justify-center items-center flex"
-                        onError={(e) => {
-                          e.currentTarget.src =
-                            "https://picsum.photos/id/0/120/120";
-                        }}
-                      />
-                    </div>
-                    <div className="flex flex-col ml-3 flex-grow">
-                      <div
-                        className={clsx(
-                          "font-medium truncate",
+                ?.map((group: ChatGroup) => {
+                  const isActive = threadId === group.threadId;
+                  return (
+                    <div
+                      key={group.threadId}
+                      className={clsx(
+                        "flex flex-row items-center m-2 p-2.5 rounded-lg transition-all duration-200 border",
+                        isActive
+                          ? "bg-backgroundOptionSelected dark:bg-darkBackgroundOptionSelected border-textOptionSelected dark:border-darkTextOptionSelected"
+                          : "border-transparent hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary",
+                        "cursor-pointer"
+                      )}
+                      onClick={() => navigate(`/social/chat/${group.threadId}`)}
+                    >
+                      <div className="w-[50px] h-[50px] rounded-full overflow-hidden flex-shrink-0 shadow-sm bg-brandMainColorDarker dark:bg-darkBrandMainColorDarker">
+                        <img
+                          src={group.imagesMultisize?.large}
+                          alt={threads
+                            .find(
+                              (thread: Thread) =>
+                                thread.threadId === group.threadId
+                            )
+                            ?.title?.substring(0, 2)
+                            .toUpperCase()}
+                          className="w-full h-full object-cover justify-center items-center flex"
+                          onError={(e) => {
+                            e.currentTarget.src =
+                              "https://picsum.photos/id/0/120/120";
+                          }}
+                        />
+                      </div>
+                      <div className="flex flex-col ml-3 flex-grow">
+                        <div
+                          className={clsx(
+                            "font-medium truncate",
+                            {
+                              "w-[220px]": !isSmallScreen,
+                              "w-[calc(100vw-120px)]": isSmallScreen,
+                            },
+                            isActive
+                              ? "text-textOptionSelected dark:text-darkTextOptionSelected"
+                              : "text-textPrimary dark:text-darkTextPrimary"
+                          )}
+                        >
                           {
-                            "w-[220px]": !isSmallScreen,
-                            "w-[calc(100vw-120px)]": isSmallScreen,
-                          },
-                          isActive
-                            ? "text-textOptionSelected dark:text-darkTextOptionSelected"
-                            : "text-textPrimary dark:text-darkTextPrimary"
-                        )}
-                      >
-                        {
-                          threads.find(
-                            (thread: Thread) =>
-                              thread.threadId === group.threadId
-                          )?.title
-                        }
-                      </div>
-                      <div className="text-textSecondary dark:text-darkTextSecondary text-xs mt-0.5 flex items-center">
-                        <span className="truncate">
-                          {group.lastMessageDate &&
-                            moment(group.lastMessageDate).fromNow()}
-                        </span>
+                            threads.find(
+                              (thread: Thread) =>
+                                thread.threadId === group.threadId
+                            )?.title
+                          }
+                        </div>
+                        <div className="text-textSecondary dark:text-darkTextSecondary text-xs mt-0.5 flex items-center">
+                          <span className="truncate">
+                            {group.lastMessageDate &&
+                              moment(group.lastMessageDate).fromNow()}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+            )}
           </div>
           {(!params.threadId || params.threadId === "explore") &&
             (!isSmallScreen ||
@@ -287,9 +326,7 @@ const ChatPage: React.FC = () => {
                         {currentThread?.isOwner && (
                           <div
                             className="flex items-center px-4 py-2 text-red-600 dark:text-red-400 cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary"
-                            onClick={() =>
-                              handleDeleteGroup(currentThread.threadId)
-                            }
+                            onClick={() => handleDeleteGroup()}
                           >
                             <div className="w-[18px] h-[18px] mr-[10px]">
                               <DeleteIcon />
@@ -308,11 +345,11 @@ const ChatPage: React.FC = () => {
                 >
                   <Chat
                     chatLog={currentChatLog ?? []}
-                    isChatLoading={false}
-                    isAssistantWriting={false}
+                    isChatLoading={currentThread?.isLoading ?? false}
+                    isAssistantWriting={isAssistantWriting}
                   />
                 </div>
-                {!currentConvo?.hasJoined && (
+                {!currentGroup?.hasJoined && !currentThread?.isLoading && (
                   <div className="w-full flex justify-center pt-[10px]">
                     <div
                       onClick={handleJoinGroup}
