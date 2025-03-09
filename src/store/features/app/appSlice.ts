@@ -87,6 +87,14 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    deleteChatGroup: (state, action) => {
+      state.chatGroups = state.chatGroups.filter(
+        (group) => group.threadId !== action.payload
+      );
+      state.chatLogs = state.chatLogs.filter(
+        (log) => log.threadId !== action.payload
+      );
+    },
     mergeUsers: (state, action) => {
       for (const user of action.payload) {
         const existingUser = state.users.find(
@@ -301,6 +309,14 @@ export const appSlice = createSlice({
         ],
       }));
     },
+    mergeThreads: (state, action) => {
+      for (const thread of action.payload) {
+        const threads = state.chatLogs.filter(
+          (t) => t.threadId !== thread.threadId
+        );
+        state.chatLogs = [...threads, thread];
+      }
+    },
     deleteThread: (state, action) => {
       state.chatLogs = state.chatLogs.filter(
         (log) => log.threadId !== action.payload
@@ -395,6 +411,7 @@ export const appSlice = createSlice({
           chatLog: [
             {
               id: action.payload.id,
+              user_id: action.payload.user_id,
               content: action.payload.content,
               role: action.payload.role,
               created_at: Date.now().toString(),
@@ -552,6 +569,8 @@ export const {
   setChatGroup,
   setChatGroups,
   mergeUsers,
+  mergeThreads,
+  deleteChatGroup,
 } = appSlice.actions;
 
 export default appSlice.reducer;

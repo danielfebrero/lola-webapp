@@ -16,6 +16,7 @@ export interface ChatGroup {
   isPublic: boolean;
   isArchived: boolean;
   isDeleted: boolean;
+  hasJoined?: boolean;
 }
 
 export type SortOption = "newest" | "active" | "trending" | "members";

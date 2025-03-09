@@ -22,3 +22,23 @@ export const objectSnakeToCamel = (
   }
   return newObj;
 };
+
+export const objectSnakeToCamelDeep = (
+  obj: Record<string, any>
+): Record<string, any> => {
+  const newObj: Record<string, any> = {};
+  for (const key in obj) {
+    if (typeof obj[key] === "object" && obj[key] !== null) {
+      newObj[snakeCaseToCamelCase(key)] = objectSnakeToCamelDeep(obj[key]);
+    } else {
+      newObj[snakeCaseToCamelCase(key)] = obj[key];
+    }
+  }
+  return newObj;
+};
+
+export const arrayOfObjectsSnakeToCamelDeep = (
+  arr: Record<string, any>[]
+): Record<string, any>[] => {
+  return arr.map((obj) => objectSnakeToCamelDeep(obj));
+};
