@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 
 import SearchInput from "../../components/SearchInput";
 import CategoryTabs from "../../components/CategoryTabs";
 import ChatGroupCard from "../../components/ChatGroupCard";
-import { chatGroupService } from "../../serices/chatGroupService";
 import { ChatGroup, SortOption } from "../../types/chatGroup";
 import { useDebounce } from "../../hooks/useDebounce";
 import Loading from "../../components/Loading";
+import useAPI from "../../hooks/useAPI";
 
 const sortOptions = [
   { id: "newest", label: "Newest" },
@@ -19,23 +18,23 @@ const sortOptions = [
 
 const ExploreChatGroups: React.FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearch = useDebounce(searchTerm, 300);
   const [sortBy, setSortBy] = useState<SortOption>("newest");
   const [chatGroups, setChatGroups] = useState<ChatGroup[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { getChatGroups } = useAPI();
 
   useEffect(() => {
     const fetchGroups = async () => {
       setIsLoading(true);
       try {
-        const groups = await chatGroupService.getPublicChatGroups(
+        const groupsEntity = await getChatGroups(
+          "explore",
           debouncedSearch,
           sortBy
         );
-        setChatGroups(groups);
+        setChatGroups(groupsEntity.chat_groups);
       } catch (error) {
         console.error("Failed to fetch chat groups:", error);
       } finally {
@@ -45,10 +44,6 @@ const ExploreChatGroups: React.FC = () => {
 
     fetchGroups();
   }, [debouncedSearch, sortBy]);
-
-  const handleCreateNewGroup = () => {
-    navigate("/social/chat/new");
-  };
 
   return (
     <div className="w-full max-w-3xl p-4">
@@ -93,29 +88,6 @@ const ExploreChatGroups: React.FC = () => {
             </p>
           </div>
         )}
-
-        <div className="flex justify-center mt-2">
-          <button
-            onClick={handleCreateNewGroup}
-            className="bg-primary hover:bg-primary/90 text-white dark:bg-darkPrimary dark:hover:bg-darkPrimary/90 dark:text-darkTextPrimary px-4 py-2 rounded-md font-medium flex items-center"
-          >
-            <svg
-              className="w-4 h-4 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-            {t("Create New Group")}
-          </button>
-        </div>
       </div>
     </div>
   );

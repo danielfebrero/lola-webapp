@@ -361,8 +361,12 @@ const useAPI = () => {
     return data;
   };
 
-  const getChatGroups = async (list: string) => {
-    const data = await apiGet("/chat-groups", { list });
+  const getChatGroups = async (
+    list: string,
+    search?: string,
+    sort?: string
+  ) => {
+    const data = await apiGet("/chat-groups", { list, search, sort });
     return data;
   };
 
