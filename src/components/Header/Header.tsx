@@ -35,7 +35,6 @@ const Header: React.FC = () => {
   const [latestBestWorstDropdown, setLatestBestWorstDropdown] =
     useState<boolean>(false);
   const [headerLabel, setHeaderLabel] = useState<string>("Character");
-  const [threadTitle, setThreadTitle] = useState<string>("");
   const location = useLocation();
   const dispatch = useAppDispatch();
   const {
@@ -50,6 +49,10 @@ const Header: React.FC = () => {
   const { sendEvent } = useGA();
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
   const params = useParams();
+
+  const threadTitle = chatLogs.find(
+    (log) => log.threadId === params.threadId
+  )?.title;
 
   const toggleExploreLanguageDropdown = () => {
     setExploreLanguageDropdownOpen((prev) => !prev);
@@ -66,17 +69,6 @@ const Header: React.FC = () => {
   const toggleProfileDropdown = () => {
     setProfileDropdownOpen((prev) => !prev);
   };
-
-  useEffect(() => {
-    if (params.threadId) {
-      setThreadTitle(
-        chatLogs.find((log) => log.threadId === params.threadId)?.title ?? ""
-      );
-    }
-  }, [
-    params.threadId,
-    chatLogs.find((log) => log.threadId === params.threadId)?.title,
-  ]);
 
   useEffect(() => {
     if (chatLogs.length > 0) {

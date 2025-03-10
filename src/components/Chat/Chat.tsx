@@ -10,7 +10,7 @@ import LoadingIcon from "../../icons/loading";
 import { useAppSelector } from "../../store/hooks";
 
 interface ChatProps {
-  type?: "character" | "story" | "game" | "lola";
+  type?: "character" | "story" | "game" | "lola" | "chat_group";
   id?: string | null;
   chatLog?: MessageType[];
   isChatLoading: boolean;
@@ -59,7 +59,7 @@ const Chat: React.FC<ChatProps> = (props) => {
         <div className="w-full flex">
           <div className="w-auto grow mb-[30px] md:px-[20px]">
             {props.chatLog?.map((message, idx) => (
-              <React.Fragment key={message.id ?? message.timestamp ?? idx}>
+              <React.Fragment key={message.id ?? message.created_at ?? idx}>
                 <Message
                   message={message}
                   isLast={idx === (props.chatLog?.length ?? 0) - 1}

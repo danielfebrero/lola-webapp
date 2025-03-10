@@ -236,6 +236,7 @@ const ContentSection = ({
             dropdownPosition={dropdownPosition}
             setDisplayOptionDropdownId={setDisplayOptionDropdownId}
             characters={characters}
+            onNavigate={onNavigate}
           />
         ))
       )}
@@ -252,6 +253,7 @@ const ContentItem = ({
   dropdownPosition,
   setDisplayOptionDropdownId,
   characters,
+  onNavigate,
 }: {
   item: any;
   type: string;
@@ -261,19 +263,13 @@ const ContentItem = ({
   dropdownPosition: { top: number; left: number } | null;
   setDisplayOptionDropdownId: (threadId: string | null) => void;
   characters?: any[];
+  onNavigate: () => void;
 }) => {
   const { t } = useTranslation();
-  const { isSmallScreen, currentlyViewing } = useAppSelector(
-    (state) => state.app
-  );
-  const dispatch = useAppDispatch();
-
+  const { currentlyViewing } = useAppSelector((state) => state.app);
   const isSelected =
     currentlyViewing.objectType === type &&
     currentlyViewing.objectId === item.threadId;
-  const handleClick = isSmallScreen
-    ? () => dispatch(toggleLeftPanel())
-    : undefined;
 
   return (
     <div
@@ -287,7 +283,7 @@ const ContentItem = ({
       <NavLink
         to={`${detailPath}${item.threadId}`}
         className="h-full grow flex items-center w-[calc(100%-40px)]"
-        onClick={handleClick}
+        onClick={onNavigate}
       >
         {type === "character" && (
           <div className="flex flex-row">
@@ -463,6 +459,7 @@ const LeftPanel: React.FC = () => {
     characters,
     isSmallScreen,
     isDataLoadingLeftPanel,
+    mode,
   } = useAppSelector((state) => state.app);
 
   const outsideRef = useClickOutside(() =>
@@ -513,14 +510,16 @@ const LeftPanel: React.FC = () => {
   ]);
 
   const characterItems = chatLogs.filter(
-    (log) => log.type === "character" && log.isOwner
+    (log) => log.type === "character" && log.isOwner && log.mode === mode
   );
 
   const storyItems = chatLogs.filter(
-    (log) => log.type === "story" && log.isOwner
+    (log) => log.type === "story" && log.isOwner && log.mode === mode
   );
 
-  const gameItems = chatLogs.filter((log) => log.type === "you_are_the_hero");
+  const gameItems = chatLogs.filter(
+    (log) => log.type === "you_are_the_hero" && log.isOwner && log.mode === mode
+  );
 
   return (
     <div

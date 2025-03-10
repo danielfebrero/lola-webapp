@@ -48,6 +48,7 @@ export default function useWebSocket({
   const { currentlyViewing, mode, exploreLanguage, chatLogs, requestsStopped } =
     useAppSelector((state) => state.app);
   const { socketConnection } = useAppSelector((state) => state.socket);
+  const user = useAppSelector((state) => state.user);
   const api = useAPI();
 
   const dispatch = useAppDispatch();
@@ -424,6 +425,7 @@ export default function useWebSocket({
           is_private: extraFields?.isPrivate ?? false,
           lastRequsetId: requestId,
           request_id: requestId,
+          user_id: user.settings.user_id,
         })
       );
     } else {

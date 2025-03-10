@@ -4,8 +4,8 @@ export interface ChatGroup {
   threadId: string;
   title: string;
   description?: string;
-  memberCount: number;
-  messageCount: number;
+  membersCount: number;
+  messagesCount: number;
   lastMessageDate?: string;
   createdAt: string;
   imagesMultisize?: ImagesMultisize;

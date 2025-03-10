@@ -26,6 +26,7 @@ export const objectSnakeToCamel = (
 export const objectSnakeToCamelDeep = (
   obj: Record<string, any>
 ): Record<string, any> => {
+  if (typeof obj !== "object" || obj === null || Array.isArray(obj)) return obj;
   const newObj: Record<string, any> = {};
   for (const key in obj) {
     if (typeof obj[key] === "object" && obj[key] !== null) {

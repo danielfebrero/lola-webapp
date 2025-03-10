@@ -20,7 +20,7 @@ const MAX_CHARACTERS = 5;
 
 const CreateChatGroup: React.FC = () => {
   const { t } = useTranslation();
-  const { isSmallScreen } = useAppSelector((state) => state.app);
+  const { isSmallScreen, mode } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const { createChatGroup, getUsersDetails } = useAPI();
   const dispatch = useAppDispatch();
@@ -46,7 +46,10 @@ const CreateChatGroup: React.FC = () => {
   const { chatLogs, characters } = useAppSelector((state) => state.app);
   const availableCharacters = useMemo(() => {
     return chatLogs
-      .filter((log: Thread) => log.type === "character" && log.isOwner)
+      .filter(
+        (log: Thread) =>
+          log.type === "character" && log.isOwner && log.mode === mode
+      )
       .map((log: Thread) => {
         const characterDetails = characters.find(
           (char: Character) => char.thread_id === log.threadId
@@ -61,7 +64,7 @@ const CreateChatGroup: React.FC = () => {
   }, [chatLogs, characters]);
 
   const filteredCharacters = useMemo(() => {
-    return availableCharacters.filter((character: Character) =>
+    return availableCharacters.filter((character) =>
       character.name?.toLowerCase().includes(characterSearch.toLowerCase())
     );
   }, [availableCharacters, characterSearch]);

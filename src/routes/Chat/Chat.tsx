@@ -19,10 +19,10 @@ import SpreadIcon from "../../icons/spread";
 import {
   setCurrentlyViewing,
   mergeThreads,
-  setChatGroups,
   deleteChatGroup as deleteChatGroupAction,
   setThread,
   setChatGroup,
+  mergeChatGroups,
 } from "../../store/features/app/appSlice";
 import useAPI from "../../hooks/useAPI";
 import { ChatGroup } from "../../types/chatGroup";
@@ -31,6 +31,8 @@ import { arrayOfObjectsSnakeToCamelDeep } from "../../utils/string";
 import DeleteIcon from "../../icons/delete";
 import useClickAnywhereExcept from "../../hooks/useClickAnywhereExcept";
 import Loading from "../../components/Loading";
+import SendChatInput from "../../components/SendChatInput";
+import useWebSocket from "../../hooks/useWebSocket";
 
 const ChatPage: React.FC = () => {
   const { t } = useTranslation();
@@ -46,10 +48,19 @@ const ChatPage: React.FC = () => {
   const { autoScroll } = useAutoScroll(chatContainerRef);
   const [isMoreOptionsOpen, setIsMoreOptionsOpen] = useState(false);
   const [isChatGroupsLoading, setIsChatGroupsLoading] = useState(false);
+  const [previousPage, setPreviousPage] = useState<"explore" | "new" | null>(
+    null
+  );
   const [currentGroup, setCurrentGroup] = useState<ChatGroup | null>(null);
-  const { getChatGroups, deleteChatGroup, leaveChatGroup, getChatGroup } =
-    useAPI();
+  const {
+    getChatGroups,
+    deleteChatGroup,
+    leaveChatGroup,
+    getChatGroup,
+    joinChatGroup,
+  } = useAPI();
   const chatGroupOptionsRef = useRef<HTMLDivElement | null>(null);
+  const { sendMessage } = useWebSocket({});
 
   const threadId = params.threadId;
   const currentThread = useMemo(
@@ -65,10 +76,27 @@ const ChatPage: React.FC = () => {
     setIsMoreOptionsOpen(false);
   });
 
-  const handleJoinGroup = () => {
-    // Implement join group functionality
-    console.log(`Joining group ${params.threadId}`);
-    // After join logic, you might want to refresh the page or update state
+  const getChatGroupFn = async () => {
+    if (!threadId) return;
+    dispatch(setThread({ threadId, isLoading: true }));
+    try {
+      const chatGroupEntity = await getChatGroup(threadId);
+      dispatch(setChatGroup(chatGroupEntity.chat_group));
+      setCurrentGroup(chatGroupEntity.chat_group);
+      dispatch(
+        setThread({ ...chatGroupEntity.thread, threadId, isLoading: false })
+      );
+    } catch (e) {
+      navigate("/social/chat");
+    }
+  };
+
+  const handleJoinGroup = async () => {
+    if (!threadId) return;
+    dispatch(setThread({ threadId, isLoading: true }));
+    await joinChatGroup(threadId);
+    await getChatGroupFn();
+    dispatch(setThread({ threadId, isLoading: false }));
   };
 
   const handleLeaveGroup = async () => {
@@ -90,20 +118,13 @@ const ChatPage: React.FC = () => {
   };
 
   useEffect(() => {
-    setCurrentGroup(
-      chatGroups?.find((group: ChatGroup) => group.threadId === threadId) ??
-        null
-    );
-  }, [threadId]);
-
-  useEffect(() => {
     if (!auth.isAuthenticated) return;
     if (params.threadId) return;
     setIsChatGroupsLoading(true);
     const getJoinedChatGroupsList = async () => {
       const joinedChatGroupsList = await getChatGroups("joined");
       dispatch(
-        setChatGroups(
+        mergeChatGroups(
           arrayOfObjectsSnakeToCamelDeep(joinedChatGroupsList.chat_groups)
         )
       );
@@ -115,24 +136,18 @@ const ChatPage: React.FC = () => {
   }, [mode, auth.isAuthenticated, params.threadId]);
 
   useEffect(() => {
+    if (!auth.isAuthenticated) return;
+
     dispatch(
-      setCurrentlyViewing({ objectType: "chatgroup", objectId: threadId })
+      setCurrentlyViewing({ objectType: "chat_group", objectId: threadId })
     );
 
+    if (threadId === "explore" || threadId === "new") setPreviousPage(threadId);
+    if (!threadId) setPreviousPage(null);
+
     if (!threadId || threadId === "new" || threadId === "explore") return;
-
-    const getChatGroupFn = async () => {
-      dispatch(setThread({ threadId, isLoading: true }));
-      const chatGroupEntity = await getChatGroup(threadId);
-      dispatch(setChatGroup(chatGroupEntity.chat_group));
-      setCurrentGroup(chatGroupEntity.chat_group);
-      dispatch(
-        setThread({ ...chatGroupEntity.thread, threadId, isLoading: false })
-      );
-    };
-
     getChatGroupFn();
-  }, [threadId]);
+  }, [threadId, auth.isAuthenticated]);
 
   useEffect(() => {
     if (!autoScroll) return;
@@ -288,79 +303,101 @@ const ChatPage: React.FC = () => {
                 </div>
               </div>
             )}
-          {params.threadId === "new" && (
+          {threadId === "new" && (
             <div className="flex flex-col items-center flex-grow min-w-0 p-[10px] overflow-y-scroll no-scrollbar">
               <CreateChatGroup />
             </div>
           )}
-          {params.threadId &&
-            params.threadId !== "new" &&
-            params.threadId !== "explore" && (
-              <div className="flex flex-col flex-grow">
-                <div className="flex flex-row justify-between flex-grow mb-[10px]">
-                  <div
-                    className="w-[24px] h-[24px] ml-[20px] cursor-pointer"
-                    onClick={() => navigate("/social/chat")}
-                  >
-                    <ArrowBackIcon />
-                  </div>
-
-                  <div ref={chatGroupOptionsRef}>
-                    <div
-                      onClick={() => setIsMoreOptionsOpen(!isMoreOptionsOpen)}
-                      className="mr-[20px] w-[24px] h-[24px] border border-borderColor dark:border-darkBorderColor rounded-full flex items-center justify-center cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary"
-                    >
-                      <SpreadIcon />
-                    </div>
-                    {isMoreOptionsOpen && (
-                      <div className="absolute right-0 mt-[10px] mr-[20px] w-[150px] bg-white dark:bg-darkMainSurfacePrimary border border-borderColor dark:border-darkBorderColor rounded-lg shadow-lg z-10">
-                        <div
-                          className="flex items-center px-4 py-2 text-red-600 dark:text-red-400 cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary"
-                          onClick={handleLeaveGroup}
-                        >
-                          <div className="w-[18px] h-[18px] mr-[10px]">
-                            <LeaveIcon />
-                          </div>
-                          <span>{t("Leave")}</span>
-                        </div>
-                        {currentThread?.isOwner && (
-                          <div
-                            className="flex items-center px-4 py-2 text-red-600 dark:text-red-400 cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary"
-                            onClick={() => handleDeleteGroup()}
-                          >
-                            <div className="w-[18px] h-[18px] mr-[10px]">
-                              <DeleteIcon />
-                            </div>
-                            <span>{t("Delete")}</span>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
+          {threadId && threadId !== "new" && threadId !== "explore" && (
+            <div className="flex flex-col flex-grow">
+              <div className="flex flex-row justify-between mb-[10px]">
+                <div
+                  className="w-[24px] h-[24px] ml-[20px] cursor-pointer"
+                  onClick={() =>
+                    previousPage === null || previousPage === "new"
+                      ? navigate("/social/chat")
+                      : navigate("/social/chat/explore")
+                  }
+                >
+                  <ArrowBackIcon />
                 </div>
 
+                <div ref={chatGroupOptionsRef}>
+                  <div
+                    onClick={() => setIsMoreOptionsOpen(!isMoreOptionsOpen)}
+                    className="mr-[20px] w-[24px] h-[24px] border border-borderColor dark:border-darkBorderColor rounded-full flex items-center justify-center cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary"
+                  >
+                    <SpreadIcon />
+                  </div>
+                  {isMoreOptionsOpen && (
+                    <div className="absolute right-0 mt-[10px] mr-[20px] w-[150px] bg-white dark:bg-darkMainSurfacePrimary border border-borderColor dark:border-darkBorderColor rounded-lg shadow-lg z-10">
+                      <div
+                        className="flex items-center px-4 py-2 text-red-600 dark:text-red-400 cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary"
+                        onClick={handleLeaveGroup}
+                      >
+                        <div className="w-[18px] h-[18px] mr-[10px]">
+                          <LeaveIcon />
+                        </div>
+                        <span>{t("Leave")}</span>
+                      </div>
+                      {currentThread?.isOwner && (
+                        <div
+                          className="flex items-center px-4 py-2 text-red-600 dark:text-red-400 cursor-pointer hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary"
+                          onClick={() => handleDeleteGroup()}
+                        >
+                          <div className="w-[18px] h-[18px] mr-[10px]">
+                            <DeleteIcon />
+                          </div>
+                          <span>{t("Delete")}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div
+                ref={chatContainerRef}
+                className="flex flex-col flex-grow overflow-y-scroll no-scrollbar px-[10px] items-center w-full flex-grow"
+              >
                 <div
+                  className="flex-grow overflow-y-scroll no-scrollbar w-full"
                   ref={chatContainerRef}
-                  className="flex flex-col flex-grow overflow-y-scroll no-scrollbar px-[10px] items-center w-full"
                 >
                   <Chat
+                    type="chat_group"
+                    id={threadId}
                     chatLog={currentChatLog ?? []}
                     isChatLoading={currentThread?.isLoading ?? false}
                     isAssistantWriting={isAssistantWriting}
                   />
                 </div>
-                {!currentGroup?.hasJoined && !currentThread?.isLoading && (
-                  <div className="w-full flex justify-center pt-[10px]">
-                    <div
-                      onClick={handleJoinGroup}
-                      className="cursor-pointer w-fit px-[20px] py-[5px] border border-borderColor dark:border-darkBorderColor rounded-lg flex flex-row items-center hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary"
-                    >
-                      {t("Join")}
-                    </div>
-                  </div>
+                {currentGroup?.hasJoined && (
+                  <SendChatInput
+                    type="chat_group"
+                    isChatInputAvailable={
+                      currentThread?.isInputAvailable ?? true
+                    }
+                    canSendMessage={currentThread?.canSendMessage ?? true}
+                    threadId={threadId}
+                    onSend={(content) =>
+                      sendMessage(content, "chat_group", threadId)
+                    }
+                  />
                 )}
               </div>
-            )}
+              {!currentGroup?.hasJoined && !currentThread?.isLoading && (
+                <div className="w-full flex justify-center pt-[10px]">
+                  <div
+                    onClick={handleJoinGroup}
+                    className="cursor-pointer w-fit px-[20px] py-[5px] border border-borderColor dark:border-darkBorderColor rounded-lg flex flex-row items-center hover:bg-lightGray dark:hover:bg-darkMainSurfaceSecondary"
+                  >
+                    {t("Join")}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </>

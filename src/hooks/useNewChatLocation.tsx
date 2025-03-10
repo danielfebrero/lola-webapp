@@ -15,7 +15,7 @@ const useNewChatLocation = (): string => {
         ? "/story/new"
         : currentlyViewing.objectType === "lola"
         ? "/lola/new"
-        : currentlyViewing.objectType === "chatgroup"
+        : currentlyViewing.objectType === "chat_group"
         ? "/social/chat/new"
         : "/lola/new"
     );

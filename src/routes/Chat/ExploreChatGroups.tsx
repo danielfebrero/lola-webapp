@@ -8,12 +8,15 @@ import { ChatGroup, SortOption } from "../../types/chatGroup";
 import { useDebounce } from "../../hooks/useDebounce";
 import Loading from "../../components/Loading";
 import useAPI from "../../hooks/useAPI";
+import { arrayOfObjectsSnakeToCamelDeep } from "../../utils/string";
+import { useAppDispatch } from "../../store/hooks";
+import { mergeThreads } from "../../store/features/app/appSlice";
 
 const sortOptions = [
   { id: "newest", label: "Newest" },
   { id: "active", label: "Active" },
   { id: "trending", label: "Trending" },
-  { id: "members", label: "Popular" },
+  { id: "popular", label: "Popular" },
 ];
 
 const ExploreChatGroups: React.FC = () => {
@@ -21,8 +24,9 @@ const ExploreChatGroups: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearch = useDebounce(searchTerm, 300);
   const [sortBy, setSortBy] = useState<SortOption>("newest");
-  const [chatGroups, setChatGroups] = useState<ChatGroup[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [explroeChatGroups, setExploreChatGroups] = useState<ChatGroup[]>([]);
+  const dispatch = useAppDispatch();
   const { getChatGroups } = useAPI();
 
   useEffect(() => {
@@ -34,7 +38,12 @@ const ExploreChatGroups: React.FC = () => {
           debouncedSearch,
           sortBy
         );
-        setChatGroups(groupsEntity.chat_groups);
+        setExploreChatGroups(
+          arrayOfObjectsSnakeToCamelDeep(
+            groupsEntity.chat_groups
+          ) as ChatGroup[]
+        );
+        dispatch(mergeThreads(groupsEntity.threads));
       } catch (error) {
         console.error("Failed to fetch chat groups:", error);
       } finally {
@@ -73,9 +82,9 @@ const ExploreChatGroups: React.FC = () => {
 
         {isLoading ? (
           <Loading />
-        ) : chatGroups.length > 0 ? (
+        ) : explroeChatGroups.length > 0 ? (
           <div className="grid grid-cols-1 gap-4">
-            {chatGroups.map((group) => (
+            {explroeChatGroups.map((group) => (
               <ChatGroupCard key={group.threadId} group={group} />
             ))}
           </div>

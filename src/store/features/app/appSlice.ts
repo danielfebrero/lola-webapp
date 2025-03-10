@@ -116,6 +116,14 @@ export const appSlice = createSlice({
     setChatGroups: (state, action) => {
       state.chatGroups = action.payload;
     },
+    mergeChatGroups: (state, action) => {
+      for (const group of action.payload) {
+        state.chatGroups = state.chatGroups.filter(
+          (g) => g.threadId !== group.threadId
+        );
+        state.chatGroups.push(group);
+      }
+    },
     restoreArchivedThread: (state, action) => {
       const archivedThread = state.archivedThreads.find(
         (thread) => thread.threadId === action.payload
@@ -348,6 +356,8 @@ export const appSlice = createSlice({
         currentLog.is_private =
           action.payload.is_private ?? currentLog.is_private;
         currentLog.votes = action.payload.votes ?? currentLog.votes;
+        currentLog.mode = action.payload.mode ?? currentLog.mode;
+        currentLog.title = action.payload.title ?? currentLog.title;
       } else {
         state.chatLogs.unshift({
           threadId: action.payload.threadId,
@@ -362,6 +372,8 @@ export const appSlice = createSlice({
           is_private: action.payload.is_private ?? false,
           lastRequestId: action.payload.lastRequestId ?? null,
           isRequestStopped: action.payload.isRequestStopped ?? false,
+          mode: action.payload.mode,
+          title: action.payload.title ?? `New ${action.payload.type}`,
         });
       }
     },
@@ -428,6 +440,7 @@ export const appSlice = createSlice({
           is_private: action.payload.is_private ?? false,
           lastRequestId: action.payload.lastRequestId,
           isRequestStopped: action.payload.isRequestStopped,
+          mode: action.payload.mode,
         });
       }
     },
@@ -571,6 +584,7 @@ export const {
   mergeUsers,
   mergeThreads,
   deleteChatGroup,
+  mergeChatGroups,
 } = appSlice.actions;
 
 export default appSlice.reducer;

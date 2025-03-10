@@ -18,11 +18,9 @@ import ArtIcon from "../../icons/art";
 import SpreadIcon from "../../icons/spread";
 import AdultIcon from "../../icons/adult";
 import useGA from "../../hooks/useGA";
-import SwitchIcon from "../../icons/switch";
-import { capitalizeFirstLetter } from "../../utils/string";
 
 interface SendChatInputProps {
-  type: "character" | "story" | "game" | "lola";
+  type: "character" | "story" | "game" | "lola" | "chat_group";
   threadId?: string | null;
   onSend?: (message: string) => void;
   onChange?: (message: string) => void;

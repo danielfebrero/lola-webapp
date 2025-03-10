@@ -383,6 +383,10 @@ const useAPI = () => {
     return data;
   };
 
+  const joinChatGroup = async (threadId: string) => {
+    await apiPost("/chat-groups", { action: "join", threadId });
+  };
+
   return {
     getThreads,
     getCharacters,
@@ -407,6 +411,7 @@ const useAPI = () => {
     deleteChatGroup,
     leaveChatGroup,
     getChatGroup,
+    joinChatGroup,
   };
 };
 
